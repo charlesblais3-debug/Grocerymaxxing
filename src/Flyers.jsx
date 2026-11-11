@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { useApp } from './store.jsx';
-import { Img, Chip, offerText, nice } from './ui.jsx';
+import { Img, Chip, Store, offerText, nice } from './ui.jsx';
 import { AISLES, ING_BY_ID } from '../shared/ingredients.js';
 import { deaccent } from '../shared/text.js';
 
@@ -57,7 +57,7 @@ export default function Flyers() {
           <div className="card deal" key={i.id}>
             <div className="card-img"><Img src={i.img} alt="" /></div>
             <div className="card-body">
-              <div className="meta"><span className="store">{storeName[i.store]}</span>{i.to ? ` · ${t('until')} ${new Date(i.to + 'T12:00:00').toLocaleDateString(lang === 'en' ? 'en-CA' : 'fr-CA', { day: 'numeric', month: 'short' })}` : ''}</div>
+              <div className="meta"><Store id={i.store} />{i.to ? ` · ${t('until')} ${new Date(i.to + 'T12:00:00').toLocaleDateString(lang === 'en' ? 'en-CA' : 'fr-CA', { day: 'numeric', month: 'short' })}` : ''}</div>
               <h3>{nice(i.name, lang)}</h3>
               <div className="card-foot">
                 <span className="cost">{offerText(i, fmt)}</span>

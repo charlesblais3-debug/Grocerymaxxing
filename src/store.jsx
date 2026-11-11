@@ -1,9 +1,10 @@
 import React, { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import { bestOffers, costRecipe } from '../shared/cost.js';
 import { t as mkT } from './i18n.js';
+import { buildIdeas } from '../shared/synergy.js';
 
 // Pharmacies, wholesalers and membership clubs are opt-in.
-const DEFAULT_OFF = new Set(['pharmaprix', 'jeancoutu', 'gianttiger', 'mayrand', 'costco']);
+const DEFAULT_ON = new Set(['iga', 'metro', 'superc', 'maxi']); // every other banner is opt-in
 const Ctx = createContext(null);
 export const useApp = () => useContext(Ctx);
 
@@ -19,7 +20,7 @@ export function AppProvider({ children }) {
   const [error, setError] = useState(null);
   const [lang, setLang] = usePersisted('lang', (navigator.language || 'fr').startsWith('en') ? 'en' : 'fr');
   const [region, setRegion] = usePersisted('region', 'montreal');
-  const [storeSel, setStoreSel] = usePersisted('stores', null); // null = all stores of the region
+  const [storeSel, setStoreSel] = usePersisted('stores2', null); // null = all stores of the region
   const [plan, setPlan] = usePersisted('plan', {}); // recipeId -> batches
   const [week, setWeek] = useState('now'); // 'now' | 'next' (flyers are published a few days ahead)
 
@@ -47,16 +48,18 @@ export function AppProvider({ children }) {
     const ref = week === 'next' && nextStart ? nextStart : today;
     const regionItems = live.filter((i) => (!i.from || i.from <= ref) && (!i.to || i.to >= ref));
     const regionStores = (flyers.stores || []).filter((s) => reg.stores.includes(s.id));
-    const selected = new Set((storeSel ?? regionStores.filter((s) => !DEFAULT_OFF.has(s.id)).map((s) => s.id)).filter((id) => reg.stores.includes(id)));
+    const selected = new Set((storeSel ?? regionStores.filter((s) => DEFAULT_ON.has(s.id)).map((s) => s.id)).filter((id) => reg.stores.includes(id)));
     const baseline = meta.baseline?.prices || {};
     const offers = bestOffers(regionItems, selected, ref, baseline);
     const costs = new Map(recipes.map((r) => [r.id, costRecipe(r, offers, baseline)]));
+    const ideas = buildIdeas(recipes, costs, offers, baseline);
     const byId = new Map(recipes.map((r) => [r.id, r]));
     const storeName = Object.fromEntries((flyers.stores || []).map((s) => [s.id, s.name]));
     const sourceName = Object.fromEntries((meta.sources || []).map((s) => [s.id, s.name]));
     const money = new Intl.NumberFormat(lang === 'en' ? 'en-CA' : 'fr-CA', { style: 'currency', currency: 'CAD' });
     return {
       recipes, byId, flyers, meta, regions, regionId, regionStores, selected, regionItems, offers, baseline, costs,
+      ideas, resetStores: () => setStoreSel(null),
       storeName, sourceName, today, ref, nextStart, week: ref === today ? 'now' : 'next', setWeek,
       lang, setLang, t: mkT(lang), fmt: (n) => (n == null ? '—' : money.format(n)),
       setRegion: (id) => { setRegion(id); setStoreSel(null); },

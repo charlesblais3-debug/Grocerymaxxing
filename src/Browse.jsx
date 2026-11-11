@@ -1,6 +1,6 @@
 import React, { useMemo, useState, useEffect } from 'react';
 import { useApp } from './store.jsx';
-import { RecipeCard, Chip } from './ui.jsx';
+import { RecipeCard, Img, Store, Icon, nice } from './ui.jsx';
 import { MEAL_TYPES, CUISINES, PROTEINS, DIETS } from '../shared/taxonomy.js';
 import { ING_BY_ID } from '../shared/ingredients.js';
 import { deaccent } from '../shared/text.js';
@@ -8,6 +8,7 @@ import { reliable as isReliable } from '../shared/cost.js';
 import { L } from './i18n.js';
 
 const PAGE = 48;
+const MEAL_ICON = { main: '🍲', soup: '🥣', salad: '🥗', sandwich: '🥪', pasta: '🍝', side: '🥔', breakfast: '🍳', appetizer: '🧆', preserve: '🫙', sauce: '🥫', bread: '🍞', dessert: '🍰', drink: '🥤' };
 
 function setQuery(query, patch) {
   const q = new URLSearchParams(query);
@@ -77,20 +78,46 @@ export default function Browse({ query }) {
 
   if (!recipes.length) return <div className="state">{t('noData')}</div>;
   const sources = [...new Set(recipes.map((r) => r.source))];
+  const nActive = ['cuisine', 'protein', 'diet', 'source', 'time', 'cost', 'macros', 'sale', 'ing', 'q'].filter((k) => query.get(k)).length;
   const active = ['meal', 'cuisine', 'protein', 'diet', 'source', 'time', 'cost', 'macros', 'sale', 'ing', 'q'].some((k) => query.get(k));
 
   return (
     <div className="wrap browse">
-      <div className="mealbar" role="group" aria-label={t('mealType')}>
-        <Chip on={!f.meal} onClick={() => set({ meal: null })}>{t('all')} <b>{base.length}</b></Chip>
+      {!active && app.ideas.bundles.length > 0 && (
+        <section className="hero-deals" aria-label={t('heroTitle')}>
+          <div className="hero-head">
+            <div><h1>{t('heroTitle')}</h1><p className="note">{t('heroSub')}</p></div>
+            <a className="btn" href="#/idees">{t('ideas')} →</a>
+          </div>
+          <div className="hero-row">
+            {app.ideas.bundles.slice(0, 5).map((b) => (
+              <a key={b.anchor.id} className="hero-tile" href={`#/idees?a=${b.anchor.id}`}>
+                <Img src={b.anchor.offer.img} alt="" />
+                <div className="hero-info">
+                  <Store id={b.anchor.offer.store} />
+                  <b>{ING_BY_ID[b.anchor.id][lang === 'en' ? 'en' : 'fr']}</b>
+                  <span>{app.fmt(b.anchor.offer.perG * 1000)}/kg{b.anchor.off ? <em> −{Math.round(b.anchor.off * 100)} %</em> : null}</span>
+                  <small>{b.recipes.length} {t('differentMeals')} · {nice(b.anchor.offer.name, lang).slice(0, 40)}</small>
+                </div>
+              </a>
+            ))}
+          </div>
+        </section>
+      )}
+      <div className="tiles" role="group" aria-label={t('mealType')}>
+        <button type="button" className={`tile ${!f.meal ? 'on' : ''}`} aria-pressed={!f.meal} onClick={() => set({ meal: null })}><span className="em" aria-hidden="true">🍽️</span><span>{t('all')}</span><b>{base.length}</b></button>
         {MEAL_TYPES.filter((m) => mealCounts[m[0]] || f.meal === m[0]).map((m) => (
-          <Chip key={m[0]} on={f.meal === m[0]} onClick={() => set({ meal: f.meal === m[0] ? null : m[0] })}>{L(lang, m)} <b>{mealCounts[m[0]] || 0}</b></Chip>
+          <button type="button" key={m[0]} className={`tile ${f.meal === m[0] ? 'on' : ''}`} aria-pressed={f.meal === m[0]} onClick={() => set({ meal: f.meal === m[0] ? null : m[0] })}>
+            <span className="em" aria-hidden="true">{MEAL_ICON[m[0]]}</span><span>{L(lang, m).split(/,| et | & /)[0]}</span><b>{mealCounts[m[0]] || 0}</b>
+          </button>
         ))}
       </div>
       <div className="cols">
         <aside className={`filters ${open ? 'open' : ''}`}>
-          <button type="button" className="filters-toggle" onClick={() => setOpen(!open)} aria-expanded={open}>{t('filters')} {open ? '▴' : '▾'}</button>
+          <button type="button" className="filters-toggle" onClick={() => setOpen(true)} aria-expanded={open}><Icon name="sliders" /> {t('filters')}{nActive ? ` (${nActive})` : ''}</button>
+          {open && <div className="sheet-backdrop" onClick={() => setOpen(false)} />}
           <div className="filters-body">
+            <div className="sheet-head"><b>{t('filters')}</b><button type="button" className="btn primary" onClick={() => setOpen(false)}>{t('showResults')} ({list.length})</button></div>
             <input type="search" value={text} onChange={(e) => setText(e.target.value)} placeholder={t('search')} aria-label={t('search')} />
             {f.ing && ING_BY_ID[f.ing] && <div className="ingpill">{t('ingredientFilter')} : <b>{ING_BY_ID[f.ing][lang === 'en' ? 'en' : 'fr']}</b> <button type="button" onClick={() => set({ ing: null })} aria-label={t('remove')}>×</button></div>}
             <label className="check"><input type="checkbox" checked={f.sale} onChange={(e) => set({ sale: e.target.checked ? '1' : null })} /> {t('onSale')}</label>

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { AppProvider, useApp, useRoute } from './store.jsx';
-import { StoreBar } from './ui.jsx';
+import { StoreBar, Logo, Icon } from './ui.jsx';
 import Browse from './Browse.jsx';
 import Recipe from './Recipe.jsx';
 import Flyers from './Flyers.jsx';
@@ -25,7 +25,7 @@ function Shell() {
     <>
       <header className="top">
         <div className="wrap">
-          <a className="brand" href="#/"><span aria-hidden="true">🛒</span> Grocery<b>maxxing</b></a>
+          <a className="brand" href="#/"><Logo /> <span>Grocery<b>maxxing</b></span></a>
           <nav aria-label="Navigation">
             {tab('#/', t('recipes'), path === '/' || path.startsWith('/r/'))}
             {tab('#/idees', t('ideas'), path === '/idees')}
@@ -38,6 +38,11 @@ function Shell() {
       </header>
       <StoreBar />
       <main>{page}</main>
+      <nav className="tabbar" aria-label="Navigation">
+        {[['#/', 'book', t('recipes'), path === '/' || path.startsWith('/r/')], ['#/idees', 'spark', t('ideasShort'), path === '/idees'], ['#/circulaires', 'tag', t('flyers'), path === '/circulaires'], ['#/plan', 'list', t('plan'), path === '/plan']].map(([href, icon, label, on]) => (
+          <a key={href} href={href} className={on ? 'on' : ''} aria-current={on ? 'page' : undefined}><Icon name={icon} size={22} /><span>{label}{href === '#/plan' && n ? ` (${n})` : ''}</span></a>
+        ))}
+      </nav>
       <footer className="foot"><div className="wrap">{t('tagline')} · <a href="#/a-propos">{t('about')}</a></div></footer>
     </>
   );

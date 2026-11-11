@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { useApp } from './store.jsx';
-import { Img, offerText, nice } from './ui.jsx';
+import { Img, Store, offerText, nice } from './ui.jsx';
 import { AISLES, ING_BY_ID } from '../shared/ingredients.js';
 
 export default function Plan() {
@@ -95,7 +95,7 @@ export default function Plan() {
             <ul>{groups[k].sort((a, b) => a.def[lk].localeCompare(b.def[lk])).map((a) => (
               <li key={a.ing}>
                 <label><input type="checkbox" /> <b>{a.def[lk]}</b>{qty(a) ? <span className="meta"> ≈ {qty(a)}</span> : null}</label>
-                {a.offer ? <div className="offer"><span className="store">{storeName[a.offer.store]}</span> {nice(a.offer.name, lang)} — <b>{offerText(a.offer, fmt)}</b></div> : null}
+                {a.offer ? <div className="offer"><Store id={a.offer.store} /> {nice(a.offer.name, lang)} — <b>{offerText(a.offer, fmt)}</b></div> : null}
                 <details><summary className="meta">{a.lines.length} × {t('ingredients').toLowerCase()}</summary>{a.lines.map((x, i) => <div key={i} className="meta">{x}</div>)}</details>
               </li>
             ))}</ul>

@@ -8,6 +8,7 @@ Recipes and meal prep **costed against this week's Québec grocery flyers**.
   *your* stores, plus the **macros** published by the recipe's source.
 - Sort by best deals, cost per serving or protein per dollar; filter by dish type
   (soups, sandwiches, sides, preserves & ferments…), cuisine, protein, diet, time, cost.
+- **Idées de la semaine**: bundles of different recipes that reuse the same deals.
 - Build a week plan and get one grocery list, grouped by aisle or by store.
 - Flyers refresh automatically every morning; next week's flyer can be previewed as soon
   as the banners publish it.
