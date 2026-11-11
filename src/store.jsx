@@ -39,7 +39,7 @@ export function AppProvider({ children }) {
     const reg = regionId ? regions[regionId] : { flyers: [], stores: [] };
     const flyerSet = new Set(reg.flyers);
     const today = new Date().toISOString().slice(0, 10);
-    const live = flyers.items.filter((i) => flyerSet.has(i.flyer) && (!i.to || i.to >= today));
+    const live = flyers.items.filter((i) => i.flyers.some((f) => flyerSet.has(f)) && (!i.to || i.to >= today));
     // Next flyer week = the most common upcoming start date (Thursday for most banners).
     const starts = {};
     for (const i of live) if (i.from > today) starts[i.from] = (starts[i.from] || 0) + 1;

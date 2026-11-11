@@ -54,7 +54,7 @@ export default function Flyers() {
       <div className="listhead"><span><b>{list.length}</b></span></div>
       <div className="grid deals">
         {list.slice(0, shown).map((i) => (
-          <div className="card deal" key={i.flyer + i.id}>
+          <div className="card deal" key={i.id}>
             <div className="card-img"><Img src={i.img} alt="" /></div>
             <div className="card-body">
               <div className="meta"><span className="store">{storeName[i.store]}</span>{i.to ? ` · ${t('until')} ${new Date(i.to + 'T12:00:00').toLocaleDateString(lang === 'en' ? 'en-CA' : 'fr-CA', { day: 'numeric', month: 'short' })}` : ''}</div>

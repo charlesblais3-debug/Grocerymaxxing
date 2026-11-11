@@ -28,6 +28,7 @@ const FLYER_VETO = new Set(tokens([
   'bébé baby aromatisé flavoured vitamines supplément lotion dentifrice parfum arôme',
 ].join(' ')));
 
+const LEADING = new Set(tokens('frais fraîche fresh boneless désossé skinless lean maigre extra mini gros grosse petit petite large small surgelé frozen bio biologique organic vrai real whole entier jeune baby nouveau new'));
 const ANIMALS = new Set(tokens('porc pork poulet chicken dinde dindon turkey boeuf beef veau veal agneau lamb saumon salmon thon tuna canard duck'));
 
 function findAll(toks) {
@@ -61,20 +62,29 @@ export function matchIngredient(text, { flyer = false } = {}) {
 export function matchFlyerItem(name) {
   const all = tokens(name);
   const out = [];
-  const segments = deaccent(name).split(/\s*(?:\||,|;|\bou\b|\bor\b|\/)\s*/).filter(Boolean);
-  for (const seg of segments) {
-    const toks = tokens(seg);
-    for (const h of findAll(toks)) {
-      if (ING_BY_ID[h.id].ro) continue;
-      if (h.pos > 1) continue;
-      // "steak de capicolle de porc" is not beef: another animal named in the product rules the match out.
-      const cat = ING_BY_ID[h.id].cat;
-      if ((cat === 'meat' || cat === 'fish') && !h.toks.some((t) => ANIMALS.has(t)) && toks.some((t) => ANIMALS.has(t))) continue;
-      const vetoed = all.some((t) => FLYER_VETO.has(t) && !h.toks.includes(t));
-      // Alternatives must sit in the same aisle as the main product ("courges … ou spaghettis" is not pasta).
-      const sameAisle = !out.length || ING_BY_ID[out[0]].cat === ING_BY_ID[h.id].cat;
-      if (!vetoed && sameAisle && !out.includes(h.id)) out.push(h.id);
-      break;
+  // "fr | en" are two renderings of the same name; inside one, "X ou Y, Z" lists alternatives.
+  for (const part of deaccent(name).split('|')) {
+    const segments = part.split(/\s*(?:,|;|\bou\b|\bor\b|\/)\s*/).filter((x) => x.trim());
+    for (let i = 0; i < segments.length; i++) {
+      const toks = tokens(segments[i]);
+      while (toks.length > 1 && LEADING.has(toks[0])) toks.shift(); // "fresh boneless chicken breasts"
+      let hit = null;
+      for (const h of findAll(toks)) {
+        if (ING_BY_ID[h.id].ro) continue;
+        if (h.pos > 1) continue;
+        // "steak de capicolle de porc" is not beef: another animal named in the product rules the match out.
+        const cat = ING_BY_ID[h.id].cat;
+        if ((cat === 'meat' || cat === 'fish') && !h.toks.some((t) => ANIMALS.has(t)) && toks.some((t) => ANIMALS.has(t))) continue;
+        const vetoed = all.some((t) => FLYER_VETO.has(t) && !h.toks.includes(t));
+        // Alternatives must sit in the same aisle as the main product ("courges … ou spaghettis" is not pasta).
+        const sameAisle = !out.length || ING_BY_ID[out[0]].cat === ING_BY_ID[h.id].cat;
+        if (!vetoed && sameAisle) hit = h.id;
+        break;
+      }
+      // "Poulet rôti barbecue ou ail et fines herbes": when the product itself is unknown,
+      // what follows "ou" is a flavour, not a product.
+      if (!hit && i === 0) break;
+      if (hit && !out.includes(hit)) out.push(hit);
     }
   }
   return out;

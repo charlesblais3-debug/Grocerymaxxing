@@ -180,3 +180,9 @@ describe('fixes from the first full data run', () => {
     expect(c.coverage).toBe(1);
   });
 });
+
+it('flavour words after "ou" are not products', () => {
+  expect(matchFlyerItem('Poulet rôti Mon marché fraîcheur barbecue ou ail et fines herbes')).toEqual([]);
+  expect(matchFlyerItem('Xyz inconnu | fresh boneless chicken breasts')).toEqual(['chicken_breast']);
+  expect(matchFlyerItem('ORANGES 3 LB, AVOCATS 5-6 UN., CITRONS 2 LB')).toEqual(['orange', 'avocado', 'lemon']);
+});

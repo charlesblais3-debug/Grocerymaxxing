@@ -47,6 +47,7 @@ export function buildRecipes(raw) {
 export function buildFlyers(data) {
   if (!data) return { fetchedAt: null, regions: {}, stores: [], items: [] };
   const items = [];
+  const seen = new Map();
   const flyerStore = {};
   for (const f of Object.values(data.flyers)) {
     flyerStore[f.id] = f.store;
@@ -63,12 +64,18 @@ export function buildFlyers(data) {
         basis ||= up.basis;
       }
       const { food, d, ...pub } = it;
-      items.push({
-        ...pub, flyer: f.id, store: f.store,
+      // The same product repeats in every regional edition of a banner's flyer: keep one copy.
+      const key = `${f.store}|${it.name}|${it.price}|${it.pre || ''}|${it.post || ''}|${(it.from || f.from).slice(0, 10)}|${(it.to || f.to).slice(0, 10)}`;
+      const dup = seen.get(key);
+      if (dup) { dup.flyers.push(f.id); continue; }
+      const row = {
+        ...pub, flyers: [f.id], store: f.store,
         from: (it.from || f.from || '').slice(0, 10), to: (it.to || f.to || '').slice(0, 10),
         ing: ings[0], ings: ings.length > 1 ? ings : undefined,
         pg: Object.keys(pg).length ? pg : undefined, perG: pg[ings[0]], basis,
-      });
+      };
+      seen.set(key, row);
+      items.push(row);
     }
   }
   const present = new Set(Object.values(flyerStore));

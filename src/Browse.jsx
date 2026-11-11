@@ -64,7 +64,7 @@ export default function Browse({ query }) {
     const c = (r) => costs.get(r.id);
     const reliable = (r) => (c(r).perServing != null && c(r).coverage >= 0.6 ? c(r).perServing : Infinity);
     const sorters = {
-      deals: (a, b) => c(b).deals - c(a).deals || c(b).savings - c(a).savings || reliable(a) - reliable(b),
+      deals: (a, b) => dealScore(c(b)) - dealScore(c(a)) || c(b).savings - c(a).savings || reliable(a) - reliable(b),
       cost: (a, b) => reliable(a) - reliable(b),
       protein: (a, b) => ppd(b, c(b)) - ppd(a, c(a)),
       time: (a, b) => (a.time || 1e9) - (b.time || 1e9),
@@ -117,6 +117,8 @@ export default function Browse({ query }) {
   );
 }
 
+// Share of the recipe that is on sale this week (short recipes are not penalised below 6 lines).
+const dealScore = (c) => (c.coverage >= 0.5 ? Math.round((c.deals / Math.max(c.countable, 6)) * 20) : -1);
 const ppd = (r, c) => (r.macros?.protein != null && c.perServing && c.coverage >= 0.6 ? r.macros.protein / c.perServing : -1);
 const score = (r) => (r.rating ? r.rating.value * Math.log10((r.rating.count || 1) + 9) : 0);
 
