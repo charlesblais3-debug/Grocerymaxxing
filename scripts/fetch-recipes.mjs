@@ -68,6 +68,69 @@ export function extractRecipe(html) {
   return null;
 }
 
+/** Inner HTML of the element whose opening tag ends at `from`, honouring nested same-name tags. */
+function innerOf(html, tag, from) {
+  const re = new RegExp(`<(/?)${tag}\\b[^>]*>`, 'gi');
+  re.lastIndex = from;
+  let depth = 1;
+  let m;
+  while ((m = re.exec(html))) {
+    if (m[0].endsWith('/>')) continue;
+    depth += m[1] ? -1 : 1;
+    if (depth === 0) return html.slice(from, m.index);
+  }
+  return null; // unbalanced markup: better no value than a truncated one
+}
+
+/**
+ * Same data as extractRecipe, for sites that publish schema.org/Recipe as HTML microdata
+ * (itemprop attributes) instead of JSON-LD. Returns an object shaped like the JSON-LD one.
+ */
+export function extractMicrodata(html) {
+  const start = html.search(/itemtype=["']https?:\/\/schema\.org\/Recipe["']/i);
+  if (start < 0) return null;
+  const VOID = new Set(['meta', 'img', 'link', 'input', 'br', 'source']);
+  const props = {};
+  const re = /<([a-z0-9]+)\b([^>]*?\bitemprop=["']([^"']+)["'][^>]*)>/gi;
+  re.lastIndex = start;
+  let m;
+  while ((m = re.exec(html))) {
+    const [, tag, attrs, names] = m;
+    const attr = (n) => attrs.match(new RegExp(`\\b${n}=["']([^"']*)["']`, 'i'))?.[1];
+    let value = attr('content') ?? attr('datetime');
+    if (value == null && /^(img|source)$/i.test(tag)) value = attr('src') ?? attr('data-src');
+    if (value == null && tag.toLowerCase() === 'link') value = attr('href');
+    if (value == null && !VOID.has(tag.toLowerCase())) {
+      const inner = innerOf(html, tag, re.lastIndex);
+      if (inner == null) continue;
+      value = clean(inner);
+    }
+    if (value == null || value === '') continue;
+    for (const name of names.split(/\s+/)) (props[name] ||= []).push(value);
+  }
+  const one = (k) => props[k]?.[0];
+  const ingredients = props.recipeIngredient || props.ingredients;
+  if (!ingredients || !one('name')) return null;
+  const nutrition = {};
+  for (const k of ['calories', 'proteinContent', 'carbohydrateContent', 'fatContent', 'fiberContent', 'sugarContent', 'sodiumContent', 'saturatedFatContent', 'servingSize']) {
+    if (one(k)) nutrition[k] = one(k);
+  }
+  return {
+    '@type': 'Recipe',
+    name: one('name'),
+    image: one('image'),
+    author: one('author'),
+    recipeYield: one('recipeYield'),
+    prepTime: one('prepTime'), cookTime: one('cookTime'), totalTime: one('totalTime'),
+    recipeCategory: props.recipeCategory, recipeCuisine: props.recipeCuisine, keywords: one('keywords'),
+    recipeIngredient: ingredients,
+    recipeInstructions: props.recipeInstructions,
+    nutrition: Object.keys(nutrition).length ? nutrition : undefined,
+    aggregateRating: one('ratingValue') ? { ratingValue: one('ratingValue'), ratingCount: one('ratingCount') ?? one('reviewCount') } : undefined,
+    datePublished: one('datePublished'),
+  };
+}
+
 function countSteps(v) {
   if (!v) return 0;
   if (typeof v === 'string') return v.split(/\n+|(?<=\.)\s+(?=[A-ZÀ-Ý])/).filter((s) => s.trim()).length;
@@ -189,13 +252,14 @@ async function runSource(src, existing, skip) {
       continue;
     }
     streak = 0;
-    const ld = extractRecipe(res.text);
+    const ld = extractRecipe(res.text) || extractMicrodata(res.text);
     const rec = ld && toRecord(ld, url, src);
     if (!rec) {
       if (!recipes.length && stat.tried <= 3) log(`  [${src.id}] no Recipe JSON-LD: ${url} (${res.text.length} bytes, ld+json blocks: ${(res.text.match(/application\/ld\+json/g) || []).length}, types: ${[...res.text.matchAll(/"@type"\s*:\s*(\[[^\]]*\]|"[^"]*")/g)].map((m) => m[1]).slice(0, 12).join(' ')}, itemtype Recipe: ${/itemtype=["'][^"']*Recipe/i.test(res.text)})`);
       skip[url] = 'no-recipe';
       continue;
     }
+    if (!recipes.length) log(`  [${src.id}] first recipe: ${rec.name} | yield ${rec.yield} | ${rec.ingredients.length} ingredients | ${rec.ingredients.slice(0, 3).join(' ¦ ')} | nutrition ${JSON.stringify(rec.nutrition)}`.slice(0, 600));
     recipes.push(rec);
   }
   stat.added = recipes.length;

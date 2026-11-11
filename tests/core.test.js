@@ -186,3 +186,14 @@ it('flavour words after "ou" are not products', () => {
   expect(matchFlyerItem('Xyz inconnu | fresh boneless chicken breasts')).toEqual(['chicken_breast']);
   expect(matchFlyerItem('ORANGES 3 LB, AVOCATS 5-6 UN., CITRONS 2 LB')).toEqual(['orange', 'avocado', 'lemon']);
 });
+
+it('microdata recipes are read verbatim, nested tags included', async () => {
+  const { extractMicrodata, toRecord } = await import('../scripts/fetch-recipes.mjs');
+  const html = `<div itemscope itemtype="https://schema.org/Recipe"><h1 itemprop="name">Essai</h1>
+    <meta itemprop="recipeYield" content="4 portions"><time itemprop="totalTime" datetime="PT30M">30 min</time>
+    <ul><li itemprop="recipeIngredient"><span><span>2</span> tasses</span> de <a href="#">lait</a></li><li itemprop="recipeIngredient">1 oignon</li></ul>
+    <div itemprop="nutrition" itemscope><span itemprop="calories">250 kcal</span></div></div>`;
+  const rec = toRecord(extractMicrodata(html), 'https://x.test/1', { id: 'x', lang: 'fr' });
+  expect(rec).toMatchObject({ name: 'Essai', servings: 4, totalMin: 30, ingredients: ['2 tasses de lait', '1 oignon'] });
+  expect(rec.nutrition.calories).toBe('250 kcal');
+});
