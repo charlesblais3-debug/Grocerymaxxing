@@ -62,7 +62,8 @@ export default function Browse({ query }) {
   const list = useMemo(() => {
     const rows = f.meal ? base.filter((r) => r.tax.meals.includes(f.meal)) : base.slice();
     const c = (r) => costs.get(r.id);
-    const reliable = (r) => (c(r).perServing != null && c(r).coverage >= 0.6 ? c(r).perServing : Infinity);
+    // Cost ranking only trusts recipes that are almost fully priced and whose yield is real servings.
+    const reliable = (r) => (c(r).perServing != null && c(r).coverage >= 0.8 && !r.unitYield ? c(r).perServing : Infinity);
     const sorters = {
       deals: (a, b) => dealScore(c(b)) - dealScore(c(a)) || c(b).savings - c(a).savings || reliable(a) - reliable(b),
       cost: (a, b) => reliable(a) - reliable(b),

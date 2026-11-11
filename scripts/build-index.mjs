@@ -40,6 +40,8 @@ export function buildRecipes(raw) {
     // A source default of "1 portion" on a recipe that weighs kilos is not a real serving count.
     const grams = ings.reduce((n, l) => n + (l.g || 0), 0);
     if (rest.servings === 1 && grams > 900) rest.servings = null;
+    // "585 ml", "900 g": a volume or weight, not a number of servings.
+    if (rest.unitYield && (rest.servings > 48 || /^\s*[\d.,/ ]+\s*(ml|l|g|kg|oz|lb|litres?|tasses?|cups?)\b/.test(y))) rest.servings = null;
     return { ...rest, time, macros: macros && macros.kcal != null ? macros : null, ings, tax: classify(r, ings) };
   });
 }
