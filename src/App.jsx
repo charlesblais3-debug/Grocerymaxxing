@@ -6,6 +6,7 @@ import Recipe from './Recipe.jsx';
 import Flyers from './Flyers.jsx';
 import Plan from './Plan.jsx';
 import About from './About.jsx';
+import Ideas from './Ideas.jsx';
 
 function Shell() {
   const { t, lang, setLang, plan } = useApp();
@@ -17,6 +18,7 @@ function Shell() {
   if (path.startsWith('/r/')) page = <Recipe id={path.slice(3)} />;
   else if (path === '/circulaires') page = <Flyers />;
   else if (path === '/plan') page = <Plan />;
+  else if (path === '/idees') page = <Ideas />;
   else if (path === '/a-propos') page = <About />;
   else page = <Browse query={query} />;
   return (
@@ -26,6 +28,7 @@ function Shell() {
           <a className="brand" href="#/"><span aria-hidden="true">🛒</span> Grocery<b>maxxing</b></a>
           <nav aria-label="Navigation">
             {tab('#/', t('recipes'), path === '/' || path.startsWith('/r/'))}
+            {tab('#/idees', t('ideas'), path === '/idees')}
             {tab('#/circulaires', t('flyers'), path === '/circulaires')}
             {tab('#/plan', <>{t('plan')}{n ? <span className="badge">{n}</span> : null}</>, path === '/plan')}
             {tab('#/a-propos', t('about'), path === '/a-propos')}

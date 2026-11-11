@@ -75,16 +75,17 @@ describe('costing', () => {
   it('uses only selected stores and current offers', () => {
     const offers = bestOffers(items, new Set(['maxi']), '2030-01-01', { cucumber: { perG: 0.004 } });
     expect(offers.has('cucumber')).toBe(false);
-    expect(offers.get('chicken_breast').perG).toBe(0.01);
+    expect(offers.get('chicken_breast')[0].perG).toBe(0.01);
     expect(offers.has('onion')).toBe(false);
     const c = costRecipe(recipe, offers, { chicken_breast: { perG: 0.015 } });
     expect(c.total).toBeCloseTo(4);
-    expect(c.perServing).toBeCloseTo(1);
+    expect(c.per).toBeCloseTo(1);
+    expect(c.perKind).toBe('serving');
     expect(c.priced).toBe(1);
     expect(c.countable).toBe(3);
     expect(c.savings).toBeCloseTo(2);
   });
-  it('picks the cheapest store', () => expect(bestOffers(items, new Set(['maxi', 'iga']), '2030-01-01').get('chicken_breast').store).toBe('iga'));
+  it('picks the cheapest store', () => expect(bestOffers(items, new Set(['maxi', 'iga']), '2030-01-01').get('chicken_breast')[0].store).toBe('iga'));
 });
 
 describe('taxonomy', () => {
@@ -196,4 +197,58 @@ it('microdata recipes are read verbatim, nested tags included', async () => {
   const rec = toRecord(extractMicrodata(html), 'https://x.test/1', { id: 'x', lang: 'fr' });
   expect(rec).toMatchObject({ name: 'Essai', servings: 4, totalMin: 30, ingredients: ['2 tasses de lait', '1 oignon'] });
   expect(rec.nutrition.calories).toBe('250 kcal');
+});
+
+describe('second review round', () => {
+  it('named count units are never priced as whole heads', () => {
+    expect(parseIngredientLine('5 feuilles de laitue romaine déchiquetées').g).toBe(75);
+    expect(parseIngredientLine('1 tête d\'ail').g).toBe(45);
+    expect(parseIngredientLine('2 feuilles de laurier').g).toBeNull();
+    expect(parseIngredientLine('1 botte de persil').g).toBe(60);
+    expect(parseIngredientLine('1 boîte (769 ml) de tomates en dés aux épices italiennes').ing).toBe('canned_tomato');
+  });
+  it('product forms: sliced or fresh-ball cheese never stands in for grated cheese', async () => {
+    const { pickOffer } = await import('../shared/cost.js');
+    const { forms } = await import('../shared/match.js');
+    const mk = (name, ing, perG) => ({ name, pg: { [ing]: perG }, store: 'maxi', fm: forms(name) });
+    const offers = bestOffers([mk('Fromage cheddar en tranches Black Diamond', 'cheddar', 0.01), mk('Cheddar fort P\'tit Québec 400 g', 'cheddar', 0.02)], new Set(['maxi']), '2030-01-01');
+    expect(pickOffer(offers, 'cheddar', forms('200 g de cheddar fort râpé')).perG).toBe(0.02);
+    expect(pickOffer(offers, 'cheddar', forms('4 tranches de cheddar')).perG).toBe(0.01);
+    expect(matchFlyerItem('FROMAGE BOCCONCINI SAPUTO')).toEqual(['bocconcini']);
+    expect(matchIngredient('400 g de mozzarella râpée')).toBe('mozzarella');
+  });
+  it('cuisine needs real evidence', () => {
+    const c = (name, cuisine = []) => classify({ name, cuisine, category: [], keywords: [] }, [{ ing: 'chicken' }]).cuisines;
+    expect(c('Poulet au beurre et citron')).toEqual([]);
+    expect(c('Butter chicken')).toEqual(['indienne']);
+    expect(c('Salade de pâtes au pesto')).toEqual([]);
+    expect(c('Tacos au poulet', ['Italienne'])).toEqual(['italienne']); // the source's word wins
+  });
+  it('dish type looks at where the word sits', () => {
+    const m = (name) => classify({ name, category: [], keywords: [], cuisine: [] }, [{ ing: 'chicken' }]).meals;
+    expect(m('Poulet sauce aux arachides')).toEqual(['main']);
+    expect(m('Pain de viande classique')).toEqual(['main']);
+    expect(m('Gingery Apple Cabbage Sauerkraut')).toContain('preserve');
+    expect(m('7 Best Chicken Marinade Ideas')).toEqual(['main']);
+  });
+});
+
+it('weekly ideas bundle varied recipes around one deal and skip staples', async () => {
+  const { buildIdeas, anchorKind } = await import('../shared/synergy.js');
+  expect(anchorKind('onion')).toBeNull();
+  expect(anchorKind('spice')).toBeNull();
+  expect(anchorKind('chicken_thigh')).toBe('protein');
+  expect(anchorKind('cheddar')).toBe('cheese');
+  const mk = (id, meal, extra) => ({ id, name: id, source: id, lang: 'fr', servings: 4, meals: 4, tax: { meals: [meal], cuisines: [], protein: 'chicken', diets: [] },
+    ings: [{ raw: 'a', ing: 'chicken_thigh', g: 500 }, { raw: 'b', ing: extra, g: 200 }, { raw: 'c', ing: 'onion', g: 100 }] });
+  const recipes = [mk('r1', 'soup', 'bell_pepper'), mk('r2', 'soup', 'broccoli'), mk('r3', 'main', 'bell_pepper'), mk('r4', 'pasta', 'broccoli'), mk('r5', 'salad', 'bell_pepper')];
+  const offers = bestOffers(['chicken_thigh', 'bell_pepper', 'onion'].map((g) => ({ name: g, pg: { [g]: 0.004 }, store: 'maxi' })), new Set(['maxi']), '2030-01-01');
+  const base = { chicken_thigh: { perG: 0.009 } };
+  const costs = new Map(recipes.map((r) => [r.id, costRecipe(r, offers, base)]));
+  const { anchors, bundles } = buildIdeas(recipes, costs, offers, base);
+  expect(anchors[0].id).toBe('chicken_thigh');
+  expect(anchors.map((a) => a.id)).not.toContain('onion');
+  expect(bundles[0].recipes).toHaveLength(4);
+  expect(new Set(bundles[0].recipes.map((r) => r.tax.meals[0])).size).toBeGreaterThanOrEqual(3);
+  expect(bundles[0].shared[0]).toMatchObject({ id: 'chicken_thigh', count: 4, grams: 2000 });
 });

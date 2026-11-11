@@ -31,6 +31,7 @@ export function stem(tok) {
 /** Tokens used for matching: de-accented, stop words removed, singularised. */
 export function tokens(s) {
   return deaccent(s)
+    .replace(/\ben des\b/g, 'endes') // "tomates en dés": "dés" would otherwise read as the stop word "des"
     .replace(/[^a-z0-9%]+/g, ' ')
     .split(' ')
     .filter((t) => t && !STOP.has(t))
@@ -61,6 +62,11 @@ const UNITS = [
   ['tranches?|slices?|rashers?|strips?|lanieres?', 'n', 'tranche'],
   ['branches?|tiges?|stalks?|ribs?|sprigs?|brins?', 'n', 'branche'],
   ['douzaines?|dozens?', 'n', 'douzaine'],
+  ['feuilles?|leaf|leaves', 'n', 'feuille'],
+  ['tetes?|heads?|pieds?|pommes? de', 'n', 'tete'],
+  ['bottes?|bouquets?|bunch(?:es)?', 'n', 'botte'],
+  ['poignees?|handfuls?', 'n', 'poignee'],
+  ['filets?|fillets?|paves?', 'n', 'filet'],
 ];
 const UNIT_RE = UNITS.map(([src, kind, f]) => ({ re: new RegExp('^(?:' + src + ')(?![a-z])'), kind, f }));
 // Count units may sit a word or two after the number: "6 thick slices", "3 grosses gousses".

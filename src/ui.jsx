@@ -30,14 +30,18 @@ export function Chip({ on, onClick, children, title }) {
 export function CostTag({ cost, big, recipe }) {
   const { fmt, t } = useApp();
   if (!cost || cost.total == null) return <span className="cost none">{t('noPrice')}</span>;
-  const partial = cost.coverage < 0.6;
-  const v = cost.perServing ?? cost.total;
+  const partial = cost.coverage < 0.75;
+  const v = cost.per ?? cost.total;
+  const unit = { meal: t('perMeal'), serving: t('perServing'), unit: t('perUnit') }[cost.perKind] || t('wholeRecipe');
   return (
     <span className={`cost ${big ? 'big' : ''} ${partial ? 'partial' : ''}`} title={`${cost.priced}/${cost.countable} ${t('coverage')}`}>
-      ≈ {fmt(v)}<small> {cost.perServing != null ? (recipe?.unitYield ? t('perUnit') : t('perServing')) : t('wholeRecipe')}{partial ? ` · ${t('partial')}` : ''}</small>
+      ≈ {fmt(v)}<small> {unit}{partial ? ` · ${t('partial')}` : ''}</small>
     </span>
   );
 }
+
+/** Published nutrition is per source serving; scale it when the recipe is quoted per meal. */
+export const mealScale = (r) => (r.meals && r.servings && !r.unitYield ? r.servings / r.meals : 1);
 
 export function RecipeCard({ r }) {
   const { costs, sourceName, t, lang } = useApp();
@@ -54,7 +58,7 @@ export function RecipeCard({ r }) {
         <h3>{r.name}</h3>
         <div className="card-foot">
           <CostTag cost={c} recipe={r} />
-          {r.macros && <span className="macro">{Math.round(r.macros.kcal)} kcal{r.macros.protein != null ? ` · ${Math.round(r.macros.protein)} g P` : ''}</span>}
+          {r.macros && <span className="macro">{Math.round(r.macros.kcal * mealScale(r))} kcal{r.macros.protein != null ? ` · ${Math.round(r.macros.protein * mealScale(r))} g P` : ''}</span>}
         </div>
       </div>
     </a>

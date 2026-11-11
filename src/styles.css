@@ -157,6 +157,25 @@ a.card:hover { border-color: var(--brand); }
 .glist details { margin-left: 24px; }
 .glist summary { cursor: pointer; }
 
+/* Ideas */
+.ideas-head h1 { margin-bottom: 6px; }
+.anchors { display: flex; gap: 8px; overflow-x: auto; padding: 10px 0 4px; scrollbar-width: thin; }
+.anchor { flex: none; display: grid; gap: 2px; text-decoration: none; color: var(--ink); background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 8px 12px; font-size: .85rem; position: relative; }
+.anchor span { color: var(--muted); font-size: .78rem; }
+.anchor em, .off { font-style: normal; font-weight: 700; color: var(--save); font-size: .8rem; }
+.bundle { margin-top: 28px; padding-top: 20px; border-top: 2px solid var(--line); }
+.bundle-head { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; align-items: flex-start; }
+.bundle-head h2 { margin: 0 0 4px; font-size: 1.4rem; }
+.bundle-head h2 small { font-weight: 400; color: var(--muted); font-size: .95rem; }
+.bundle-head .offer { font-size: .88rem; color: var(--muted); }
+.bundle-stats { display: flex; gap: 18px; align-items: center; flex-wrap: wrap; }
+.bundle-stats small { display: block; color: var(--muted); font-size: .75rem; }
+.bundle-stats b { font-variant-numeric: tabular-nums; }
+.shared { list-style: none; display: flex; flex-wrap: wrap; gap: 6px 8px; padding: 0; margin: 12px 0 14px; font-size: .85rem; }
+.shared li { background: var(--soft); border-radius: 8px; padding: 4px 10px; }
+.shared .lbl { background: none; padding-left: 0; color: var(--muted); }
+.mealnote { margin-top: 4px; }
+
 .about { max-width: 760px; }
 .srcs { columns: 2; padding-left: 18px; font-size: .92rem; }
 .foot { border-top: 1px solid var(--line); padding: 18px 0; color: var(--muted); font-size: .85rem; }

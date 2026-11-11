@@ -4,6 +4,7 @@ import { RecipeCard, Chip } from './ui.jsx';
 import { MEAL_TYPES, CUISINES, PROTEINS, DIETS } from '../shared/taxonomy.js';
 import { ING_BY_ID } from '../shared/ingredients.js';
 import { deaccent } from '../shared/text.js';
+import { reliable as isReliable } from '../shared/cost.js';
 import { L } from './i18n.js';
 
 const PAGE = 48;
@@ -41,7 +42,7 @@ export default function Browse({ query }) {
       if (f.diet && !r.tax.diets.includes(f.diet)) return false;
       if (f.source && r.source !== f.source) return false;
       if (f.time && !(r.time && r.time <= f.time)) return false;
-      if (f.cost && !(c.perServing != null && c.coverage >= 0.6 && c.perServing <= f.cost)) return false;
+      if (f.cost && !(isReliable(c) && c.per <= f.cost)) return false;
       if (f.macros && !r.macros) return false;
       if (f.sale && !c.deals) return false;
       if (f.ing && !r.ings.some((l) => l.ing === f.ing || ING_BY_ID[l.ing]?.fb === f.ing)) return false;
@@ -63,7 +64,7 @@ export default function Browse({ query }) {
     const rows = f.meal ? base.filter((r) => r.tax.meals.includes(f.meal)) : base.slice();
     const c = (r) => costs.get(r.id);
     // Cost ranking only trusts recipes that are almost fully priced and whose yield is real servings.
-    const reliable = (r) => (c(r).perServing != null && c(r).coverage >= 0.8 && !r.unitYield ? c(r).perServing : Infinity);
+    const reliable = (r) => (isReliable(c(r)) ? c(r).per : Infinity);
     const sorters = {
       deals: (a, b) => dealScore(c(b)) - dealScore(c(a)) || c(b).savings - c(a).savings || reliable(a) - reliable(b),
       cost: (a, b) => reliable(a) - reliable(b),
@@ -120,7 +121,7 @@ export default function Browse({ query }) {
 
 // Share of the recipe that is on sale this week (short recipes are not penalised below 6 lines).
 const dealScore = (c) => (c.coverage >= 0.5 ? Math.round((c.deals / Math.max(c.countable, 6)) * 20) : -1);
-const ppd = (r, c) => (r.macros?.protein != null && c.perServing && c.coverage >= 0.6 ? r.macros.protein / c.perServing : -1);
+const ppd = (r, c) => (r.macros?.protein != null && r.servings && c.total && c.coverage >= 0.75 ? (r.macros.protein * r.servings) / c.total : -1);
 const score = (r) => (r.rating ? r.rating.value * Math.log10((r.rating.count || 1) + 9) : 0);
 
 function Select({ label, value, onChange, options, any }) {

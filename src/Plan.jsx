@@ -17,7 +17,7 @@ export default function Plan() {
     for (const { r, n } of rows) {
       const c = costs.get(r.id);
       total += (c.total || 0) * n;
-      servings += (r.servings || 0) * n;
+      servings += (r.meals || r.servings || 0) * n;
       if (r.macros && r.servings) {
         const s = r.servings * n;
         macros.kcal += (r.macros.kcal || 0) * s; macros.protein += (r.macros.protein || 0) * s;
@@ -26,7 +26,8 @@ export default function Plan() {
       for (const l of c.lines) {
         if (l.src === 'free') continue;
         if (!l.ing) { others.push(`${l.raw}${n > 1 ? ` (×${n})` : ''}`); continue; }
-        const a = (agg[l.ing] ||= { ing: l.ing, g: 0, unknown: 0, cost: 0, lines: [] });
+        const a = (agg[l.ing] ||= { ing: l.ing, g: 0, unknown: 0, cost: 0, lines: [], offer: null });
+        if (l.offer && !a.offer) a.offer = l.offer;
         if (l.g != null) a.g += l.g * n; else a.unknown++;
         a.cost += (l.cost || 0) * n;
         a.lines.push(l.raw);
@@ -34,7 +35,7 @@ export default function Plan() {
     }
     const list = Object.values(agg).map((a) => {
       const def = ING_BY_ID[a.ing];
-      const offer = offers.get(a.ing) || (def.fb && offers.get(def.fb)) || null;
+      const offer = a.offer;
       return { ...a, def, offer, store: offer?.store || '', hasBase: !!baseline[a.ing] };
     });
     return { total, servings, list, others, macros };
@@ -71,7 +72,7 @@ export default function Plan() {
           return (
             <li key={r.id}>
               <Img src={r.image} alt="" />
-              <div className="grow"><a href={`#/r/${r.id}`}>{r.name}</a><div className="meta">{c.total != null ? `≈ ${fmt(c.total * n)}` : t('noPrice')}{r.servings ? ` · ${r.servings * n} ${t('servings')}` : ''}{c.deals ? ` · ${c.deals} ${t('deals')}` : ''}</div></div>
+              <div className="grow"><a href={`#/r/${r.id}`}>{r.name}</a><div className="meta">{c.total != null ? `≈ ${fmt(c.total * n)}` : t('noPrice')}{r.meals ? ` · ${r.meals * n} ${t('mealsWord')}` : r.servings ? ` · ${r.servings * n} ${t('servings')}` : ''}{c.deals ? ` · ${c.deals} ${t('deals')}` : ''}</div></div>
               <div className="stepper" aria-label={t('batches')}>
                 <button type="button" onClick={() => setBatches(r.id, n - 1)} aria-label="−">−</button><span>{n}×</span><button type="button" onClick={() => setBatches(r.id, n + 1)} aria-label="+">+</button>
               </div>

@@ -90,6 +90,8 @@ export function matchFlyerItem(name) {
   return out;
 }
 
+const WHOLE = new Set(['tete', 'botte', 'filet']); // units that mean "one whole" of the ingredient
+
 /** Grams of an ingredient used by a recipe line, or null when it cannot be estimated. */
 export function gramsFor(ing, q) {
   if (!ing || !q) return null;
@@ -97,7 +99,12 @@ export function gramsFor(ing, q) {
   if (q.ml != null) return ing.d ? q.ml * ing.d : null;
   if (q.count != null) {
     if (q.countUnit === 'douzaine') return ing.u ? q.count * 12 * ing.u : null;
-    if (q.countUnit) return ing.units?.[q.countUnit] != null ? q.count * ing.units[q.countUnit] : null;
+    if (q.countUnit) {
+      // A named unit we have no weight for ("5 feuilles", "1 poignée") is left unpriced
+      // rather than guessed from the weight of a whole head or pack.
+      const w = ing.units?.[q.countUnit] ?? (WHOLE.has(q.countUnit) ? ing.u : null);
+      return w != null ? q.count * w : null;
+    }
     // Bare counts above 24 are almost always a stray number ("375 F"), not a quantity.
     const unit = ing.ru ?? ing.u;
     const g = unit && q.count <= 24 ? q.count * unit : null;
@@ -113,5 +120,47 @@ export function parseIngredientLine(raw) {
   const q = parseQuantity(raw);
   const g = ing ? gramsFor(ing, q) : null;
   // nq: the line gives no quantity at all ("sel et poivre", "olive oil, for drizzling").
-  return { raw, ing: id, g: g != null ? Math.round(g * 10) / 10 : null, nq: q.none ? 1 : undefined };
+  const fm = forms(raw);
+  return { raw, ing: id, g: g != null ? Math.round(g * 10) / 10 : null, nq: q.none ? 1 : undefined, fm: fm.length ? fm : undefined };
+}
+
+// ---- Product forms ---------------------------------------------------------------------
+// The same ingredient is sold in forms that are not interchangeable: sliced cheese is not
+// the grated mozzarella a gratin asks for, smoked or breaded chicken is not raw chicken.
+// A flyer item in one of these forms is only used for a recipe line that asks for that form.
+const FORMS = {
+  sliced: /\b(tranche|tranches|tranchee?s?|slice|slices|sliced|singles)\b/,
+  smoked: /\b(fumee?s?|smoked)\b/,
+  dried: /\b(sechee?s?|dried|deshydratee?s?)\b/,
+  cooked: /\b(cuite?s?|cooked|rotie?s?|roti|rotisserie|roasted|barbecue|bbq|pret a manger|ready to eat)\b/,
+  breaded: /\b(panee?s?|breaded|croustillante?s?|crispy|tempura)\b/,
+  seasoned: /\b(assaisonnee?s?|marinee?s?|seasoned|marinated|epicee?s?|aux? (?:fines )?herbes|a l ail|saveur|flavou?r(?:ed)?)\b/,
+  stuffed: /\b(farcie?s?|stuffed)\b/,
+  ball: /\b(bocconcini|perles?|pearls?|burrata)\b/,
+  curds: /\b(en grains?|curds?)\b/,
+  spread: /\b(tartinade|a tartiner|spread|fondue?|processed|kraft singles|ficello|cheestrings?|babybel|vache qui rit)\b/,
+  drink: /\b(a boire|drinkable|boisson)\b/,
+  canned: /\b(en conserve|canned|en boite)\b/,
+};
+// Ingredients for which a form is the normal way the product is sold.
+const FORM_OK = {
+  ham: ['sliced', 'smoked', 'cooked'], bacon: ['sliced', 'smoked'], sausage: ['smoked', 'cooked', 'seasoned'],
+  pepperoni: ['sliced', 'smoked', 'dried', 'seasoned'], prosciutto: ['sliced', 'dried', 'smoked'], salmon_smoked: ['smoked', 'sliced'],
+  bread: ['sliced'], buns: ['sliced'], tuna_can: ['canned'], sardine: ['canned', 'smoked'], canned_tomato: ['canned', 'seasoned'],
+  chickpeas: ['canned'], black_beans: ['canned'], kidney_beans: ['canned'], white_beans: ['canned', 'cooked'], corn: ['canned'],
+  raisins: ['dried'], sundried_tomato: ['dried'], pasta: ['dried'], rice_noodle: ['dried'], tofu: ['smoked'], soy_milk: ['drink'],
+  mozzarella: ['ball'], broth_chicken: ['seasoned'], broth_beef: ['seasoned'], broth_veg: ['seasoned'], pickles: ['seasoned'],
+  olives: ['stuffed', 'seasoned'], tomato_sauce: ['seasoned'], hot_sauce: ['seasoned', 'smoked'], dressing: ['seasoned'], crackers: ['seasoned'],
+};
+
+export function forms(text) {
+  const t = deaccent(text).replace(/[^a-z0-9]+/g, ' ');
+  return Object.keys(FORMS).filter((k) => FORMS[k].test(t));
+}
+
+/** Can this flyer item (with forms `itemForms`) stand in for a recipe line with forms `lineForms`? */
+export function formsCompatible(ingId, itemForms, lineForms) {
+  if (!itemForms?.length) return true;
+  const ok = FORM_OK[ingId] || [];
+  return itemForms.every((f) => ok.includes(f) || lineForms?.includes(f));
 }

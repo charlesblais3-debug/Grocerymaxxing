@@ -9,9 +9,9 @@ async function writeJson(path, data) {
   await mkdir('public/data', { recursive: true });
   await writeFile(path, JSON.stringify(data));
 }
-import { parseIngredientLine, matchIngredient, matchFlyerItem } from '../shared/match.js';
+import { parseIngredientLine, matchIngredient, matchFlyerItem, forms } from '../shared/match.js';
 import { unitPrice } from '../shared/price.js';
-import { classify } from '../shared/taxonomy.js';
+import { classify, isMealDish } from '../shared/taxonomy.js';
 import { ING_BY_ID } from '../shared/ingredients.js';
 import { SOURCES } from './sources.mjs';
 import { STORES, loadFlyers } from './fetch-flyers.mjs';
@@ -42,7 +42,47 @@ export function buildRecipes(raw) {
     if (rest.servings === 1 && grams > 900) rest.servings = null;
     // "585 ml", "900 g": a volume or weight, not a number of servings.
     if (rest.unitYield && (rest.servings > 48 || /^\s*[\d.,/ ]+\s*(ml|l|g|kg|oz|lb|litres?|tasses?|cups?)\b/.test(y))) rest.servings = null;
-    return { ...rest, time, macros: macros && macros.kcal != null ? macros : null, ings, tax: classify(r, ings) };
+
+    // Safety net: one ingredient weighing more than a whole plate per serving means the
+    // quantity was misread. Leave the line unpriced instead of charging for it.
+    if (rest.servings && !rest.unitYield) {
+      for (const l of ings) {
+        const def = ING_BY_ID[l.ing];
+        if (!def || l.g == null) continue;
+        const cap = def.free || /^broth_|milk$|canned_tomato|tomato_sauce|coconut_milk|wine/.test(def.id) ? 900 : def.cat === 'meat' || def.cat === 'fish' ? 500 : 450;
+        if (l.g / rest.servings > cap) { l.g = null; l.odd = 1; }
+      }
+    }
+
+    // --- Meals. A "portion" on a recipe site can be a 150-kcal bite; what matters when
+    // cooking is the cost of a plate that makes a meal. For meal dishes the published
+    // serving is kept when it is meal-sized, otherwise the recipe is re-divided into
+    // meals of about 550 kcal (published nutrition) or about 450 g of food (weights).
+    const tax = classify(r, ings);
+    let meals = null;
+    let mealBasis = null;
+    if (isMealDish(tax)) {
+      const food = ings.reduce((n, l) => n + (l.g && !ING_BY_ID[l.ing]?.free ? l.g * (/^broth_/.test(l.ing) ? 0.3 : 1) : 0), 0);
+      const weighed = ings.filter((l) => l.g != null).length / Math.max(1, ings.filter((l) => !l.nq).length);
+      const half = (x) => Math.max(1, Math.round(x * 2) / 2);
+      const s = rest.unitYield ? null : rest.servings;
+      const byWeight = weighed >= 0.7 && food > 0 ? food / 450 : 0;
+      if (macros?.kcal && s) {
+        if (macros.kcal >= 350) { meals = s; mealBasis = 'source'; } else {
+          // Published calories that contradict the weight of food on the plate (a "1 kcal"
+          // typo, a marinade counted without its chicken) give way to the weight.
+          const byKcal = (macros.kcal * s) / 550;
+          if (byWeight * 0.75 > byKcal) { meals = half(Math.min(s, byWeight * 0.75)); mealBasis = 'weight'; } else { meals = half(byKcal); mealBasis = 'kcal'; }
+        }
+      } else if (weighed >= 0.7 && food > 0) {
+        const per = s ? food / s : 0;
+        if (s && per >= 280 && per <= 900) { meals = s; mealBasis = 'source'; } else { meals = half(food / 450); mealBasis = 'weight'; }
+      } else if (s) { meals = s; mealBasis = 'source'; }
+      if (mealBasis === 'kcal' && meals > s) { meals = s; mealBasis = 'source'; }
+    }
+    rest.meals = meals || undefined;
+    rest.mealBasis = meals ? mealBasis : undefined;
+    return { ...rest, time, macros: macros && macros.kcal != null ? macros : null, ings, tax };
   });
 }
 
@@ -74,6 +114,7 @@ export function buildFlyers(data) {
         ...pub, flyers: [f.id], store: f.store,
         from: (it.from || f.from || '').slice(0, 10), to: (it.to || f.to || '').slice(0, 10),
         ing: ings[0], ings: ings.length > 1 ? ings : undefined,
+        fm: ings.length && forms(it.name).length ? forms(it.name) : undefined,
         pg: Object.keys(pg).length ? pg : undefined, perG: pg[ings[0]], basis,
       };
       seen.set(key, row);
