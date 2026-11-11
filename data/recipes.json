@@ -1,0 +1,1360 @@
+[
+ {
+  "id": "000425d81942",
+  "url": "https://www.bbcgoodfood.com/recipes/spiders-web-taco-dip",
+  "source": "bbcgoodfood",
+  "lang": "en",
+  "name": "Spider’s web taco dip",
+  "image": "https://images.immediate.co.uk/production/volatile/sites/30/2023/09/Spiders-web-taco-dip-8ed928f.jpg?resize=900,836",
+  "author": "Cassie Best",
+  "yield": "8",
+  "servings": 8,
+  "prepMin": 20,
+  "cookMin": null,
+  "totalMin": 20,
+  "category": [
+   "Side dish"
+  ],
+  "cuisine": [],
+  "keywords": [
+   "Avocado",
+   "Dip",
+   "easy halloween recipe",
+   "Halloween party"
+  ],
+  "ingredients": [
+   "3 large avocados peeled and stoned",
+   "2 limes juiced",
+   "100ml soured cream",
+   "½ small bunch of coriander",
+   "2 tomatoes finely chopped",
+   "½ red onion finely chopped",
+   "10 pitted black olives sliced",
+   "50g cheddar or another hard cheese, grated",
+   "tortilla chips to serve"
+  ],
+  "nutrition": {
+   "calories": "217 calories",
+   "fatContent": "20 grams fat",
+   "saturatedFatContent": "6 grams saturated fat",
+   "carbohydrateContent": "4 grams carbohydrates",
+   "sugarContent": "2 grams sugar",
+   "fiberContent": "4 grams fiber",
+   "proteinContent": "4 grams protein",
+   "sodiumContent": "0.2 milligram of sodium"
+  },
+  "rating": null,
+  "steps": 3,
+  "published": "2023-09-21",
+  "fetchedAt": "2026-11-11"
+ },
+ {
+  "id": "0011cf769b2a",
+  "url": "https://minimalistbaker.com/curried-cauliflower-grape-lentil-salad/",
+  "source": "minimalistbaker",
+  "lang": "en",
+  "name": "Curried Cauliflower, Grape & Lentil Salad",
+  "image": "https://minimalistbaker.com/wp-content/uploads/2018/02/Lentil-Grape-Salad-SQUARE.jpg",
+  "author": "Minimalist Baker",
+  "yield": "4",
+  "servings": 4,
+  "prepMin": 5,
+  "cookMin": 25,
+  "totalMin": 30,
+  "category": [
+   "Entrée",
+   "Side"
+  ],
+  "cuisine": [
+   "Gluten-Free",
+   "Indian-Inspired",
+   "Middle Eastern-Inspired",
+   "Thai-Inspired",
+   "Vegan"
+  ],
+  "keywords": [
+   "cauliflower salad"
+  ],
+  "ingredients": [
+   "1 head cauliflower ((divided into florets))",
+   "1 ½ Tbsp melted coconut oil ((or water))",
+   "1 ½ Tbsp curry powder ((or store-bought))",
+   "1/4 tsp sea salt",
+   "4 ½ Tbsp green curry paste ((or store-bought, though fresh is best))",
+   "2 Tbsp tahini",
+   "2 Tbsp lemon juice",
+   "1 Tbsp maple syrup",
+   "1 pinch each salt and black pepper",
+   "Water to thin",
+   "5-6 cups mixed greens, kale, spinach ((or other green of choice))",
+   "1 cup cooked green or brown lentils ((rinsed and drained))",
+   "1 cup red or green grapes ((halved))",
+   "Fresh cilantro ((optional))"
+  ],
+  "nutrition": {
+   "servingSize": "1 serving",
+   "calories": "258 kcal",
+   "carbohydrateContent": "33.2 g",
+   "proteinContent": "10.3 g",
+   "fatContent": "11.6 g",
+   "saturatedFatContent": "5.2 g",
+   "sodiumContent": "416 mg",
+   "fiberContent": "9.7 g",
+   "sugarContent": "11.9 g",
+   "unsaturatedFatContent": "5.4 g"
+  },
+  "rating": {
+   "value": 4.72,
+   "count": 35
+  },
+  "steps": 6,
+  "published": "2018-04-10",
+  "fetchedAt": "2026-11-11"
+ },
+ {
+  "id": "00326ac05f71",
+  "url": "https://www.budgetbytes.com/kale-salmon-caesar-salad/",
+  "source": "budgetbytes",
+  "lang": "en",
+  "name": "Kale & Salmon Caesar Salad",
+  "image": "https://www.budgetbytes.com/wp-content/uploads/2016/03/Kale-Salmon-Caesar-Salad-front-1-500x480.jpg",
+  "author": null,
+  "yield": "4",
+  "servings": 4,
+  "prepMin": 10,
+  "cookMin": 15,
+  "totalMin": 25,
+  "category": [],
+  "cuisine": [],
+  "keywords": [],
+  "ingredients": [
+   "8 oz bowtie pasta ($0.75)",
+   "6 oz chopped kale* ($1.50)",
+   "14 oz can wild caught salmon ($3.99)",
+   "2 large hard boiled eggs (optional) ($0.54)",
+   "1/2 cup shredded Parmesan ($0.96)",
+   "1/2 cup (or to taste) creamy Caesar dressing ($1.16)"
+  ],
+  "nutrition": {
+   "calories": "609.08 kcal",
+   "carbohydrateContent": "49.3 g",
+   "proteinContent": "36.23 g",
+   "fatContent": "28.88 g",
+   "fiberContent": "3.5 g",
+   "sodiumContent": "1034.83 mg",
+   "servingSize": "1 Serving"
+  },
+  "rating": {
+   "value": 4.8,
+   "count": 24
+  },
+  "steps": 4,
+  "published": "2016-03-28",
+  "fetchedAt": "2026-11-11"
+ },
+ {
+  "id": "005957d3af2e",
+  "url": "https://www.budgetbytes.com/balsamic-chicken-thighs/",
+  "source": "budgetbytes",
+  "lang": "en",
+  "name": "Balsamic Chicken Thighs",
+  "image": "https://www.budgetbytes.com/wp-content/uploads/2015/03/Balsamic-Chicken-Thighs-close-1-500x480.jpg",
+  "author": null,
+  "yield": "4",
+  "servings": 4,
+  "prepMin": 15,
+  "cookMin": 45,
+  "totalMin": 60,
+  "category": [],
+  "cuisine": [],
+  "keywords": [],
+  "ingredients": [
+   "2 Tbsp olive oil ($0.32)",
+   "2 cloves garlic ($0.16)",
+   "1/4 cup balsamic vinegar ($0.80)",
+   "2 Tbsp brown sugar ($0.04)",
+   "1 Tbsp soy sauce ($0.10)",
+   "Freshly cracked black pepper ($0.10)",
+   "4 boneless skinless chicken thighs ($2.40)",
+   "Fresh parsley for garnish (optional) ($0.25)"
+  ],
+  "nutrition": {
+   "servingSize": "1 Serving",
+   "calories": "431.1 kcal",
+   "carbohydrateContent": "10.35 g",
+   "proteinContent": "61.78 g",
+   "fatContent": "13.93 g",
+   "fiberContent": "0.13 g",
+   "sodiumContent": "409.13 mg"
+  },
+  "rating": {
+   "value": 4.58,
+   "count": 68
+  },
+  "steps": 3,
+  "published": "2015-03-23",
+  "fetchedAt": "2026-11-11"
+ },
+ {
+  "id": "006b01e9a9df",
+  "url": "https://www.budgetbytes.com/blackened-shrimp-tacos/",
+  "source": "budgetbytes",
+  "lang": "en",
+  "name": "Blackened Shrimp Tacos",
+  "image": "https://www.budgetbytes.com/wp-content/uploads/2017/06/Blackened-Shrimp-Tacos-H-500x500.jpg",
+  "author": null,
+  "yield": "6 tacos",
+  "servings": 6,
+  "prepMin": 30,
+  "cookMin": 10,
+  "totalMin": 40,
+  "category": [],
+  "cuisine": [],
+  "keywords": [
+   "Easy Dinner",
+   "Seafood",
+   "Spicy Food"
+  ],
+  "ingredients": [
+   "1/3 cup mayonnaise ($0.40)",
+   "1/2 Tbsp honey ($0.06)",
+   "1 tsp Dijon mustard ($0.06)",
+   "1 tsp red wine vinegar ($0.02)",
+   "1/4 tsp salt ($0.02)",
+   "Freshly cracked pepper ($0.03)",
+   "1/2 bag coleslaw mix (shredded cabbage and carrots) ($.75)",
+   "3 green onions, sliced ($0.28)",
+   "1/3 cup mayonnaise ($0.40)",
+   "1/8 tsp garlic powder ($0.02)",
+   "1/4 tsp smoked paprika ($0.02)",
+   "1/8 tsp salt ($0.01)",
+   "1 lime (1 Tbsp juice) ($0.39)",
+   "1 Tbsp smoked paprika ($0.30)",
+   "1 tsp dried thyme ($0.10)",
+   "1 tsp dried oregano ($0.10)",
+   "1/2 tsp cumin ($0.05)",
+   "1/4 tsp cayenne ($0.03)",
+   "1/4 tsp garlic powder ($0.03)",
+   "1/4 tsp onion powder ($0.03)",
+   "1/4 tsp salt ($0.02)",
+   "Freshly cracked pepper ($0.02)",
+   "1/2 lb peeled and deveined shrimp (30/40 count) ($4.00)",
+   "1 Tbsp butter ($0.13)",
+   "1 clove garlic, minced ($0.08)",
+   "6 small corn tortillas ($0.30)",
+   "3 green onions, sliced ($0.28)"
+  ],
+  "nutrition": {
+   "servingSize": "1 Serving",
+   "calories": "303.9 kcal",
+   "carbohydrateContent": "19.32 g",
+   "proteinContent": "10.38 g",
+   "fatContent": "21.83 g",
+   "fiberContent": "3.77 g",
+   "sodiumContent": "740.63 mg"
+  },
+  "rating": {
+   "value": 4.67,
+   "count": 102
+  },
+  "steps": 6,
+  "published": "2017-06-01",
+  "fetchedAt": "2026-11-11"
+ },
+ {
+  "id": "006dfa9b8d68",
+  "url": "https://www.bbcgoodfood.com/recipes/super-quick-beef-noodles",
+  "source": "bbcgoodfood",
+  "lang": "en",
+  "name": "Super-quick beef noodles",
+  "image": "https://images.immediate.co.uk/production/volatile/sites/30/2022/09/428421555-beef-ramenhero-17b7b66.jpg?resize=1366,911",
+  "author": null,
+  "yield": "0",
+  "servings": 0,
+  "prepMin": 5,
+  "cookMin": 10,
+  "totalMin": 15,
+  "category": [
+   "Dinner"
+  ],
+  "cuisine": [
+   "Asian"
+  ],
+  "keywords": [
+   "Beef",
+   "beef noodle recipe",
+   "easy noodles",
+   "Ramen"
+  ],
+  "ingredients": [
+   "4 cucumber slices peeled",
+   "2 tsp rice wine vinegar",
+   "½ tsp caster sugar",
+   "1 tbsp ramen paste plus 1 tsp",
+   "1 nest or portion of egg, ramen or rice noodles",
+   "handful of spinach, kale, pak choi or cabbage",
+   "100g steak thinly sliced",
+   "1 tsp sesame oil",
+   "chilli oil, soy sauce and sliced spring onions, to serve"
+  ],
+  "nutrition": {
+   "calories": "439 calories",
+   "fatContent": "13 grams fat",
+   "saturatedFatContent": "4 grams saturated fat",
+   "carbohydrateContent": "49 grams carbohydrates",
+   "sugarContent": "5 grams sugar",
+   "fiberContent": "5 grams fiber",
+   "proteinContent": "30 grams protein",
+   "sodiumContent": "1.69 milligram of sodium"
+  },
+  "rating": null,
+  "steps": 3,
+  "published": "2022-10-04",
+  "fetchedAt": "2026-11-11"
+ },
+ {
+  "id": "00886c5a1a41",
+  "url": "https://www.budgetbytes.com/olive-herb-bread/",
+  "source": "budgetbytes",
+  "lang": "en",
+  "name": "Olive Herb Bread",
+  "image": "https://www.budgetbytes.com/wp-content/uploads/2011/03/Olive20Bread20sliced20close-500x480.jpg",
+  "author": null,
+  "yield": "12",
+  "servings": 12,
+  "prepMin": 180,
+  "cookMin": 30,
+  "totalMin": 210,
+  "category": [
+   "Side Dish"
+  ],
+  "cuisine": [
+   "American"
+  ],
+  "keywords": [
+   "Homemade Bread"
+  ],
+  "ingredients": [
+   "1 cup whole wheat flour ($0.16)",
+   "2 1/4 cups bread flour ($0.33)",
+   "1 1/3 tsp salt ($0.05)",
+   "3/4 Tbsp active dry or instant yeast ($0.20)",
+   "1/3 cup pitted kalamata olives ($1.48)",
+   "1 tsp dry thyme ($0.05)",
+   "1 1/4 cups warm water ($0.00)",
+   "2 Tbsp cornmeal ($0.03)"
+  ],
+  "nutrition": {
+   "servingSize": "1 Serving",
+   "calories": "140.45 kcal",
+   "carbohydrateContent": "27.8 g",
+   "proteinContent": "4.87 g",
+   "fatContent": "1.21 g",
+   "fiberContent": "2.13 g",
+   "sodiumContent": "297.2 mg"
+  },
+  "rating": {
+   "value": 5,
+   "count": 1
+  },
+  "steps": 5,
+  "published": "2011-03-17",
+  "fetchedAt": "2026-11-11"
+ },
+ {
+  "id": "00e1d8e5ae37",
+  "url": "https://minimalistbaker.com/creamy-tuscan-white-bean-kale-soup/",
+  "source": "minimalistbaker",
+  "lang": "en",
+  "name": "Creamy Tuscan White Bean & Kale Soup (1 Pot!)",
+  "image": "https://minimalistbaker.com/wp-content/uploads/2022/06/Creamy-Tuscan-Kale-Soup-SQUARE-500x500.jpg",
+  "author": "Minimalist Baker",
+  "yield": "5 (~1 ½ cup servings)",
+  "servings": 5,
+  "prepMin": 15,
+  "cookMin": 30,
+  "totalMin": 45,
+  "category": [
+   "Entrée",
+   "Side",
+   "Soup"
+  ],
+  "cuisine": [
+   "Gluten-Free (optional)",
+   "Italian-Inspired",
+   "Vegan"
+  ],
+  "keywords": [
+   "kale and white bean soup",
+   "tomato white bean soup",
+   "tuscan kale and white bean soup",
+   "tuscan white bean soup",
+   "vegan white bean soup",
+   "white bean and kale soup"
+  ],
+  "ingredients": [
+   "1 Tbsp olive oil ((if oil-free, sub twice the amount of water))",
+   "1/2 large yellow onion, diced ((1/2 large onion yields ~ 1 ½ cups or 170 g))",
+   "2 medium carrots, peeled and diced ((2 carrots yield ~3/4 cup or 100 g))",
+   "2 large stalks celery, diced ((2 stalks celery yield ~1 ¼ cup or 150 g))",
+   "3/4 tsp sea salt ((DIVIDED // plus more to taste))",
+   "1/2 tsp black pepper ((DIVIDED))",
+   "2 Tbsp tomato paste",
+   "4 cloves garlic, minced ((4 cloves yield ~2 Tbsp or 18 g))",
+   "1/4-1/2 tsp red pepper flakes, to taste",
+   "1 Tbsp freshly chopped rosemary or thyme ((or sub 1 tsp dried))",
+   "1 tsp dried basil",
+   "3 cups vegetable broth ((or store-bought))",
+   "2 (15-oz.) cans white beans, drained and rinsed",
+   "1 (15-oz.) can diced tomatoes",
+   "4 cups chopped kale leaves ((or sub baby spinach))",
+   "1 Tbsp balsamic vinegar",
+   "3/4 cup full-fat coconut milk",
+   "Vegan Parmesan Cheese",
+   "Fresh basil",
+   "Croutons"
+  ],
+  "nutrition": {
+   "servingSize": "1 serving",
+   "calories": "303 kcal",
+   "carbohydrateContent": "40.4 g",
+   "proteinContent": "11.3 g",
+   "fatContent": "10.9 g",
+   "saturatedFatContent": "6.4 g",
+   "sodiumContent": "928 mg",
+   "fiberContent": "11.7 g",
+   "sugarContent": "9.5 g",
+   "unsaturatedFatContent": "2.4 g"
+  },
+  "rating": {
+   "value": 4.98,
+   "count": 181
+  },
+  "steps": 6,
+  "published": "2022-09-14",
+  "fetchedAt": "2026-11-11"
+ },
+ {
+  "id": "01103e59d592",
+  "url": "https://minimalistbaker.com/vegan-thanksgiving-wraps/",
+  "source": "minimalistbaker",
+  "lang": "en",
+  "name": "Vegan Thanksgiving Wraps",
+  "image": "https://minimalistbaker.com/wp-content/uploads/2015/10/Thanksgiving-Wraps-SQUARE.jpg",
+  "author": "Minimalist Baker",
+  "yield": "4 (wraps)",
+  "servings": 4,
+  "prepMin": 5,
+  "cookMin": 25,
+  "totalMin": 30,
+  "category": [
+   "Entrée"
+  ],
+  "cuisine": [
+   "Vegan"
+  ],
+  "keywords": [
+   "Vegan Thanksgiving"
+  ],
+  "ingredients": [
+   "2 large (~150 g each) sweet potatoes ((organic when possible))",
+   "1 Tbsp avocado oil",
+   "1 tsp fresh thyme",
+   "1/4 tsp ground cinnamon",
+   "1/2 tsp sea salt",
+   "1 pinch cayenne pepper ((optional))",
+   "1 (15-ounce) can chickpeas ((rinsed, drained and thoroughly dried in a towel))",
+   "1 Tbsp avocado oil",
+   "1 tsp fresh or dried thyme",
+   "1 pinch ground cinnamon",
+   "1 tsp ground cumin",
+   "1/2 tsp smoked paprika",
+   "1/2 scant tsp sea salt",
+   "1 healthy pinch each ground coriander + cardamom ((optional))",
+   "4 whole Garlic Herb Flatbreads*",
+   "Garlic Dill Hummus Sauce",
+   "Toasted sunflower seeds or pumpkin seeds ((optional))",
+   "Dried cranberries ((optional // chopped))",
+   "Fresh arugula or parsley ((optional))"
+  ],
+  "nutrition": {
+   "servingSize": "1 wrap",
+   "calories": "464 kcal",
+   "carbohydrateContent": "82.9 g",
+   "proteinContent": "12 g",
+   "fatContent": "9.9 g",
+   "saturatedFatContent": "0.8 g",
+   "sodiumContent": "962 mg",
+   "fiberContent": "6.5 g",
+   "sugarContent": "6.8 g"
+  },
+  "rating": {
+   "value": 4.96,
+   "count": 49
+  },
+  "steps": 10,
+  "published": "2015-11-16",
+  "fetchedAt": "2026-11-11"
+ },
+ {
+  "id": "017f7fe0a2c4",
+  "url": "https://www.budgetbytes.com/chicken-sausage-white-bean-skillet/",
+  "source": "budgetbytes",
+  "lang": "en",
+  "name": "Chicken Sausage White Bean Skillet",
+  "image": "https://www.budgetbytes.com/wp-content/uploads/2024/08/Chicken-Sausage-White-Bean-Skillet-Fork-500x500.jpg",
+  "author": null,
+  "yield": "4 (about 1.25 cups each)",
+  "servings": 4,
+  "prepMin": 10,
+  "cookMin": 15,
+  "totalMin": 25,
+  "category": [
+   "Dinner",
+   "Lunch"
+  ],
+  "cuisine": [
+   "American"
+  ],
+  "keywords": [
+   "Chicken Sausage Skillet",
+   "Chicken Sausage White Bean Skillet"
+  ],
+  "ingredients": [
+   "4 fully-cooked chicken sausage links (about 12 oz.) ($4.99)",
+   "2 Tbsp cooking oil, divided ($0.08)",
+   "1 small yellow onion, diced ($0.42)",
+   "2 cloves of garlic, minced ($0.16)",
+   "2 15oz. cans cannellini beans, drained ($2.00)",
+   "1/2 tsp salt ($0.02)",
+   "1/2 tsp dried oregano ($0.05)",
+   "1/4 tsp smoked paprika ($0.02)",
+   "1/4 tsp freshly cracked black pepper ($0.02)",
+   "1 cup chicken broth ($0.17)",
+   "2 cups spinach, roughly chopped ($0.76)"
+  ],
+  "nutrition": {
+   "servingSize": "1 serving",
+   "calories": "254 kcal",
+   "carbohydrateContent": "8 g",
+   "proteinContent": "14 g",
+   "fatContent": "19 g",
+   "sodiumContent": "1392 mg",
+   "fiberContent": "1 g"
+  },
+  "rating": {
+   "value": 4.79,
+   "count": 51
+  },
+  "steps": 7,
+  "published": "2024-08-21",
+  "fetchedAt": "2026-11-11"
+ },
+ {
+  "id": "0189d920c2ea",
+  "url": "https://www.budgetbytes.com/butternut-squash-and-black-bean-soup/",
+  "source": "budgetbytes",
+  "lang": "en",
+  "name": "Butternut Squash and Black Bean Soup Recipe",
+  "image": "https://www.budgetbytes.com/wp-content/uploads/2024/11/ButternutSquash-and-Blackbean-Soup-SingleServe-500x500.jpg",
+  "author": null,
+  "yield": "6 servings (about 1.5 cups each)",
+  "servings": 6,
+  "prepMin": 15,
+  "cookMin": 25,
+  "totalMin": 40,
+  "category": [
+   "Main Course"
+  ],
+  "cuisine": [
+   "American"
+  ],
+  "keywords": [
+   "Butternut Squash and Black Bean Soup"
+  ],
+  "ingredients": [
+   "2 lbs. butternut squash, diced into ¾ inch cubes ($2.98)",
+   "1 onion, diced ($0.39)",
+   "3 cloves garlic, minced ($0.24)",
+   "1 Tbsp olive oil ($0.12)",
+   "1 ½ tsp chili powder ($0.15)",
+   "1 tsp cumin ($0.10)",
+   "½ tsp garlic powder ($0.05)",
+   "½ tsp smoked paprika ($0.05)",
+   "¾ tsp salt ($0.05)",
+   "½ tsp freshly cracked black pepper, divided ($0.04)",
+   "1 15 oz. can black beans, drained ($1.00)",
+   "1 14.5 oz. can fire-roasted diced tomatoes ($1.25)",
+   "4 cups chicken broth ($0.68)",
+   "4 cups chopped kale ($1.49)"
+  ],
+  "nutrition": {
+   "servingSize": "1 serving (about 1.5 cups each)",
+   "calories": "197 kcal",
+   "carbohydrateContent": "37 g",
+   "proteinContent": "8 g",
+   "fatContent": "3 g",
+   "sodiumContent": "1273 mg",
+   "fiberContent": "10 g"
+  },
+  "rating": {
+   "value": 4.67,
+   "count": 18
+  },
+  "steps": 7,
+  "published": "2024-12-03",
+  "fetchedAt": "2026-11-11"
+ },
+ {
+  "id": "01915c374f4f",
+  "url": "https://www.bbcgoodfood.com/recipes/jerk-pork-pineapple-skewers-black-beans-rice",
+  "source": "bbcgoodfood",
+  "lang": "en",
+  "name": "Jerk-seasoned pork & pineapple skewers with black beans & rice",
+  "image": "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/recipe-image-legacy-id-1011488_11-84671e7.jpg?resize=440,400",
+  "author": "Jennifer Joyce",
+  "yield": "4",
+  "servings": 4,
+  "prepMin": 10,
+  "cookMin": 10,
+  "totalMin": 20,
+  "category": [
+   "Dinner",
+   "Main course"
+  ],
+  "cuisine": [
+   "Cajun & Creole"
+  ],
+  "keywords": [
+   "A week of healthy suppers",
+   "Barbecue",
+   "Cajun",
+   "Creole",
+   "Fibre",
+   "Five a day",
+   "goodhealth",
+   "Grill",
+   "Healthy",
+   "Jennifer Joyce",
+   "Jerk chicken",
+   "Jerk seasoning",
+   "Kebabs",
+   "Low calorie",
+   "Low fat",
+   "Rain or shine",
+   "South america",
+   "Southern america"
+  ],
+  "ingredients": [
+   "400g pork fillet cut into 4cm chunks",
+   "2 tbsp jerk or Creole seasoning",
+   "1 tsp ground allspice",
+   "1 tbsp hot chilli sauce plus extra to serve (optional)",
+   "3 limes zest and juice 1, other 2 cut into wedges to serve",
+   "½ small pineapple peeled , cored and cut into 4cm chunks",
+   "1 tbsp vegetable oil",
+   "200g basmati rice",
+   "400g can black bean drained and rinsed"
+  ],
+  "nutrition": {
+   "calories": "451 calories",
+   "fatContent": "10 grams fat",
+   "saturatedFatContent": "3 grams saturated fat",
+   "carbohydrateContent": "57 grams carbohydrates",
+   "sugarContent": "7 grams sugar",
+   "fiberContent": "6 grams fiber",
+   "proteinContent": "30 grams protein",
+   "sodiumContent": "0.2 milligram of sodium"
+  },
+  "rating": null,
+  "steps": 3,
+  "published": "2022-05-04",
+  "fetchedAt": "2026-11-11"
+ },
+ {
+  "id": "01efc37f0ba2",
+  "url": "https://www.budgetbytes.com/harissa-roasted-vegetables/",
+  "source": "budgetbytes",
+  "lang": "en",
+  "name": "Harissa Roasted Vegetables",
+  "image": "https://www.budgetbytes.com/wp-content/uploads/2016/10/Harissa-Roasted-Vegetables-with-rice-1-500x500.jpg",
+  "author": null,
+  "yield": "6 1 cup each",
+  "servings": 6,
+  "prepMin": 15,
+  "cookMin": 40,
+  "totalMin": 55,
+  "category": [],
+  "cuisine": [],
+  "keywords": [
+   "Side Dish"
+  ],
+  "ingredients": [
+   "1/4 cup harissa (paste) ($1.20)",
+   "2 Tbsp olive oil ($0.22)",
+   "1/2 Tbsp honey ($0.14)",
+   "1/2 tsp salt ($0.02)",
+   "1 Tbsp lemon juice ($0.07)",
+   "6 small red potatoes (1-1.5 lbs.) ($1.17)",
+   "1 broccoli crown ( $1.30)",
+   "3 carrots ($0.40)",
+   "1 small red onion ($1.07)",
+   "Handful chopped fresh cilantro ( $0.20)"
+  ],
+  "nutrition": {
+   "servingSize": "1 Serving",
+   "calories": "184.77 kcal",
+   "carbohydrateContent": "28.02 g",
+   "proteinContent": "3.98 g",
+   "fatContent": "7.52 g",
+   "fiberContent": "4.33 g",
+   "sodiumContent": "258.07 mg"
+  },
+  "rating": {
+   "value": 4.17,
+   "count": 12
+  },
+  "steps": 5,
+  "published": "2016-10-23",
+  "fetchedAt": "2026-11-11"
+ },
+ {
+  "id": "01ff7790f36c",
+  "url": "https://www.bbcgoodfood.com/recipes/lemon-dill-rainbow-trout-with-pickled-potato-salad-radish-slaw",
+  "source": "bbcgoodfood",
+  "lang": "en",
+  "name": "Lemon & dill rainbow trout with pickled potato salad & radish slaw",
+  "image": "https://images.immediate.co.uk/production/volatile/sites/30/2025/02/Lemon-and-dill-rainbow-trout-ad53f5f.jpg?resize=900,836",
+  "author": "Anna Glover",
+  "yield": "4",
+  "servings": 4,
+  "prepMin": 30,
+  "cookMin": 25,
+  "totalMin": 55,
+  "category": [
+   "Dinner"
+  ],
+  "cuisine": [],
+  "keywords": [
+   "alternative sunday lunch",
+   "Baked fish",
+   "Homemade coleslaw",
+   "Potato salad",
+   "Radish",
+   "Rainbow trout"
+  ],
+  "ingredients": [
+   "4 medium rainbow trout gutted and cleaned",
+   "1 lemon sliced, plus extra wedges to serve",
+   "handful of dill",
+   "olive oil for roasting and drizzling",
+   "200g radishes cut into matchsticks",
+   "½ hispi cabbage core removed and finely shredded",
+   "2 tbsp extra virgin olive oil",
+   "2 tbsp finely chopped parsley",
+   "2 ½ tbsp white wine vinegar",
+   "pinch of sugar",
+   "1.5kg new potatoes halved or quartered if large",
+   "2 tbsp white wine vinegar",
+   "½ tbsp honey",
+   "3 tbsp mayonnaise",
+   "10 cornichons or 5 gherkins, finely chopped",
+   "10 silverskin pickled onions finely chopped",
+   "1 tbsp wholegrain mustard",
+   "3 tbsp soured cream",
+   "1 tbsp finely chopped dill",
+   "1 tbsp finely chopped parsley",
+   "1 tbsp finely chopped chives"
+  ],
+  "nutrition": {
+   "calories": "725 calories",
+   "fatContent": "30 grams fat",
+   "saturatedFatContent": "6 grams saturated fat",
+   "carbohydrateContent": "58 grams carbohydrates",
+   "sugarContent": "10 grams sugar",
+   "fiberContent": "10 grams fiber",
+   "proteinContent": "49 grams protein",
+   "sodiumContent": "1.12 milligram of sodium"
+  },
+  "rating": null,
+  "steps": 3,
+  "published": "2025-02-11",
+  "fetchedAt": "2026-11-11"
+ },
+ {
+  "id": "021268452d4b",
+  "url": "https://www.budgetbytes.com/garlic-noodles/",
+  "source": "budgetbytes",
+  "lang": "en",
+  "name": "Quick & Easy Garlic Noodles",
+  "image": "https://www.budgetbytes.com/wp-content/uploads/2015/07/Garlic-Noodles-Overhead-500x500.jpg",
+  "author": null,
+  "yield": "4",
+  "servings": 4,
+  "prepMin": 10,
+  "cookMin": 15,
+  "totalMin": 25,
+  "category": [
+   "Dinner",
+   "Main Course",
+   "Side Dish"
+  ],
+  "cuisine": [
+   "Asian"
+  ],
+  "keywords": [
+   "garlic noodles",
+   "Noodles"
+  ],
+  "ingredients": [
+   "2 Tbsp oyster sauce* ($0.23)",
+   "2 Tbsp brown sugar** ($0.06)",
+   "2 tsp soy sauce ($0.10)",
+   "1 tsp toasted sesame oil ($0.40)",
+   "8 oz angel hair pasta*** ($0.54)",
+   "4 cloves garlic ($0.16)",
+   "1/2 bunch green onions ($0.35)",
+   "4 Tbsp butter ($0.50)"
+  ],
+  "nutrition": {
+   "servingSize": "1 serving",
+   "calories": "354 kcal",
+   "carbohydrateContent": "50 g",
+   "proteinContent": "8 g",
+   "fatContent": "13 g",
+   "sodiumContent": "509 mg",
+   "fiberContent": "2 g"
+  },
+  "rating": {
+   "value": 4.78,
+   "count": 122
+  },
+  "steps": 4,
+  "published": "2025-03-28",
+  "fetchedAt": "2026-11-11"
+ },
+ {
+  "id": "02583fac20e9",
+  "url": "https://www.budgetbytes.com/sheet-pan-pesto-chicken-dinner/",
+  "source": "budgetbytes",
+  "lang": "en",
+  "name": "Sheet Pan Pesto Chicken Dinner",
+  "image": "https://www.budgetbytes.com/wp-content/uploads/2018/09/Top-Pesto-Chicken-with-Roasted-Tomatoes-500x500.jpg",
+  "author": null,
+  "yield": "4",
+  "servings": 4,
+  "prepMin": 10,
+  "cookMin": 45,
+  "totalMin": 55,
+  "category": [
+   "Dinner",
+   "Main Course"
+  ],
+  "cuisine": [
+   "American"
+  ],
+  "keywords": [
+   "Dinner",
+   "easy",
+   "gluten free",
+   "Sheet Pan"
+  ],
+  "ingredients": [
+   "1 lb. baby potatoes ($2.00)",
+   "3 Tbsp olive oil, divided ($0.48)",
+   "1/2 tsp oregano ($0.05)",
+   "3 pinches salt and pepper ($0.05)",
+   "1 pint grape tomatoes ($1.99)",
+   "2 boneless, skinless chicken breasts (about 1.3 lbs. total) ($3.89)",
+   "1/4 cup pesto ($0.73)",
+   "4 oz. fresh mozzarella ($1.05)",
+   "1/4 lb. spring mix ($1.00)",
+   "1/4 cup Caesar dressing ($0.75)"
+  ],
+  "nutrition": {
+   "servingSize": "1 Serving",
+   "calories": "599 kcal",
+   "carbohydrateContent": "28 g",
+   "proteinContent": "42 g",
+   "fatContent": "35 g",
+   "fiberContent": "4 g",
+   "sodiumContent": "982 mg"
+  },
+  "rating": {
+   "value": 4.78,
+   "count": 22
+  },
+  "steps": 8,
+  "published": "2018-09-19",
+  "fetchedAt": "2026-11-11"
+ },
+ {
+  "id": "02c72e7008e0",
+  "url": "https://www.budgetbytes.com/carrot-orzo-salad/",
+  "source": "budgetbytes",
+  "lang": "en",
+  "name": "Carrot & Orzo Salad",
+  "image": "https://www.budgetbytes.com/wp-content/uploads/2013/05/Carrot-Orzo-Salad-close-1-500x480.jpg",
+  "author": "Beth M",
+  "yield": "4 to 6 servings",
+  "servings": 4,
+  "prepMin": 20,
+  "cookMin": 30,
+  "totalMin": 50,
+  "category": [],
+  "cuisine": [],
+  "keywords": [],
+  "ingredients": [
+   "1 lb carrots ($1.09)",
+   "2 Tbsp olive oil, divided ($0.36)",
+   "1/2 Tbsp ground cumin ($0.07)",
+   "1/4 tsp salt ($0.02)",
+   "freshly ground pepper to taste ($0.05)",
+   "1 cup uncooked orzo ($1.19)",
+   "1/3 bunch fresh parsley ($0.23)",
+   "2 oz feta cheese, crumbled ($1.07)",
+   "1/2 Tbsp lemon juice ($0.03)"
+  ],
+  "nutrition": {
+   "servingSize": "1 Serving",
+   "calories": "298.23 kcal",
+   "carbohydrateContent": "42.85 g",
+   "proteinContent": "8.6 g",
+   "fatContent": "11.05 g",
+   "fiberContent": "4.93 g",
+   "sodiumContent": "450.85 mg"
+  },
+  "rating": {
+   "value": 4.66,
+   "count": 20
+  },
+  "steps": 4,
+  "published": "2013-05-24",
+  "fetchedAt": "2026-11-11"
+ },
+ {
+  "id": "03d1609869c8",
+  "url": "https://www.budgetbytes.com/savory-cabbage-pancakes-okonomiyaki/",
+  "source": "budgetbytes",
+  "lang": "en",
+  "name": "Cabbage Pancakes (Okonomiyaki)",
+  "image": "https://www.budgetbytes.com/wp-content/uploads/2016/08/Cabbage-Pancake-Okonomiyaki-above-1-500x500.jpg",
+  "author": null,
+  "yield": "6 6-inch pancakes",
+  "servings": 6,
+  "prepMin": 20,
+  "cookMin": 20,
+  "totalMin": 40,
+  "category": [],
+  "cuisine": [],
+  "keywords": [
+   "Cabbage Recipes",
+   "Recipes for Leftovers"
+  ],
+  "ingredients": [
+   "2 extra large eggs ($1.04)",
+   "1/2 cup water ($0.00)",
+   "1.5 Tbsp soy sauce ($0.05)",
+   "1 Tbsp toasted sesame oil ($0.33)",
+   "3/4 to 1 cup all-purpose flour * ($0.07)",
+   "4-5 cups shredded green cabbage ($1.78)",
+   "1 carrot ( $0.11)",
+   "3 green onions ($0.30)",
+   "2 Tbsp oil for frying ($0.04)",
+   "1/4 cup mayonnaise ($0.28)",
+   "2 Tbsp sriracha ($0.10)",
+   "1/2 Tbsp sesame seeds ($0.05)",
+   "2 green onions ($0.20)"
+  ],
+  "nutrition": {
+   "servingSize": "1 Serving",
+   "calories": "263.32 kcal",
+   "carbohydrateContent": "23.6 g",
+   "proteinContent": "5.9 g",
+   "fatContent": "16.65 g",
+   "fiberContent": "2.95 g",
+   "sodiumContent": "449.58 mg"
+  },
+  "rating": {
+   "value": 4.73,
+   "count": 151
+  },
+  "steps": 5,
+  "published": "2016-08-31",
+  "fetchedAt": "2026-11-11"
+ },
+ {
+  "id": "041bbd19c935",
+  "url": "https://www.bbcgoodfood.com/recipes/cream-chicken-soup",
+  "source": "bbcgoodfood",
+  "lang": "en",
+  "name": "Cream of chicken soup",
+  "image": "https://images.immediate.co.uk/production/volatile/sites/30/2023/02/ChickenSoup-73a8eea.jpg?resize=1366,1366",
+  "author": null,
+  "yield": "4",
+  "servings": 4,
+  "prepMin": 10,
+  "cookMin": 60,
+  "totalMin": 70,
+  "category": [],
+  "cuisine": [],
+  "keywords": [
+   "Budget",
+   "Chicken",
+   "Leftover",
+   "Leftover chicken",
+   "Soup"
+  ],
+  "ingredients": [
+   "1 tbsp sunflower oil or vegetable oil",
+   "2 onions roughly chopped",
+   "3 celery sticks roughly chopped",
+   "2 leeks roughly chopped",
+   "small handful parsley leaves and stems separated and chopped",
+   "2 garlic cloves crushed or chopped",
+   "275ml white wine",
+   "2 bay leaves",
+   "1 litre chicken stock",
+   "550g leftover cooked chicken",
+   "200ml double cream",
+   "crusty bread to serve"
+  ],
+  "nutrition": {
+   "calories": "322 calories",
+   "fatContent": "21 grams fat",
+   "saturatedFatContent": "10 grams saturated fat",
+   "carbohydrateContent": "7 grams carbohydrates",
+   "sugarContent": "5 grams sugar",
+   "fiberContent": "2 grams fiber",
+   "proteinContent": "21 grams protein",
+   "sodiumContent": "0.31 milligram of sodium"
+  },
+  "rating": null,
+  "steps": 3,
+  "published": "2023-02-27",
+  "fetchedAt": "2026-11-11"
+ },
+ {
+  "id": "06a7c6d2346f",
+  "url": "https://www.budgetbytes.com/turkey-taco-salad/",
+  "source": "budgetbytes",
+  "lang": "en",
+  "name": "Turkey Taco Salad",
+  "image": "https://www.budgetbytes.com/wp-content/uploads/2021/01/Turkey-Taco-Salad-overhead-500x500.jpg",
+  "author": null,
+  "yield": "4",
+  "servings": 4,
+  "prepMin": 20,
+  "cookMin": 10,
+  "totalMin": 30,
+  "category": [
+   "Dinner",
+   "Lunch",
+   "Main Course"
+  ],
+  "cuisine": [
+   "American",
+   "Southwest"
+  ],
+  "keywords": [
+   "ground turkey",
+   "Salad",
+   "Salad Recipe"
+  ],
+  "ingredients": [
+   "1 avocado ($0.89)",
+   "1/2 cup sour cream ($0.24)",
+   "1 clove garlic ($0.08)",
+   "1/4 tsp salt ($0.02)",
+   "2 Tbsp fresh lime juice ($0.50)",
+   "1/4 bunch fresh cilantro ($0.20)",
+   "1/4 cup water ($0.00)",
+   "1/2 Tbsp olive oil ($0.08)",
+   "1 lb. ground turkey ($3.49)",
+   "2 Tbsp taco seasoning* ($0.67)",
+   "1 head romaine lettuce ($0.86)",
+   "1 cup frozen corn ($0.35)",
+   "1 15oz. can black beans ($0.89)",
+   "1 pint grape tomatoes ($1.99)",
+   "1 jalapeño (optional) ($0.18)",
+   "2 oz. shredded cheddar ($0.85)"
+  ],
+  "nutrition": {
+   "servingSize": "0.25 recipe",
+   "calories": "476.45 kcal",
+   "carbohydrateContent": "37.55 g",
+   "proteinContent": "32.93 g",
+   "fatContent": "23.2 g",
+   "sodiumContent": "1044.28 mg",
+   "fiberContent": "11.95 g"
+  },
+  "rating": {
+   "value": 4.82,
+   "count": 11
+  },
+  "steps": 4,
+  "published": "2021-01-21",
+  "fetchedAt": "2026-11-11"
+ },
+ {
+  "id": "07b6fbcebd6f",
+  "url": "https://minimalistbaker.com/how-to-make-jammy-eggs/",
+  "source": "minimalistbaker",
+  "lang": "en",
+  "name": "How to Make Jammy Eggs (Perfect Every Time!)",
+  "image": "https://minimalistbaker.com/wp-content/uploads/2023/01/Jammy-eggs-SQUARE-500x500.jpg",
+  "author": "Minimalist Baker",
+  "yield": "4 (eggs)",
+  "servings": 4,
+  "prepMin": 5,
+  "cookMin": 8,
+  "totalMin": 13,
+  "category": [
+   "Helpful How-to"
+  ],
+  "cuisine": [
+   "Vegetarian"
+  ],
+  "keywords": [
+   "how to make jammy eggs",
+   "jammy eggs",
+   "jammy eggs recipe"
+  ],
+  "ingredients": [
+   "4 large eggs ((pasture raised, organic when possible))",
+   "Water to boil",
+   "Sea salt and black pepper"
+  ],
+  "nutrition": {
+   "servingSize": "1 egg",
+   "calories": "70 kcal",
+   "proteinContent": "6 g",
+   "fatContent": "5 g",
+   "saturatedFatContent": "1.5 g",
+   "cholesterolContent": "185 mg",
+   "sodiumContent": "74 mg",
+   "unsaturatedFatContent": "3 g"
+  },
+  "rating": {
+   "value": 4.81,
+   "count": 21
+  },
+  "steps": 6,
+  "published": "2023-04-04",
+  "fetchedAt": "2026-11-11"
+ },
+ {
+  "id": "0a72e03910e1",
+  "url": "https://www.budgetbytes.com/almond-dutch-baby-with-ricotta-and-jam/",
+  "source": "budgetbytes",
+  "lang": "en",
+  "name": "Almond Dutch Baby with Ricotta and Jam",
+  "image": "https://www.budgetbytes.com/wp-content/uploads/2018/12/Almond-Dutch-Baby-with-Ricotta-and-Jam-H-500x500.jpg",
+  "author": null,
+  "yield": "4",
+  "servings": 4,
+  "prepMin": 20,
+  "cookMin": 20,
+  "totalMin": 40,
+  "category": [
+   "Breakfast",
+   "Brunch"
+  ],
+  "cuisine": [
+   "German"
+  ],
+  "keywords": [
+   "Breakfast",
+   "Brunch",
+   "easy",
+   "Vegetarian"
+  ],
+  "ingredients": [
+   "3 large eggs ($0.75)",
+   "2/3 cup milk ($0.22)",
+   "2/3 cup all-purpose flour ($0.07)",
+   "1 Tbsp sugar ($0.06)",
+   "1/4 tsp salt ($0.02)",
+   "1/4 tsp almond extract ($0.07)",
+   "1/4 tsp vanilla extract ($0.07)",
+   "2 Tbsp sliced almonds ($0.22)",
+   "2 Tbsp butter ($0.12)",
+   "1/2 cup ricotta ($0.45)",
+   "1/2 Tbsp sugar ($0.03)",
+   "1/4 cup jam (raspberry or your favorite flavor) ($0.03)"
+  ],
+  "nutrition": {
+   "servingSize": "1 Serving",
+   "calories": "339.8 kcal",
+   "carbohydrateContent": "35.23 g",
+   "proteinContent": "12 g",
+   "fatContent": "15.2 g",
+   "fiberContent": "1.18 g",
+   "sodiumContent": "287.05 mg"
+  },
+  "rating": {
+   "value": 4.92,
+   "count": 12
+  },
+  "steps": 6,
+  "published": "2018-12-30",
+  "fetchedAt": "2026-11-11"
+ },
+ {
+  "id": "1dc12628f52e",
+  "url": "https://minimalistbaker.com/gingery-apple-cabbage-sauerkraut/",
+  "source": "minimalistbaker",
+  "lang": "en",
+  "name": "Gingery Apple Cabbage Sauerkraut",
+  "image": "https://minimalistbaker.com/wp-content/uploads/2020/01/Apple-Cabbage-Kraut-SQUARE-500x500.jpg",
+  "author": "Minimalist Baker",
+  "yield": "20 (~1/4-cup servings)",
+  "servings": 20,
+  "prepMin": 1472,
+  "cookMin": null,
+  "totalMin": 1472,
+  "category": [
+   "Side",
+   "Snack"
+  ],
+  "cuisine": [
+   "Chinese-Inspired",
+   "German-Inspired",
+   "Gluten-Free",
+   "Vegan"
+  ],
+  "keywords": [
+   "sauerkraut"
+  ],
+  "ingredients": [
+   "8 cups red or green cabbage, finely grated or chopped (reserve whole outer leaves for later use)",
+   "2 ½ tsp sea salt",
+   "1 cup thinly sliced radish (daikon or red)",
+   "1 large apple, cored and thinly sliced + chopped into strips (we like Honeycrisp)",
+   "2 Tbsp fresh ginger (grated)",
+   "4 cloves garlic (finely minced or grated)"
+  ],
+  "nutrition": {
+   "servingSize": "1 (quarter-cup) serving",
+   "calories": "20 kcal",
+   "carbohydrateContent": "5 g",
+   "proteinContent": "0.6 g",
+   "fatContent": "0.1 g",
+   "sodiumContent": "304 mg",
+   "fiberContent": "1.2 g",
+   "sugarContent": "2.7 g",
+   "unsaturatedFatContent": "0.04 g"
+  },
+  "rating": {
+   "value": 4.88,
+   "count": 16
+  },
+  "steps": 8,
+  "published": "2020-03-13",
+  "fetchedAt": "2026-11-11"
+ },
+ {
+  "id": "26990f36080b",
+  "url": "https://www.bbcgoodfood.com/recipes/spicy-kimchi-pancake-kimchi-jeon",
+  "source": "bbcgoodfood",
+  "lang": "en",
+  "name": "Kimchi pancake (kimchi jeon)",
+  "image": "https://images.immediate.co.uk/production/volatile/sites/30/2023/01/KimchiPancakes-e591d25-e1682603312782.jpg?resize=750,682",
+  "author": "Da-Hae West",
+  "yield": "2",
+  "servings": 2,
+  "prepMin": 10,
+  "cookMin": 10,
+  "totalMin": 20,
+  "category": [
+   "Lunch",
+   "Side dish"
+  ],
+  "cuisine": [
+   "Korean"
+  ],
+  "keywords": [
+   "Cabbage",
+   "fermented cabbage",
+   "Gochujang",
+   "Kimchi",
+   "Pancakes"
+  ],
+  "ingredients": [
+   "175g self-raising flour",
+   "1 tbsp cornflour",
+   "200g vegan fermented (sour) kimchi drained and finely chopped, and 2 tbsp liquid reserved",
+   "2 tsp gochujang (Korean red pepper paste), or use half sriracha, half miso paste",
+   "2 spring onions finely sliced",
+   "6 tbsp vegetable oil"
+  ],
+  "nutrition": {
+   "calories": "692 calories",
+   "fatContent": "35 grams fat",
+   "saturatedFatContent": "3 grams saturated fat",
+   "carbohydrateContent": "82 grams carbohydrates",
+   "sugarContent": "4 grams sugar",
+   "fiberContent": "6 grams fiber",
+   "proteinContent": "10 grams protein",
+   "sodiumContent": "3.42 milligram of sodium"
+  },
+  "rating": null,
+  "steps": 6,
+  "published": "2023-01-25",
+  "fetchedAt": "2026-11-11"
+ },
+ {
+  "id": "2f3abc68cf13",
+  "url": "https://www.budgetbytes.com/sourdough-chocolate-chip-scones/",
+  "source": "budgetbytes",
+  "lang": "en",
+  "name": "Chocolate Chip Sourdough Scones",
+  "image": "https://www.budgetbytes.com/wp-content/uploads/2025/04/Chocolate_Chip_Scones_Grid-500x500.jpg",
+  "author": null,
+  "yield": "6 scones",
+  "servings": 6,
+  "prepMin": 15,
+  "cookMin": 15,
+  "totalMin": 90,
+  "category": [
+   "Dessert",
+   "Snack"
+  ],
+  "cuisine": [
+   "$0.04",
+   "American"
+  ],
+  "keywords": [
+   "sourdough chocolate chip scones"
+  ],
+  "ingredients": [
+   "1 ¾ cups all-purpose flour + extra if needed ($0.23)",
+   "2 tsp baking powder ($0.08)",
+   "3 Tbsp granulated sugar ($0.06)",
+   "½ tsp salt ($0.01)",
+   "6 Tbsp cold butter* ($0.66)",
+   "1 cup chocolate chunks** ($2.97)",
+   "¼ cup sourdough discard*** ($0.00)",
+   "¼ cup milk + 1 Tbsp, divided (1 Tbsp reserved for icing) ($0.06)",
+   "2 eggs ($0.82)",
+   "1 tsp vanilla extract ($0.47)",
+   "1 cup powdered sugar ($0.55)"
+  ],
+  "nutrition": {
+   "servingSize": "1 scone",
+   "calories": "537 kcal",
+   "carbohydrateContent": "72 g",
+   "proteinContent": "8 g",
+   "fatContent": "24 g",
+   "sodiumContent": "454 mg",
+   "fiberContent": "3 g"
+  },
+  "rating": {
+   "value": 5,
+   "count": 2
+  },
+  "steps": 10,
+  "published": "2025-04-26",
+  "fetchedAt": "2026-11-11"
+ }
+]

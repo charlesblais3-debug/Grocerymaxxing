@@ -1,0 +1,559 @@
+{
+ "source": "Statistique Canada, tableau 18-10-0245-01",
+ "url": "https://www150.statcan.gc.ca/t1/tbl1/fr/tv.action?pid=1810024501",
+ "geo": "Québec",
+ "refDate": "2026-09",
+ "fetchedAt": "2026-11-11T14:43:28.789Z",
+ "products": [
+  {
+   "name": "Almonds, 200 grams",
+   "value": 5.94,
+   "date": "2026-09"
+  },
+  {
+   "name": "Apple juice, 2 litres",
+   "value": 4.42,
+   "date": "2026-09"
+  },
+  {
+   "name": "Apples, per kilogram",
+   "value": 4.92,
+   "date": "2026-09"
+  },
+  {
+   "name": "Avocado, unit",
+   "value": 1.15,
+   "date": "2026-09"
+  },
+  {
+   "name": "Baby food, 128 millilitres",
+   "value": 1.51,
+   "date": "2026-09"
+  },
+  {
+   "name": "Bacon, 500 grams",
+   "value": 7.44,
+   "date": "2026-09"
+  },
+  {
+   "name": "Bananas, per kilogram",
+   "value": 1.98,
+   "date": "2026-09"
+  },
+  {
+   "name": "Beef rib cuts, per kilogram",
+   "value": 57.16,
+   "date": "2026-09"
+  },
+  {
+   "name": "Beef stewing cuts, per kilogram",
+   "value": 20.57,
+   "date": "2026-09"
+  },
+  {
+   "name": "Beef striploin cuts, per kilogram",
+   "value": 26.43,
+   "date": "2026-09"
+  },
+  {
+   "name": "Beef top sirloin cuts, per kilogram",
+   "value": 31.6,
+   "date": "2026-09"
+  },
+  {
+   "name": "Block cheese, 500 grams",
+   "value": 6.95,
+   "date": "2026-09"
+  },
+  {
+   "name": "Broccoli, unit",
+   "value": 1.92,
+   "date": "2026-09"
+  },
+  {
+   "name": "Brown rice, 900 grams ",
+   "value": 5.78,
+   "date": "2026-09"
+  },
+  {
+   "name": "Butter, 454 grams",
+   "value": 5.6,
+   "date": "2026-09"
+  },
+  {
+   "name": "Cabbage, per kilogram",
+   "value": 2.23,
+   "date": "2026-09"
+  },
+  {
+   "name": "Canned baked beans, 398 millilitres",
+   "value": 1.5,
+   "date": "2026-09"
+  },
+  {
+   "name": "Canned beans and lentils, 540 millilitres",
+   "value": 1.77,
+   "date": "2026-09"
+  },
+  {
+   "name": "Canned corn, 341 millilitres",
+   "value": 1.28,
+   "date": "2026-09"
+  },
+  {
+   "name": "Canned peach, 398 millilitres",
+   "value": 2.52,
+   "date": "2026-09"
+  },
+  {
+   "name": "Canned pear, 398 millilitres",
+   "value": 2.72,
+   "date": "2026-09"
+  },
+  {
+   "name": "Canned salmon, 213 grams",
+   "value": 5.74,
+   "date": "2026-09"
+  },
+  {
+   "name": "Canned soup, 284 millilitres",
+   "value": 1.24,
+   "date": "2026-09"
+  },
+  {
+   "name": "Canned tomatoes, 796 millilitres",
+   "value": 1.92,
+   "date": "2026-09"
+  },
+  {
+   "name": "Canned tuna, 170 grams",
+   "value": 1.62,
+   "date": "2026-09"
+  },
+  {
+   "name": "Canola oil, 3 litres",
+   "value": 12.1,
+   "date": "2026-09"
+  },
+  {
+   "name": "Cantaloupe, unit",
+   "value": 2.9,
+   "date": "2026-09"
+  },
+  {
+   "name": "Carrots, 1.36 kilograms",
+   "value": 3.36,
+   "date": "2026-09"
+  },
+  {
+   "name": "Celery, unit",
+   "value": 1.93,
+   "date": "2026-09"
+  },
+  {
+   "name": "Cereal, 400 grams",
+   "value": 4.2,
+   "date": "2026-09"
+  },
+  {
+   "name": "Chicken breasts, per kilogram",
+   "value": 14.39,
+   "date": "2026-09"
+  },
+  {
+   "name": "Chicken drumsticks, per kilogram",
+   "value": 8.76,
+   "date": "2026-09"
+  },
+  {
+   "name": "Chicken thigh, per kilogram",
+   "value": 15.35,
+   "date": "2026-09"
+  },
+  {
+   "name": "Cookies and sweet biscuits, 300 grams ",
+   "value": 3.73,
+   "date": "2026-09"
+  },
+  {
+   "name": "Crackers and crisp breads, 200 grams ",
+   "value": 2.81,
+   "date": "2026-09"
+  },
+  {
+   "name": "Cream, 1 litre",
+   "value": 4.45,
+   "date": "2026-09"
+  },
+  {
+   "name": "Cucumber, unit",
+   "value": 1.43,
+   "date": "2026-09"
+  },
+  {
+   "name": "Deodorant, 85 grams",
+   "value": 7.71,
+   "date": "2026-09"
+  },
+  {
+   "name": "Dried lentils, 900 grams",
+   "value": 3.46,
+   "date": "2026-09"
+  },
+  {
+   "name": "Dry beans and legumes, 900 grams ",
+   "value": 3.42,
+   "date": "2026-09"
+  },
+  {
+   "name": "Dry or fresh pasta, 500 grams",
+   "value": 3.3,
+   "date": "2026-09"
+  },
+  {
+   "name": "Eggs, 1 dozen",
+   "value": 4.09,
+   "date": "2026-09"
+  },
+  {
+   "name": "Flatbread and pita, 500 grams ",
+   "value": 4.14,
+   "date": "2026-09"
+  },
+  {
+   "name": "Frozen broccoli, 500 grams",
+   "value": 4.16,
+   "date": "2026-09"
+  },
+  {
+   "name": "Frozen corn, 750 grams ",
+   "value": 4.01,
+   "date": "2026-09"
+  },
+  {
+   "name": "Frozen french fried potatoes, 750 grams",
+   "value": 3.26,
+   "date": "2026-09"
+  },
+  {
+   "name": "Frozen green beans, 750 grams",
+   "value": 4.86,
+   "date": "2026-09"
+  },
+  {
+   "name": "Frozen mixed vegetables, 750 grams ",
+   "value": 4.62,
+   "date": "2026-09"
+  },
+  {
+   "name": "Frozen peas, 750 grams",
+   "value": 4.04,
+   "date": "2026-09"
+  },
+  {
+   "name": "Frozen pizza, 390 grams",
+   "value": 4.74,
+   "date": "2026-09"
+  },
+  {
+   "name": "Frozen spinach, 300 grams",
+   "value": 2.34,
+   "date": "2026-09"
+  },
+  {
+   "name": "Frozen strawberries, 600 grams",
+   "value": 5.37,
+   "date": "2026-09"
+  },
+  {
+   "name": "Grapes, per kilogram",
+   "value": 5.64,
+   "date": "2026-09"
+  },
+  {
+   "name": "Ground beef, per kilogram",
+   "value": 16.43,
+   "date": "2026-09"
+  },
+  {
+   "name": "Hummus, 227 grams",
+   "value": 4.1,
+   "date": "2026-09"
+  },
+  {
+   "name": "Iceberg lettuce, unit",
+   "value": 2.19,
+   "date": "2026-09"
+  },
+  {
+   "name": "Infant formula, 900 grams ",
+   "value": 47.62,
+   "date": "2026-09"
+  },
+  {
+   "name": "Ketchup, 1 litre",
+   "value": 4.97,
+   "date": "2026-09"
+  },
+  {
+   "name": "Laundry detergent, 4.43 litres",
+   "value": 15.02,
+   "date": "2026-09"
+  },
+  {
+   "name": "Lemons, unit",
+   "value": 0.92,
+   "date": "2026-09"
+  },
+  {
+   "name": "Limes, unit",
+   "value": 0.7,
+   "date": "2026-09"
+  },
+  {
+   "name": "Margarine, 907 grams",
+   "value": 6.03,
+   "date": "2026-09"
+  },
+  {
+   "name": "Mayonnaise, 890 millilitres ",
+   "value": 6.56,
+   "date": "2026-09"
+  },
+  {
+   "name": "Meatless burgers, 226 grams",
+   "value": 6.83,
+   "date": "2026-09"
+  },
+  {
+   "name": "Milk, 1 litre",
+   "value": 2.94,
+   "date": "2026-09"
+  },
+  {
+   "name": "Milk, 2 litres",
+   "value": 5.36,
+   "date": "2026-09"
+  },
+  {
+   "name": "Milk, 4 litres",
+   "value": 8.51,
+   "date": "2026-09"
+  },
+  {
+   "name": "Mushrooms, 227 grams",
+   "value": 1.74,
+   "date": "2026-09"
+  },
+  {
+   "name": "Nut milk, 1.89 litres",
+   "value": 4.47,
+   "date": "2026-09"
+  },
+  {
+   "name": "Olive oil, 1 litre",
+   "value": 12.32,
+   "date": "2026-09"
+  },
+  {
+   "name": "Onions, 1.36 kilograms",
+   "value": 3.9,
+   "date": "2026-09"
+  },
+  {
+   "name": "Onions, per kilogram",
+   "value": 4.72,
+   "date": "2026-09"
+  },
+  {
+   "name": "Orange juice, 2 litres",
+   "value": 5.92,
+   "date": "2026-09"
+  },
+  {
+   "name": "Oranges, 1.36 kilograms",
+   "value": 5.46,
+   "date": "2026-09"
+  },
+  {
+   "name": "Oranges, per kilogram",
+   "value": 5.05,
+   "date": "2026-09"
+  },
+  {
+   "name": "Pasta sauce, 650 millilitres",
+   "value": 4.14,
+   "date": "2026-09"
+  },
+  {
+   "name": "Peanut butter, 1 kilogram",
+   "value": 5.99,
+   "date": "2026-09"
+  },
+  {
+   "name": "Peanuts, 450 grams",
+   "value": 4.48,
+   "date": "2026-09"
+  },
+  {
+   "name": "Pears, per kilogram",
+   "value": 5.59,
+   "date": "2026-09"
+  },
+  {
+   "name": "Peppers, per kilogram",
+   "value": 3.89,
+   "date": "2026-09"
+  },
+  {
+   "name": "Pork loin cuts, per kilogram",
+   "value": 8.34,
+   "date": "2026-09"
+  },
+  {
+   "name": "Pork rib cuts, per kilogram",
+   "value": 7.86,
+   "date": "2026-09"
+  },
+  {
+   "name": "Pork shoulder cuts, per kilogram",
+   "value": 5.96,
+   "date": "2026-09"
+  },
+  {
+   "name": "Potatoes, 4.54 kilograms",
+   "value": 3.45,
+   "date": "2026-09"
+  },
+  {
+   "name": "Potatoes, per kilogram",
+   "value": 4.73,
+   "date": "2026-09"
+  },
+  {
+   "name": "Roasted or ground coffee, 340 grams",
+   "value": 9.08,
+   "date": "2026-09"
+  },
+  {
+   "name": "Romaine lettuce, unit",
+   "value": 2.4,
+   "date": "2026-09"
+  },
+  {
+   "name": "Salad dressing, 475 millilitres",
+   "value": 3.28,
+   "date": "2026-09"
+  },
+  {
+   "name": "Salad greens, 142 grams",
+   "value": 4.47,
+   "date": "2026-09"
+  },
+  {
+   "name": "Salmon, per kilogram",
+   "value": 26.32,
+   "date": "2026-09"
+  },
+  {
+   "name": "Salsa, 418 millilitres",
+   "value": 4.79,
+   "date": "2026-09"
+  },
+  {
+   "name": "Shampoo, 400 millilitres",
+   "value": 6.94,
+   "date": "2026-09"
+  },
+  {
+   "name": "Shrimp, 300 grams",
+   "value": 7.54,
+   "date": "2026-09"
+  },
+  {
+   "name": "Soy milk, 1.89 litres",
+   "value": 4.87,
+   "date": "2026-09"
+  },
+  {
+   "name": "Squash, per kilogram",
+   "value": 2.74,
+   "date": "2026-09"
+  },
+  {
+   "name": "Strawberries, 454 grams",
+   "value": 5.36,
+   "date": "2026-09"
+  },
+  {
+   "name": "Sunflower seeds, 400 grams ",
+   "value": 5.25,
+   "date": "2026-09"
+  },
+  {
+   "name": "Sweet potatoes, per kilogram",
+   "value": 4.6,
+   "date": "2026-09"
+  },
+  {
+   "name": "Tea (20 bags)",
+   "value": 4.57,
+   "date": "2026-09"
+  },
+  {
+   "name": "Tofu, 350 grams ",
+   "value": 2.61,
+   "date": "2026-09"
+  },
+  {
+   "name": "Tomatoes, per kilogram",
+   "value": 5.02,
+   "date": "2026-09"
+  },
+  {
+   "name": "Toothpaste, 100 millilitres",
+   "value": 3.85,
+   "date": "2026-09"
+  },
+  {
+   "name": "Vegetable oil, 3 litres",
+   "value": 10.66,
+   "date": "2026-09"
+  },
+  {
+   "name": "Wheat flour, 2.5 kilograms",
+   "value": 4.94,
+   "date": "2026-09"
+  },
+  {
+   "name": "White bread, 675 grams",
+   "value": 3.91,
+   "date": "2026-09"
+  },
+  {
+   "name": "White rice, 2 kilograms",
+   "value": 10.82,
+   "date": "2026-09"
+  },
+  {
+   "name": "White sugar, 2 kilograms",
+   "value": 2.55,
+   "date": "2026-09"
+  },
+  {
+   "name": "Whole chicken, per kilogram",
+   "value": 6.39,
+   "date": "2026-09"
+  },
+  {
+   "name": "Wieners, 400 grams",
+   "value": 3.2,
+   "date": "2026-09"
+  },
+  {
+   "name": "Yogurt, 500 grams",
+   "value": 3.94,
+   "date": "2026-09"
+  }
+ ]
+}
