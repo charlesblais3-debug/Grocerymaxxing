@@ -3,6 +3,7 @@
 // Prices are stored exactly as published; nothing is estimated here.
 import { get, readJson, writeJson, summary } from './lib/http.mjs';
 import { deaccent } from '../shared/text.js';
+import { matchIngredient } from '../shared/match.js';
 
 const API = process.env.FLIPP_API || 'https://backflipp.wishabi.com/flipp';
 const OUT = 'data/flyers.json';
@@ -73,14 +74,79 @@ export function toItem(raw) {
     post: str(raw.price_text ?? raw.post_price_text) || undefined,
     story: str(raw.sale_story) || undefined,
     was: num(raw.original_price) || undefined,
-    img: str(raw.cutout_image_url ?? raw.clean_image_url ?? raw.clipping_image_url ?? raw.image_url) || undefined,
+    img: str(raw.cutout_image_url ?? raw.clean_image_url ?? raw.clipping_image_url ?? raw.image_url).replace(/^http:/, 'https:') || undefined,
     from: str(raw.valid_from) || undefined,
     to: str(raw.valid_to) || undefined,
   };
 }
 
+const sig = (store, it) => `${store}|${it.name}|${it.price}|${(it.from || '').slice(0, 10)}`;
+
+/**
+ * The flyer listing gives name + price only. The unit of that price ("/lb", "ch.",
+ * "2/") lives on the item itself, so matched food items are looked up one by one —
+ * once per distinct product, and never again while the same flyer is running.
+ */
+async function addDetails(flyers, previous) {
+  const cache = new Map();
+  for (const f of Object.values(previous?.flyers || {})) {
+    for (const it of f.items) if (it.d) cache.set(sig(f.store, it), it);
+  }
+  const todo = new Map();
+  for (const f of Object.values(flyers)) {
+    for (const it of f.items) {
+      const k = sig(f.store, it);
+      const old = cache.get(k);
+      if (old) Object.assign(it, { pre: old.pre, post: old.post, story: old.story, desc: old.desc, was: old.was, d: 1 });
+      else if (it.food) (todo.get(k) || todo.set(k, []).get(k)).push(it);
+    }
+  }
+  let done = 0; let failed = 0; let logged = 0;
+  const max = Number(process.env.MAX_ITEM_LOOKUPS || 9000);
+  for (const [, items] of [...todo].slice(0, max)) {
+    const res = await get(`${API}/items/${items[0].id}?locale=fr-ca`, { delayMs: 110, retries: 0, accept: 'application/json' });
+    let j;
+    try { j = JSON.parse(res.text); } catch { j = null; }
+    const raw = j?.item ?? j;
+    if (res.status !== 200 || !raw || typeof raw !== 'object') {
+      if (++failed <= 3) console.log(`item ${items[0].id}: ${res.status || res.error} ${res.text.slice(0, 120)}`);
+      if (failed > 60 && done < 5) { console.log('item lookups are failing; giving up on details for this run'); break; }
+      continue;
+    }
+    if (logged++ < 3) console.log('item detail sample:', JSON.stringify(raw).slice(0, 1400));
+    const d = {
+      pre: str(raw.pre_price_text) || undefined,
+      post: str(raw.price_text ?? raw.post_price_text) || undefined,
+      story: str(raw.sale_story) || undefined,
+      desc: str(raw.description).replace(/\s+/g, ' ').slice(0, 200) || undefined,
+      was: num(raw.original_price) || undefined,
+      d: 1,
+    };
+    for (const it of items) Object.assign(it, d);
+    done++;
+  }
+  return { done, failed, pending: Math.max(0, todo.size - max), cached: cache.size };
+}
+
+const line = (o) => JSON.stringify(o);
+function serialise(data) {
+  const flyers = Object.values(data.flyers).sort((a, b) => a.id.localeCompare(b.id)).map((f) => {
+    const { items, ...head } = f;
+    return `${line(f.id)}:{"head":${line(head)},"items":[\n${items.map(line).join(',\n')}\n]}`;
+  });
+  return `{"fetchedAt":${line(data.fetchedAt)},"source":"Flipp","regions":${JSON.stringify(data.regions, null, 1)},\n"flyers":{\n${flyers.join(',\n')}\n}}\n`;
+}
+
+/** Reads the on-disk format back into { regions, flyers: { id: { ...head, items } } }. */
+export async function loadFlyers(path = OUT) {
+  const d = await readJson(path, null);
+  if (!d) return null;
+  for (const [id, f] of Object.entries(d.flyers)) if (f.head) d.flyers[id] = { ...f.head, items: f.items };
+  return d;
+}
+
 async function main() {
-  const previous = await readJson(OUT, null);
+  const previous = await loadFlyers();
   const regions = {};
   const flyers = {};
   const errors = [];
@@ -96,7 +162,7 @@ async function main() {
     const ids = [];
     for (const f of list) {
       const store = storeFor(f.merchant ?? f.merchant_name);
-      if (!store) continue;
+      if (!store || /^ontario$/i.test(str(f.name))) continue;
       const id = String(f.id);
       ids.push(id);
       if (flyers[id]) continue;
@@ -114,22 +180,29 @@ async function main() {
         from: str(f.valid_from),
         to: str(f.valid_to),
         general: store.general || undefined,
-        items: rawItems.map(toItem).filter(Boolean),
+        items: rawItems.map(toItem).filter(Boolean)
+          .map((it) => ({ ...it, food: matchIngredient(`${it.name} ${it.brand || ''}`, { flyer: true }) ? 1 : undefined }))
+          .filter((it) => it.food || !store.general),
       };
+      if (!flyers[id].items.length) { delete flyers[id]; ids.pop(); }
     }
     regions[region.id] = { label: region.label, postal: region.postal.slice(0, 3), flyers: ids };
   }
 
+  const det = await addDetails(flyers, previous);
   const count = Object.values(flyers).reduce((n, f) => n + f.items.length, 0);
   const lines = Object.values(flyers).map((f) => `| ${f.merchant} | ${f.from.slice(0, 10)} → ${f.to.slice(0, 10)} | ${f.items.length} |`).join('\n');
-  await summary(`## Flyers\n\n${Object.keys(flyers).length} flyers, ${count} priced items, ${Object.keys(regions).length}/${REGIONS.length} regions.\n\n| store | valid | items |\n|---|---|---|\n${lines}\n${errors.length ? '\nErrors:\n' + errors.map((e) => '- ' + e).join('\n') : ''}\n`);
+  await summary(`## Flyers\n\n${Object.keys(flyers).length} flyers, ${count} priced items, ${Object.keys(regions).length}/${REGIONS.length} regions. Item details: ${det.done} fetched, ${det.failed} failed, ${det.pending} left for next run.\n\n| store | valid | items |\n|---|---|---|\n${lines}\n${errors.length ? '\nErrors:\n' + errors.map((e) => '- ' + e).join('\n') : ''}\n`);
 
   // Never replace good data with an empty download (API hiccup): keep last week's file.
   if (!count) {
     console.error('No flyer items downloaded; keeping the previous data file.');
     process.exit(previous ? 0 : 1);
   }
-  await writeJson(OUT, { fetchedAt: new Date().toISOString(), source: 'Flipp', regions, flyers });
+  const { writeFile } = await import('node:fs/promises');
+  // Keep the old timestamp when nothing changed so the nightly job makes no empty commit.
+  const same = previous && serialise({ ...previous, fetchedAt: '' }) === serialise({ fetchedAt: '', regions, flyers });
+  await writeFile(OUT, serialise({ fetchedAt: same ? previous.fetchedAt : new Date().toISOString(), regions, flyers }));
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) await main();

@@ -118,7 +118,8 @@ export function toRecord(ld, url, source) {
 
 async function discover(src, robots) {
   const queue = [...new Set([...(robots.sitemaps || []), ...(src.sitemaps || [])])];
-  if (!queue.length) queue.push(src.home + '/sitemap.xml', src.home + '/sitemap_index.xml');
+  queue.push(src.home + '/sitemap.xml', src.home + '/sitemap_index.xml', src.home + '/wp-sitemap.xml');
+  let sample = null;
   const seen = new Set();
   const urls = new Set();
   let files = 0;
@@ -131,15 +132,17 @@ async function discover(src, robots) {
     seen.add(sm);
     const res = await get(sm, { delayMs: robots.delayMs ?? 1000, accept: 'application/xml,text/xml,*/*' });
     files++;
-    if (res.status !== 200) { console.log(`  [${src.id}] sitemap ${res.status || res.error} ${sm}`); continue; }
+    if (res.status !== 200) { if (res.status !== 404) console.log(`  [${src.id}] sitemap ${res.status || res.error} ${sm}`); if (res.status === 402) break; continue; }
     const locs = [...res.text.matchAll(/<loc>\s*(?:<!\[CDATA\[)?([^<\]]+?)(?:\]\]>)?\s*<\/loc>/g)].map((m) => clean(m[1]));
     const isIndex = /<sitemapindex/i.test(res.text);
+    if (!sample && locs.length && !isIndex) sample = locs[Math.min(3, locs.length - 1)];
     for (const loc of locs) {
       if (isIndex || /\.xml(\.gz)?(\?.*)?$/.test(loc)) {
-        if (!loc.endsWith('.gz') && (!src.sitemapRe || src.sitemapRe.test(loc))) queue.push(loc);
+        if (!loc.endsWith('.gz') && !/(tag|category|author|page|video|image|news|web-stories)[-_]?sitemap|sitemap[-_]?(tag|categor|author|page|video|image|news)/i.test(loc) && (!src.sitemapRe || src.sitemapRe.test(loc))) queue.push(loc);
       } else if (src.urlRe.test(loc)) urls.add(loc);
     }
   }
+  console.log(`  [${src.id}] ${files} sitemap files, ${urls.size} recipe urls${urls.size ? '' : `; sample loc: ${sample}`}`);
   return [...urls];
 }
 
@@ -166,7 +169,7 @@ async function runSource(src, existing, skip) {
   if (need <= 0) { stat.note = 'target reached'; return { stat, recipes: [] }; }
 
   const rb = await get(src.home + '/robots.txt', { delayMs: 500 });
-  if (rb.status === 0 || rb.status === 403 || rb.status === 429) { stat.note = `robots.txt unreachable (${rb.status || rb.error})`; return { stat, recipes: [] }; }
+  if ([0, 401, 402, 403, 429].includes(rb.status)) { stat.note = `robots.txt unreachable (${rb.status || rb.error})`; return { stat, recipes: [] }; }
   const robots = parseRobots(rb.status === 200 ? rb.text : '');
   const delayMs = Math.max(robots.delayMs ?? 0, 1500);
 
@@ -179,15 +182,20 @@ async function runSource(src, existing, skip) {
     if (recipes.length >= need || stat.tried >= need * 3 + 10) break;
     stat.tried++;
     const res = await get(url, { delayMs });
+    if (res.status !== 200 && stat.tried <= 2) console.log(`  [${src.id}] page ${res.status || res.error} ${url}`);
     if (res.status !== 200) {
-      if ([401, 403, 429, 0].includes(res.status) && ++streak >= 6) { stat.note = `blocked (${res.status || res.error})`; break; }
+      if ([401, 402, 403, 429, 0].includes(res.status) && ++streak >= 6) { stat.note = `blocked (${res.status || res.error})`; break; }
       if (res.status === 404 || res.status === 410) skip[url] = res.status;
       continue;
     }
     streak = 0;
     const ld = extractRecipe(res.text);
     const rec = ld && toRecord(ld, url, src);
-    if (!rec) { skip[url] = 'no-recipe'; continue; }
+    if (!rec) {
+      if (!recipes.length && stat.tried <= 3) console.log(`  [${src.id}] no Recipe JSON-LD: ${url} (${res.text.length} bytes, ld+json blocks: ${(res.text.match(/application\/ld\+json/g) || []).length})`);
+      skip[url] = 'no-recipe';
+      continue;
+    }
     recipes.push(rec);
   }
   stat.added = recipes.length;

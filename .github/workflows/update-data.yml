@@ -43,7 +43,7 @@ jobs:
       - run: npm ci
       - name: Read gather request
         if: github.event_name == 'push'
-        run: grep -E '^(SOURCES|TARGET_SCALE)=[A-Za-z0-9.,_-]*$' .github/gather.env >> "$GITHUB_ENV"
+        run: grep -E '^(SOURCES|TARGET_SCALE|MAX_ITEM_LOOKUPS)=[A-Za-z0-9.,_-]*$' .github/gather.env >> "$GITHUB_ENV"
       - name: Flyers
         run: node scripts/fetch-flyers.mjs
         continue-on-error: true

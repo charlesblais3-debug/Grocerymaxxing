@@ -7,7 +7,7 @@ import { unitPrice } from '../shared/price.js';
 import { classify } from '../shared/taxonomy.js';
 import { ING_BY_ID } from '../shared/ingredients.js';
 import { SOURCES } from './sources.mjs';
-import { STORES } from './fetch-flyers.mjs';
+import { STORES, loadFlyers } from './fetch-flyers.mjs';
 
 const numOf = (v) => {
   const m = String(v ?? '').replace(',', '.').match(/-?\d+(?:\.\d+)?/);
@@ -40,8 +40,9 @@ export function buildFlyers(data) {
       const ing = matchIngredient(`${it.name} ${it.brand || ''}`, { flyer: true });
       if (!ing && f.general) continue;
       const up = ing ? unitPrice(it, ING_BY_ID[ing]) : null;
+      const { food, d, ...pub } = it;
       items.push({
-        ...it, flyer: f.id, store: f.store,
+        ...pub, flyer: f.id, store: f.store,
         from: (it.from || f.from || '').slice(0, 10), to: (it.to || f.to || '').slice(0, 10),
         ing: ing || undefined, perG: up ? +up.perG.toFixed(6) : undefined, basis: up?.basis,
       });
@@ -81,7 +82,7 @@ export function buildBaseline(data) {
 
 async function main() {
   const recipes = buildRecipes(await readJson('data/recipes.json', []));
-  const flyers = buildFlyers(await readJson('data/flyers.json', null));
+  const flyers = buildFlyers(await loadFlyers('data/flyers.json'));
   const baseline = buildBaseline(await readJson('data/baseline.json', null));
   await writeJson('public/data/recipes.json', recipes);
   await writeJson('public/data/flyers.json', flyers);
