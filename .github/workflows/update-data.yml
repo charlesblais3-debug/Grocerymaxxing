@@ -1,0 +1,65 @@
+name: Update flyers and recipes
+
+# Flyers refresh every morning (Québec flyers roll over on Thursdays, but some banners
+# publish early or post mid-week specials). Recipes and StatCan prices refresh weekly.
+on:
+  schedule:
+    - cron: '17 10 * * *'   # daily, ~5-6 am Montréal: flyers
+    - cron: '43 7 * * 1'    # Mondays: recipes + baseline prices
+  workflow_dispatch:
+    inputs:
+      recipes:
+        description: Also gather recipes and baseline prices
+        type: boolean
+        default: true
+      sources:
+        description: Comma-separated recipe source ids (empty = all)
+        type: string
+        default: ''
+      scale:
+        description: Multiplier on each source's recipe target
+        type: string
+        default: '1'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-data
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Flyers
+        run: node scripts/fetch-flyers.mjs
+        continue-on-error: true
+      - name: Baseline prices (Statistics Canada)
+        if: github.event_name == 'workflow_dispatch' && inputs.recipes || github.event.schedule == '43 7 * * 1'
+        run: node scripts/fetch-baseline.mjs
+        continue-on-error: true
+      - name: Recipes
+        if: github.event_name == 'workflow_dispatch' && inputs.recipes || github.event.schedule == '43 7 * * 1'
+        run: node scripts/fetch-recipes.mjs
+        env:
+          SOURCES: ${{ inputs.sources }}
+          TARGET_SCALE: ${{ inputs.scale || '1' }}
+      - name: Index check
+        run: node scripts/build-index.mjs
+      - name: Commit data
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data
+          if git diff --cached --quiet; then echo "No data changes"; exit 0; fi
+          git commit -m "data: refresh flyers/recipes $(date -u +%F)"
+          git pull --rebase origin "${GITHUB_REF_NAME}"
+          git push origin "HEAD:${GITHUB_REF_NAME}"

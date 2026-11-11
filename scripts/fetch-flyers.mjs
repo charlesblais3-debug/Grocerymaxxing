@@ -1,0 +1,135 @@
+// Downloads this week's grocery flyers for Québec regions from Flipp's public flyer
+// endpoints (the same data flipp.com shows). Run on a schedule by GitHub Actions.
+// Prices are stored exactly as published; nothing is estimated here.
+import { get, readJson, writeJson, summary } from './lib/http.mjs';
+import { deaccent } from '../shared/text.js';
+
+const API = process.env.FLIPP_API || 'https://backflipp.wishabi.com/flipp';
+const OUT = 'data/flyers.json';
+
+export const REGIONS = [
+  { id: 'montreal', label: 'Montréal', postal: 'H2X1Y4' },
+  { id: 'laval-rive-nord', label: 'Laval / Rive-Nord', postal: 'H7N3X5' },
+  { id: 'rive-sud', label: 'Rive-Sud (Longueuil)', postal: 'J4K2T4' },
+  { id: 'quebec', label: 'Québec', postal: 'G1R4P5' },
+  { id: 'sherbrooke', label: 'Sherbrooke', postal: 'J1H1Z1' },
+  { id: 'gatineau', label: 'Gatineau', postal: 'J8X2K1' },
+  { id: 'trois-rivieres', label: 'Trois-Rivières', postal: 'G9A1X3' },
+  { id: 'saguenay', label: 'Saguenay', postal: 'G7H1R5' },
+];
+
+// Québec grocery banners. `general: true` = the flyer is mostly non-food, so only
+// items we can match to an ingredient are kept for those.
+export const STORES = [
+  { id: 'maxi', name: 'Maxi', re: /^maxi/ },
+  { id: 'superc', name: 'Super C', re: /^super ?c\b/ },
+  { id: 'iga', name: 'IGA', re: /^iga/ },
+  { id: 'metro', name: 'Metro', re: /^metro/ },
+  { id: 'provigo', name: 'Provigo', re: /^provigo/ },
+  { id: 'walmart', name: 'Walmart', re: /^walmart/, general: true },
+  { id: 'costco', name: 'Costco', re: /^costco/, general: true },
+  { id: 'adonis', name: 'Adonis', re: /adonis/ },
+  { id: 'tradition', name: 'Marché Tradition', re: /tradition/ },
+  { id: 'bonichoix', name: 'Bonichoix', re: /bonichoix/ },
+  { id: 'richelieu', name: 'Marché Richelieu', re: /richelieu/ },
+  { id: 'ami', name: 'Marché Ami', re: /^(marche )?ami\b/ },
+  { id: 'pa', name: 'Supermarché PA', re: /^(supermarche )?p\.?a\.?\b/ },
+  { id: 'avril', name: 'Avril', re: /^avril/ },
+  { id: 'rachellebery', name: 'Rachelle Béry', re: /rachelle/ },
+  { id: 'tnt', name: 'T&T', re: /^t ?& ?t/ },
+  { id: 'kimphat', name: 'Kim Phat', re: /kim phat/ },
+  { id: 'mayrand', name: 'Mayrand', re: /mayrand/ },
+  { id: 'intermarche', name: 'Intermarché', re: /intermarche/ },
+  { id: 'tau', name: 'Marchés Tau', re: /\btau\b/ },
+  { id: 'gianttiger', name: 'Tigre Géant', re: /tigre geant|giant tiger/, general: true },
+  { id: 'pharmaprix', name: 'Pharmaprix', re: /pharmaprix/, general: true },
+  { id: 'jeancoutu', name: 'Jean Coutu', re: /jean coutu/, general: true },
+];
+
+export function storeFor(merchant) {
+  const m = deaccent(merchant || '').trim();
+  return STORES.find((s) => s.re.test(m)) || null;
+}
+
+const num = (v) => {
+  if (v == null || v === '') return null;
+  const n = Number(String(v).replace(',', '.').replace(/[^0-9.]/g, ''));
+  return isFinite(n) && n > 0 ? n : null;
+};
+const str = (v) => (v == null ? '' : String(v).trim());
+
+/** Field names differ between Flipp endpoints; read whichever is present. */
+export function toItem(raw) {
+  const price = num(raw.price ?? raw.current_price);
+  const name = str(raw.name ?? raw.display_name);
+  if (!price || !name) return null;
+  return {
+    id: String(raw.id ?? raw.flyer_item_id),
+    name,
+    brand: str(raw.brand) || undefined,
+    desc: str(raw.description).slice(0, 160) || undefined,
+    price,
+    pre: str(raw.pre_price_text) || undefined,
+    post: str(raw.price_text ?? raw.post_price_text) || undefined,
+    story: str(raw.sale_story) || undefined,
+    was: num(raw.original_price) || undefined,
+    img: str(raw.cutout_image_url ?? raw.clean_image_url ?? raw.clipping_image_url ?? raw.image_url) || undefined,
+    from: str(raw.valid_from) || undefined,
+    to: str(raw.valid_to) || undefined,
+  };
+}
+
+async function main() {
+  const previous = await readJson(OUT, null);
+  const regions = {};
+  const flyers = {};
+  const errors = [];
+  let sampleLogged = false;
+
+  for (const region of REGIONS) {
+    const res = await get(`${API}/flyers?locale=fr-ca&postal_code=${region.postal}`, { delayMs: 800, accept: 'application/json' });
+    let listing;
+    try { listing = JSON.parse(res.text); } catch { listing = null; }
+    const list = listing?.flyers ?? (Array.isArray(listing) ? listing : null);
+    if (res.status !== 200 || !list) { errors.push(`${region.id}: flyer list ${res.status || res.error}`); continue; }
+    if (!sampleLogged && list[0]) console.log('flyer listing keys:', Object.keys(list[0]).join(','));
+    const ids = [];
+    for (const f of list) {
+      const store = storeFor(f.merchant ?? f.merchant_name);
+      if (!store) continue;
+      const id = String(f.id);
+      ids.push(id);
+      if (flyers[id]) continue;
+      const fr = await get(`${API}/flyers/${id}?locale=fr-ca`, { delayMs: 800, accept: 'application/json' });
+      let detail;
+      try { detail = JSON.parse(fr.text); } catch { detail = null; }
+      const rawItems = detail?.items ?? (Array.isArray(detail) ? detail : null);
+      if (fr.status !== 200 || !rawItems) { errors.push(`flyer ${id} (${store.name}): ${fr.status || fr.error}`); ids.pop(); continue; }
+      if (!sampleLogged && rawItems[0]) { console.log('flyer item sample:', JSON.stringify(rawItems.find((i) => i.price) ?? rawItems[0]).slice(0, 900)); sampleLogged = true; }
+      flyers[id] = {
+        id,
+        store: store.id,
+        merchant: str(f.merchant ?? f.merchant_name),
+        name: str(f.name),
+        from: str(f.valid_from),
+        to: str(f.valid_to),
+        general: store.general || undefined,
+        items: rawItems.map(toItem).filter(Boolean),
+      };
+    }
+    regions[region.id] = { label: region.label, postal: region.postal.slice(0, 3), flyers: ids };
+  }
+
+  const count = Object.values(flyers).reduce((n, f) => n + f.items.length, 0);
+  const lines = Object.values(flyers).map((f) => `| ${f.merchant} | ${f.from.slice(0, 10)} → ${f.to.slice(0, 10)} | ${f.items.length} |`).join('\n');
+  await summary(`## Flyers\n\n${Object.keys(flyers).length} flyers, ${count} priced items, ${Object.keys(regions).length}/${REGIONS.length} regions.\n\n| store | valid | items |\n|---|---|---|\n${lines}\n${errors.length ? '\nErrors:\n' + errors.map((e) => '- ' + e).join('\n') : ''}\n`);
+
+  // Never replace good data with an empty download (API hiccup): keep last week's file.
+  if (!count) {
+    console.error('No flyer items downloaded; keeping the previous data file.');
+    process.exit(previous ? 0 : 1);
+  }
+  await writeJson(OUT, { fetchedAt: new Date().toISOString(), source: 'Flipp', regions, flyers });
+}
+
+if (import.meta.url === `file://${process.argv[1]}`) await main();

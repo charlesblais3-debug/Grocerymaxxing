@@ -1,0 +1,25 @@
+{
+  "name": "grocerymaxxing",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "npm run index && vite",
+    "index": "node scripts/build-index.mjs",
+    "build": "npm run index && vite build",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "fetch:flyers": "node scripts/fetch-flyers.mjs",
+    "fetch:recipes": "node scripts/fetch-recipes.mjs",
+    "fetch:baseline": "node scripts/fetch-baseline.mjs"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.4",
+    "vite": "^5.4.11",
+    "vitest": "^2.1.8"
+  }
+}
