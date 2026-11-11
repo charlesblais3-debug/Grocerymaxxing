@@ -5,7 +5,7 @@ import { AISLES, ING_BY_ID } from '../shared/ingredients.js';
 import { deaccent } from '../shared/text.js';
 
 export default function Flyers() {
-  const { regionItems, selected, storeName, recipes, t, lang, fmt, flyers } = useApp();
+  const { regionItems, selected, storeName, recipes, t, lang, fmt, flyers, guide, pickStore } = useApp();
   const [q, setQ] = useState('');
   const [aisle, setAisle] = useState('');
   const [matched, setMatched] = useState(true);
@@ -38,11 +38,40 @@ export default function Flyers() {
   }, [regionItems, selected, q, aisle, matched, uses]);
 
   if (!flyers.items.length) return <div className="state">{t('noData')}</div>;
-  if (!regionItems.length) return <div className="state">{t('noFlyers')}</div>;
   const lk = lang === 'en' ? 'en' : 'fr';
+  if (!regionItems.length) return <div className="state">{t('noFlyers')}</div>;
   return (
     <div className="wrap flyers">
       <p className="note">{t('updated')} {new Date(flyers.fetchedAt).toLocaleDateString(lang === 'en' ? 'en-CA' : 'fr-CA', { weekday: 'long', day: 'numeric', month: 'long' })} · {flyers.source}</p>
+      <section className="guide" aria-label={t('guideTitle')}>
+        <h1>{t('guideTitle')}</h1>
+        <p className="note">{t('guideIntro')}</p>
+        <div className="guide-grid">
+          {guide.map((s, n) => (
+            <article key={s.id} className={`guide-card ${selected.has(s.id) ? 'on' : ''}`}>
+              <header>
+                <Store id={s.id} />
+                {n === 0 && s.score > 0 ? <span className="best">★ {t('bestOverall')}</span> : s.strong ? <span className="strong">{t('strong_' + s.strong)}</span> : null}
+              </header>
+              {n === 0 && s.strong ? <div className="strong">{t('strong_' + s.strong)}</div> : null}
+              {s.wins.length ? (
+                <ul>
+                  {s.wins.slice(0, 4).map((w) => (
+                    <li key={w.ing}>
+                      <b>{ING_BY_ID[w.ing][lk]}</b> <span className="p">{fmt(w.offer.perG * 1000)}/kg</span>
+                      <small>{w.only ? t('onlyFlyer') : `${Math.round(w.margin * 100)} % ${t('cheaperThanNext')}`}{w.off ? ` · −${Math.round(w.off * 100)} % ${t('vsRegular')}` : ''}</small>
+                    </li>
+                  ))}
+                </ul>
+              ) : <p className="note">{t('noClearWin')}</p>}
+              <footer>
+                <small>{s.deals} {t('recipeDeals')}</small>
+                {selected.has(s.id) && selected.size === 1 ? <span className="meta">✓ {t('current')}</span> : <button type="button" className="btn" onClick={() => pickStore(s.id, true)}>{t('shopHere')}</button>}
+              </footer>
+            </article>
+          ))}
+        </div>
+      </section>
       <div className="flybar">
         <input type="search" value={q} onChange={(e) => { setQ(e.target.value); setShown(120); }} placeholder={t('flyerSearch')} aria-label={t('flyerSearch')} />
         <label className="check"><input type="checkbox" checked={matched} onChange={(e) => setMatched(e.target.checked)} /> {t('matchedOnly')}</label>

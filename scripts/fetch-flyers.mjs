@@ -19,32 +19,16 @@ export const REGIONS = [
   { id: 'saguenay', label: 'Saguenay', postal: 'G7H1R5' },
 ];
 
-// Québec grocery banners. `general: true` = the flyer is mostly non-food, so only
-// items we can match to an ingredient are kept for those.
+// The Québec grocery banners most people shop at. `general: true` = the flyer is mostly
+// non-food, so only items we can match to an ingredient are kept.
 export const STORES = [
-  { id: 'maxi', name: 'Maxi', re: /^maxi/ },
   { id: 'superc', name: 'Super C', re: /^super ?c\b/ },
+  { id: 'maxi', name: 'Maxi', re: /^maxi/ },
   { id: 'iga', name: 'IGA', re: /^iga/ },
   { id: 'metro', name: 'Metro', re: /^metro/ },
   { id: 'provigo', name: 'Provigo', re: /^provigo/ },
   { id: 'walmart', name: 'Walmart', re: /^walmart/, general: true },
-  { id: 'costco', name: 'Costco', re: /^costco/, general: true },
   { id: 'adonis', name: 'Adonis', re: /adonis/ },
-  { id: 'tradition', name: 'Marché Tradition', re: /tradition/ },
-  { id: 'bonichoix', name: 'Bonichoix', re: /bonichoix/ },
-  { id: 'richelieu', name: 'Marché Richelieu', re: /richelieu/ },
-  { id: 'ami', name: 'Marché Ami', re: /^(marche )?ami\b/ },
-  { id: 'pa', name: 'Supermarché PA', re: /^(supermarche )?p\.?a\.?\b/ },
-  { id: 'avril', name: 'Avril', re: /^avril/ },
-  { id: 'rachellebery', name: 'Rachelle Béry', re: /rachelle/ },
-  { id: 'tnt', name: 'T&T', re: /^t ?& ?t/ },
-  { id: 'kimphat', name: 'Kim Phat', re: /kim phat/ },
-  { id: 'mayrand', name: 'Mayrand', re: /mayrand/ },
-  { id: 'intermarche', name: 'Intermarché', re: /intermarche/ },
-  { id: 'tau', name: 'Marchés Tau', re: /\btau\b/ },
-  { id: 'gianttiger', name: 'Tigre Géant', re: /tigre geant|giant tiger/, general: true },
-  { id: 'pharmaprix', name: 'Pharmaprix', re: /pharmaprix/, general: true },
-  { id: 'jeancoutu', name: 'Jean Coutu', re: /jean coutu/, general: true },
 ];
 
 export function storeFor(merchant) {

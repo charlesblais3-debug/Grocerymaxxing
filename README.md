@@ -31,7 +31,7 @@ published, and all costing happens in the browser for the stores the visitor sel
 
 | Data | Source | Refresh |
 |---|---|---|
-| Flyers (8 Québec regions, ~20 banners) | Flipp's public flyer endpoints | daily |
+| Flyers (8 Québec regions; Super C, Maxi, IGA, Metro, Provigo, Walmart, Adonis) | Flipp's public flyer endpoints | daily |
 | Regular prices (fallback + "savings") | Statistics Canada, table 18-10-0245-01, Québec | weekly |
 | Recipes | schema.org/Recipe data published by the sites in `scripts/sources.mjs` | weekly, incremental |
 

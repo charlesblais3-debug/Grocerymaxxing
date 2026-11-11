@@ -57,10 +57,7 @@ export function offerText(o, fmt) {
 // Banner colours (not logos): enough to recognise a store at a glance in a list.
 const STORE_COLORS = {
   maxi: ['#ffd400', '#1a2a6c'], superc: ['#ffe600', '#d0021b'], iga: ['#e2231a', '#fff'], metro: ['#fff', '#d3122a'],
-  provigo: ['#d3122a', '#ffe14d'], walmart: ['#0071dc', '#fff'], costco: ['#005daa', '#fff'], adonis: ['#1f7a3d', '#fff'],
-  tradition: ['#7a1f2b', '#fff'], bonichoix: ['#f58220', '#fff'], richelieu: ['#14438b', '#fff'], ami: ['#0b8f4d', '#fff'],
-  pa: ['#c8102e', '#fff'], avril: ['#6ba539', '#fff'], rachellebery: ['#5b8c2a', '#fff'], tnt: ['#00843d', '#fff'],
-  kimphat: ['#c8102e', '#ffe14d'], mayrand: ['#111', '#fff'], gianttiger: ['#ffcb05', '#111'], pharmaprix: ['#e31837', '#fff'], jeancoutu: ['#003da5', '#fff'],
+  provigo: ['#d3122a', '#ffe14d'], walmart: ['#0071dc', '#fff'], adonis: ['#1f7a3d', '#fff'],
 };
 export function Store({ id }) {
   const { storeName } = useApp();
@@ -161,10 +158,8 @@ export function MacroRing({ m, k = 1 }) {
 }
 
 export function StoreBar() {
-  const { regions, regionId, setRegion, regionStores, selected, toggleStore, setAllStores, resetStores, t, flyers, week, setWeek, nextStart, lang } = useApp();
-  const [open, setOpen] = useState(false);
+  const { regions, regionId, setRegion, regionStores, selected, pickStore, multi, setMulti, t, flyers, week, setWeek, nextStart, lang } = useApp();
   if (!flyers.items.length) return null;
-  const chosen = regionStores.filter((s) => selected.has(s.id));
   return (
     <div className="storebar">
       <div className="wrap">
@@ -180,20 +175,24 @@ export function StoreBar() {
             <Chip on={week === 'next'} onClick={() => setWeek('next')}>{t('nextWeek')} {new Date(nextStart + 'T12:00:00').toLocaleDateString(lang === 'en' ? 'en-CA' : 'fr-CA', { day: 'numeric', month: 'short' })}</Chip>
           </div>
         )}
-        <button type="button" className="storesum" onClick={() => setOpen(!open)} aria-expanded={open}>
-          <span className="lbl">{t('myStores')}</span>
-          <span className="names">{chosen.slice(0, 5).map((s) => <Store key={s.id} id={s.id} />)}{chosen.length > 5 ? <b> +{chosen.length - 5}</b> : null}{!chosen.length ? '—' : null}</span>
-          <span aria-hidden="true">{open ? '▴' : '▾'}</span>
-        </button>
       </div>
-      {open && (
-        <div className="wrap stores" role="group" aria-label={t('myStores')}>
-          {regionStores.map((s) => <Chip key={s.id} on={selected.has(s.id)} onClick={() => toggleStore(s.id)}>{s.name}</Chip>)}
-          <button type="button" className="link" onClick={() => setAllStores(selected.size < regionStores.length)}>{selected.size < regionStores.length ? t('allStores') : t('noneStores')}</button>
-          <button type="button" className="link" onClick={resetStores}>{t('defaultStores')}</button>
+      <div className="wrap storepick">
+        <span className="lbl" id="storepick-lbl">{multi ? t('myStores') : t('myStore')}</span>
+        <div className="stores" role={multi ? 'group' : 'radiogroup'} aria-labelledby="storepick-lbl">
+          {regionStores.map((s) => {
+            const on = selected.has(s.id);
+            const [bg, fg] = STORE_COLORS[s.id] || ['var(--brand)', 'var(--brand-ink)'];
+            return (
+              <button key={s.id} type="button" role={multi ? undefined : 'radio'} aria-checked={multi ? undefined : on} aria-pressed={multi ? on : undefined}
+                className={`storechip ${on ? 'on' : ''}`} style={on ? { background: bg, color: fg, borderColor: bg === '#fff' ? fg : bg } : undefined} onClick={() => pickStore(s.id)}>
+                {s.name}
+              </button>
+            );
+          })}
         </div>
-      )}
-      {selected.size === 0 && <div className="wrap warn">{t('noStores')}</div>}
+        <label className="check multi"><input type="checkbox" checked={multi} onChange={(e) => setMulti(e.target.checked)} /> {t('multiStores')}</label>
+        <a className="link" href="#/circulaires">{t('whichStore')}</a>
+      </div>
     </div>
   );
 }

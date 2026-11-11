@@ -116,7 +116,7 @@ describe('scraper helpers', () => {
   });
   it('flyer mapping', () => {
     expect(storeFor('Super C').id).toBe('superc');
-    expect(storeFor('Marché Tradition').id).toBe('tradition');
+    expect(storeFor('Marché Tradition')).toBeNull();
     expect(storeFor('Canadian Tire')).toBeNull();
     expect(toItem({ id: 1, name: 'X', price: '4.99', price_text: '/lb' })).toMatchObject({ price: 4.99, post: '/lb' });
     expect(toItem({ id: 1, name: 'X', price: '' })).toBeNull();
@@ -251,4 +251,22 @@ it('weekly ideas bundle varied recipes around one deal and skip staples', async 
   expect(bundles[0].recipes).toHaveLength(4);
   expect(new Set(bundles[0].recipes.map((r) => r.tax.meals[0])).size).toBeGreaterThanOrEqual(3);
   expect(bundles[0].shared[0]).toMatchObject({ id: 'chicken_thigh', count: 4, grams: 2000 });
+});
+
+it('store guide credits a store only for a clear win', async () => {
+  const { storeGuide } = await import('../shared/stores.js');
+  const mk = (ing, store, perG, name = ing) => ({ name, pg: { [ing]: perG }, store });
+  const all = bestOffers([
+    mk('chicken_breast', 'iga', 0.008), mk('chicken_breast', 'maxi', 0.011),   // IGA 27 % cheaper
+    mk('beef_ground', 'maxi', 0.0100), mk('beef_ground', 'iga', 0.0102),       // too close to call
+    mk('broccoli', 'superc', 0.003),                                           // only flyer, 40 % under regular
+    mk('spice', 'maxi', 0.01),                                                 // never compared
+  ], new Set(['iga', 'maxi', 'superc']), '2030-01-01');
+  const g = storeGuide(all, { broccoli: { perG: 0.005 } }, ['iga', 'maxi', 'superc']);
+  const by = Object.fromEntries(g.map((s) => [s.id, s]));
+  expect(g[0].id).toBe('iga');
+  expect(by.iga.wins.map((w) => w.ing)).toEqual(['chicken_breast']);
+  expect(by.iga.wins[0].margin).toBeCloseTo(0.27, 2);
+  expect(by.maxi.wins).toEqual([]);
+  expect(by.superc.wins[0]).toMatchObject({ ing: 'broccoli', only: true });
 });

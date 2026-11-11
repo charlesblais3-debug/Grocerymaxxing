@@ -2,9 +2,11 @@ import React, { createContext, useContext, useEffect, useMemo, useState } from '
 import { bestOffers, costRecipe } from '../shared/cost.js';
 import { t as mkT } from './i18n.js';
 import { buildIdeas } from '../shared/synergy.js';
+import { storeGuide } from '../shared/stores.js';
 
-// Pharmacies, wholesalers and membership clubs are opt-in.
-const DEFAULT_ON = new Set(['iga', 'metro', 'superc', 'maxi']); // every other banner is opt-in
+// Most people shop at one store: the app starts on a single store and switches when another
+// is picked. Comparing several stores at once is an explicit option.
+const PREFERRED = ['superc', 'maxi', 'iga', 'metro', 'provigo', 'walmart', 'adonis'];
 const Ctx = createContext(null);
 export const useApp = () => useContext(Ctx);
 
@@ -20,8 +22,9 @@ export function AppProvider({ children }) {
   const [error, setError] = useState(null);
   const [lang, setLang] = usePersisted('lang', (navigator.language || 'fr').startsWith('en') ? 'en' : 'fr');
   const [region, setRegion] = usePersisted('region', 'montreal');
-  const [storeSel, setStoreSel] = usePersisted('stores2', null); // null = all stores of the region
+  const [storeSel, setStoreSel] = usePersisted('stores3', null); // null = all stores of the region
   const [plan, setPlan] = usePersisted('plan', {}); // recipeId -> batches
+  const [multi, setMultiRaw] = usePersisted('multi', false);
   const [week, setWeek] = useState('now'); // 'now' | 'next' (flyers are published a few days ahead)
 
   useEffect(() => {
@@ -48,27 +51,37 @@ export function AppProvider({ children }) {
     const ref = week === 'next' && nextStart ? nextStart : today;
     const regionItems = live.filter((i) => (!i.from || i.from <= ref) && (!i.to || i.to >= ref));
     const regionStores = (flyers.stores || []).filter((s) => reg.stores.includes(s.id));
-    const selected = new Set((storeSel ?? regionStores.filter((s) => DEFAULT_ON.has(s.id)).map((s) => s.id)).filter((id) => reg.stores.includes(id)));
+    const available = regionStores.map((s) => s.id);
+    let chosen = (storeSel || []).filter((id) => available.includes(id));
+    if (!chosen.length) chosen = [PREFERRED.find((id) => available.includes(id)) || available[0]].filter(Boolean);
+    const selected = new Set(multi ? chosen : chosen.slice(0, 1));
     const baseline = meta.baseline?.prices || {};
     const offers = bestOffers(regionItems, selected, ref, baseline);
     const costs = new Map(recipes.map((r) => [r.id, costRecipe(r, offers, baseline)]));
     const ideas = buildIdeas(recipes, costs, offers, baseline);
+    const guide = storeGuide(bestOffers(regionItems, new Set(available), ref, baseline), baseline, available);
     const byId = new Map(recipes.map((r) => [r.id, r]));
     const storeName = Object.fromEntries((flyers.stores || []).map((s) => [s.id, s.name]));
     const sourceName = Object.fromEntries((meta.sources || []).map((s) => [s.id, s.name]));
     const money = new Intl.NumberFormat(lang === 'en' ? 'en-CA' : 'fr-CA', { style: 'currency', currency: 'CAD' });
     return {
       recipes, byId, flyers, meta, regions, regionId, regionStores, selected, regionItems, offers, baseline, costs,
-      ideas, resetStores: () => setStoreSel(null),
+      ideas, guide, multi,
+      setMulti: (on) => { setMultiRaw(on); if (!on) setStoreSel([...selected].slice(0, 1)); },
       storeName, sourceName, today, ref, nextStart, week: ref === today ? 'now' : 'next', setWeek,
       lang, setLang, t: mkT(lang), fmt: (n) => (n == null ? '—' : money.format(n)),
       setRegion: (id) => { setRegion(id); setStoreSel(null); },
-      toggleStore: (id) => { const n = new Set(selected); n.has(id) ? n.delete(id) : n.add(id); setStoreSel([...n]); },
-      setAllStores: (on) => setStoreSel(on ? regionStores.map((s) => s.id) : []),
+      // One store: picking another switches to it. Several stores: picking toggles (never empty).
+      pickStore: (id, only) => {
+        if (!multi || only) return setStoreSel([id]);
+        const n = new Set(selected);
+        if (n.has(id) && n.size > 1) n.delete(id); else n.add(id);
+        setStoreSel([...n]);
+      },
       plan,
       setBatches: (id, n) => setPlan((p) => { const q = { ...p }; if (n > 0) q[id] = n; else delete q[id]; return q; }),
     };
-  }, [data, lang, region, storeSel, plan, week]);
+  }, [data, lang, region, storeSel, plan, week, multi]);
 
   if (error) return <div className="state">⚠️ {error}</div>;
   if (!value) return <div className="state">Chargement…</div>;

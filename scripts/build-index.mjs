@@ -91,7 +91,9 @@ export function buildFlyers(data) {
   const items = [];
   const seen = new Map();
   const flyerStore = {};
+  const kept = new Set(STORES.map((s) => s.id));
   for (const f of Object.values(data.flyers)) {
+    if (!kept.has(f.store)) continue; // flyers gathered before the store list was narrowed
     flyerStore[f.id] = f.store;
     for (const it of f.items) {
       const ings = matchFlyerItem(it.name);
@@ -124,7 +126,7 @@ export function buildFlyers(data) {
   const present = new Set(Object.values(flyerStore));
   const regions = {};
   for (const [id, r] of Object.entries(data.regions)) {
-    regions[id] = { label: r.label, flyers: r.flyers, stores: [...new Set(r.flyers.map((f) => flyerStore[f]).filter(Boolean))] };
+    regions[id] = { label: r.label, flyers: r.flyers.filter((f) => flyerStore[f]), stores: [...new Set(r.flyers.map((f) => flyerStore[f]).filter(Boolean))] };
   }
   return {
     fetchedAt: data.fetchedAt, source: data.source, regions,
