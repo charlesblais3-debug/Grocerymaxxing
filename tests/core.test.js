@@ -189,7 +189,7 @@ it('flavour words after "ou" are not products', () => {
 
 it('microdata recipes are read verbatim, nested tags included', async () => {
   const { extractMicrodata, toRecord } = await import('../scripts/fetch-recipes.mjs');
-  const html = `<div itemscope itemtype="https://schema.org/Recipe"><h1 itemprop="name">Essai</h1>
+  const html = `<div itemscope itemtype="https://schema.org/Recipe"><span itemprop="publisher" itemscope><meta itemprop="name" content="Le Site"></span><h1 itemprop="name">Essai</h1>
     <meta itemprop="recipeYield" content="4 portions"><time itemprop="totalTime" datetime="PT30M">30 min</time>
     <ul><li itemprop="recipeIngredient"><span><span>2</span> tasses</span> de <a href="#">lait</a></li><li itemprop="recipeIngredient">1 oignon</li></ul>
     <div itemprop="nutrition" itemscope><span itemprop="calories">250 kcal</span></div></div>`;

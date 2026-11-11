@@ -91,6 +91,7 @@ export function extractMicrodata(html) {
   if (start < 0) return null;
   const VOID = new Set(['meta', 'img', 'link', 'input', 'br', 'source']);
   const props = {};
+  let heading = null;
   const re = /<([a-z0-9]+)\b([^>]*?\bitemprop=["']([^"']+)["'][^>]*)>/gi;
   re.lastIndex = start;
   let m;
@@ -106,18 +107,25 @@ export function extractMicrodata(html) {
       value = clean(inner);
     }
     if (value == null || value === '') continue;
-    for (const name of names.split(/\s+/)) (props[name] ||= []).push(value);
+    for (const name of names.split(/\s+/)) {
+      (props[name] ||= []).push(value);
+      if (name === 'name' && /^h[12]$/i.test(tag)) heading ||= value;
+    }
   }
+  // itemprop="name" is also used for the author and publisher: the recipe's own name is the
+  // one carried by a heading, else the page's <h1>. Without either, the page is skipped.
+  const h1 = html.match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/i);
+  const title = heading || (h1 ? clean(h1[1]) : null);
   const one = (k) => props[k]?.[0];
   const ingredients = props.recipeIngredient || props.ingredients;
-  if (!ingredients || !one('name')) return null;
+  if (!ingredients || !title) return null;
   const nutrition = {};
   for (const k of ['calories', 'proteinContent', 'carbohydrateContent', 'fatContent', 'fiberContent', 'sugarContent', 'sodiumContent', 'saturatedFatContent', 'servingSize']) {
     if (one(k)) nutrition[k] = one(k);
   }
   return {
     '@type': 'Recipe',
-    name: one('name'),
+    name: title,
     image: one('image'),
     author: one('author'),
     recipeYield: one('recipeYield'),
