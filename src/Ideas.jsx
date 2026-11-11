@@ -3,10 +3,11 @@ import { useApp } from './store.jsx';
 import { RecipeCard, Store, offerText, nice } from './ui.jsx';
 import { ING_BY_ID } from '../shared/ingredients.js';
 
+const LINK_COLORS = ['#15803d', '#e0a100', '#c75b39', '#2f6fd0', '#8b5cf6'];
 const kg = (g) => (g >= 1000 ? `${(g / 1000).toFixed(1).replace('.0', '')} kg` : `${Math.round(g / 10) * 10} g`);
 
 export default function Ideas() {
-  const { recipes, ideas, t, lang, fmt, storeName, plan, setBatches, selected } = useApp();
+  const { recipes, ideas, costs, t, lang, fmt, storeName, plan, setBatches, selected } = useApp();
   const { anchors, bundles } = ideas;
   useEffect(() => {
     const a = new URLSearchParams(window.location.hash.split('?')[1] || '').get('a');
@@ -46,13 +47,23 @@ export default function Ideas() {
                 <button type="button" className={`btn ${all ? '' : 'primary'}`} onClick={() => b.recipes.forEach((r) => setBatches(r.id, all ? 0 : plan[r.id] || 1))}>{all ? `✓ ${t('inPlan')}` : `+ ${t('addAll')}`}</button>
               </div>
             </div>
-            <ul className="shared">
-              <li className="lbl">{t('sharedBuys')}</li>
-              {b.shared.map((s) => (
-                <li key={s.id}><b>{name(s.id)}</b>{s.grams ? ` ≈ ${kg(s.grams)}` : ''} · {s.count} {t('recipes').toLowerCase()} · <Store id={s.offer.store} /></li>
-              ))}
-            </ul>
-            <div className="grid">{b.recipes.map((r) => <RecipeCard key={r.id} r={r} />)}</div>
+            <div className="bundle-scroll">
+              <div className="bundle-grid" style={{ '--n': b.recipes.length }}>
+                {b.recipes.map((r) => <RecipeCard key={r.id} r={r} />)}
+                {b.shared.slice(0, 5).map((sh, row) => {
+                  const uses = b.recipes.map((r) => costs.get(r.id).lines.some((l) => l.src === 'flyer' && (l.via || l.ing) === sh.id));
+                  const first = uses.indexOf(true);
+                  const last = uses.lastIndexOf(true);
+                  return uses.map((u, col) => (
+                    <div key={sh.id + col} style={{ '--c': LINK_COLORS[row % LINK_COLORS.length] }}
+                      className={`link-cell ${col < first || col > last ? 'none' : ''} ${col === first ? 'first' : ''} ${col === last ? 'last' : ''} ${!u ? 'gap' : ''}`}>
+                      <span className="dot" title={`${name(sh.id)} · ${storeName[sh.offer.store]}`}>{name(sh.id)}</span>
+                    </div>
+                  ));
+                })}
+              </div>
+            </div>
+            <p className="note">{t('sharedBuys')} : {b.shared.slice(0, 5).map((sh) => `${name(sh.id)}${sh.grams ? ` ≈ ${kg(sh.grams)}` : ''} (${storeName[sh.offer.store]})`).join(' · ')}</p>
           </section>
         );
       })}

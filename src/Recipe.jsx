@@ -32,6 +32,20 @@ export default function Recipe({ id }) {
             {r.yield || r.servings ? <span><Icon name="users" /> {r.yield || `${r.servings} ${t('servings')}`}</span> : null}
             {r.steps ? <span><Icon name="list" /> {r.steps} {t('steps')}</span> : null}
           </div>
+          <div className="costbox">
+            <CostTag cost={c} big />
+            {c.total != null && <div className="sub">{t('total')} : ≈ {fmt(c.total)} · {c.priced}/{c.countable} {t('coverage')}</div>}
+            <SavingBar cost={c} label />
+            {adjusted && <div className="sub mealnote">{lang === 'en'
+              ? `Counted as ${r.meals} meals (${r.mealBasis === 'kcal' ? 'about 550 kcal each, from the published nutrition' : 'about 450 g of food each'})${r.servings ? ` — the source says ${r.yield || r.servings + ' servings'}` : ''}.`
+              : `Compté comme ${String(r.meals).replace('.', ',')} repas (${r.mealBasis === 'kcal' ? 'environ 550 kcal chacun, selon les valeurs publiées' : 'environ 450 g de nourriture chacun'})${r.servings ? ` — la source indique ${r.yield || r.servings + ' portions'}` : ''}.`}</div>}
+            {ppd != null && <div className="sub">{ppd.toFixed(1)} {t('proteinPerDollar')}</div>}
+            <div className="actions">
+              <a className="btn primary" href={r.url} target="_blank" rel="noopener noreferrer"><Icon name="book" /> {t('method')} {src} ↗</a>
+              <button type="button" className="btn" onClick={() => setBatches(id, plan[id] ? 0 : 1)}>{plan[id] ? `✓ ${t('inPlan')}` : `+ ${t('addPlan')}`}</button>
+            </div>
+            <p className="note">{t('methodNote')}</p>
+          </div>
         </div>
       </header>
 
@@ -69,20 +83,6 @@ export default function Recipe({ id }) {
         </section>
 
         <aside className="rside">
-          <div className="costbox">
-            <CostTag cost={c} big />
-            {c.total != null && <div className="sub">{t('total')} : ≈ {fmt(c.total)} · {c.priced}/{c.countable} {t('coverage')}</div>}
-            <SavingBar cost={c} label />
-            {adjusted && <div className="sub mealnote">{lang === 'en'
-              ? `Counted as ${r.meals} meals (${r.mealBasis === 'kcal' ? 'about 550 kcal each, from the published nutrition' : 'about 450 g of food each'})${r.servings ? ` — the source says ${r.yield || r.servings + ' servings'}` : ''}.`
-              : `Compté comme ${String(r.meals).replace('.', ',')} repas (${r.mealBasis === 'kcal' ? 'environ 550 kcal chacun, selon les valeurs publiées' : 'environ 450 g de nourriture chacun'})${r.servings ? ` — la source indique ${r.yield || r.servings + ' portions'}` : ''}.`}</div>}
-            {ppd != null && <div className="sub">{ppd.toFixed(1)} {t('proteinPerDollar')}</div>}
-            <div className="actions">
-              <a className="btn primary" href={r.url} target="_blank" rel="noopener noreferrer"><Icon name="book" /> {t('method')} {src} ↗</a>
-              <button type="button" className="btn" onClick={() => setBatches(id, plan[id] ? 0 : 1)}>{plan[id] ? `✓ ${t('inPlan')}` : `+ ${t('addPlan')}`}</button>
-            </div>
-            <p className="note">{t('methodNote')}</p>
-          </div>
           <div className="nutri">
             <h2>{t('nutrition')}</h2>
             {m ? (

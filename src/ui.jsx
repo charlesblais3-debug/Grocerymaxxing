@@ -11,6 +11,8 @@ export function Img({ src, alt = '', className }) {
 
 /** Small stroke icons (inline SVG so they follow the text colour and need no network). */
 const PATHS = {
+  sun: 'M12 16a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm0-14v2m0 16v2M2 12h2m16 0h2M5 5l1.500 1.500m11 11L19 19M19 5l-1.500 1.500m-11 11L5 19',
+  moon: 'M20 14.500A8 8 0 0 1 9.500 4a8 8 0 1 0 10.500 10.500Z',
   plate: 'M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18Zm0-4a5 5 0 1 0 0-10 5 5 0 0 0 0 10Z',
   flame: 'M12 22c4 0 7-2.7 7-6.6 0-3-1.8-5-3.3-6.8-.5 1.6-1.3 2.5-2.4 3C13.6 8 12.5 4.600 9.500 2c.2 3-1.300 4.800-2.600 6.600C5.700 10.300 5 12 5 15.400 5 19.300 8 22 12 22Z',
   protein: 'M6.500 6.500 17.500 17.500M4 9l5-5m6 16 5-5M3 6l3-3m12 18 3-3',

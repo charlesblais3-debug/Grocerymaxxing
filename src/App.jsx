@@ -9,7 +9,7 @@ import About from './About.jsx';
 import Ideas from './Ideas.jsx';
 
 function Shell() {
-  const { t, lang, setLang, plan } = useApp();
+  const { t, lang, setLang, plan, theme, setTheme } = useApp();
   const { path, query } = useRoute();
   useEffect(() => { if (path.startsWith('/r/')) window.scrollTo(0, 0); }, [path]);
   const n = Object.keys(plan).length;
@@ -33,7 +33,10 @@ function Shell() {
             {tab('#/plan', <>{t('plan')}{n ? <span className="badge">{n}</span> : null}</>, path === '/plan')}
             {tab('#/a-propos', t('about'), path === '/a-propos')}
           </nav>
-          <button type="button" className="lang" onClick={() => setLang(lang === 'en' ? 'fr' : 'en')} aria-label="Language">{lang === 'en' ? 'FR' : 'EN'}</button>
+          <div className="head-tools">
+            <button type="button" className="lang" onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')} aria-label={theme === 'dark' ? t('lightMode') : t('darkMode')} title={theme === 'dark' ? t('lightMode') : t('darkMode')}><Icon name={theme === 'dark' ? 'sun' : 'moon'} size={18} /></button>
+            <button type="button" className="lang" onClick={() => setLang(lang === 'en' ? 'fr' : 'en')} aria-label="Language">{lang === 'en' ? 'FR' : 'EN'}</button>
+          </div>
         </div>
       </header>
       <StoreBar />

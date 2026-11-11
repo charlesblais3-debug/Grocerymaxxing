@@ -25,6 +25,7 @@ export function AppProvider({ children }) {
   const [storeSel, setStoreSel] = usePersisted('stores3', null); // null = all stores of the region
   const [plan, setPlan] = usePersisted('plan', {}); // recipeId -> batches
   const [multi, setMultiRaw] = usePersisted('multi', false);
+  const [theme, setTheme] = usePersisted('theme', 'light'); // light unless the visitor asks for dark
   const [week, setWeek] = useState('now'); // 'now' | 'next' (flyers are published a few days ahead)
 
   useEffect(() => {
@@ -34,6 +35,7 @@ export function AppProvider({ children }) {
       .catch((e) => setError(String(e.message || e)));
   }, []);
   useEffect(() => { document.documentElement.lang = lang === 'en' ? 'en-CA' : 'fr-CA'; }, [lang]);
+  useEffect(() => { document.documentElement.dataset.theme = theme; }, [theme]);
 
   const value = useMemo(() => {
     if (!data) return null;
@@ -66,7 +68,7 @@ export function AppProvider({ children }) {
     const money = new Intl.NumberFormat(lang === 'en' ? 'en-CA' : 'fr-CA', { style: 'currency', currency: 'CAD' });
     return {
       recipes, byId, flyers, meta, regions, regionId, regionStores, selected, regionItems, offers, baseline, costs,
-      ideas, guide, multi,
+      ideas, guide, multi, theme, setTheme,
       setMulti: (on) => { setMultiRaw(on); if (!on) setStoreSel([...selected].slice(0, 1)); },
       storeName, sourceName, today, ref, nextStart, week: ref === today ? 'now' : 'next', setWeek,
       lang, setLang, t: mkT(lang), fmt: (n) => (n == null ? '—' : money.format(n)),
@@ -81,10 +83,20 @@ export function AppProvider({ children }) {
       plan,
       setBatches: (id, n) => setPlan((p) => { const q = { ...p }; if (n > 0) q[id] = n; else delete q[id]; return q; }),
     };
-  }, [data, lang, region, storeSel, plan, week, multi]);
+  }, [data, lang, region, storeSel, plan, week, multi, theme]);
 
   if (error) return <div className="state">⚠️ {error}</div>;
-  if (!value) return <div className="state">Chargement…</div>;
+  if (!value) {
+    return (
+      <div aria-busy="true" aria-label="Chargement">
+        <div className="skel-top" />
+        <div className="wrap">
+          <div className="skel skel-title" />
+          <div className="grid">{Array.from({ length: 8 }, (_, i) => <div className="skel-card" key={i}><div className="skel" /><i className="skel" /><i className="skel" /></div>)}</div>
+        </div>
+      </div>
+    );
+  }
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;
 }
 

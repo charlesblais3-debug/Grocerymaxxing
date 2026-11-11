@@ -92,12 +92,15 @@ export default function Browse({ query }) {
           <div className="hero-row">
             {app.ideas.bundles.slice(0, 5).map((b) => (
               <a key={b.anchor.id} className="hero-tile" href={`#/idees?a=${b.anchor.id}`}>
-                <Img src={b.anchor.offer.img} alt="" />
-                <div className="hero-info">
+                <div className="hero-photo">
+                  <Img src={b.anchor.offer.img} alt="" />
                   <Store id={b.anchor.offer.store} />
+                  <span className="hero-price">{app.fmt(b.anchor.offer.perG * 1000)}/kg{b.anchor.off ? <em>−{Math.round(b.anchor.off * 100)} %</em> : null}</span>
+                </div>
+                <div className="hero-info">
                   <b>{ING_BY_ID[b.anchor.id][lang === 'en' ? 'en' : 'fr']}</b>
-                  <span>{app.fmt(b.anchor.offer.perG * 1000)}/kg{b.anchor.off ? <em> −{Math.round(b.anchor.off * 100)} %</em> : null}</span>
-                  <small>{b.recipes.length} {t('differentMeals')} · {nice(b.anchor.offer.name, lang).slice(0, 40)}</small>
+                  <small>{nice(b.anchor.offer.name, lang)}</small>
+                  <span className="go">{b.recipes.length} {t('differentMeals')} →</span>
                 </div>
               </a>
             ))}
