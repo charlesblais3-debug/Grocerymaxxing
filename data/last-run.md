@@ -1,4 +1,4 @@
-# Last data run — 2026-11-11 15:30 UTC (push)
+# Last data run — 2026-11-11 15:36 UTC (push)
     flyer listing keys: id,flyer_run_id,flyer_type_id,valid_from,valid_to,available_from,available_to,premium,width,height,priority,analytics_payload,name,merchant,merchant_id,path,categories,resolutions,postal_code,locale,language,relationship,resolutions_csv,categories_csv,thumbnail_url,thumbnail_hashed_key,updated_at,web_indexed,seed,featured_items,is_store_select,merchant_logo,timezone
     flyer item sample: {"id":1052198706,"flyer_id":8218138,"name":"ADVIL Comprimés à croquer, Liquide","display_type":1,"brand":"Advil","left":14799.72,"bottom":-1900.51,"right":15351.97,"top":-1441.33,"cutout_image_url":"http://f.wishabi.net/page_items/439555120/1793755370/extra_large.jpg","valid_from":"2026-11-12T00:00:00-05:00","valid_to":"2026-11-15T23:59:59-05:00","page_destination":null,"discount":null,"available_to":"2026-11-15T23:59:59-05:00","video_url":null,"price":"12.99","print_id":null,"short_name":null,"text_areas":[]}
 ## Flyers
@@ -93,20 +93,33 @@
 
 110 Québec products, reference month 2026-09.
 
-      [5-15] sitemap 403 https://www.5ingredients15minutes.com/sitemap_index.xml
-      [lesrecettesdecaty] sitemap 403 https://www.lesrecettesdecaty.com/sitemap.xml
-      [5-15] 10 sitemap files, 4602 recipe urls
-      [lesrecettesdecaty] 16 sitemap files, 3769 recipe urls
-      [lesrecettesdecaty] page 403 https://www.lesrecettesdecaty.com/fr/recettes/entrees-et-soupes/soupe-de-tomate-et-orzo/
-      [lesrecettesdecaty] first recipe: Salade de crabe et bleuets | yield null | 10 ingredients | 250 ml (1 tasse) de crabe émietté ¦ 125 ml (1/2 tasse) de yogourt nature ¦ 1 concombre râpé | nutrition null
-      [5-15] page 403 https://www.5ingredients15minutes.com/fr/recettes/plats-principaux/15-soupers-avec-une-touche-derable/
-      [5-15] first recipe: Salade tiède aux crevettes | yield 4 | 5 ingredients | Crevettes 450 g (1 lb), moyennes (calibre 31/40) crues et décortiquées ¦ Asperges 250 ml (1 tasse), coupées en tronçons ¦ Épis de maïs 1, cuit et coupé en tronçons | nutrition {"calories":"268 calories","proteinContent":"26 g","carbohydrateContent":"19 g","fatContent":"11 g","fiberContent":"2 g","sodiumContent":"314 mg"}
 ## Recipes
 
 Total: **1380** (with nutrition: 920)
 
 | source | had | urls found | tried | added | note |
 |---|---|---|---|---|---|
-| 5-15 | 0 | 4257 | 97 | 90 |  |
-| lesrecettesdecaty | 0 | 3590 | 104 | 90 |  |
+| cuisinez | 90 | 0 | 0 | 0 | target reached |
+| 5-15 | 90 | 0 | 0 | 0 | target reached |
+| lesrecettesdecaty | 90 | 0 | 0 | 0 | target reached |
+| salutbonjour | 60 | 0 | 0 | 0 | target reached |
+| boblechef | 60 | 0 | 0 | 0 | target reached |
+| lecoupdegrace | 60 | 0 | 0 | 0 | target reached |
+| chefcuisto | 70 | 0 | 0 | 0 | target reached |
+| budgetbytes | 140 | 0 | 0 | 0 | target reached |
+| bbcgoodfood | 80 | 0 | 0 | 0 | target reached |
+| minimalistbaker | 70 | 0 | 0 | 0 | target reached |
+| recipetineats | 60 | 0 | 0 | 0 | target reached |
+| skinnytaste | 50 | 0 | 0 | 0 | target reached |
+| cookieandkate | 40 | 0 | 0 | 0 | target reached |
+| pinchofyum | 40 | 0 | 0 | 0 | target reached |
+| wellplated | 40 | 0 | 0 | 0 | target reached |
+| downshiftology | 40 | 0 | 0 | 0 | target reached |
+| sweetpeasandsaffron | 50 | 0 | 0 | 0 | target reached |
+| workweeklunch | 40 | 0 | 0 | 0 | target reached |
+| mealpreponfleek | 40 | 0 | 0 | 0 | target reached |
+| fitfoodiefinds | 40 | 0 | 0 | 0 | target reached |
+| feastingathome | 40 | 0 | 0 | 0 | target reached |
+| fermentingforfoodies | 50 | 0 | 0 | 0 | target reached |
+| nourishedkitchen | 40 | 0 | 0 | 0 | target reached |
 
