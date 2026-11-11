@@ -11,14 +11,18 @@ import { ING_BY_ID } from './ingredients.js';
  * @param {string} today ISO date, offers that ended before it are ignored
  * @returns {Map<string, object>} ingredient id -> cheapest current offer
  */
-export function bestOffers(flyerItems, stores, today) {
+export function bestOffers(flyerItems, stores, today, baseline = {}) {
   const best = new Map();
   for (const it of flyerItems) {
-    if (!it.ing || it.perG == null || !stores.has(it.store)) continue;
+    if (!it.pg || !stores.has(it.store)) continue;
     if (it.to && it.to.slice(0, 10) < today) continue;
     if (it.from && it.from.slice(0, 10) > today) continue;
-    const cur = best.get(it.ing);
-    if (!cur || it.perG < cur.perG) best.set(it.ing, it);
+    for (const [ing, perG] of Object.entries(it.pg)) {
+      // A "deal" at more than 2.5x the regular price is a mismatched product, not a deal.
+      if (baseline[ing] && perG > baseline[ing].perG * 2.5) continue;
+      const cur = best.get(ing);
+      if (!cur || perG < cur.perG) best.set(ing, { ...it, ing, perG });
+    }
   }
   return best;
 }

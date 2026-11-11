@@ -2,7 +2,7 @@
 // (public/data/*.json): ingredient lines matched to canonical ingredients, flyer items
 // normalised to a price per gram, baseline prices mapped to ingredients.
 import { readJson, writeJson } from './lib/http.mjs';
-import { parseIngredientLine, matchIngredient } from '../shared/match.js';
+import { parseIngredientLine, matchIngredient, matchFlyerItem } from '../shared/match.js';
 import { unitPrice } from '../shared/price.js';
 import { classify } from '../shared/taxonomy.js';
 import { ING_BY_ID } from '../shared/ingredients.js';
@@ -37,14 +37,23 @@ export function buildFlyers(data) {
   for (const f of Object.values(data.flyers)) {
     flyerStore[f.id] = f.store;
     for (const it of f.items) {
-      const ing = matchIngredient(`${it.name} ${it.brand || ''}`, { flyer: true });
-      if (!ing && f.general) continue;
-      const up = ing ? unitPrice(it, ING_BY_ID[ing]) : null;
+      const ings = matchFlyerItem(it.name);
+      if (!ings.length && f.general) continue;
+      const pg = {};
+      let basis;
+      for (const ing of ings) {
+        const up = unitPrice(it, ING_BY_ID[ing]);
+        // Without the item's price text we cannot tell "each" from "per lb": trust only printed sizes.
+        if (!up || (!it.d && up.basis !== 'size')) continue;
+        pg[ing] = +up.perG.toFixed(6);
+        basis ||= up.basis;
+      }
       const { food, d, ...pub } = it;
       items.push({
         ...pub, flyer: f.id, store: f.store,
         from: (it.from || f.from || '').slice(0, 10), to: (it.to || f.to || '').slice(0, 10),
-        ing: ing || undefined, perG: up ? +up.perG.toFixed(6) : undefined, basis: up?.basis,
+        ing: ings[0], ings: ings.length > 1 ? ings : undefined,
+        pg: Object.keys(pg).length ? pg : undefined, perG: pg[ings[0]], basis,
       });
     }
   }
@@ -94,7 +103,7 @@ async function main() {
   const lines = recipes.flatMap((r) => r.ings);
   const matched = lines.filter((l) => l.ing).length;
   const weighed = lines.filter((l) => l.g != null).length;
-  const priced = flyers.items.filter((i) => i.perG).length;
+  const priced = flyers.items.filter((i) => i.pg).length;
   console.log(`index: ${recipes.length} recipes (${recipes.filter((r) => r.macros).length} with nutrition), ` +
     `${lines.length} ingredient lines (${matched} matched, ${weighed} with a weight), ` +
     `${flyers.items.length} flyer items (${priced} unit-priced), ${Object.keys(baseline.prices).length} baseline prices`);

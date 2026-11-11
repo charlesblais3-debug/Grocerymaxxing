@@ -9,6 +9,14 @@ export function Img({ src, alt = '', className }) {
   return <img className={`img ${className || ''}`} src={src} alt={alt} loading="lazy" referrerPolicy="no-referrer" onError={() => setBad(true)} />;
 }
 
+/** Flyer names are often ALL CAPS and bilingual ("fr | en"): show one readable line. */
+export function nice(name, lang) {
+  const parts = String(name).split(/\s*\|\s*/);
+  let n = (lang === 'en' && parts[1]) || parts[0];
+  if (n === n.toUpperCase()) n = n.toLowerCase();
+  return n.charAt(0).toUpperCase() + n.slice(1);
+}
+
 export function offerText(o, fmt) {
   const p = `${o.pre ? o.pre + ' ' : ''}${fmt(o.price)}${o.post ? ' ' + o.post : ''}`;
   return p.replace(/\s+/g, ' ');
@@ -55,7 +63,9 @@ export function RecipeCard({ r }) {
 
 export function StoreBar() {
   const { regions, regionId, setRegion, regionStores, selected, toggleStore, setAllStores, t, flyers, week, setWeek, nextStart, lang } = useApp();
+  const [open, setOpen] = useState(false);
   if (!flyers.items.length) return null;
+  const names = regionStores.filter((s) => selected.has(s.id)).map((s) => s.name);
   return (
     <div className="storebar">
       <div className="wrap">
@@ -68,17 +78,23 @@ export function StoreBar() {
         {nextStart && (
           <div className="weeks" role="group" aria-label={t('week')}>
             <Chip on={week === 'now'} onClick={() => setWeek('now')}>{t('thisWeek')}</Chip>
-            <Chip on={week === 'next'} onClick={() => setWeek('next')}>{t('nextWeek')} ({new Date(nextStart + 'T12:00:00').toLocaleDateString(lang === 'en' ? 'en-CA' : 'fr-CA', { day: 'numeric', month: 'short' })})</Chip>
+            <Chip on={week === 'next'} onClick={() => setWeek('next')}>{t('nextWeek')} {new Date(nextStart + 'T12:00:00').toLocaleDateString(lang === 'en' ? 'en-CA' : 'fr-CA', { day: 'numeric', month: 'short' })}</Chip>
           </div>
         )}
-        <div className="stores" role="group" aria-label={t('myStores')}>
-          <span className="lbl">{t('myStores')}</span>
+        <button type="button" className="storesum" onClick={() => setOpen(!open)} aria-expanded={open}>
+          <span className="lbl">{t('myStores')} ({selected.size}/{regionStores.length})</span>
+          <span className="names">{names.slice(0, 4).join(', ')}{names.length > 4 ? ` +${names.length - 4}` : ''}</span>
+          <span aria-hidden="true">{open ? '▴' : '▾'}</span>
+        </button>
+      </div>
+      {open && (
+        <div className="wrap stores" role="group" aria-label={t('myStores')}>
           {regionStores.map((s) => <Chip key={s.id} on={selected.has(s.id)} onClick={() => toggleStore(s.id)}>{s.name}</Chip>)}
           <button type="button" className="link" onClick={() => setAllStores(selected.size < regionStores.length)}>
-            {selected.size < regionStores.length ? t('allStores') : '∅'}
+            {selected.size < regionStores.length ? t('allStores') : t('noneStores')}
           </button>
         </div>
-      </div>
+      )}
       {selected.size === 0 && <div className="wrap warn">{t('noStores')}</div>}
     </div>
   );

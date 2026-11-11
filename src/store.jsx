@@ -2,6 +2,8 @@ import React, { createContext, useContext, useEffect, useMemo, useState } from '
 import { bestOffers, costRecipe } from '../shared/cost.js';
 import { t as mkT } from './i18n.js';
 
+// Pharmacies, wholesalers and membership clubs are opt-in.
+const DEFAULT_OFF = new Set(['pharmaprix', 'jeancoutu', 'gianttiger', 'mayrand', 'costco']);
 const Ctx = createContext(null);
 export const useApp = () => useContext(Ctx);
 
@@ -45,9 +47,9 @@ export function AppProvider({ children }) {
     const ref = week === 'next' && nextStart ? nextStart : today;
     const regionItems = live.filter((i) => (!i.from || i.from <= ref) && (!i.to || i.to >= ref));
     const regionStores = (flyers.stores || []).filter((s) => reg.stores.includes(s.id));
-    const selected = new Set((storeSel ?? regionStores.map((s) => s.id)).filter((id) => reg.stores.includes(id)));
-    const offers = bestOffers(regionItems, selected, ref);
+    const selected = new Set((storeSel ?? regionStores.filter((s) => !DEFAULT_OFF.has(s.id)).map((s) => s.id)).filter((id) => reg.stores.includes(id)));
     const baseline = meta.baseline?.prices || {};
+    const offers = bestOffers(regionItems, selected, ref, baseline);
     const costs = new Map(recipes.map((r) => [r.id, costRecipe(r, offers, baseline)]));
     const byId = new Map(recipes.map((r) => [r.id, r]));
     const storeName = Object.fromEntries((flyers.stores || []).map((s) => [s.id, s.name]));
@@ -59,7 +61,7 @@ export function AppProvider({ children }) {
       lang, setLang, t: mkT(lang), fmt: (n) => (n == null ? '—' : money.format(n)),
       setRegion: (id) => { setRegion(id); setStoreSel(null); },
       toggleStore: (id) => { const n = new Set(selected); n.has(id) ? n.delete(id) : n.add(id); setStoreSel([...n]); },
-      setAllStores: (on) => setStoreSel(on ? null : []),
+      setAllStores: (on) => setStoreSel(on ? regionStores.map((s) => s.id) : []),
       plan,
       setBatches: (id, n) => setPlan((p) => { const q = { ...p }; if (n > 0) q[id] = n; else delete q[id]; return q; }),
     };

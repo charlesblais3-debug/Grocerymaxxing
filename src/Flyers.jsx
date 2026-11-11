@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { useApp } from './store.jsx';
-import { Img, Chip, offerText } from './ui.jsx';
+import { Img, Chip, offerText, nice } from './ui.jsx';
 import { AISLES, ING_BY_ID } from '../shared/ingredients.js';
 import { deaccent } from '../shared/text.js';
 
@@ -50,14 +50,14 @@ export default function Flyers() {
           <div className="card deal" key={i.flyer + i.id}>
             <div className="card-img"><Img src={i.img} alt="" /></div>
             <div className="card-body">
-              <div className="meta"><span className="store">{storeName[i.store]}</span>{i.to ? ` · ${t('until')} ${i.to.slice(5)}` : ''}</div>
-              <h3>{i.name}</h3>
+              <div className="meta"><span className="store">{storeName[i.store]}</span>{i.to ? ` · ${t('until')} ${new Date(i.to + 'T12:00:00').toLocaleDateString(lang === 'en' ? 'en-CA' : 'fr-CA', { day: 'numeric', month: 'short' })}` : ''}</div>
+              <h3>{nice(i.name, lang)}</h3>
               <div className="card-foot">
                 <span className="cost">{offerText(i, fmt)}</span>
                 {i.perG ? <span className="macro">{fmt(i.perG * 1000)}/kg{i.basis === 'each' ? ' ≈' : ''}</span> : null}
               </div>
               {i.story ? <div className="meta">{i.story}</div> : null}
-              {i.ing && uses[i.ing] ? <a className="link" href={`#/?ing=${i.ing}`}>{uses[i.ing]} {t('recipesWith')} {ING_BY_ID[i.ing][lk].toLowerCase()} →</a> : null}
+              {(i.ings || (i.ing ? [i.ing] : [])).filter((g) => uses[g]).map((g) => <a key={g} className="link" href={`#/?ing=${g}`}>{uses[g]} {t('recipesWith')} {ING_BY_ID[g][lk].toLowerCase()} →</a>)}
             </div>
           </div>
         ))}

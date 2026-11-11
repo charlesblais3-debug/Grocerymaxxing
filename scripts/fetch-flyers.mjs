@@ -3,7 +3,7 @@
 // Prices are stored exactly as published; nothing is estimated here.
 import { get, readJson, writeJson, summary, log } from './lib/http.mjs';
 import { deaccent } from '../shared/text.js';
-import { matchIngredient } from '../shared/match.js';
+import { matchFlyerItem } from '../shared/match.js';
 
 const API = process.env.FLIPP_API || 'https://backflipp.wishabi.com/flipp';
 const OUT = 'data/flyers.json';
@@ -183,7 +183,7 @@ async function main() {
         general: store.general || undefined,
         cats: str(f.categories_csv ?? (Array.isArray(f.categories) ? f.categories.join(',') : '')) || undefined,
         items: rawItems.map(toItem).filter(Boolean)
-          .map((it) => ({ ...it, food: matchIngredient(`${it.name} ${it.brand || ''}`, { flyer: true }) ? 1 : undefined }))
+          .map((it) => ({ ...it, food: matchFlyerItem(it.name).length ? 1 : undefined }))
           .filter((it) => it.food || !store.general),
       };
       if (!flyers[id].items.length) { delete flyers[id]; ids.pop(); }

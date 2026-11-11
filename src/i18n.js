@@ -10,6 +10,7 @@ const S = {
   myStores: ['Mes épiceries', 'My stores'],
   region: ['Région', 'Region'],
   allStores: ['Toutes', 'All'],
+  noneStores: ['Aucune', 'None'],
   noStores: ['Aucune épicerie sélectionnée : seuls les prix courants moyens sont utilisés.', 'No store selected: only average regular prices are used.'],
   search: ['Rechercher une recette ou un ingrédient…', 'Search a recipe or ingredient…'],
   mealType: ['Type de plat', 'Dish type'],

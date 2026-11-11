@@ -1,7 +1,7 @@
 // Maps free text (recipe ingredient line, flyer product name, StatCan product label)
 // to a canonical ingredient id. Longest synonym phrase wins; ties go to the earliest.
 import { INGREDIENTS, ING_BY_ID } from './ingredients.js';
-import { tokens, parseQuantity } from './text.js';
+import { tokens, parseQuantity, deaccent } from './text.js';
 
 const INDEX = new Map(); // first token -> [{ toks, id }]
 for (const ing of INGREDIENTS) {
@@ -22,6 +22,7 @@ const FLYER_VETO = new Set(tokens([
   'collation snack sauce kit assaisonné seasoned mariné marinated pané breaded croquettes nuggets',
   'burger pogo glacée ice chocolat chocolate boisson drink jus juice thé tea café coffee',
   'jouet toy figurine poupée doll peluche véhicule camion jeu game livre book bracelet interactif',
+  'soda liqueur bière beer vin wine mer séché dried confit gomme gum pastille rince',
   'modeler décoration ornement fleur plante bougie chandelle vêtement chandail pyjama monsieur',
   'bébé baby aromatisé flavoured vitamines supplément lotion dentifrice parfum arôme',
 ].join(' ')));
@@ -41,18 +42,36 @@ function findAll(toks) {
   return hits;
 }
 
-/** @returns {string|null} canonical ingredient id */
+/** @returns {string|null} canonical ingredient id for a recipe ingredient line */
 export function matchIngredient(text, { flyer = false } = {}) {
-  const toks = tokens(text);
-  const hits = findAll(toks);
-  if (!flyer) return hits[0]?.id ?? null;
-  for (const h of hits) {
-    if (ING_BY_ID[h.id].ro) continue;
-    const vetoed = toks.some((t) => FLYER_VETO.has(t) && !h.toks.includes(t));
-    if (vetoed) return null;
-    return h.id;
+  if (flyer) return matchFlyerItem(text)[0] ?? null;
+  return findAll(tokens(text))[0]?.id ?? null;
+}
+
+/**
+ * Ingredients a flyer product can stand in for. Flyer names read "PRODUCT brand, size",
+ * often bilingual ("fr | en") and often "X ou Y": each alternative is matched on its own,
+ * and the ingredient must be the head of the name (within its first three words) so that
+ * "soda gingembre" or "concombre de mer" are not mistaken for ginger or cucumber.
+ * @returns {string[]} ingredient ids, the main one first
+ */
+export function matchFlyerItem(name) {
+  const all = tokens(name);
+  const out = [];
+  const segments = deaccent(name).split(/\s*(?:\||,|;|\bou\b|\bor\b|\/)\s*/).filter(Boolean);
+  for (const seg of segments) {
+    const toks = tokens(seg);
+    for (const h of findAll(toks)) {
+      if (ING_BY_ID[h.id].ro) continue;
+      if (h.pos > 2) continue;
+      const vetoed = all.some((t) => FLYER_VETO.has(t) && !h.toks.includes(t));
+      // Alternatives must sit in the same aisle as the main product ("courges … ou spaghettis" is not pasta).
+      const sameAisle = !out.length || ING_BY_ID[out[0]].cat === ING_BY_ID[h.id].cat;
+      if (!vetoed && sameAisle && !out.includes(h.id)) out.push(h.id);
+      break;
+    }
   }
-  return null;
+  return out;
 }
 
 /** Grams of an ingredient used by a recipe line, or null when it cannot be estimated. */

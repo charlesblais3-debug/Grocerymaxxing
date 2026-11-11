@@ -119,14 +119,21 @@ export function parseQuantity(raw) {
   // "2 boîtes de 398 ml", "2 (15 oz) cans": leading bare count multiplies the package size.
   let mult = 1;
   if (best !== first && !first.unit && rank(best) >= 3 && CONTAINER_RE.test(s) && first.qty <= 24) mult = first.qty;
-  // "4 x 100 g"
-  const times = s.match(/(\d+)\s*x\s*(\d+(?:[.,]\d+)?)\s*(g|ml|l|kg)\b/);
-  if (times && rank(best) >= 4) mult = +times[1];
+  // "4 x 100 g" / "900 g (2x450 g)": a multipack; never multiply a total that is already printed.
+  const times = s.match(/(\d+)\s*x\s*(\d+(?:[.,]\d+)?)\s*(kg|g|ml|l)\b/);
+  let pack = null;
+  if (times) {
+    const f = { kg: 1000, g: 1, ml: 1, l: 1000 }[times[3]];
+    pack = { kind: times[3] === 'ml' || times[3] === 'l' ? 'ml' : 'g', v: +times[1] * parseFloat(times[2].replace(',', '.')) * f };
+  }
 
   const out = { g: null, ml: null, count: null, countUnit: null };
   if (!best.unit) { out.count = best.qty; return out; }
   if (best.unit.kind === 'g') out.g = best.qty * best.unit.f * mult;
   else if (best.unit.kind === 'ml') out.ml = best.qty * best.unit.f * mult;
   else { out.count = best.qty; out.countUnit = best.unit.f; }
+  if (pack && rank(best) >= 4) {
+    if (pack.kind === 'g') { out.g = Math.max(out.g ?? 0, pack.v); out.ml = null; } else if (out.g == null) out.ml = Math.max(out.ml ?? 0, pack.v);
+  }
   return out;
 }

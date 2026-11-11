@@ -3,7 +3,11 @@
 import { deaccent, parseQuantity } from './text.js';
 
 const MIN = 0.0002; // $0.20/kg
-const MAX = 0.25; // $250/kg — anything outside is a parsing error, not a deal
+// Ceiling in $/kg per aisle: above it the "match" is a different product (sea cucumber,
+// saffron-priced anything) or a parsing error, so it must not be used to cost a recipe.
+const CEIL = { produce: 45, meat: 75, fish: 95, dairy: 65, bakery: 35, pantry: 60, frozen: 30, spices: 300, other: 60 };
+const HERBS = new Set(['parsley', 'cilantro', 'basil', 'dill', 'mint', 'chives', 'thyme', 'rosemary', 'vanilla', 'yeast', 'walnuts', 'almonds', 'seeds', 'parmesan', 'prosciutto', 'salmon_smoked', 'scallop', 'chocolate']);
+export const ceiling = (ing) => (HERBS.has(ing.id) ? 160 : CEIL[ing.cat] ?? 60) / 1000;
 
 /**
  * @param {{price:number, pre?:string, post?:string, name?:string, desc?:string}} item
@@ -38,6 +42,6 @@ export function unitPrice(item, ing) {
       basis = 'each';
     }
   }
-  if (perG == null || perG < MIN || perG > MAX) return null;
+  if (perG == null || perG < MIN || perG > ceiling(ing)) return null;
   return { perG, basis };
 }

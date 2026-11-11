@@ -2,7 +2,7 @@
 // They are not recipes and never ship in the app's data.
 import { describe, it, expect } from 'vitest';
 import { parseQuantity } from '../shared/text.js';
-import { matchIngredient, parseIngredientLine } from '../shared/match.js';
+import { matchIngredient, matchFlyerItem, parseIngredientLine } from '../shared/match.js';
 import { unitPrice } from '../shared/price.js';
 import { ING_BY_ID } from '../shared/ingredients.js';
 import { bestOffers, costRecipe } from '../shared/cost.js';
@@ -66,13 +66,15 @@ describe('unitPrice', () => {
 
 describe('costing', () => {
   const items = [
-    { ing: 'chicken_breast', perG: 0.01, store: 'maxi', to: '2030-01-07' },
-    { ing: 'chicken_breast', perG: 0.008, store: 'iga', to: '2030-01-07' },
-    { ing: 'onion', perG: 0.002, store: 'maxi', to: '2020-01-01' }, // expired
+    { pg: { chicken_breast: 0.01 }, store: 'maxi', to: '2030-01-07' },
+    { pg: { chicken_breast: 0.008 }, store: 'iga', to: '2030-01-07' },
+    { pg: { onion: 0.002 }, store: 'maxi', to: '2020-01-01' }, // expired
+    { pg: { cucumber: 0.04 }, store: 'maxi', to: '2030-01-07' }, // 10x the regular price: not a deal
   ];
   const recipe = { servings: 4, ings: [{ raw: 'a', ing: 'chicken', g: 400 }, { raw: 'b', ing: 'onion', g: 150 }, { raw: 'c', ing: 'water', g: 500 }, { raw: 'd', ing: null, g: null }] };
   it('uses only selected stores and current offers', () => {
-    const offers = bestOffers(items, new Set(['maxi']), '2030-01-01');
+    const offers = bestOffers(items, new Set(['maxi']), '2030-01-01', { cucumber: { perG: 0.004 } });
+    expect(offers.has('cucumber')).toBe(false);
     expect(offers.get('chicken_breast').perG).toBe(0.01);
     expect(offers.has('onion')).toBe(false);
     const c = costRecipe(recipe, offers, { chicken_breast: { perG: 0.015 } });
@@ -137,5 +139,21 @@ describe('real-world formats seen in the data', () => {
     expect(matchIngredient('ailes de poulet')).toBe('chicken_wing');
     expect(matchIngredient("3 gousses d'ail")).toBe('garlic');
     expect(matchIngredient('Figurine Woody ou Buzz de Monsieur Patate', { flyer: true })).toBeNull();
+    expect(matchFlyerItem('Carottes ou oignons jaunes | carrots or yellow onions')).toEqual(['carrot', 'onion']);
+    expect(matchFlyerItem('Soda gingembre Canada Dry zéro sucre')).toEqual([]);
+    expect(matchFlyerItem('UNIQUE CONCOMBRE DE MER CANADIEN, 454g')).toEqual([]);
+    expect(matchFlyerItem("rôti de palette d'épaule de porc désossé | boneless pork shoulder blade roast")).toEqual(['pork_shoulder']);
+    expect(unitPrice({ price: 64.97, name: 'concombre 454g' }, ING_BY_ID.cucumber)).toBeNull();
+  });
+});
+
+describe('multipacks and alternatives', () => {
+  it('does not double a printed total', () => {
+    expect(parseQuantity('BOEUF HACHÉ MI-MAIGRE, 900 g (2x450 g)').g).toBe(900);
+    expect(parseQuantity('Yogourt 4 x 100 g').g).toBe(400);
+    expect(parseQuantity('Eau pétillante 12x355 mL').ml).toBe(4260);
+  });
+  it('alternatives stay in the aisle', () => {
+    expect(matchFlyerItem('Courges poivrées, musquées, buttercups ou spaghettis')).toEqual(['squash']);
   });
 });

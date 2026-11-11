@@ -1,6 +1,6 @@
 import React from 'react';
 import { useApp } from './store.jsx';
-import { Img, CostTag, offerText } from './ui.jsx';
+import { Img, CostTag, offerText, nice } from './ui.jsx';
 import { MEAL_TYPES, CUISINES } from '../shared/taxonomy.js';
 import { ING_BY_ID } from '../shared/ingredients.js';
 import { L } from './i18n.js';
@@ -54,7 +54,7 @@ export default function Recipe({ id }) {
                   <td className="src">
                     {l.src === 'flyer' && (
                       <span className="offer">
-                        <span className="store">{storeName[l.offer.store] || l.offer.store}</span> {l.offer.name} — <b>{offerText(l.offer, fmt)}</b>
+                        <span className="store">{storeName[l.offer.store] || l.offer.store}</span> {nice(l.offer.name, lang)} — <b>{offerText(l.offer, fmt)}</b>
                         {l.offer.to ? <small> · {t('until')} {date(l.offer.to)}</small> : null}
                         {l.via ? <small> · ≈ {ING_BY_ID[l.via][lang === 'en' ? 'en' : 'fr']}</small> : null}
                       </span>
