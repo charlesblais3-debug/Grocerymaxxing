@@ -10,6 +10,8 @@
 // pk    = how many units a flyer item sold "each" normally contains (eggs: 12)
 // fb    = id to borrow a price from when this one has none (generic "poulet" -> breast)
 // ro    = recipe-only: too vague to be matched against flyer product names
+// ru    = grams for one bare unit in a RECIPE when it differs from the store unit
+//         ("4 bacon" = 4 slices, but bacon sold "each" = a 375 g pack)
 // free  = costs nothing (water)
 // Every weight conversion is an estimate, which is why the UI labels costs as estimates.
 
@@ -36,7 +38,7 @@ I('pork_loin', 'Longe de porc', 'Pork loin', 'meat', 'longe de porc|pork loin|ro
 I('pork_shoulder', 'Épaule de porc', 'Pork shoulder', 'meat', 'epaule de porc|pork shoulder|pork butt|soc de porc|porc effiloche');
 I('pork_ribs', 'Côtes levées', 'Pork ribs', 'meat', 'cote levee|pork rib|spare rib|back rib|cotes de dos');
 I('pork', 'Porc', 'Pork', 'meat', 'porc|pork', { ro: 1, fb: 'pork_loin' });
-I('bacon', 'Bacon', 'Bacon', 'meat', 'bacon|lardon', { u: 375, units: { tranche: 20 } });
+I('bacon', 'Bacon', 'Bacon', 'meat', 'bacon|lardon', { u: 375, ru: 20, units: { tranche: 20 } });
 I('ham', 'Jambon', 'Ham', 'meat', 'jambon|ham', { units: { tranche: 25 } });
 I('sausage', 'Saucisses', 'Sausages', 'meat', 'saucisse|sausage|saucisse italienne|italian sausage|chorizo|merguez', { u: 90 });
 I('duck', 'Canard', 'Duck', 'meat', 'canard|duck|magret|poitrine de canard|duck breast|cuisse de canard', { u: 240 });
@@ -86,7 +88,7 @@ I('shallot', 'Échalote française', 'Shallot', 'produce', 'echalote francaise|e
 I('garlic', 'Ail', 'Garlic', 'produce', 'ail|garlic|gousse ail|garlic clove|ail hache|minced garlic|clove garlic|clove of garlic', { u: 5, d: 0.6, units: { gousse: 5 }, pk: 9 });
 I('ginger', 'Gingembre', 'Ginger', 'produce', 'gingembre|ginger|gingembre frais|fresh ginger', { u: 15, d: 0.5 });
 I('carrot', 'Carottes', 'Carrots', 'produce', 'carotte|carrot', { u: 70, d: 0.55 });
-I('celery', 'Céleri', 'Celery', 'produce', 'celeri|celery', { u: 500, d: 0.45, units: { branche: 50 } });
+I('celery', 'Céleri', 'Celery', 'produce', 'celeri|celery', { u: 500, ru: 50, d: 0.45, units: { branche: 50 } });
 I('potato', 'Pommes de terre', 'Potatoes', 'produce', 'pomme de terre|potato|patate|grelot|baby potato|pomme de terre rouge|russet|yukon gold', { u: 200, d: 0.65 });
 I('sweet_potato', 'Patate douce', 'Sweet potato', 'produce', 'patate douce|sweet potato|yam', { u: 250, d: 0.6 });
 I('tomato', 'Tomates', 'Tomatoes', 'produce', 'tomate|tomato|tomate italienne|roma tomato|tomate sur vigne', { u: 120, d: 0.75 });
@@ -213,7 +215,7 @@ I('pesto', 'Pesto', 'Pesto', 'pantry', 'pesto', { d: 1 });
 I('olives', 'Olives', 'Olives', 'pantry', 'olive|olive noire|black olive|olive verte|green olive|kalamata|capre|caper', { d: 0.6 });
 I('pickles', 'Cornichons', 'Pickles', 'pantry', 'cornichon|pickle|relish', { d: 0.6, u: 30 });
 I('jam', 'Confiture', 'Jam', 'pantry', 'confiture|jam|gelee|jelly|marmelade|tartinade', { d: 1.3 });
-I('wine', 'Vin', 'Wine', 'other', 'vin blanc|white wine|vin rouge|red wine|vin|wine|biere|beer|cidre|cider|xeres|sherry|porto', { d: 1 });
+I('wine', 'Vin', 'Wine', 'other', 'vin blanc|white wine|vin rouge|red wine|vin|wine|biere|beer|cidre|cider|xeres|sherry|porto', { d: 1, ro: 1 });
 
 // ---- Sucre & pâtisserie / Baking
 I('sugar', 'Sucre', 'Sugar', 'pantry', 'sucre|sugar|sucre granule|granulated sugar|sucre blanc', { d: 0.85 });
@@ -223,7 +225,7 @@ I('maple_syrup', "Sirop d'érable", 'Maple syrup', 'pantry', 'sirop erable|maple
 I('honey', 'Miel', 'Honey', 'pantry', 'miel|honey|sirop de mais|corn syrup|melasse|molasses|sirop agave|agave', { d: 1.4 });
 I('chocolate', 'Chocolat', 'Chocolate', 'pantry', 'chocolat|chocolate|pepite de chocolat|chocolate chip|chocolat noir|dark chocolate|chocolat mi sucre|semi sweet chocolate|chocolat au lait|chocolat blanc', { d: 0.7 });
 I('cocoa', 'Cacao', 'Cocoa', 'pantry', 'cacao|cocoa|poudre de cacao|cocoa powder', { d: 0.42 });
-I('vanilla', 'Vanille', 'Vanilla', 'pantry', 'vanille|vanilla|extrait de vanille|vanilla extract|essence de vanille', { d: 0.9 });
+I('vanilla', 'Vanille', 'Vanilla', 'pantry', 'vanille|vanilla|extrait de vanille|vanilla extract|essence de vanille', { d: 0.9, ro: 1 });
 I('gelatin', 'Gélatine', 'Gelatin', 'pantry', 'gelatine|gelatin|pectine|pectin', { d: 0.6, u: 7 });
 
 // ---- Épices / Spices (flyers rarely carry them; priced only when a real price is found)

@@ -29,7 +29,7 @@ export default function Recipe({ id }) {
             {r.steps ? <span>{r.steps} {t('steps')}</span> : null}
           </div>
           <div className="costbox">
-            <div><CostTag cost={c} big /></div>
+            <div><CostTag cost={c} big recipe={r} /></div>
             {c.total != null && <div className="sub">{t('total')} : ≈ {fmt(c.total)} · {c.priced}/{c.countable} {t('coverage')}</div>}
             {c.savings > 0.05 && <div className="save">{t('savings')} : {fmt(c.savings)}</div>}
             {ppd != null && <div className="sub">{ppd.toFixed(1)} {t('proteinPerDollar')}</div>}
@@ -61,8 +61,9 @@ export default function Recipe({ id }) {
                     )}
                     {l.src === 'base' && <span className="base" title={t('regular')}>{t('regularShort')}</span>}
                     {l.src == null && <span className="none">{t('notPriced')}</span>}
+                    {l.src === 'pantry' && <span className="none">{t('pantryItem')}</span>}
                   </td>
-                  <td className="num">{l.cost ? fmt(l.cost) : l.src === 'free' ? '' : '—'}</td>
+                  <td className="num">{l.cost ? fmt(l.cost) : l.src === 'free' || l.src === 'pantry' ? '' : '—'}</td>
                 </tr>
               ))}
             </tbody>

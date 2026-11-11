@@ -142,7 +142,7 @@ async function discover(src, robots) {
       } else if (src.urlRe.test(loc)) urls.add(loc);
     }
   }
-  log(`  [${src.id}] ${files} sitemap files, ${urls.size} recipe urls${urls.size ? '' : `; sample loc: ${sample}`}`);
+  log(`  [${src.id}] ${files} sitemap files, ${urls.size} recipe urls${urls.size ? '' : `; sample loc: ${sample}; sitemaps: ${[...seen].slice(0, 14).join(' ')}; unvisited: ${queue.slice(0, 8).join(' ')}`}`);
   return [...urls];
 }
 
@@ -192,7 +192,7 @@ async function runSource(src, existing, skip) {
     const ld = extractRecipe(res.text);
     const rec = ld && toRecord(ld, url, src);
     if (!rec) {
-      if (!recipes.length && stat.tried <= 3) log(`  [${src.id}] no Recipe JSON-LD: ${url} (${res.text.length} bytes, ld+json blocks: ${(res.text.match(/application\/ld\+json/g) || []).length})`);
+      if (!recipes.length && stat.tried <= 3) log(`  [${src.id}] no Recipe JSON-LD: ${url} (${res.text.length} bytes, ld+json blocks: ${(res.text.match(/application\/ld\+json/g) || []).length}, types: ${[...res.text.matchAll(/"@type"\s*:\s*(\[[^\]]*\]|"[^"]*")/g)].map((m) => m[1]).slice(0, 12).join(' ')}, itemtype Recipe: ${/itemtype=["'][^"']*Recipe/i.test(res.text)})`);
       skip[url] = 'no-recipe';
       continue;
     }

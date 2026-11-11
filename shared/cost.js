@@ -54,9 +54,11 @@ export function costRecipe(recipe, offers, baseline) {
   const lines = recipe.ings.map((l) => {
     const ing = l.ing ? ING_BY_ID[l.ing] : null;
     if (ing?.free) return { ...l, cost: 0, src: 'free' };
+    const p = ing && l.g != null ? lookup(l.ing, offers, baseline) : null;
+    // Seasonings and "to taste" lines cost pennies and have no quantity to price:
+    // they are shown as pantry items instead of dragging the coverage figure down.
+    if (!p && ing && (ing.cat === 'spices' || l.nq)) return { ...l, cost: null, src: 'pantry' };
     countable++;
-    if (!ing || l.g == null) return { ...l, cost: null, src: null };
-    const p = lookup(l.ing, offers, baseline);
     if (!p) return { ...l, cost: null, src: null };
     const cost = l.g * p.perG;
     total += cost;

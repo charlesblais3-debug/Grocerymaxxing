@@ -58,11 +58,14 @@ const UNITS = [
   ['c\\.?\\s*a\\s*(?:the|cafe|t\\.?|c\\.?)(?![a-z])|cuill?eres?\\s*a\\s*(?:the|cafe)|cuil\\.?\\s*a\\s*(?:the|cafe)|teaspoons?|tsps?\\.?', 'ml', 5],
   ['pincees?|pinch(?:es)?|dash(?:es)?|soupcons?', 'g', 0.3],
   ['gousses?|cloves?', 'n', 'gousse'],
-  ['tranches?|slices?', 'n', 'tranche'],
+  ['tranches?|slices?|rashers?|strips?|lanieres?', 'n', 'tranche'],
   ['branches?|tiges?|stalks?|ribs?|sprigs?|brins?', 'n', 'branche'],
   ['douzaines?|dozens?', 'n', 'douzaine'],
 ];
 const UNIT_RE = UNITS.map(([src, kind, f]) => ({ re: new RegExp('^(?:' + src + ')(?![a-z])'), kind, f }));
+// Count units may sit a word or two after the number: "6 thick slices", "3 grosses gousses".
+const LOOSE_RE = UNITS.filter((u) => u[1] === 'n').map(([src, kind, f]) => ({ re: new RegExp('^(?:[a-z]+\\s+){1,2}(?:' + src + ')(?![a-z])'), kind, f }));
+const WORDS = { one: 1, two: 2, three: 3, four: 4, five: 5, six: 6, half: '1/2', un: 1, une: 1, deux: 2, trois: 3, quatre: 4, cinq: 5, demi: '1/2', demie: '1/2' };
 const NUM_RE = /(\d+\s+\d+\/\d+|\d+\/\d+|\d+(?:[.,]\d+)?)/g;
 const CONTAINER_RE = /\b(boites?|conserves?|cans?|tins?|paquets?|packages?|pkgs?|packs?|sacs?|sachets?|bags?|bouteilles?|bottles?|pots?|jars?|contenants?|containers?|briques?|cartons?|barquettes?)\b/;
 
@@ -83,6 +86,7 @@ function toNumber(str) {
 export function parseQuantity(raw) {
   let s = deaccent(raw).replace(/\(\s*\$\s*[\d.,]+\s*\*?\s*\)/g, ' '); // source cost notes like "($0.75)"
   for (const [k, v] of Object.entries(FRACTIONS)) s = s.replaceAll(k, ' ' + v);
+  s = s.replace(/^\s*([a-z]+)\b(?!\s+peu\b)/, (m, w) => (WORDS[w] != null ? String(WORDS[w]) : m)); // "one 14-ounce can", "une gousse"
   s = s.replace(/(\d)\s*(?:-|–|—|\ba\b|\bto\b|\bou\b|\bor\b)\s*(\d)/g, '$1 ~ $2'); // ranges: keep the first bound
   s = s.replace(/(\d)\s+(?:scant|heaping|heaped|generous|level|rounded|packed|large|small|medium|big|bonnes?|gross?e?s?|petite?s?|healthy)\s+/g, '$1 ');
   const found = [];
@@ -92,11 +96,12 @@ export function parseQuantity(raw) {
     const upper = s.slice(Math.max(0, m.index - 2), m.index).includes('~');
     const qty = toNumber(m[1]);
     if (!isFinite(qty) || qty <= 0) continue;
-    const rest = s.slice(m.index + m[1].length).replace(/^\s+/, '');
+    const rest = s.slice(m.index + m[1].length).replace(/^[\s-]+/, '');
     let unit = null;
     for (const u of UNIT_RE) {
       if (u.re.test(rest)) { unit = u; break; }
     }
+    if (!unit) for (const u of LOOSE_RE) if (u.re.test(rest)) { unit = u; break; }
     if (upper) { // "3/4 to 1 cup": the unit belongs to the lower bound too
       const prev = found[found.length - 1];
       if (prev && !prev.unit && unit) prev.unit = unit;
@@ -104,7 +109,7 @@ export function parseQuantity(raw) {
     }
     found.push({ qty, unit, pos: m.index, rest });
   }
-  if (!found.length) return { g: null, ml: null, count: null, countUnit: null };
+  if (!found.length) return { g: null, ml: null, count: null, countUnit: null, none: true };
 
   const rank = (f) => {
     if (!f.unit) return 0;

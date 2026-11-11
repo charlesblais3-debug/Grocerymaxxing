@@ -23,11 +23,18 @@ export default function Flyers() {
 
   const list = useMemo(() => {
     const words = deaccent(q).split(/\s+/).filter(Boolean);
-    return regionItems
+    const seen = new Set();
+    const rows = regionItems
       .filter((i) => selected.has(i.store))
       .filter((i) => (!matched || i.ing) && (!aisle || ING_BY_ID[i.ing]?.cat === aisle))
       .filter((i) => !words.length || words.every((w) => deaccent(i.name + ' ' + (i.brand || '')).includes(w)))
-      .sort((a, b) => (uses[b.ing] || 0) - (uses[a.ing] || 0) || a.name.localeCompare(b.name));
+      .filter((i) => { const k = `${i.store}|${i.name}|${i.price}`; if (seen.has(k)) return false; seen.add(k); return true; });
+    // Best price of each ingredient first (most-used ingredients leading), then the runners-up.
+    const byIng = {};
+    for (const i of rows) (byIng[i.ing || ''] ||= []).push(i);
+    const rank = new Map();
+    for (const l of Object.values(byIng)) l.sort((a, b) => (a.perG ?? 9) - (b.perG ?? 9)).forEach((i, n) => rank.set(i, n));
+    return rows.sort((a, b) => (a.ing ? rank.get(a) : 99) - (b.ing ? rank.get(b) : 99) || (uses[b.ing] || 0) - (uses[a.ing] || 0) || a.name.localeCompare(b.name));
   }, [regionItems, selected, q, aisle, matched, uses]);
 
   if (!flyers.items.length) return <div className="state">{t('noData')}</div>;

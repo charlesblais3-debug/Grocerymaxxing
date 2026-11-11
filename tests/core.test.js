@@ -157,3 +157,26 @@ describe('multipacks and alternatives', () => {
     expect(matchFlyerItem('Courges poivrées, musquées, buttercups ou spaghettis')).toEqual(['squash']);
   });
 });
+
+describe('fixes from the first full data run', () => {
+  it('hyphenated and spelled-out quantities', () => {
+    expect(parseIngredientLine('one 14-ounce can crushed tomatoes').g).toBeCloseTo(396.9, 0);
+    expect(parseIngredientLine('14-ounce can of black beans, drained').g).toBeCloseTo(396.9, 0);
+    expect(parseIngredientLine('6-8 thick slices of sourdough bread').g).toBe(210);
+    expect(parseIngredientLine('4 rashers smoked back bacon').g).toBe(80);
+    expect(parseIngredientLine('une gousse d\'ail').g).toBe(5);
+  });
+  it('flyer look-alikes are rejected', () => {
+    expect(matchFlyerItem('Piments en huile avec haricots noirs Lao Gan Ma')).not.toContain('black_beans');
+    for (const n of ['STEAK DE CAPICOLLE DE PORC AUX 3 POIVRES', 'COCKTAIL DE TOMATE ET DE PALOURDES MOTT\'S', 'TOFU DESSERT SUNRISE', 'HALVA VANILLE', 'BIÈRE SAPPORO', 'pochettes chinoises à la ciboulette']) {
+      expect(matchFlyerItem(n), n).toEqual([]);
+    }
+    expect(matchFlyerItem('BŒUF HACHÉ MI-MAIGRE')).toEqual(['beef_ground']);
+    expect(matchFlyerItem('FILET DE PORC, EMBALLAGE SOUS-VIDE')).toEqual(['pork_tenderloin']);
+  });
+  it('seasonings do not count against coverage', () => {
+    const c = costRecipe({ servings: 2, ings: [{ raw: 'sel', ing: 'salt', g: null, nq: 1 }, { raw: 'x', ing: 'onion', g: 100 }] }, new Map(), { onion: { perG: 0.003 } });
+    expect(c.countable).toBe(1);
+    expect(c.coverage).toBe(1);
+  });
+});

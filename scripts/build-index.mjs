@@ -1,7 +1,14 @@
 // Turns the raw gathered data (data/*.json) into what the web app loads
 // (public/data/*.json): ingredient lines matched to canonical ingredients, flyer items
 // normalised to a price per gram, baseline prices mapped to ingredients.
-import { readJson, writeJson } from './lib/http.mjs';
+import { writeFile, mkdir } from 'node:fs/promises';
+import { readJson } from './lib/http.mjs';
+
+// Compact output: these files are downloaded by every visitor.
+async function writeJson(path, data) {
+  await mkdir('public/data', { recursive: true });
+  await writeFile(path, JSON.stringify(data));
+}
 import { parseIngredientLine, matchIngredient, matchFlyerItem } from '../shared/match.js';
 import { unitPrice } from '../shared/price.js';
 import { classify } from '../shared/taxonomy.js';
@@ -26,6 +33,13 @@ export function buildRecipes(raw) {
     } : null;
     const time = r.totalMin ?? ((r.prepMin ?? 0) + (r.cookMin ?? 0) || null);
     const { ingredients, nutrition, ...rest } = r;
+    // "12 muffins", "3 quarts": the yield is a count of things, not servings.
+    const y = (r.yield || '').toLowerCase();
+    const servingLike = !y || /^\d+$/.test(y.trim()) || /serv|portion|personne|people|person|meal|repas|bowl|bol|^\s*\d+\s*(à|to|-)\s*\d+\s*$|^\d+ \d+$/.test(y);
+    if (!servingLike) rest.unitYield = 1;
+    // A source default of "1 portion" on a recipe that weighs kilos is not a real serving count.
+    const grams = ings.reduce((n, l) => n + (l.g || 0), 0);
+    if (rest.servings === 1 && grams > 900) rest.servings = null;
     return { ...rest, time, macros: macros && macros.kcal != null ? macros : null, ings, tax: classify(r, ings) };
   });
 }
@@ -69,16 +83,25 @@ export function buildFlyers(data) {
   };
 }
 
+// Statistics Canada product labels the generic matcher gets wrong or cannot place.
+const STATCAN = [
+  [/^Beef stewing/i, ['beef_stew']], [/^Beef (striploin|top sirloin)/i, ['beef_steak']], [/^Beef rib/i, []],
+  [/^Block cheese/i, ['cheddar']], [/^Canned beans and lentils/i, ['black_beans', 'kidney_beans', 'chickpeas']],
+  [/^Cream,/i, ['cream_35']], [/^Dried lentils/i, ['lentils']], [/^Peppers/i, ['bell_pepper']],
+  [/^Nut milk/i, []], [/^Canned (salmon|peach|pear|soup)/i, []], [/^Salad greens/i, []],
+];
+
 export function buildBaseline(data) {
   if (!data) return { source: null, prices: {} };
   const byIng = {};
   for (const p of data.products) {
-    const ing = matchIngredient(p.name, { flyer: true });
-    if (!ing) continue;
+    const rule = STATCAN.find(([re]) => re.test(p.name));
+    for (const ing of rule ? rule[1] : [matchIngredient(p.name, { flyer: true })].filter(Boolean)) {
     const post = /per kilogram/i.test(p.name) ? '/kg' : '';
     const up = unitPrice({ price: p.value, post, name: p.name.replace(/per kilogram/i, '') }, ING_BY_ID[ing]);
     if (!up) continue;
     (byIng[ing] ||= []).push({ perG: up.perG, label: p.name, date: p.date });
+    }
   }
   const prices = {};
   for (const [ing, list] of Object.entries(byIng)) {

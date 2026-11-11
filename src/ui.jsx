@@ -27,14 +27,14 @@ export function Chip({ on, onClick, children, title }) {
 }
 
 /** Cost badge: per-serving cost, flagged as partial when few ingredients could be priced. */
-export function CostTag({ cost, big }) {
+export function CostTag({ cost, big, recipe }) {
   const { fmt, t } = useApp();
   if (!cost || cost.total == null) return <span className="cost none">{t('noPrice')}</span>;
   const partial = cost.coverage < 0.6;
   const v = cost.perServing ?? cost.total;
   return (
     <span className={`cost ${big ? 'big' : ''} ${partial ? 'partial' : ''}`} title={`${cost.priced}/${cost.countable} ${t('coverage')}`}>
-      ≈ {fmt(v)}<small> {cost.perServing != null ? t('perServing') : ''}{partial ? ` · ${t('partial')}` : ''}</small>
+      ≈ {fmt(v)}<small> {cost.perServing != null ? (recipe?.unitYield ? t('perUnit') : t('perServing')) : t('wholeRecipe')}{partial ? ` · ${t('partial')}` : ''}</small>
     </span>
   );
 }
@@ -53,7 +53,7 @@ export function RecipeCard({ r }) {
         <div className="meta">{meal ? L(lang, meal) + ' · ' : ''}{sourceName[r.source] || r.source}{r.time ? ` · ${r.time} ${t('min')}` : ''}</div>
         <h3>{r.name}</h3>
         <div className="card-foot">
-          <CostTag cost={c} />
+          <CostTag cost={c} recipe={r} />
           {r.macros && <span className="macro">{Math.round(r.macros.kcal)} kcal{r.macros.protein != null ? ` · ${Math.round(r.macros.protein)} g P` : ''}</span>}
         </div>
       </div>

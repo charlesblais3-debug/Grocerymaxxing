@@ -30,7 +30,7 @@ export const SOURCES = [
   { id: 'salutbonjour', name: 'Salut Bonjour', home: 'https://www.salutbonjour.ca', lang: 'fr', urlRe: /salutbonjour\.ca\/.*recette/, target: 40 },
   wp('cuisinefutee', 'Cuisine futée', 'https://cuisinefutee.telequebec.tv', 'fr', 50),
   wp('savourer', 'Savourer', 'https://savourer.ca', 'fr', 50),
-  wp('lesrecettesdecaty', 'Les recettes de Caty', 'https://www.lesrecettesdecaty.com', 'fr', 50),
+  { id: 'lesrecettesdecaty', name: 'Les recettes de Caty', home: 'https://www.lesrecettesdecaty.com', lang: 'fr', urlRe: /lesrecettesdecaty\.com\/fr\/recettes\/.+\/[a-z0-9-]+\/?$/, target: 60 },
   wp('jeanphilippe', 'La cuisine de Jean-Philippe', 'https://lacuisinedejeanphilippe.com', 'fr', 50),
   wp('loounie', 'Loounie cuisine', 'https://loouniecuisine.com', 'fr', 50),
   wp('boblechef', 'Bob le Chef', 'https://www.boblechef.com', 'fr', 40),
