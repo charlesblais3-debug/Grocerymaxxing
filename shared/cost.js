@@ -43,8 +43,15 @@ function lookup(id, fm, offers, baseline, seen = 0) {
   if (!ing) return null;
   const offer = pickOffer(offers, id, fm);
   const base = baseline[id];
-  if (offer) return { perG: offer.perG, src: 'flyer', offer, base };
-  if (base) return { perG: base.perG, src: 'base', base };
+  // A flyer price above the average regular price is not a deal (premium brand, small
+  // format): the shopper would not pay more than usual, so the regular price is used.
+  if (offer && !(base && offer.perG > base.perG)) {
+    // Regular price to compare with: the flyer's own "was" price when it gives one,
+    // otherwise the Statistics Canada average.
+    const regular = offer.rr ? offer.perG * offer.rr : base?.perG ?? null;
+    return { perG: offer.perG, src: 'flyer', offer, regular };
+  }
+  if (base) return { perG: base.perG, src: 'base' };
   if (ing.fb && seen < 2) {
     const r = lookup(ing.fb, fm, offers, baseline, seen + 1);
     if (r) return { ...r, via: ing.fb };
@@ -62,6 +69,7 @@ export function costRecipe(recipe, offers, baseline) {
   let countable = 0;
   let deals = 0;
   let savings = 0;
+  let comparable = 0; // cost of the lines whose regular price is known
   const lines = recipe.ings.map((l) => {
     const ing = l.ing ? ING_BY_ID[l.ing] : null;
     if (ing?.free) return { ...l, cost: 0, src: 'free' };
@@ -77,9 +85,10 @@ export function costRecipe(recipe, offers, baseline) {
     let saved = 0;
     if (p.src === 'flyer') {
       deals++;
-      if (p.base && p.base.perG > p.perG) saved = l.g * (p.base.perG - p.perG);
+      if (p.regular && p.regular > p.perG) saved = l.g * (p.regular - p.perG);
       savings += saved;
-    }
+      if (p.regular) comparable += cost;
+    } else comparable += cost;
     return { ...l, cost, src: p.src, offer: p.offer, via: p.via, saved };
   });
   const has = priced > 0;
@@ -92,6 +101,10 @@ export function costRecipe(recipe, offers, baseline) {
     per: perKind ? total / div : null,
     perKind,
     priced, countable, deals, savings, lines,
+    // Share saved against the regular price of the same basket.
+    savingsPct: has && savings > 0 ? savings / (total + savings) : 0,
+    // How much of the cost that percentage is based on (the rest has no known regular price).
+    comparable: has && total > 0 ? comparable / total : 0,
     coverage: countable ? priced / countable : 0,
   };
 }

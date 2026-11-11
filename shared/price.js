@@ -14,6 +14,30 @@ export const ceiling = (ing) => (HERBS.has(ing.id) ? 160 : CEIL[ing.cat] ?? 60) 
  * @param {object} ing canonical ingredient
  * @returns {{perG:number, basis:'weight'|'size'|'each'}|null}
  */
+/**
+ * How much dearer the regular price is than the flyer price, when the flyer says so itself
+ * ("was 6,99", "2 $ d'économie", "43 % d'économie"). Vague claims ("jusqu'à…") are ignored.
+ * @returns {number|null} regular / sale ratio, e.g. 1.4
+ */
+export function regularRatio(item) {
+  const price = Number(item.price);
+  if (!(price > 0)) return null;
+  let r = null;
+  if (item.was > price) r = item.was / price;
+  const s = deaccent(item.story || '');
+  if (!r && s && !/jusqu|up to|points/.test(s)) {
+    const pct = s.match(/(\d{1,2})\s*%/);
+    const amt = s.match(/(\d+(?:[.,]\d+)?)\s*\$|\$\s*(\d+(?:[.,]\d+)?)/);
+    const cents = s.match(/(\d{1,2})\s*(?:¢|c\b)/);
+    if (/econom|save|rabais|off/.test(s)) {
+      if (pct) r = 1 / (1 - +pct[1] / 100);
+      else if (amt) r = (price + parseFloat((amt[1] || amt[2]).replace(',', '.'))) / price;
+      else if (cents) r = (price + +cents[1] / 100) / price;
+    }
+  }
+  return r && r > 1.02 && r < 4 ? +r.toFixed(3) : null;
+}
+
 export function unitPrice(item, ing) {
   let p = Number(item.price);
   if (!isFinite(p) || p <= 0 || !ing) return null;

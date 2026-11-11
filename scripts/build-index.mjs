@@ -10,7 +10,7 @@ async function writeJson(path, data) {
   await writeFile(path, JSON.stringify(data));
 }
 import { parseIngredientLine, matchIngredient, matchFlyerItem, forms } from '../shared/match.js';
-import { unitPrice } from '../shared/price.js';
+import { unitPrice, regularRatio } from '../shared/price.js';
 import { classify, isMealDish } from '../shared/taxonomy.js';
 import { ING_BY_ID } from '../shared/ingredients.js';
 import { SOURCES } from './sources.mjs';
@@ -118,6 +118,7 @@ export function buildFlyers(data) {
         ing: ings[0], ings: ings.length > 1 ? ings : undefined,
         fm: ings.length && forms(it.name).length ? forms(it.name) : undefined,
         pg: Object.keys(pg).length ? pg : undefined, perG: pg[ings[0]], basis,
+        rr: Object.keys(pg).length ? regularRatio(it) || undefined : undefined,
       };
       seen.set(key, row);
       items.push(row);
@@ -140,7 +141,7 @@ const STATCAN = [
   [/^Beef stewing/i, ['beef_stew']], [/^Beef (striploin|top sirloin)/i, ['beef_steak']], [/^Beef rib/i, []],
   [/^Block cheese/i, ['cheddar']], [/^Canned beans and lentils/i, ['black_beans', 'kidney_beans', 'chickpeas']],
   [/^Cream,/i, ['cream_35']], [/^Dried lentils/i, ['lentils']], [/^Peppers/i, ['bell_pepper']],
-  [/^Nut milk/i, []], [/^Canned (salmon|peach|pear|soup)/i, []], [/^Salad greens/i, []],
+  [/^Nut milk/i, []], [/^Chicken drumsticks/i, ['chicken_drumstick']], [/^Chicken thigh/i, ['chicken_thigh']], [/^Canned (salmon|peach|pear|soup)/i, []], [/^Salad greens/i, []],
 ];
 
 export function buildBaseline(data) {

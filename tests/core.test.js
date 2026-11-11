@@ -78,6 +78,7 @@ describe('costing', () => {
     expect(offers.get('chicken_breast')[0].perG).toBe(0.01);
     expect(offers.has('onion')).toBe(false);
     const c = costRecipe(recipe, offers, { chicken_breast: { perG: 0.015 } });
+    expect(c.savingsPct).toBeCloseTo(2 / 6);
     expect(c.total).toBeCloseTo(4);
     expect(c.per).toBeCloseTo(1);
     expect(c.perKind).toBe('serving');
@@ -269,4 +270,24 @@ it('store guide credits a store only for a clear win', async () => {
   expect(by.iga.wins[0].margin).toBeCloseTo(0.27, 2);
   expect(by.maxi.wins).toEqual([]);
   expect(by.superc.wins[0]).toMatchObject({ ing: 'broccoli', only: true });
+});
+
+describe('savings', () => {
+  it('reads the regular price the flyer states', async () => {
+    const { regularRatio } = await import('../shared/price.js');
+    expect(regularRatio({ price: 4.99, was: 6.99 })).toBeCloseTo(1.401, 2);
+    expect(regularRatio({ price: 3, story: "2$ d'économie" })).toBeCloseTo(1.667, 2);
+    expect(regularRatio({ price: 5, story: "43% d'économie" })).toBeCloseTo(1.754, 2);
+    expect(regularRatio({ price: 5, story: "Jusqu'à 70% d'économie" })).toBeNull();
+    expect(regularRatio({ price: 5, story: '100 points' })).toBeNull();
+  });
+  it('a flyer price above the regular price is not a deal', () => {
+    const offers = bestOffers([{ name: 'oeufs', pg: { egg: 0.012 }, store: 'superc' }, { name: 'poulet', pg: { chicken_breast: 0.01 }, store: 'superc', rr: 2 }], new Set(['superc']), '2030-01-01');
+    const c = costRecipe({ servings: 2, ings: [{ raw: 'a', ing: 'egg', g: 100 }, { raw: 'b', ing: 'chicken_breast', g: 500 }] }, offers, { egg: { perG: 0.006 }, chicken_breast: { perG: 0.014 } });
+    expect(c.lines[0]).toMatchObject({ src: 'base' });
+    expect(c.lines[0].cost).toBeCloseTo(0.6);
+    expect(c.deals).toBe(1);
+    expect(c.lines[1].saved).toBeCloseTo(5); // the flyer's own regular price (2x) wins over the average
+    expect(c.savingsPct).toBeCloseTo(5 / 10.6, 3);
+  });
 });

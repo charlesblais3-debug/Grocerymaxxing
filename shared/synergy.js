@@ -45,7 +45,7 @@ export function buildIdeas(recipes, costs, offers, baseline, { size = 4, maxBund
     }
   }
   const anchors = [...used.values()].filter((a) => a.recipes.size >= 3).map((a) => {
-    const base = baseline[a.id]?.perG;
+    const base = a.offer.rr ? a.offer.perG * a.offer.rr : baseline[a.id]?.perG;
     const off = base && base > a.offer.perG ? 1 - a.offer.perG / base : null;
     // Score: a known discount counts most; breadth of use breaks ties.
     return { ...a, off, score: (off ?? 0.12) * 100 + Math.min(a.recipes.size, 30) / 3 + (a.kind === 'protein' ? 8 : 0) };

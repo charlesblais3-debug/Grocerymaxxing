@@ -20,7 +20,8 @@ const I = (id, fr, en, cat, syn, o = {}) => rows.push({ id, fr, en, cat, syn: sy
 
 // ---- Viandes / Meat
 I('chicken_breast', 'Poitrine de poulet', 'Chicken breast', 'meat', 'poitrine de poulet|poitrine poulet desossee|chicken breast|blanc de poulet|filet de poulet|chicken tender|chicken cutlet', { u: 200 });
-I('chicken_thigh', 'Haut de cuisse de poulet', 'Chicken thigh', 'meat', 'haut de cuisse de poulet|haut de cuisse|chicken thigh|cuisse de poulet|chicken leg|pilon de poulet|chicken drumstick|pilon', { u: 120 });
+I('chicken_thigh', 'Haut de cuisse de poulet', 'Chicken thigh', 'meat', 'haut de cuisse de poulet|haut de cuisse|chicken thigh', { u: 120 });
+I('chicken_drumstick', 'Pilons / cuisses de poulet', 'Chicken drumsticks / legs', 'meat', 'cuisse de poulet|chicken leg|pilon de poulet|chicken drumstick|pilon|drumstick', { u: 130, fb: 'chicken_thigh' });
 I('chicken_whole', 'Poulet entier', 'Whole chicken', 'meat', 'poulet entier|whole chicken|poulet a rotir|roasting chicken', { u: 1600 });
 I('chicken_wing', 'Ailes de poulet', 'Chicken wings', 'meat', 'aile de poulet|chicken wing', { u: 90 });
 I('chicken_ground', 'Poulet haché', 'Ground chicken', 'meat', 'poulet hache|ground chicken');

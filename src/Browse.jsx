@@ -150,7 +150,10 @@ export default function Browse({ query }) {
 }
 
 // Share of the recipe that is on sale this week (short recipes are not penalised below 6 lines).
-const dealScore = (c) => (c.coverage >= 0.5 ? Math.round((c.deals / Math.max(c.countable, 6)) * 20) : -1);
+// Best deals = biggest saving on the whole recipe versus regular prices; recipes too thinly
+// priced to trust go last, and the share of ingredients in the flyer breaks ties.
+// Sauces, snacks and other non-meal recipes rank a notch lower so dinners lead the list.
+const dealScore = (c) => (c.coverage >= 0.6 ? Math.round(c.savingsPct * 100) + c.deals / Math.max(c.countable, 6) - (c.perKind === 'meal' ? 0 : 15) : -1);
 const ppd = (r, c) => (r.macros?.protein != null && r.servings && c.total && c.coverage >= 0.75 ? (r.macros.protein * r.servings) / c.total : -1);
 const score = (r) => (r.rating ? r.rating.value * Math.log10((r.rating.count || 1) + 9) : 0);
 

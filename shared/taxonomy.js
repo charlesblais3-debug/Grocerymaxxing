@@ -86,7 +86,7 @@ export const PROTEINS = [
 ];
 
 const PROTEIN_OF = {
-  chicken_breast: 'chicken', chicken_thigh: 'chicken', chicken_whole: 'chicken', chicken_wing: 'chicken', chicken_ground: 'chicken', chicken: 'chicken', turkey: 'chicken', turkey_ground: 'chicken',
+  chicken_breast: 'chicken', chicken_thigh: 'chicken', chicken_drumstick: 'chicken', chicken_whole: 'chicken', chicken_wing: 'chicken', chicken_ground: 'chicken', chicken: 'chicken', turkey: 'chicken', turkey_ground: 'chicken',
   beef_ground: 'beef', beef_stew: 'beef', beef_steak: 'beef', beef: 'beef', veal: 'beef', lamb: 'beef',
   pork_ground: 'pork', pork_chop: 'pork', pork_tenderloin: 'pork', pork_loin: 'pork', pork_shoulder: 'pork', pork_ribs: 'pork', pork: 'pork', bacon: 'pork', ham: 'pork', sausage: 'pork', prosciutto: 'pork', pepperoni: 'pork',
   salmon: 'fish', salmon_smoked: 'fish', white_fish: 'fish', shrimp: 'fish', tuna_can: 'fish', scallop: 'fish', mussels: 'fish', sardine: 'fish',
