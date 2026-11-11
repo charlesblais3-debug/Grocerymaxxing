@@ -19,6 +19,7 @@ export function AppProvider({ children }) {
   const [region, setRegion] = usePersisted('region', 'montreal');
   const [storeSel, setStoreSel] = usePersisted('stores', null); // null = all stores of the region
   const [plan, setPlan] = usePersisted('plan', {}); // recipeId -> batches
+  const [week, setWeek] = useState('now'); // 'now' | 'next' (flyers are published a few days ahead)
 
   useEffect(() => {
     const get = (f) => fetch(`./data/${f}.json`).then((r) => { if (!r.ok) throw new Error(f + ' ' + r.status); return r.json(); });
@@ -36,10 +37,16 @@ export function AppProvider({ children }) {
     const reg = regionId ? regions[regionId] : { flyers: [], stores: [] };
     const flyerSet = new Set(reg.flyers);
     const today = new Date().toISOString().slice(0, 10);
-    const regionItems = flyers.items.filter((i) => flyerSet.has(i.flyer) && (!i.to || i.to >= today));
+    const live = flyers.items.filter((i) => flyerSet.has(i.flyer) && (!i.to || i.to >= today));
+    // Next flyer week = the most common upcoming start date (Thursday for most banners).
+    const starts = {};
+    for (const i of live) if (i.from > today) starts[i.from] = (starts[i.from] || 0) + 1;
+    const nextStart = Object.keys(starts).sort((a, b) => starts[b] - starts[a])[0] || null;
+    const ref = week === 'next' && nextStart ? nextStart : today;
+    const regionItems = live.filter((i) => (!i.from || i.from <= ref) && (!i.to || i.to >= ref));
     const regionStores = (flyers.stores || []).filter((s) => reg.stores.includes(s.id));
     const selected = new Set((storeSel ?? regionStores.map((s) => s.id)).filter((id) => reg.stores.includes(id)));
-    const offers = bestOffers(regionItems, selected, today);
+    const offers = bestOffers(regionItems, selected, ref);
     const baseline = meta.baseline?.prices || {};
     const costs = new Map(recipes.map((r) => [r.id, costRecipe(r, offers, baseline)]));
     const byId = new Map(recipes.map((r) => [r.id, r]));
@@ -48,7 +55,7 @@ export function AppProvider({ children }) {
     const money = new Intl.NumberFormat(lang === 'en' ? 'en-CA' : 'fr-CA', { style: 'currency', currency: 'CAD' });
     return {
       recipes, byId, flyers, meta, regions, regionId, regionStores, selected, regionItems, offers, baseline, costs,
-      storeName, sourceName, today,
+      storeName, sourceName, today, ref, nextStart, week: ref === today ? 'now' : 'next', setWeek,
       lang, setLang, t: mkT(lang), fmt: (n) => (n == null ? '—' : money.format(n)),
       setRegion: (id) => { setRegion(id); setStoreSel(null); },
       toggleStore: (id) => { const n = new Set(selected); n.has(id) ? n.delete(id) : n.add(id); setStoreSel([...n]); },
@@ -56,7 +63,7 @@ export function AppProvider({ children }) {
       plan,
       setBatches: (id, n) => setPlan((p) => { const q = { ...p }; if (n > 0) q[id] = n; else delete q[id]; return q; }),
     };
-  }, [data, lang, region, storeSel, plan]);
+  }, [data, lang, region, storeSel, plan, week]);
 
   if (error) return <div className="state">⚠️ {error}</div>;
   if (!value) return <div className="state">Chargement…</div>;

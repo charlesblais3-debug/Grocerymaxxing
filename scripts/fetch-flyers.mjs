@@ -1,7 +1,7 @@
 // Downloads this week's grocery flyers for Québec regions from Flipp's public flyer
 // endpoints (the same data flipp.com shows). Run on a schedule by GitHub Actions.
 // Prices are stored exactly as published; nothing is estimated here.
-import { get, readJson, writeJson, summary } from './lib/http.mjs';
+import { get, readJson, writeJson, summary, log } from './lib/http.mjs';
 import { deaccent } from '../shared/text.js';
 import { matchIngredient } from '../shared/match.js';
 
@@ -93,7 +93,8 @@ async function addDetails(flyers, previous) {
     for (const it of f.items) if (it.d) cache.set(sig(f.store, it), it);
   }
   const todo = new Map();
-  for (const f of Object.values(flyers)) {
+  // Grocery banners first, so they are complete even if the lookup cap is reached.
+  for (const f of Object.values(flyers).sort((a, b) => (a.general ? 1 : 0) - (b.general ? 1 : 0))) {
     for (const it of f.items) {
       const k = sig(f.store, it);
       const old = cache.get(k);
@@ -109,11 +110,11 @@ async function addDetails(flyers, previous) {
     try { j = JSON.parse(res.text); } catch { j = null; }
     const raw = j?.item ?? j;
     if (res.status !== 200 || !raw || typeof raw !== 'object') {
-      if (++failed <= 3) console.log(`item ${items[0].id}: ${res.status || res.error} ${res.text.slice(0, 120)}`);
-      if (failed > 60 && done < 5) { console.log('item lookups are failing; giving up on details for this run'); break; }
+      if (++failed <= 3) log(`item ${items[0].id}: ${res.status || res.error} ${res.text.slice(0, 120)}`);
+      if (failed > 60 && done < 5) { log('item lookups are failing; giving up on details for this run'); break; }
       continue;
     }
-    if (logged++ < 3) console.log('item detail sample:', JSON.stringify(raw).slice(0, 1400));
+    if (logged++ < 3) log('item detail sample:', JSON.stringify(raw).slice(0, 1400));
     const d = {
       pre: str(raw.pre_price_text) || undefined,
       post: str(raw.price_text ?? raw.post_price_text) || undefined,
@@ -158,7 +159,7 @@ async function main() {
     try { listing = JSON.parse(res.text); } catch { listing = null; }
     const list = listing?.flyers ?? (Array.isArray(listing) ? listing : null);
     if (res.status !== 200 || !list) { errors.push(`${region.id}: flyer list ${res.status || res.error}`); continue; }
-    if (!sampleLogged && list[0]) console.log('flyer listing keys:', Object.keys(list[0]).join(','));
+    if (!sampleLogged && list[0]) log('flyer listing keys:', Object.keys(list[0]).join(','));
     const ids = [];
     for (const f of list) {
       const store = storeFor(f.merchant ?? f.merchant_name);
@@ -171,7 +172,7 @@ async function main() {
       try { detail = JSON.parse(fr.text); } catch { detail = null; }
       const rawItems = detail?.items ?? (Array.isArray(detail) ? detail : null);
       if (fr.status !== 200 || !rawItems) { errors.push(`flyer ${id} (${store.name}): ${fr.status || fr.error}`); ids.pop(); continue; }
-      if (!sampleLogged && rawItems[0]) { console.log('flyer item sample:', JSON.stringify(rawItems.find((i) => i.price) ?? rawItems[0]).slice(0, 900)); sampleLogged = true; }
+      if (!sampleLogged && rawItems[0]) { log('flyer item sample:', JSON.stringify(rawItems.find((i) => i.price) ?? rawItems[0]).slice(0, 900)); sampleLogged = true; }
       flyers[id] = {
         id,
         store: store.id,
@@ -180,6 +181,7 @@ async function main() {
         from: str(f.valid_from),
         to: str(f.valid_to),
         general: store.general || undefined,
+        cats: str(f.categories_csv ?? (Array.isArray(f.categories) ? f.categories.join(',') : '')) || undefined,
         items: rawItems.map(toItem).filter(Boolean)
           .map((it) => ({ ...it, food: matchIngredient(`${it.name} ${it.brand || ''}`, { flyer: true }) ? 1 : undefined }))
           .filter((it) => it.food || !store.general),

@@ -54,7 +54,7 @@ export function RecipeCard({ r }) {
 }
 
 export function StoreBar() {
-  const { regions, regionId, setRegion, regionStores, selected, toggleStore, setAllStores, t, flyers } = useApp();
+  const { regions, regionId, setRegion, regionStores, selected, toggleStore, setAllStores, t, flyers, week, setWeek, nextStart, lang } = useApp();
   if (!flyers.items.length) return null;
   return (
     <div className="storebar">
@@ -65,6 +65,12 @@ export function StoreBar() {
             {Object.entries(regions).map(([id, r]) => <option key={id} value={id}>{r.label}</option>)}
           </select>
         </label>
+        {nextStart && (
+          <div className="weeks" role="group" aria-label={t('week')}>
+            <Chip on={week === 'now'} onClick={() => setWeek('now')}>{t('thisWeek')}</Chip>
+            <Chip on={week === 'next'} onClick={() => setWeek('next')}>{t('nextWeek')} ({new Date(nextStart + 'T12:00:00').toLocaleDateString(lang === 'en' ? 'en-CA' : 'fr-CA', { day: 'numeric', month: 'short' })})</Chip>
+          </div>
+        )}
         <div className="stores" role="group" aria-label={t('myStores')}>
           <span className="lbl">{t('myStores')}</span>
           {regionStores.map((s) => <Chip key={s.id} on={selected.has(s.id)} onClick={() => toggleStore(s.id)}>{s.name}</Chip>)}

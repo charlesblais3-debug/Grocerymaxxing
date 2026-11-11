@@ -9,7 +9,7 @@
 //    author's work). Only the number of steps is recorded.
 //  * Incremental: recipes already in data/recipes.json are kept, never re-fetched.
 import { createHash } from 'node:crypto';
-import { get, parseRobots, readJson, writeJson, summary } from './lib/http.mjs';
+import { get, parseRobots, readJson, writeJson, summary, log } from './lib/http.mjs';
 import { SOURCES, SLUG_BUCKETS } from './sources.mjs';
 
 const OUT = 'data/recipes.json';
@@ -132,7 +132,7 @@ async function discover(src, robots) {
     seen.add(sm);
     const res = await get(sm, { delayMs: robots.delayMs ?? 1000, accept: 'application/xml,text/xml,*/*' });
     files++;
-    if (res.status !== 200) { if (res.status !== 404) console.log(`  [${src.id}] sitemap ${res.status || res.error} ${sm}`); if (res.status === 402) break; continue; }
+    if (res.status !== 200) { if (res.status !== 404) log(`  [${src.id}] sitemap ${res.status || res.error} ${sm}`); if (res.status === 402) break; continue; }
     const locs = [...res.text.matchAll(/<loc>\s*(?:<!\[CDATA\[)?([^<\]]+?)(?:\]\]>)?\s*<\/loc>/g)].map((m) => clean(m[1]));
     const isIndex = /<sitemapindex/i.test(res.text);
     if (!sample && locs.length && !isIndex) sample = locs[Math.min(3, locs.length - 1)];
@@ -142,7 +142,7 @@ async function discover(src, robots) {
       } else if (src.urlRe.test(loc)) urls.add(loc);
     }
   }
-  console.log(`  [${src.id}] ${files} sitemap files, ${urls.size} recipe urls${urls.size ? '' : `; sample loc: ${sample}`}`);
+  log(`  [${src.id}] ${files} sitemap files, ${urls.size} recipe urls${urls.size ? '' : `; sample loc: ${sample}`}`);
   return [...urls];
 }
 
@@ -182,7 +182,7 @@ async function runSource(src, existing, skip) {
     if (recipes.length >= need || stat.tried >= need * 3 + 10) break;
     stat.tried++;
     const res = await get(url, { delayMs });
-    if (res.status !== 200 && stat.tried <= 2) console.log(`  [${src.id}] page ${res.status || res.error} ${url}`);
+    if (res.status !== 200 && stat.tried <= 2) log(`  [${src.id}] page ${res.status || res.error} ${url}`);
     if (res.status !== 200) {
       if ([401, 402, 403, 429, 0].includes(res.status) && ++streak >= 6) { stat.note = `blocked (${res.status || res.error})`; break; }
       if (res.status === 404 || res.status === 410) skip[url] = res.status;
@@ -192,7 +192,7 @@ async function runSource(src, existing, skip) {
     const ld = extractRecipe(res.text);
     const rec = ld && toRecord(ld, url, src);
     if (!rec) {
-      if (!recipes.length && stat.tried <= 3) console.log(`  [${src.id}] no Recipe JSON-LD: ${url} (${res.text.length} bytes, ld+json blocks: ${(res.text.match(/application\/ld\+json/g) || []).length})`);
+      if (!recipes.length && stat.tried <= 3) log(`  [${src.id}] no Recipe JSON-LD: ${url} (${res.text.length} bytes, ld+json blocks: ${(res.text.match(/application\/ld\+json/g) || []).length})`);
       skip[url] = 'no-recipe';
       continue;
     }

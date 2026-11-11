@@ -119,3 +119,23 @@ describe('scraper helpers', () => {
     expect(toItem({ id: 1, name: 'X', price: '' })).toBeNull();
   });
 });
+
+describe('real-world formats seen in the data', () => {
+  it('price text with both units', () => {
+    expect(unitPrice({ price: 8.99, post: '/lb 19,82$/kg' }, ING_BY_ID.beef_ground).perG).toBeCloseTo(8.99 / 453.6, 5);
+    expect(unitPrice({ price: 3.19, post: '/100 g 14,47$/lb' }, ING_BY_ID.ham).perG).toBeCloseTo(0.0319, 5);
+    expect(unitPrice({ price: 4.99, post: 'lb' }, ING_BY_ID.chicken_breast).perG).toBeCloseTo(0.011, 3);
+  });
+  it('source cost notes and ranges', () => {
+    expect(parseQuantity('2 onions ($0.50)').count).toBe(2);
+    expect(parseQuantity('3/4 to 1 cup all-purpose flour * ($0.07)').ml).toBeCloseTo(177.75);
+    expect(parseQuantity('1/2 scant tsp sea salt').ml).toBe(2.5);
+  });
+  it('plural forms and non-food', () => {
+    expect(matchIngredient('200g radishes cut into matchsticks')).toBe('radish');
+    expect(matchIngredient('2 tranches de pain')).toBe('bread');
+    expect(matchIngredient('ailes de poulet')).toBe('chicken_wing');
+    expect(matchIngredient("3 gousses d'ail")).toBe('garlic');
+    expect(matchIngredient('Figurine Woody ou Buzz de Monsieur Patate', { flyer: true })).toBeNull();
+  });
+});

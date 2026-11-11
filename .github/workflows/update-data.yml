@@ -44,6 +44,8 @@ jobs:
       - name: Read gather request
         if: github.event_name == 'push'
         run: grep -E '^(SOURCES|TARGET_SCALE|MAX_ITEM_LOOKUPS)=[A-Za-z0-9.,_-]*$' .github/gather.env >> "$GITHUB_ENV"
+      - name: Start run report
+        run: mkdir -p data && echo "# Last data run — $(date -u +'%F %H:%M UTC') (${{ github.event_name }})" > data/last-run.md
       - name: Flyers
         run: node scripts/fetch-flyers.mjs
         continue-on-error: true

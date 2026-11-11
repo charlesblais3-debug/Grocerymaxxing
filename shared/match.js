@@ -19,8 +19,10 @@ const FLYER_VETO = new Set(tokens([
   'soupe soup pizza saveur flavour flavor croustilles chips biscuits cookies chat chien cat dog',
   'litière shampooing savon détergent repas dinner bonbons candy gâteau cake tarte muffin',
   'céréales cereal barres bars croissant beigne vinaigrette dressing trempette dip nourriture',
-  'collation snack sauce assaisonné seasoned mariné marinated pané breaded croquettes nuggets',
+  'collation snack sauce kit assaisonné seasoned mariné marinated pané breaded croquettes nuggets',
   'burger pogo glacée ice chocolat chocolate boisson drink jus juice thé tea café coffee',
+  'jouet toy figurine poupée doll peluche véhicule camion jeu game livre book bracelet interactif',
+  'modeler décoration ornement fleur plante bougie chandelle vêtement chandail pyjama monsieur',
   'bébé baby aromatisé flavoured vitamines supplément lotion dentifrice parfum arôme',
 ].join(' ')));
 

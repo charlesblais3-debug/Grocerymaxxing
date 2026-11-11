@@ -20,9 +20,11 @@ export function unitPrice(item, ing) {
   const post = deaccent(item.post || '');
   let perG = null;
   let basis = null;
-  if (/100\s*g/.test(post)) { perG = p / 100; basis = 'weight'; }
-  else if (/\bkg\b/.test(post)) { perG = p / 1000; basis = 'weight'; }
-  else if (/\blb\b|livre/.test(post)) { perG = p / 453.6; basis = 'weight'; }
+  // Flyers print e.g. "/lb 19,82$/kg" or "/100 g 14,47$/lb": the first unit is the one the price is in.
+  const unit = post.match(/100\s*g|\bkg\b|\blbs?\b|livre/);
+  if (unit && /100/.test(unit[0])) { perG = p / 100; basis = 'weight'; }
+  else if (unit && unit[0] === 'kg') { perG = p / 1000; basis = 'weight'; }
+  else if (unit) { perG = p / 453.6; basis = 'weight'; }
   else {
     const q = parseQuantity(`${item.name || ''} ${item.desc || ''} ${item.post || ''}`);
     if (q.g != null && q.g >= 20) { perG = p / q.g; basis = 'size'; }

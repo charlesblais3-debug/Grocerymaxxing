@@ -80,8 +80,24 @@ export async function writeJson(path, data) {
   await writeFile(path, JSON.stringify(data, null, 1) + '\n');
 }
 
+// Everything worth knowing about a run also lands in data/last-run.md, which is
+// committed with the data so a failed source can be diagnosed without opening CI logs.
+const REPORT = 'data/last-run.md';
+async function report(text) {
+  const { appendFile } = await import('node:fs/promises');
+  await mkdir(dirname(REPORT), { recursive: true });
+  await appendFile(REPORT, text + '\n');
+}
+
+export async function log(...args) {
+  const msg = args.join(" ");
+  console.log(msg);
+  await report('    ' + String(msg).replace(/\n/g, '\n    '));
+}
+
 export async function summary(md) {
   console.log(md);
+  await report(md);
   if (process.env.GITHUB_STEP_SUMMARY) {
     const { appendFile } = await import('node:fs/promises');
     await appendFile(process.env.GITHUB_STEP_SUMMARY, md + '\n');

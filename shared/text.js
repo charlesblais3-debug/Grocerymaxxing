@@ -15,16 +15,17 @@ export function deaccent(s) {
     .replace(/[̀-ͯ]/g, '');
 }
 
-/** Light FR/EN singulariser so "oeufs", "poireaux", "tomatoes", "berries" line up. */
+/** Light FR/EN singulariser so "oeufs", "poireaux", "tomatoes", "radishes" line up. */
 export function stem(tok) {
   if (tok.length <= 3) return tok;
-  if (tok.endsWith('ies') && tok.length > 4) return tok.slice(0, -3) + 'y';
-  if (tok.endsWith('oes')) return tok.slice(0, -2);
-  if (tok.endsWith('ves') && tok.length > 5) return tok.slice(0, -3) + 'f';
-  if (tok.endsWith('eaux')) return tok.slice(0, -1);
-  if (tok.endsWith('ss')) return tok;
-  if (tok.endsWith('s') || tok.endsWith('x')) return tok.slice(0, -1);
-  return tok;
+  let t = tok;
+  if (t.endsWith('ies') && t.length > 4) t = t.slice(0, -3) + 'y';
+  else if (t.endsWith('eaux')) t = t.slice(0, -1);
+  else if (t.endsWith('ss')) return t;
+  else if (t.endsWith('s') || (t.endsWith('x') && t.length > 4)) t = t.slice(0, -1);
+  // "tranche(s)" / "radish(es)" / "tomato(es)": drop the mute final e on longer words.
+  if (t.length > 4 && t.endsWith('e')) t = t.slice(0, -1);
+  return t;
 }
 
 /** Tokens used for matching: de-accented, stop words removed, singularised. */
@@ -80,20 +81,26 @@ function toNumber(str) {
  * (metric weight > metric volume > imperial weight > cups/spoons > bare count).
  */
 export function parseQuantity(raw) {
-  let s = deaccent(raw);
+  let s = deaccent(raw).replace(/\(\s*\$\s*[\d.,]+\s*\*?\s*\)/g, ' '); // source cost notes like "($0.75)"
   for (const [k, v] of Object.entries(FRACTIONS)) s = s.replaceAll(k, ' ' + v);
-  s = s.replace(/(\d)\s*(?:-|–|—|\ba\b|\bto\b)\s*(\d)/g, '$1 ~ $2'); // ranges: keep the first bound
+  s = s.replace(/(\d)\s*(?:-|–|—|\ba\b|\bto\b|\bou\b|\bor\b)\s*(\d)/g, '$1 ~ $2'); // ranges: keep the first bound
+  s = s.replace(/(\d)\s+(?:scant|heaping|heaped|generous|level|rounded|packed|large|small|medium|big|bonnes?|gross?e?s?|petite?s?|healthy)\s+/g, '$1 ');
   const found = [];
   let m;
   NUM_RE.lastIndex = 0;
   while ((m = NUM_RE.exec(s))) {
-    if (s[m.index - 1] === '~' || s.slice(Math.max(0, m.index - 2), m.index) === '~ ') continue;
+    const upper = s.slice(Math.max(0, m.index - 2), m.index).includes('~');
     const qty = toNumber(m[1]);
     if (!isFinite(qty) || qty <= 0) continue;
     const rest = s.slice(m.index + m[1].length).replace(/^\s+/, '');
     let unit = null;
     for (const u of UNIT_RE) {
       if (u.re.test(rest)) { unit = u; break; }
+    }
+    if (upper) { // "3/4 to 1 cup": the unit belongs to the lower bound too
+      const prev = found[found.length - 1];
+      if (prev && !prev.unit && unit) prev.unit = unit;
+      continue;
     }
     found.push({ qty, unit, pos: m.index, rest });
   }
