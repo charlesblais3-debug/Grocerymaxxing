@@ -49,6 +49,69 @@
   "fetchedAt": "2026-11-11"
  },
  {
+  "id": "000ca0ad0d86",
+  "url": "https://www.fermentingforfoodies.com/easy-kimchi-soup/",
+  "source": "fermentingforfoodies",
+  "lang": "en",
+  "name": "Tofu Kimchi Soup",
+  "image": "https://www.fermentingforfoodies.com/wp-content/uploads/2017/11/Kimchi-soup-is-ready-in-15-minutes-500x500.jpg",
+  "author": "Emillie Parrish",
+  "yield": "4",
+  "servings": 4,
+  "prepMin": 2,
+  "cookMin": 15,
+  "totalMin": 17,
+  "category": [
+   "Soup"
+  ],
+  "cuisine": [
+   "Korean"
+  ],
+  "keywords": [
+   "5 ingredients",
+   "dairy-free",
+   "easy",
+   "egg-free",
+   "fall",
+   "gluten-free",
+   "healthy",
+   "kimchi",
+   "probiotic",
+   "quick",
+   "spring",
+   "summer",
+   "vegan",
+   "vegetarian"
+  ],
+  "ingredients": [
+   "1/2 lb of rice noodles",
+   "1 package of firm tofu (12 oz / 350 g)",
+   "4 spring onions",
+   "5 cups of water",
+   "3 Tbsp GF soy sauce",
+   "2 cups of vegan kimchi"
+  ],
+  "nutrition": {
+   "calories": "310 kcal",
+   "sugarContent": "1 g",
+   "sodiumContent": "1164 mg",
+   "fatContent": "5 g",
+   "saturatedFatContent": "1 g",
+   "carbohydrateContent": "52 g",
+   "fiberContent": "3 g",
+   "proteinContent": "13 g",
+   "unsaturatedFatContent": "4 g",
+   "servingSize": "1 serving"
+  },
+  "rating": {
+   "value": 5,
+   "count": 1
+  },
+  "steps": 4,
+  "published": "2021-12-23",
+  "fetchedAt": "2026-11-11"
+ },
+ {
   "id": "0011cf769b2a",
   "url": "https://minimalistbaker.com/curried-cauliflower-grape-lentil-salad/",
   "source": "minimalistbaker",
@@ -112,6 +175,155 @@
   "fetchedAt": "2026-11-11"
  },
  {
+  "id": "001cc5e23548",
+  "url": "https://chefcuisto.com/recette/salade-de-riz-brun-de-pommes/",
+  "source": "chefcuisto",
+  "lang": "fr",
+  "name": "Salade de riz brun et de pommes",
+  "image": "https://chefcuisto.com/files/2016/04/salade-riz-brun-et-pommes.jpg",
+  "author": "Matt",
+  "yield": "6-8",
+  "servings": 6,
+  "prepMin": 10,
+  "cookMin": 10,
+  "totalMin": 20,
+  "category": [
+   "Accompagnements",
+   "Entrées",
+   "Salades",
+   "Santé"
+  ],
+  "cuisine": [],
+  "keywords": [],
+  "ingredients": [
+   "6 tasses de riz brun (cuit)",
+   "2 pommes Granny Smith, sans le coeur et coupé en petits morceaux",
+   "2 poivrons rouge, coupés en dés",
+   "3 échalotes coupés finement",
+   "1/4 de tasse (65 ml) de persil frais",
+   "Le jus d'un gros citron",
+   "5 cuillères à soupe de vinaigre de cidre",
+   "1/4 de tasse (65 ml) d'huile végétale",
+   "Sel et poivre du moulin"
+  ],
+  "nutrition": null,
+  "rating": {
+   "value": 4,
+   "count": 22
+  },
+  "steps": 4,
+  "published": "2016-04-12",
+  "fetchedAt": "2026-11-11"
+ },
+ {
+  "id": "00245b7c61b5",
+  "url": "https://cuisinez.telequebec.tv/recettes/7221/trio-de-sandwichs",
+  "source": "cuisinez",
+  "lang": "fr",
+  "name": "Trio de sandwichs",
+  "image": "https://cuisinez.tele.quebec/Images/img/23393bbd-9646-4f88-b59e-8ecab065b61a/67b5355b-ab10-49f0-8858-872d0d6591906298e456-5f91-4d84-853e-a345d2f3e9fe.jpg?ts=1690379720",
+  "author": "Cuisinez | Télé-Québec",
+  "yield": "36",
+  "servings": 36,
+  "prepMin": 45,
+  "cookMin": 7,
+  "totalMin": 52,
+  "category": [
+   "Déjeuners et brunchs"
+  ],
+  "cuisine": [],
+  "keywords": [],
+  "ingredients": [
+   "72 tranches de pain",
+   "Beurre, à température ambiante",
+   "12 gros oeufs",
+   "125 ml (½ tasse) de mayonnaise",
+   "30 ml (2 c. à soupe) de moutarde de Dijon",
+   "5 ml (1 c. à thé) de câpres",
+   "180 ml (¾ tasse) de ciboulette, ciselée",
+   "250 ml (1 tasse) de céleri, haché très finement",
+   "5 ml (1 c. à thé) de sel",
+   "Poivre",
+   "12 feuilles de laitue romaine lavées",
+   "10 à 12 concombres libanais, pelés",
+   "250 g (8 oz) de fromage à la crème, ramolli",
+   "125 ml (½ tasse) d'aneth, ciselé",
+   "15 ml (1 c. à soupe) de poudre d'ail",
+   "15 ml (1 c. à soupe) de poudre d'oignon",
+   "5 ml (1 c. à thé) de sel",
+   "Poivre",
+   "1 L (4 tasses) de dinde ou de poulet cuit, en dés",
+   "180 ml (¾ tasse) de céleri, haché très finement",
+   "180 ml (¾ tasse) de noix de Grenoble, hachées finement",
+   "150 ml (⅔ tasse) de mayonnaise",
+   "30 ml (2 c. à soupe) de moutarde de Dijon",
+   "5 ml (1 c. à thé) de sel",
+   "Poivre",
+   "5 ml (1 c. à thé) de sauce Tabasco ou Red Hot"
+  ],
+  "nutrition": null,
+  "rating": {
+   "value": 5,
+   "count": 2
+  },
+  "steps": 12,
+  "published": "2018-08-01",
+  "fetchedAt": "2026-11-11"
+ },
+ {
+  "id": "002972a3faab",
+  "url": "https://fitfoodiefinds.com/healthy-baked-potato-salad/",
+  "source": "fitfoodiefinds",
+  "lang": "en",
+  "name": "Baked Potato Salad",
+  "image": "https://fitfoodiefinds.com/wp-content/uploads/2019/03/potato-3-sq-500x500.jpg",
+  "author": null,
+  "yield": "6",
+  "servings": 6,
+  "prepMin": 20,
+  "cookMin": 25,
+  "totalMin": 45,
+  "category": [
+   "Side Dish"
+  ],
+  "cuisine": [
+   "American"
+  ],
+  "keywords": [
+   "Potato Salad"
+  ],
+  "ingredients": [
+   "1/2 lb. cooked bacon (chopped into bite-sized pieces)",
+   "4 cups chopped Idaho potatoes (1.5-inch cubes (skin on))",
+   "2 hard-boiled eggs (chopped)",
+   "1/2 cup shredded cheddar cheese",
+   "2 tablespoons minced chives",
+   "3/4 cup plain nonfat Greek yogurt",
+   "3 tablespoons avocado mayonnaise*",
+   "2 teaspoon dijon mustard",
+   "3 teaspoons dill pickle juice**",
+   "2 tablespoons minced dill pickles",
+   "1/8 teaspoon salt",
+   "1/8 teaspoon ground pepper"
+  ],
+  "nutrition": {
+   "calories": "301 kcal",
+   "sugarContent": "2 g",
+   "fatContent": "14 g",
+   "carbohydrateContent": "21 g",
+   "fiberContent": "2 g",
+   "proteinContent": "17 g",
+   "servingSize": "1 serving"
+  },
+  "rating": {
+   "value": 4.86,
+   "count": 28
+  },
+  "steps": 7,
+  "published": "2021-03-10",
+  "fetchedAt": "2026-11-11"
+ },
+ {
   "id": "00326ac05f71",
   "url": "https://www.budgetbytes.com/kale-salmon-caesar-salad/",
   "source": "budgetbytes",
@@ -150,6 +362,113 @@
   },
   "steps": 4,
   "published": "2016-03-28",
+  "fetchedAt": "2026-11-11"
+ },
+ {
+  "id": "003d39c1d970",
+  "url": "https://www.feastingathome.com/vegetable-soup/",
+  "source": "feastingathome",
+  "lang": "en",
+  "name": "Best Veggie Soup",
+  "image": "https://www.feastingathome.com/wp-content/uploads/2019/08/Vegetable-Soup-Recipe-7-260x195.jpg",
+  "author": "Sylvia Fountaine | Feasting at Home",
+  "yield": "8 cups",
+  "servings": 8,
+  "prepMin": 15,
+  "cookMin": 20,
+  "totalMin": 35,
+  "category": [
+   "Soup"
+  ],
+  "cuisine": [
+   "American"
+  ],
+  "keywords": [
+   "vegetable soup",
+   "vegetable soup recipe",
+   "veggie soup",
+   "veggie soup recipe",
+   "healthy vegetable soup recipe",
+   "best vegetable soup",
+   "veggie soup",
+   "vegetable soup diet",
+   "vegetable soup with cabbage",
+   "healthy vegetable soup"
+  ],
+  "ingredients": [
+   "1-2 tablespoons olive oil",
+   "1 medium onion diced ( or a large leek)",
+   "2 cups diced carrot (2 medium carrots)",
+   "2 cups diced celery (2 stalks)",
+   "4 cloves garlic, rough chopped",
+   "1 tablespoon fresh thyme ( or sub, oregano , rosemary, sage, or tarragon- or sub 1 1/2 teaspoons dried thyme, or dry Italian seasoning or Herbs de Provence )",
+   "2 tablespoons white wine, vermouth, sherry cooking wine- all optional (feel free to leave out)",
+   "5 cups veggies of choice (chopped small): zucchini, fennel bulb, summer squash, green beans, peas, cauliflower, corn, potatoes, tomatoes, bell pepper, cabbage, kale, etc.",
+   "4 cups veggie stock or broth, chicken or beef stock, or bone broth",
+   "2 cups water",
+   "2 bay leaves",
+   "1 teaspoon kosher salt",
+   "½ teaspoon pepper",
+   "pinch cayenne",
+   "1/4 cup fresh Italian parsley ( or basil ribbons)",
+   "1/2 teaspoon of lemon juice or vinegar ( at the end)",
+   "pepper, cayenne, or chili flakes to taste",
+   "a drizzle of olive oil, gremolata or grated pecorino cheese"
+  ],
+  "nutrition": {
+   "servingSize": "2 cups- with veggie broth",
+   "calories": "192 calories",
+   "sugarContent": "13.4 g",
+   "sodiumContent": "838 mg",
+   "fatContent": "8.1 g",
+   "saturatedFatContent": "1.3 g",
+   "transFatContent": "0 g",
+   "carbohydrateContent": "29 g",
+   "fiberContent": "6.7 g",
+   "proteinContent": "4.6 g",
+   "cholesterolContent": "0 mg"
+  },
+  "rating": {
+   "value": 4.9,
+   "count": 35
+  },
+  "steps": 7,
+  "published": "2019-09-20",
+  "fetchedAt": "2026-11-11"
+ },
+ {
+  "id": "004c07dba100",
+  "url": "https://www.boblechef.com/recettes/sandwich-moist-maker-selon-ross-geller-dans-friends/",
+  "source": "boblechef",
+  "lang": "fr",
+  "name": "Sandwich Moist Maker selon Ross Geller dans Friends",
+  "image": "https://www.boblechef.com/wp-content/uploads/2022/12/boblechef-recette-noel-sandwich-moist-maker-720x540.jpg",
+  "author": "Bob le Chef",
+  "yield": "1",
+  "servings": 1,
+  "prepMin": 20,
+  "cookMin": 10,
+  "totalMin": 30,
+  "category": [],
+  "cuisine": [],
+  "keywords": [],
+  "ingredients": [
+   "3 tranches de pains de ton choix",
+   "180 ml (¾ de tasse) de sauce aux canneberges",
+   "Environ 1 lbs (450 g) de dinde cuite, viande blanche ou brune selon vos goûts",
+   "180 ml (¾ de tasse) de pomme de terre aligot",
+   "250 ml (1 tasse) de sauce brune ou sauce à poutine",
+   "250 ml (1 tasse) (de bébé épinards)",
+   "15 ml (1 c. à soupe) de mayonnaise maison",
+   "Sel, poivre au goût"
+  ],
+  "nutrition": null,
+  "rating": {
+   "value": 4.8,
+   "count": 5
+  },
+  "steps": 7,
+  "published": "2022-12-07",
   "fetchedAt": "2026-11-11"
  },
  {
@@ -193,6 +512,133 @@
   },
   "steps": 3,
   "published": "2015-03-23",
+  "fetchedAt": "2026-11-11"
+ },
+ {
+  "id": "006248fcf3cb",
+  "url": "https://www.skinnytaste.com/pressure-cooker-split-pea-soup-with-ham/",
+  "source": "skinnytaste",
+  "lang": "en",
+  "name": "Instant Pot Split Pea Soup with Ham",
+  "image": "https://www.skinnytaste.com/wp-content/uploads/2012/11/Pressure-Cooker-Split-Pea-Soup-with-Ham-Bone-1-500x500.jpg",
+  "author": null,
+  "yield": "8 Servings",
+  "servings": 8,
+  "prepMin": 5,
+  "cookMin": 20,
+  "totalMin": 25,
+  "category": [
+   "Dinner",
+   "Soup"
+  ],
+  "cuisine": [
+   "American"
+  ],
+  "keywords": [
+   "instant pot pea soup",
+   "instant pot split pea soup",
+   "split pea soup instant pot"
+  ],
+  "ingredients": [
+   "1 lb dry green split peas",
+   "1 tsp olive oil",
+   "2 large carrots (peeled and diced)",
+   "1 medium onion (diced)",
+   "1/4 cup diced celery",
+   "2 cloves garlic (minced)",
+   "leftover ham bone",
+   "6 cups water",
+   "1 tbsp Better Than Bouillon or 1 cube*",
+   "1 bay leaf",
+   "4 ounces leftover ham (diced)",
+   "chopped chives for garnish"
+  ],
+  "nutrition": {
+   "servingSize": "1 cup",
+   "calories": "182 kcal",
+   "carbohydrateContent": "39 g",
+   "proteinContent": "17 g",
+   "fatContent": "1.5 g",
+   "sodiumContent": "459 mg",
+   "fiberContent": "15 g",
+   "sugarContent": "4 g"
+  },
+  "rating": {
+   "value": 4.96,
+   "count": 47
+  },
+  "steps": 4,
+  "published": "2017-04-19",
+  "fetchedAt": "2026-11-11"
+ },
+ {
+  "id": "00698f137a52",
+  "url": "https://www.feastingathome.com/rainbow-chopped-salad/",
+  "source": "feastingathome",
+  "lang": "en",
+  "name": "Chopped Salad Recipe",
+  "image": "https://www.feastingathome.com/wp-content/uploads/2021/03/Chopped-Salad-3-1-260x195.jpg",
+  "author": "Tonia Schemmel | Feasting at Home",
+  "yield": "10 cups",
+  "servings": 10,
+  "prepMin": 20,
+  "cookMin": null,
+  "totalMin": 20,
+  "category": [
+   "salad"
+  ],
+  "cuisine": [
+   "American"
+  ],
+  "keywords": [
+   "Chopped Salad",
+   "Chopped Salad",
+   "chopped salad recipe",
+   "chopped salad recipe healthy",
+   "chopped salad recipe with cabbage"
+  ],
+  "ingredients": [
+   "2 cups red cabbage, chopped",
+   "2 cups green cabbage, chopped",
+   "1 cup mixed yellow & red bell pepper, diced",
+   "1 cup celery, chopped",
+   "1 cup snap peas, sliced",
+   "1/4 cup red onion, finely diced",
+   "15-ounce canned kidney beans, rinsed and drained",
+   "1 cup sharp cheddar cheese, diced into ⅓ -inch cubes – optional but tasty.",
+   "a couple of shakes of salt",
+   "1 cup Greek yogurt or use vegan yogurt",
+   "1/4 cup olive oil",
+   "1/4 cup lemon juice",
+   "1 clove garlic, pressed or minced",
+   "1 teaspoon dijon mustard",
+   "1 teaspoon soy sauce (optional but I like the depth it gives)",
+   "1/4 teaspoon ground black pepper",
+   "1/2 teaspoon sea salt",
+   "1/2 cup parsley, chopped",
+   "1/2 cup fresh mixed herbs chives, dill, basil, mint, chopped",
+   "microgreens",
+   "toasted sunflower seeds"
+  ],
+  "nutrition": {
+   "servingSize": "1 cup",
+   "calories": "239 calories",
+   "sugarContent": "5.3 g",
+   "sodiumContent": "348.7 mg",
+   "fatContent": "14 g",
+   "saturatedFatContent": "4.4 g",
+   "transFatContent": "0.1 g",
+   "carbohydrateContent": "18.5 g",
+   "fiberContent": "5.4 g",
+   "proteinContent": "11.2 g",
+   "cholesterolContent": "16.8 mg"
+  },
+  "rating": {
+   "value": 5,
+   "count": 9
+  },
+  "steps": 6,
+  "published": "2021-03-19",
   "fetchedAt": "2026-11-11"
  },
  {
@@ -313,6 +759,85 @@
   "fetchedAt": "2026-11-11"
  },
  {
+  "id": "007b90b4daa0",
+  "url": "https://www.recipetineats.com/easy-french-onion-soup-dip/",
+  "source": "recipetineats",
+  "lang": "en",
+  "name": "Easy French Onion Soup Dip",
+  "image": "https://www.recipetineats.com/tachyon/2017/06/French-Onion-Dip-with-Soup-Mix-5.jpg?resize=500%2C500",
+  "author": null,
+  "yield": "10",
+  "servings": 10,
+  "prepMin": 5,
+  "cookMin": null,
+  "totalMin": null,
+  "category": [
+   "Appetizer"
+  ],
+  "cuisine": [],
+  "keywords": [],
+  "ingredients": [
+   "400 g / 14 oz sour cream ((full fat is better))",
+   "½ cup mayonnaise ((Mayo labelled “whole egg” mayo is best))",
+   "40 g / 1.4 oz French Onion Soup Mix (store bought) (, salt reduced is best)"
+  ],
+  "nutrition": null,
+  "rating": {
+   "value": 5,
+   "count": 14
+  },
+  "steps": 2,
+  "published": "2017-06-02",
+  "fetchedAt": "2026-11-11"
+ },
+ {
+  "id": "00877664fb8e",
+  "url": "https://cookieandkate.com/favorite-grilled-cheese-sandwich-recipe/",
+  "source": "cookieandkate",
+  "lang": "en",
+  "name": "Favorite Grilled Cheese Sandwich",
+  "image": "https://cookieandkate.com/images/2019/04/gourmet-grilled-cheese-sandwich-recipe-4-260x195.jpg",
+  "author": "Cookie and Kate",
+  "yield": "1 sandwich",
+  "servings": 1,
+  "prepMin": 5,
+  "cookMin": 10,
+  "totalMin": 15,
+  "category": [
+   "Main Dish"
+  ],
+  "cuisine": [
+   "American"
+  ],
+  "keywords": [],
+  "ingredients": [
+   "2 large slices of whole grain sourdough, or your favorite crusty bread",
+   "Enough Dijon mustard for a thin layer across one slice of bread (about 1 ½ teaspoons)",
+   "1 cup lightly packed (3 ounces) freshly grated sharp cheddar cheese, plus a little more for sprinkling on the outside (optional)",
+   "2 teaspoons chopped green onion, green parts only",
+   "Unsalted butter, for melting in the pan (about 2 teaspoons)"
+  ],
+  "nutrition": {
+   "calories": "590 calories",
+   "sugarContent": "3.4 g",
+   "sodiumContent": "834.2 mg",
+   "fatContent": "39.4 g",
+   "saturatedFatContent": "21.6 g",
+   "transFatContent": "1 g",
+   "carbohydrateContent": "30.2 g",
+   "fiberContent": "4.3 g",
+   "proteinContent": "29.2 g",
+   "cholesterolContent": "103.5 mg"
+  },
+  "rating": {
+   "value": 4.9,
+   "count": 28
+  },
+  "steps": 6,
+  "published": "2019-04-13",
+  "fetchedAt": "2026-11-11"
+ },
+ {
   "id": "00886c5a1a41",
   "url": "https://www.budgetbytes.com/olive-herb-bread/",
   "source": "budgetbytes",
@@ -359,6 +884,222 @@
   },
   "steps": 5,
   "published": "2011-03-17",
+  "fetchedAt": "2026-11-11"
+ },
+ {
+  "id": "009146dd86b2",
+  "url": "https://cuisinez.telequebec.tv/recettes/7038/panzanella-salade-de-tomates-et-de-concombres-croutons-a-l-ail",
+  "source": "cuisinez",
+  "lang": "fr",
+  "name": "Panzanella (salade de tomates et de concombres, croûtons à l'ail)",
+  "image": "https://cuisinez.tele.quebec/Images/img/b913d916-52dc-4dc1-aedc-cae157fa97f7/dd1a07ca-d4e2-45b9-b8b1-bf28051c13a931f5319d-6973-4ea0-aa6c-5fa15f634312.jpg?ts=1688684132",
+  "author": "Cuisinez | Télé-Québec",
+  "yield": null,
+  "servings": null,
+  "prepMin": 15,
+  "cookMin": 17,
+  "totalMin": 32,
+  "category": [
+   "Choix alimentaires"
+  ],
+  "cuisine": [],
+  "keywords": [],
+  "ingredients": [
+   "60 ml (¼ tasse) d'huile d'olive",
+   "2 gousses d'ail, coupées en tranches",
+   "4 tranches de pain italien, coupées en cubes de 2,5 cm (1 po)",
+   "2 concombres anglais, coupés en dés",
+   "3 grosses tomates mûres, coupées en cubes",
+   "1 poignée de basilic frais, haché",
+   "1 poignée de menthe fraîche, hachée",
+   "15 ml (1 c. à soupe) de câpres",
+   "Les feuilles de 1 laitue romaine, lavées et essorées",
+   "Sel et poivre",
+   "60 ml (¼ tasse) de vinaigre de vin blanc",
+   "1 petit oignon rouge, émincé",
+   "Le jus et le zeste de 1 citron",
+   "5 ml (1 c. à thé) de moutarde de Dijon",
+   "180 ml (¾ tasse) d'huile d'olive",
+   "Poivre"
+  ],
+  "nutrition": null,
+  "rating": {
+   "value": 5,
+   "count": 1
+  },
+  "steps": 9,
+  "published": "2018-08-01",
+  "fetchedAt": "2026-11-11"
+ },
+ {
+  "id": "009a325a138b",
+  "url": "https://www.wellplated.com/three-bean-salad/",
+  "source": "wellplated",
+  "lang": "en",
+  "name": "Three Bean Salad",
+  "image": "https://www.wellplated.com/wp-content/uploads/2021/07/Best-Three-Bean-Salad-Recipe-500x500.jpg",
+  "author": null,
+  "yield": "8 -10 servings",
+  "servings": 8,
+  "prepMin": 20,
+  "cookMin": null,
+  "totalMin": 20,
+  "category": [
+   "Salad",
+   "Side Dish"
+  ],
+  "cuisine": [
+   "American"
+  ],
+  "keywords": [
+   "easy three bean salad",
+   "Mexican three bean salad",
+   "three bean salad with black beans",
+   "three bean salad with cilantro"
+  ],
+  "ingredients": [
+   "3 cups cooked wild rice blend (fully cooled)",
+   "1 (14-ounce) can kidney beans (dark or light, rinsed and drained)",
+   "1 (14-ounce) garbanzo beans (rinsed and drained)",
+   "1 (14-ounce) black beans (rinsed and drained)",
+   "1 red bell pepper (diced)",
+   "1-2 jalapenos (diced (if sensistive to spice, remove seeds and membrane and just add 1))",
+   "½ red onion (diced)",
+   "½ cup freshly chopped cilantro",
+   "2 tablespoons extra virgin olive oil",
+   "1 tablespoon honey (sub agave to make vegan)",
+   "2 limes (zest and juice)",
+   "½ teaspoon kosher salt"
+  ],
+  "nutrition": {
+   "servingSize": "1 (of 8)",
+   "calories": "214 kcal",
+   "carbohydrateContent": "37 g",
+   "proteinContent": "10 g",
+   "fatContent": "4 g",
+   "saturatedFatContent": "1 g",
+   "fiberContent": "9 g",
+   "sugarContent": "6 g",
+   "unsaturatedFatContent": "4 g"
+  },
+  "rating": {
+   "value": 4.91,
+   "count": 21
+  },
+  "steps": 2,
+  "published": "2024-06-05",
+  "fetchedAt": "2026-11-11"
+ },
+ {
+  "id": "00a5320dffe7",
+  "url": "https://www.recipetineats.com/creamy-pasta-bake/",
+  "source": "recipetineats",
+  "lang": "en",
+  "name": "Creamy Pasta Bake \"formula\" - make this with ANYTHING!",
+  "image": "https://www.recipetineats.com/tachyon/2020/03/Creamy-Pasta-Bake-with-Bow-Ties_0.jpg?resize=500%2C500",
+  "author": null,
+  "yield": "8 people",
+  "servings": 8,
+  "prepMin": 15,
+  "cookMin": 40,
+  "totalMin": null,
+  "category": [
+   "Mains"
+  ],
+  "cuisine": [
+   "Western"
+  ],
+  "keywords": [
+   "pantry recipes",
+   "pasta bake",
+   "pasta casserole bake"
+  ],
+  "ingredients": [
+   "500g / 1lb pasta ((any short or long except risoni/orzo) (Note 1))",
+   "1 tbsp salt ((for water))",
+   "4 tbsp (60g) butter (, unsalted)",
+   "2 garlic cloves (, minced (optional, sub 1 tsp powder))",
+   "5 tbsp flour (, any (GF option Note 2))",
+   "5 cups (1.25 litres) milk (, any fat, any type)",
+   "2 tsp stock / bouillon cube or powder (, chicken or veg)",
+   "3/4 cup (75g) parmesan",
+   "1/2 tsp black pepper",
+   "1 tsp EACH thyme and parsley (, or any other dried herbs)",
+   "1/2 tsp EACH mustard, garlic, onion powder",
+   "8 cups Add Ins - raw or cooked meats, bacon, ham, diced vegetabes (frozen, canned, fresh), canned or fresh fish ((Note 3))",
+   "1 tbsp olive oil",
+   "Salt and pepper",
+   "2 cups (200g) cheese (, shredded (Note 4))"
+  ],
+  "nutrition": {
+   "calories": "508 kcal",
+   "carbohydrateContent": "60 g",
+   "proteinContent": "23 g",
+   "fatContent": "19 g",
+   "saturatedFatContent": "12 g",
+   "cholesterolContent": "56 mg",
+   "sodiumContent": "430 mg",
+   "fiberContent": "3 g",
+   "sugarContent": "10 g",
+   "servingSize": "1 serving"
+  },
+  "rating": {
+   "value": 4.89,
+   "count": 53
+  },
+  "steps": 10,
+  "published": "2020-03-27",
+  "fetchedAt": "2026-11-11"
+ },
+ {
+  "id": "00b246537bf5",
+  "url": "https://www.skinnytaste.com/tuna-egg-salad/",
+  "source": "skinnytaste",
+  "lang": "en",
+  "name": "Tuna Egg Salad",
+  "image": "https://www.skinnytaste.com/wp-content/uploads/2021/11/Tuna-Egg-Salad-2-500x500.jpg",
+  "author": null,
+  "yield": "1 servings",
+  "servings": 1,
+  "prepMin": null,
+  "cookMin": 15,
+  "totalMin": 15,
+  "category": [
+   "Lunch"
+  ],
+  "cuisine": [
+   "American"
+  ],
+  "keywords": [
+   "high protein lunch",
+   "low carb recipes",
+   "recipe for 1",
+   "tuna egg salad",
+   "whole30lunch"
+  ],
+  "ingredients": [
+   "2 hard boiled eggs",
+   "1 2.6 oz packet light tuna in water (I use less sodium )",
+   "1 tablespoon mayonnaise ((check labels for whole30))",
+   "2 tablespoons chopped red onion",
+   "salt and pepper (to taste)"
+  ],
+  "nutrition": {
+   "servingSize": "1 salad",
+   "calories": "316 kcal",
+   "carbohydrateContent": "4 g",
+   "proteinContent": "30 g",
+   "fatContent": "20 g",
+   "saturatedFatContent": "3 g",
+   "sodiumContent": "420 mg",
+   "cholesterolContent": "450 mg"
+  },
+  "rating": {
+   "value": 4.96,
+   "count": 49
+  },
+  "steps": 3,
+  "published": "2022-01-03",
   "fetchedAt": "2026-11-11"
  },
  {
@@ -435,6 +1176,65 @@
   "fetchedAt": "2026-11-11"
  },
  {
+  "id": "00f526a2e1b2",
+  "url": "https://www.feastingathome.com/cauliflower-tacos/",
+  "source": "feastingathome",
+  "lang": "en",
+  "name": "Roasted Cauliflower Tacos",
+  "image": "https://www.feastingathome.com/wp-content/uploads/2022/05/Cauliflower-Tacos-9-260x195.jpg",
+  "author": "Tonia | Feasting at Home",
+  "yield": "8 tacos",
+  "servings": 8,
+  "prepMin": 30,
+  "cookMin": 20,
+  "totalMin": 50,
+  "category": [
+   "dinner"
+  ],
+  "cuisine": [
+   "Mexican"
+  ],
+  "keywords": [
+   "cauliflower tacos",
+   "vegan cauliflower tacos",
+   "cauliflower taco",
+   "roasted cauliflower taco",
+   "mole cauliflower taco"
+  ],
+  "ingredients": [
+   "8 x six-inch taco shells (corn, flour or a blend) Or make your own homemade tortillas",
+   "Mole Rojo Sauce (or Mole Negro)",
+   "1/2 head cauliflower",
+   "1 tablespoon olive oil",
+   "cabbage or lettuce, shredded (or Make the Mexican Slaw -10 mins)",
+   "1 avocado, sliced",
+   "fresh cilantro",
+   "radishes, thinly sliced",
+   "fresh lime",
+   "Optional: carrot ribbons, Pickled Jalapeños, Vegan Cilantro Crema or sour cream, shredded cheese, cotija, or feta"
+  ],
+  "nutrition": {
+   "servingSize": "Two tacos without Mole Sauce",
+   "calories": "238 calories",
+   "sugarContent": "4.4 g",
+   "sodiumContent": "363.6 mg",
+   "fatContent": "10.5 g",
+   "saturatedFatContent": "1.6 g",
+   "transFatContent": "0 g",
+   "carbohydrateContent": "34.4 g",
+   "fiberContent": "8.8 g",
+   "proteinContent": "6.4 g",
+   "cholesterolContent": "0 mg"
+  },
+  "rating": {
+   "value": 5,
+   "count": 10
+  },
+  "steps": 5,
+  "published": "2022-05-11",
+  "fetchedAt": "2026-11-11"
+ },
+ {
   "id": "01103e59d592",
   "url": "https://minimalistbaker.com/vegan-thanksgiving-wraps/",
   "source": "minimalistbaker",
@@ -494,6 +1294,414 @@
   },
   "steps": 10,
   "published": "2015-11-16",
+  "fetchedAt": "2026-11-11"
+ },
+ {
+  "id": "01248323fba8",
+  "url": "https://minimalistbaker.com/1-pot-butternut-squash-quinoa-chili/",
+  "source": "minimalistbaker",
+  "lang": "en",
+  "name": "1-Pot Butternut Squash Quinoa Chili",
+  "image": "https://minimalistbaker.com/wp-content/uploads/2018/11/Butternut-Squash-Chili-SQUARE-500x500.jpg",
+  "author": "Minimalist Baker",
+  "yield": "6 (Entrée servings)",
+  "servings": 6,
+  "prepMin": 10,
+  "cookMin": 50,
+  "totalMin": 60,
+  "category": [
+   "Entrée"
+  ],
+  "cuisine": [
+   "Gluten-Free",
+   "Mexican-Inspired",
+   "Vegan"
+  ],
+  "keywords": [
+   "butternut squash chili"
+  ],
+  "ingredients": [
+   "2 Tbsp avocado or coconut oil ((sub water if avoiding oil))",
+   "1 small white or yellow onion ((diced))",
+   "1 jalapeño ((minced // remove seeds for less heat))",
+   "1/2 tsp each sea salt and black pepper ((DIVIDED // plus more to taste))",
+   "4 cloves garlic ((minced))",
+   "4 cups diced butternut squash",
+   "3 Tbsp chili powder ((DIVIDED // chili powder should be a blend of spices, not entirely ground chiles))",
+   "2 Tbsp ground cumin ((DIVIDED))",
+   "2 tsp smoked paprika",
+   "2 (15-ounce) cans fire-roasted (or regular) diced tomatoes ((if unsalted, add more sea salt to taste))",
+   "1/4 cup tomato paste",
+   "3 cups vegetable broth ((sub up to half with water for lower sodium // plus more as needed))",
+   "1/4 cup quinoa, rinsed",
+   "1 (15-ounce) can kidney beans ((slightly drained))",
+   "1 (15-ounce) can black beans ((slightly drained))",
+   "1-2 Tbsp coconut sugar ((or maple syrup))",
+   "1 small chipotle pepper in adobo sauce ((for heat // optional))",
+   "1 cup chopped kale ((or other sturdy green // optional))",
+   "DIY Chili \"Cheese” Fritos",
+   "Rice or quinoa",
+   "Fresh chopped cilantro or parsley",
+   "Avocado"
+  ],
+  "nutrition": {
+   "servingSize": "1 bowl",
+   "calories": "308 kcal",
+   "carbohydrateContent": "51.7 g",
+   "proteinContent": "12 g",
+   "fatContent": "7.5 g",
+   "saturatedFatContent": "0.9 g",
+   "sodiumContent": "740 mg",
+   "fiberContent": "14.8 g",
+   "sugarContent": "12 g"
+  },
+  "rating": {
+   "value": 4.82,
+   "count": 77
+  },
+  "steps": 10,
+  "published": "2018-12-24",
+  "fetchedAt": "2026-11-11"
+ },
+ {
+  "id": "012a04bdb2af",
+  "url": "https://www.wellplated.com/asian-chicken-wraps-thai-peanut-sauce/",
+  "source": "wellplated",
+  "lang": "en",
+  "name": "Asian Chicken Wraps",
+  "image": "https://www.wellplated.com/wp-content/uploads/2015/08/Asian-Chicken-Wraps-with-Thai-Peanut-Sauce.-An-easy-and-healthy-chicken-wrap-recipe-thats-perfect-for-weeknight-dinner-or-to-pack-for-lunch-500x500.jpg",
+  "author": null,
+  "yield": "4 wraps",
+  "servings": 4,
+  "prepMin": 15,
+  "cookMin": 15,
+  "totalMin": 30,
+  "category": [
+   "Main Course"
+  ],
+  "cuisine": [
+   "Thai"
+  ],
+  "keywords": [
+   "asian chicken wraps with broccoli slaw",
+   "asian chicken wraps with peanut sauce",
+   "Asian Chicken Wraps with Thai Peanut Sauce",
+   "asian style chicken wraps",
+   "best asian chicken wraps recipe",
+   "Crunchy asian chicken wraps",
+   "healthy asian chicken wraps",
+   "Healthy Thai Food",
+   "Thai chicken wrap recipe"
+  ],
+  "ingredients": [
+   "1/3 cup creamy peanut butter",
+   "2 tablespoons soy sauce",
+   "2 tablespoons honey",
+   "1 tablespoon Sriracha (or similar spicy chili sauce)",
+   "1 tablespoon minced fresh ginger",
+   "1 tablespoon fresh lime juice",
+   "1 pound boneless, skinless chicken breasts (about 2 medium breasts)",
+   "1 tablespoon canola oil (or grapeseed oil, divided)",
+   "2 cups broccoli slaw",
+   "1 cup shelled edamame (thawed if frozen)",
+   "1/2 cup shredded carrots",
+   "1/2 cup finely chopped green onions",
+   "1/4 cup dry roasted salted peanuts (chopped)",
+   "Chopped fresh cilantro (to taste)",
+   "4 whole wheat tortillas"
+  ],
+  "nutrition": {
+   "transFatContent": "1 g",
+   "servingSize": "1 of 4",
+   "calories": "586 kcal",
+   "carbohydrateContent": "47 g",
+   "proteinContent": "43 g",
+   "fatContent": "27 g",
+   "saturatedFatContent": "5 g",
+   "cholesterolContent": "73 mg",
+   "fiberContent": "8 g",
+   "sugarContent": "15 g",
+   "unsaturatedFatContent": "18 g"
+  },
+  "rating": {
+   "value": 4.88,
+   "count": 24
+  },
+  "steps": 6,
+  "published": "2021-09-09",
+  "fetchedAt": "2026-11-11"
+ },
+ {
+  "id": "01417168f4e0",
+  "url": "https://minimalistbaker.com/pear-salad-dried-cherries-candied-walnuts/",
+  "source": "minimalistbaker",
+  "lang": "en",
+  "name": "Pear Balsamic Salad with Dried Cherries and Candied Walnuts",
+  "image": "https://minimalistbaker.com/wp-content/uploads/2016/05/Pear-Candied-Walnut-Dried-Cherry-Salad-SQUARE.jpg",
+  "author": "Minimalist Baker",
+  "yield": "3",
+  "servings": 3,
+  "prepMin": 20,
+  "cookMin": 10,
+  "totalMin": 30,
+  "category": [
+   "Entrée",
+   "Side"
+  ],
+  "cuisine": [
+   "Gluten-Free",
+   "Vegan"
+  ],
+  "keywords": [
+   "balsamic salad"
+  ],
+  "ingredients": [
+   "1 heaping cup raw walnuts",
+   "2 tsp olive or coconut oil",
+   "1 Tbsp coconut sugar",
+   "2 tsp maple syrup ((or agave nectar))",
+   "1 pinch sea salt",
+   "1 pinch ground cinnamon",
+   "1 pinch cayenne pepper ((optional))",
+   "1/4 cup balsamic vinegar",
+   "1/4 cup extra virgin olive oil",
+   "1 medium shallot, minced",
+   "1 pinch each sea salt and black pepper",
+   "1 6-ounce bag mixed greens ((organic when possible))",
+   "1 ripe Bosc or Bartlett Pear ((thinly sliced lengthwise // stem and seeds removed))",
+   "1/4 cup dried cherries ((or cranberries, though cherries are best!))"
+  ],
+  "nutrition": {
+   "servingSize": "1 serving",
+   "calories": "525 kcal",
+   "carbohydrateContent": "24.4 g",
+   "proteinContent": "12.3 g",
+   "fatContent": "45.8 g",
+   "saturatedFatContent": "4.3 g",
+   "sodiumContent": "128 mg",
+   "fiberContent": "5.7 g",
+   "sugarContent": "12 g"
+  },
+  "rating": {
+   "value": 4.94,
+   "count": 16
+  },
+  "steps": 6,
+  "published": "2016-06-02",
+  "fetchedAt": "2026-11-11"
+ },
+ {
+  "id": "01461d34d8c5",
+  "url": "https://cuisinez.telequebec.tv/recettes/290/cornichons-sucres",
+  "source": "cuisinez",
+  "lang": "fr",
+  "name": "Cornichons sucrés",
+  "image": "https://cuisinez.tele.quebec/Images/img/3f8613f8-e5eb-4084-afd2-88cc1a060f24/63128176-1a38-48d4-8c7b-970202bfe0ea4475cd4c-05fd-47a9-95b9-ee7ff5236e36.jpg?ts=1661952644",
+  "author": "Cuisinez",
+  "yield": null,
+  "servings": null,
+  "prepMin": 45,
+  "cookMin": null,
+  "totalMin": 45,
+  "category": [
+   "À offrir"
+  ],
+  "cuisine": [],
+  "keywords": [],
+  "ingredients": [
+   "1 L (4 tasses) concombres libanais ou petits concombres du jardin, tranchés très finement",
+   "½ oignon, ciselé",
+   "½ poivron rouge, coupé en cubes de 1 cm (½ po)",
+   "30 ml (2 c. à soupe) de gros sel",
+   "12 glaçons",
+   "125 ml (½ tasse) de sucre",
+   "250 ml (1 tasse) de vinaigre de cidre",
+   "10 ml (2 c. à thé) de graines de moutarde",
+   "5 ml (1 c. à thé) de graines de céleri",
+   "2 ml (½ c. à thé) de curcuma"
+  ],
+  "nutrition": null,
+  "rating": {
+   "value": 4,
+   "count": 12
+  },
+  "steps": 7,
+  "published": "2018-08-01",
+  "fetchedAt": "2026-11-11"
+ },
+ {
+  "id": "01590ac10892",
+  "url": "https://lecoupdegrace.ca/recette/soupe-au-boeuf-hache-couscous-perle-et-legumes/",
+  "source": "lecoupdegrace",
+  "lang": "fr",
+  "name": "Soupe au bœuf haché, couscous perlé et légumes",
+  "image": "https://lecoupdegrace.ca/app/uploads/2023/03/soupe-au-boeuf-hache-couscous-perle-et-legumes-inpage-1200x900.jpg",
+  "author": "Le Coup de Grâce",
+  "yield": "6 à 8",
+  "servings": 6,
+  "prepMin": 25,
+  "cookMin": 55,
+  "totalMin": 80,
+  "category": [
+   "Soupes & potages"
+  ],
+  "cuisine": [
+   "Québécoise"
+  ],
+  "keywords": [],
+  "ingredients": [
+   "1 1/4 tasse (310 ml) de couscous perlé",
+   "1 3/4 tasse (430 ml) d’eau",
+   "Huile d’olive",
+   "1 petit oignon jaune, haché finement",
+   "3 grosses gousses d’ail, hachées finement",
+   "2 beaux panais pelés, coupés en quatre sur la longueur et tranchés",
+   "4 branches de céleri, tranchées",
+   "1 petite courge poivrée pelée et les graines retirées, coupée en dés",
+   "550 g de bœuf haché maigre",
+   "1 canne de 796 ml de tomates en dés",
+   "1 c. à soupe (15 ml) d’épices italiennes",
+   "1 c. à thé (5 ml) de thym séché",
+   "1 c. à thé (5 ml) de basilic séché",
+   "6 tasses (1,5 L) de bouillon de bœuf",
+   "1/2 tasse (125 ml) de maïs surgelé",
+   "Sel et poivre du moulin"
+  ],
+  "nutrition": null,
+  "rating": {
+   "value": 4.4,
+   "count": 8
+  },
+  "steps": 7,
+  "published": "2021-10-21",
+  "fetchedAt": "2026-11-11"
+ },
+ {
+  "id": "015f81cf14d7",
+  "url": "https://www.feastingathome.com/kimchi-burrito/",
+  "source": "feastingathome",
+  "lang": "en",
+  "name": "Kimchi Burritos",
+  "image": "https://www.feastingathome.com/wp-content/uploads/2019/09/Kimchi-Burrito-9-260x195.jpg",
+  "author": "Sylvia Fountaine",
+  "yield": "3-4",
+  "servings": 3,
+  "prepMin": 10,
+  "cookMin": 20,
+  "totalMin": 30,
+  "category": [
+   "main"
+  ],
+  "cuisine": [
+   "Korean"
+  ],
+  "keywords": [
+   "kimchi burrito",
+   "korean burrito",
+   "kimchi uses",
+   "how to use kimchi",
+   "ways to use kimchi",
+   "kimchi dinner idea",
+   "vegetarian korean burrito",
+   "vegetarian burrito",
+   "vegan burrito recipes",
+   "kimchi burrito recipe",
+   "vegan korean burrito"
+  ],
+  "ingredients": [
+   "1-2 tablespoons olive oil",
+   "1 onion, diced",
+   "4 cloves garlic, roughly chopped",
+   "1 red bell pepper, diced",
+   "1 teaspoon ginger, finely grated",
+   "1 cup rice (leftover rice works great here!)",
+   "1/2 cup kimchi, chopped, use more to taste.",
+   "14-ounce can of black beans, drained",
+   "salt and pepper to taste (I used 1/2 teaspoon)",
+   "1-3 teaspoons gochujang, sriracha, or garlic chili paste to taste",
+   "2 green onions chopped",
+   "1/4 cup cilantro, chopped",
+   "Gochujang to taste (start conservatively) or sub Sriracha or Chili Paste",
+   "1 cup shredded cheese (like pepper jack) or meltable vegan cheese",
+   "3- 4 extra-large 12-inch tortillas or gluten-free wraps (warmed)"
+  ],
+  "nutrition": {
+   "servingSize": "with ½ cup shredded cheddar cheese",
+   "calories": "350 calories",
+   "sugarContent": "4.3 g",
+   "sodiumContent": "727.7 mg",
+   "fatContent": "10.5 g",
+   "saturatedFatContent": "4 g",
+   "transFatContent": "0.1 g",
+   "carbohydrateContent": "51 g",
+   "fiberContent": "12 g",
+   "proteinContent": "13.8 g",
+   "cholesterolContent": "9.9 mg"
+  },
+  "rating": {
+   "value": 4.7,
+   "count": 20
+  },
+  "steps": 6,
+  "published": "2019-10-04",
+  "fetchedAt": "2026-11-11"
+ },
+ {
+  "id": "0170d942eb61",
+  "url": "https://downshiftology.com/recipes/roasted-beet-hummus/",
+  "source": "downshiftology",
+  "lang": "en",
+  "name": "Roasted Beet Hummus",
+  "image": "https://i2.wp.com/www.downshiftology.com/wp-content/uploads/2016/02/beet-hummus-7.jpg",
+  "author": "Lisa Bryan",
+  "yield": "16 servings",
+  "servings": 16,
+  "prepMin": 10,
+  "cookMin": 60,
+  "totalMin": 70,
+  "category": [
+   "Appetizer"
+  ],
+  "cuisine": [
+   "American",
+   "Mediterranean",
+   "Middle Eastern"
+  ],
+  "keywords": [
+   "beet hummus",
+   "roasted beet hummus"
+  ],
+  "ingredients": [
+   "2 medium beet",
+   "2 (15-ounce cans) chickpeas ( drained with liquid reserved)",
+   "⅓ cup chickpea liquid (or more, as needed for a smoother consistency)",
+   "½ cup tahini",
+   "¼ cup olive oil",
+   "2 lemons (juiced)",
+   "1 clove garlic",
+   "½ teaspoon salt",
+   "Basil Pesto",
+   "Parsley",
+   "Olive Oil"
+  ],
+  "nutrition": {
+   "calories": "130 kcal",
+   "carbohydrateContent": "11 g",
+   "proteinContent": "4 g",
+   "fatContent": "8 g",
+   "saturatedFatContent": "1 g",
+   "sodiumContent": "231 mg",
+   "fiberContent": "3 g",
+   "sugarContent": "1 g",
+   "unsaturatedFatContent": "7 g",
+   "servingSize": "1 serving"
+  },
+  "rating": {
+   "value": 5,
+   "count": 48
+  },
+  "steps": 5,
+  "published": "2019-01-29",
   "fetchedAt": "2026-11-11"
  },
  {
@@ -672,6 +1880,153 @@
   "fetchedAt": "2026-11-11"
  },
  {
+  "id": "01b0ccb9dea6",
+  "url": "https://lecoupdegrace.ca/recette/salade-de-fruits-mimosa/",
+  "source": "lecoupdegrace",
+  "lang": "fr",
+  "name": "Salade de fruits mimosa",
+  "image": "https://lecoupdegrace.ca/app/uploads/2025/12/salade-de-fruits-mimosa-683x900.jpg",
+  "author": "Le Coup de Grâce",
+  "yield": "6 à 8",
+  "servings": 6,
+  "prepMin": 30,
+  "cookMin": null,
+  "totalMin": 30,
+  "category": [
+   "Brunchs & déjeuners"
+  ],
+  "cuisine": [
+   "Québécoise"
+  ],
+  "keywords": [],
+  "ingredients": [
+   "4 kiwis pelés et coupés en cubes",
+   "1 pamplemousse coupé en suprêmes",
+   "3 oranges sanguines coupées en suprêmes",
+   "Les graines d’une grosse pomme grenade",
+   "⅓ d’ananas coupé en gros cubes",
+   "⅓ de cantaloup coupé en gros cubes",
+   "1 grosse mangue coupée en gros cubes",
+   "30 raisins rouges coupés en deux",
+   "Le zeste de ½ lime",
+   "12 grosses feuilles de menthe hachées grossièrement",
+   "Jus d’orange",
+   "250 ml (1 tasse) de vin mousseux sec (de type Henkell)"
+  ],
+  "nutrition": null,
+  "rating": {
+   "value": 4.9,
+   "count": 11
+  },
+  "steps": 2,
+  "published": "2025-12-14",
+  "fetchedAt": "2026-11-11"
+ },
+ {
+  "id": "01b1bff04cbf",
+  "url": "https://www.boblechef.com/recettes/quiche-au-jambon-poireaux-et-fromage-ultra-facile/",
+  "source": "boblechef",
+  "lang": "fr",
+  "name": "Quiche au jambon, poireaux et fromage ultra facile",
+  "image": "https://www.boblechef.com/wp-content/uploads/2025/06/boblechef-recette-quiche-au-jambon-poireaux-et-fromage-720x540.jpg",
+  "author": "Bob le Chef",
+  "yield": "1",
+  "servings": 1,
+  "prepMin": 20,
+  "cookMin": 40,
+  "totalMin": 60,
+  "category": [],
+  "cuisine": [],
+  "keywords": [],
+  "ingredients": [
+   "1 tasse (250 ml) de farine tout usage (ou farine de blé entier pour une version encore plus nourrissante)",
+   "¼ c. à thé (1 ml) de sel",
+   "¼ tasse (60 ml) d’huile d’olive",
+   "¼ tasse (60 ml) d’eau froide",
+   "4 à 5 œufs (selon la grandeur de ton assiette à tarte)",
+   "1 tasse (250 ml) de lait",
+   "½ c. à thé (2,5 ml) de sel",
+   "¼ c. à thé (1 ml) de muscade",
+   "Poivre au goût",
+   "1 c. à soupe (15 ml) d’huile d’olive",
+   "1 blanc de poireau émincé",
+   "½ tasse (125 ml) de jambon en dés",
+   "1 tasse (250 ml) de fromage râpé (cheddar, suisse ou ce que t’as sous la main)",
+   "1 c. à soupe (15 ml) de farine (pour enrober le fromage)"
+  ],
+  "nutrition": null,
+  "rating": {
+   "value": 4,
+   "count": 7
+  },
+  "steps": 14,
+  "published": "2025-06-12",
+  "fetchedAt": "2026-11-11"
+ },
+ {
+  "id": "01e0d6003f68",
+  "url": "https://www.recipetineats.com/prawn-cocktail-mini-tacos/",
+  "source": "recipetineats",
+  "lang": "en",
+  "name": "Prawn cocktail mini tacos (shrimp)",
+  "image": "https://www.recipetineats.com/tachyon/2025/01/Prawn-cocktail-mini-tacos_0.jpg?resize=500%2C500",
+  "author": "Nagi | RecipeTin Eats",
+  "yield": "17 mini tacos",
+  "servings": 17,
+  "prepMin": 25,
+  "cookMin": 12,
+  "totalMin": 67,
+  "category": [
+   "Appetiser",
+   "Party Food"
+  ],
+  "cuisine": [
+   "Western"
+  ],
+  "keywords": [
+   "Appetizers",
+   "crispy rice finger food",
+   "Cucumber canape",
+   "mini tacos"
+  ],
+  "ingredients": [
+   "6 corn tortillas (~13cm / 3\" wide (Note 1 on flour tortillas))",
+   "1/4 tsp cooking salt / kosher salt ((halve for table salt))",
+   "Olive oil spray",
+   "220g/7 oz cooked prawns/shrimp, peeled ((ie 500g/1 lb whole cooked in shell, then peel yourself, Note 2))",
+   "4 tbsp mayonnaise (, preferably whole egg, or Kewpie (Note 3))",
+   "1 tbsp ketchup ((or Aussie tomato sauce))",
+   "1 tsp Worcestershire sauce",
+   "1/2 tsp horseradish cream (, or better yet fresh horseradish (Note 4))",
+   "2 dashes of tabasco (, for touch of spice (optional))",
+   "1/8 tsp cayenne pepper (, for touch of spice (optional))",
+   "1/8 tsp garlic powder ((or small garlic clove pressed using garlic crusher))",
+   "1 tbsp cornichons ((or dill pickle), finely chopped)",
+   "1 tbsp chives (, finely sliced (or parsley))",
+   "Fancy options - salmon roe, caviar ((not pictured))",
+   "Dried black beans or rock salt (, to keep upright when serving (optional, Note 5))"
+  ],
+  "nutrition": {
+   "servingSize": "36 g",
+   "calories": "69 kcal",
+   "carbohydrateContent": "5.25 g",
+   "proteinContent": "2 g",
+   "fatContent": "4.6 g",
+   "saturatedFatContent": "0.9 g",
+   "cholesterolContent": "15 mg",
+   "sodiumContent": "183 mg",
+   "fiberContent": "1.1 g",
+   "sugarContent": "0.9 g"
+  },
+  "rating": {
+   "value": 4.89,
+   "count": 9
+  },
+  "steps": 11,
+  "published": "2025-01-24",
+  "fetchedAt": "2026-11-11"
+ },
+ {
   "id": "01efc37f0ba2",
   "url": "https://www.budgetbytes.com/harissa-roasted-vegetables/",
   "source": "budgetbytes",
@@ -782,6 +2137,48 @@
   "fetchedAt": "2026-11-11"
  },
  {
+  "id": "0203516e5df3",
+  "url": "https://chefcuisto.com/recette/soupe-aux-legumes-du-printemps/",
+  "source": "chefcuisto",
+  "lang": "fr",
+  "name": "Soupe aux légumes du printemps",
+  "image": "https://chefcuisto.com/files/2019/03/soupe-aux-legumes-printemps.jpg",
+  "author": "Matt",
+  "yield": "4",
+  "servings": 4,
+  "prepMin": 15,
+  "cookMin": 11,
+  "totalMin": 26,
+  "category": [
+   "Santé",
+   "Soupe"
+  ],
+  "cuisine": [],
+  "keywords": [],
+  "ingredients": [
+   "2 cuillères à soupe d’huile d’olive",
+   "2 carottes pelées et coupées en rondelles",
+   "1 branche de céleri haché",
+   "1 poireau, le blanc seulement, tranché",
+   "2 gousses d’ail émincées",
+   "4 tasses (1000 ml) de bouillon de légumes",
+   "1 conserve (15 onces) de fèves de cannellini, rincée et égouttée",
+   "1 tasse (250 ml) de pois vert",
+   "1 tasse (250 ml) d’asperges coupées en tiers",
+   "Sel et poivre au goût",
+   "2 cuillères à soupe de persil frais, haché",
+   "2 cuillères a soupe de basilic frais, haché"
+  ],
+  "nutrition": null,
+  "rating": {
+   "value": 5,
+   "count": 19
+  },
+  "steps": 7,
+  "published": "2019-03-28",
+  "fetchedAt": "2026-11-11"
+ },
+ {
   "id": "021268452d4b",
   "url": "https://www.budgetbytes.com/garlic-noodles/",
   "source": "budgetbytes",
@@ -831,6 +2228,204 @@
   },
   "steps": 4,
   "published": "2025-03-28",
+  "fetchedAt": "2026-11-11"
+ },
+ {
+  "id": "02340a8a9f04",
+  "url": "https://pinchofyum.com/creamy-potato-kale-soup",
+  "source": "pinchofyum",
+  "lang": "en",
+  "name": "Creamy Potato Kale Soup",
+  "image": "https://pinchofyum.com/tachyon/potato-kale-soup-square.jpg?fit=195%2C195",
+  "author": "Lindsay Ostrom",
+  "yield": "8",
+  "servings": 8,
+  "prepMin": 15,
+  "cookMin": 25,
+  "totalMin": 40,
+  "category": [
+   "Dinner"
+  ],
+  "cuisine": [
+   "American"
+  ],
+  "keywords": [
+   "kale soup",
+   "potato kale soup",
+   "healthy kale soup"
+  ],
+  "ingredients": [
+   "5 tablespoons butter",
+   "1 large yellow onion, roughly chopped",
+   "3 large potatoes, peeled and roughly chopped",
+   "8 cups chicken or vegetable broth",
+   "2-3 cups chopped kale, stems removed",
+   "2 cups milk",
+   "salt and pepper to taste"
+  ],
+  "nutrition": {
+   "calories": "214 calories",
+   "sugarContent": "6 g",
+   "sodiumContent": "961.6 mg",
+   "fatContent": "8 g",
+   "saturatedFatContent": "4.6 g",
+   "transFatContent": "0 g",
+   "carbohydrateContent": "30.1 g",
+   "fiberContent": "3.4 g",
+   "proteinContent": "7 g",
+   "cholesterolContent": "25.3 mg"
+  },
+  "rating": {
+   "value": 4.7,
+   "count": 64
+  },
+  "steps": 2,
+  "published": "2014-05-21",
+  "fetchedAt": "2026-11-11"
+ },
+ {
+  "id": "0236f3751c48",
+  "url": "https://cuisinez.telequebec.tv/recettes/7036/pates-cremeuses-au-jambon-et-aux-petits-pois",
+  "source": "cuisinez",
+  "lang": "fr",
+  "name": "Pâtes crémeuses au jambon et aux petits pois",
+  "image": "https://cuisinez.tele.quebec/Images/img/a3a32f48-1322-46b5-aadd-82f48e4f751a/72a67b1e-4653-4a89-8dd4-785566cb50a37d48d33c-d08b-431e-bb57-9b535fd50695.jpg?ts=1688647096",
+  "author": "Cuisinez | Télé-Québec",
+  "yield": "4",
+  "servings": 4,
+  "prepMin": 15,
+  "cookMin": 15,
+  "totalMin": 30,
+  "category": [
+   "Économique"
+  ],
+  "cuisine": [],
+  "keywords": [],
+  "ingredients": [
+   "450 g (1 lb) de pennes",
+   "375 ml (1 ½ tasse) de petits pois, surgelés",
+   "60 ml (¼ tasse) de beurre",
+   "125 ml (½ tasse) de crème à cuisson 15 %",
+   "125 ml (½ tasse) de parmesan râpé",
+   "500 ml (2 tasses) de jambon cuit, coupé en cubes",
+   "2 ml (½ c. à thé) de sel",
+   "Poivre"
+  ],
+  "nutrition": null,
+  "rating": {
+   "value": 3,
+   "count": 7
+  },
+  "steps": 4,
+  "published": "2018-08-01",
+  "fetchedAt": "2026-11-11"
+ },
+ {
+  "id": "024b8c5bb80d",
+  "url": "https://pinchofyum.com/chopped-greek-salad",
+  "source": "pinchofyum",
+  "lang": "en",
+  "name": "Lemony Herb-Loaded Chopped Greek Salad",
+  "image": "https://pinchofyum.com/tachyon/Greek-Salad-Recipe.jpg?fit=260%2C146",
+  "author": "Lindsay Ostrom",
+  "yield": "4-6",
+  "servings": 4,
+  "prepMin": 10,
+  "cookMin": 10,
+  "totalMin": 20,
+  "category": [
+   "Lunch"
+  ],
+  "cuisine": [
+   "Greek"
+  ],
+  "keywords": [
+   "chopped greek salad",
+   "lemon greek salad",
+   "herb greek salad"
+  ],
+  "ingredients": [
+   "1 cup uncooked quinoa",
+   "1 14-ounce can white beans (lentil and garbanzos are yummy too)",
+   "3 cups chopped tomatoes",
+   "3 cups chopped fresh herbs – I like mint, parsley, and basil",
+   "2 cups chopped red onion (one should be enough)",
+   "2 cups chopped cucumbers (one should be enough)",
+   "1/2 cup chopped kalamata olives",
+   "olive oil",
+   "salt and pepper",
+   "lemon juice"
+  ],
+  "nutrition": {
+   "calories": "190 calories",
+   "sugarContent": "4.9 g",
+   "sodiumContent": "104.3 mg",
+   "fatContent": "3.6 g",
+   "saturatedFatContent": "0.4 g",
+   "transFatContent": "0 g",
+   "carbohydrateContent": "33.2 g",
+   "fiberContent": "6.1 g",
+   "proteinContent": "7.9 g",
+   "cholesterolContent": "0 mg"
+  },
+  "rating": {
+   "value": 4.7,
+   "count": 7
+  },
+  "steps": 3,
+  "published": "2016-04-25",
+  "fetchedAt": "2026-11-11"
+ },
+ {
+  "id": "0253b836ab2f",
+  "url": "https://mealpreponfleek.com/spicy-italian-sausage-and-tortellini-soup/",
+  "source": "mealpreponfleek",
+  "lang": "en",
+  "name": "Spicy Italian Sausage and Tortellini Soup",
+  "image": "https://mealpreponfleek.com/wp-content/uploads/2020/01/Spicy-Italian-Sausage-and-Tortellini-Soup-Multi-Container-601x800.jpg",
+  "author": "Nick Quintero",
+  "yield": "4 meals",
+  "servings": 4,
+  "prepMin": 10,
+  "cookMin": 25,
+  "totalMin": 35,
+  "category": [
+   "dinner",
+   "Lunch",
+   "Main Course"
+  ],
+  "cuisine": [
+   "Italian"
+  ],
+  "keywords": [
+   "gluten free"
+  ],
+  "ingredients": [
+   "1/2 lb. spicy Italian pork sausage",
+   "1 cup julienned red bell pepper",
+   "1/2 cup chopped sweet white onion",
+   "8 oz. gluten-free cheese tortellini",
+   "4 cups chicken stock",
+   "15 ounces fire roasted tomatoes",
+   "2 tbsp tomato paste",
+   "1 tsp dried oregano",
+   "1/2 tsp sea salt",
+   "2 cups chopped kale",
+   "1/3 cup heavy cream",
+   "1/4 cup shaved Parmesan cheese",
+   "1/3 cup chopped fresh basil"
+  ],
+  "nutrition": {
+   "calories": "547 kcal",
+   "carbohydrateContent": "44.1 g",
+   "proteinContent": "22.1 g",
+   "fatContent": "32.4 g",
+   "fiberContent": "9.1 g",
+   "servingSize": "1 serving"
+  },
+  "rating": null,
+  "steps": 2,
+  "published": "2020-03-05",
   "fetchedAt": "2026-11-11"
  },
  {
@@ -889,6 +2484,239 @@
   "fetchedAt": "2026-11-11"
  },
  {
+  "id": "0281983e9d4d",
+  "url": "https://downshiftology.com/recipes/sweet-potato-soup/",
+  "source": "downshiftology",
+  "lang": "en",
+  "name": "Sweet Potato Soup Recipe",
+  "image": "https://downshiftology.com/wp-content/uploads/2019/10/Sweet-Potato-Soup-main-500x500.jpg",
+  "author": "Lisa Bryan",
+  "yield": "4 people",
+  "servings": 4,
+  "prepMin": 10,
+  "cookMin": 30,
+  "totalMin": 40,
+  "category": [
+   "Soup"
+  ],
+  "cuisine": [
+   "American"
+  ],
+  "keywords": [
+   "Fall Soup",
+   "sweet potato recipe",
+   "sweet potato soup",
+   "sweet potato soup recipe"
+  ],
+  "ingredients": [
+   "2 tablespoons avocado oil (or olive oil)",
+   "3 carrots (sliced)",
+   "1 yellow onion",
+   "1 1/2 pound sweet potatoes (peeled and diced)",
+   "2 garlic cloves (minced)",
+   "1 tablespoon fresh ginger (finely chopped)",
+   "1/4 teaspoon red pepper flakes",
+   "1/4 teaspoon paprika",
+   "4 cups vegetable broth (or more for thinner consistency)",
+   "watercress",
+   "pistachios",
+   "coconut cream or yogurt",
+   "red pepper flakes",
+   "cracked black pepper"
+  ],
+  "nutrition": {
+   "calories": "254 kcal",
+   "carbohydrateContent": "45 g",
+   "proteinContent": "4 g",
+   "fatContent": "7 g",
+   "saturatedFatContent": "1 g",
+   "sodiumContent": "1069 mg",
+   "fiberContent": "7 g",
+   "sugarContent": "13 g",
+   "servingSize": "1 serving"
+  },
+  "rating": {
+   "value": 4.95,
+   "count": 72
+  },
+  "steps": 5,
+  "published": "2026-09-02",
+  "fetchedAt": "2026-11-11"
+ },
+ {
+  "id": "02ab9d9f0462",
+  "url": "https://sweetpeasandsaffron.com/vegan-crockpot-chili-freezer/",
+  "source": "sweetpeasandsaffron",
+  "lang": "en",
+  "name": "Vegetarian Chili in the Slow Cooker",
+  "image": "https://sweetpeasandsaffron.com/wp-content/uploads/2019/01/vegan-chili-5-500x500.jpg",
+  "author": null,
+  "yield": "8 servings",
+  "servings": 8,
+  "prepMin": 15,
+  "cookMin": 360,
+  "totalMin": 375,
+  "category": [
+   "Main Course"
+  ],
+  "cuisine": [
+   "Mexican"
+  ],
+  "keywords": [
+   "freezer crockpot chili",
+   "meal prep vegan crockpot chili",
+   "vegan crockpot chili",
+   "vegan sow cooker chili"
+  ],
+  "ingredients": [
+   "19 oz can diced tomatoes (including juices)",
+   "19 oz can black beans (drained & rinsed; note 1)",
+   "12 oz can corn kernels (drained)",
+   "13 oz can of tomato sauce (note 2)",
+   "2 tablespoons chili powder (note 3)",
+   "1 teaspoon cumin",
+   "1 teaspoon ground coriander",
+   "1/2 teaspoon salt",
+   "6 cups sweet potato cubes (1 1/2- 2 inches)",
+   "1 onion (diced)"
+  ],
+  "nutrition": {
+   "servingSize": "1 /8 of batch; see note 4",
+   "calories": "215 kcal",
+   "carbohydrateContent": "46 g",
+   "proteinContent": "8 g",
+   "fatContent": "1 g",
+   "sodiumContent": "909 mg",
+   "fiberContent": "10 g",
+   "sugarContent": "9 g"
+  },
+  "rating": {
+   "value": 5,
+   "count": 28
+  },
+  "steps": 2,
+  "published": "2022-01-14",
+  "fetchedAt": "2026-11-11"
+ },
+ {
+  "id": "02bbd4db9bc9",
+  "url": "https://fitfoodiefinds.com/street-corn-chicken-tacos/",
+  "source": "fitfoodiefinds",
+  "lang": "en",
+  "name": "Street Corn Chicken Tacos",
+  "image": "https://fitfoodiefinds.com/wp-content/uploads/2026/09/crispy-street-corn-chicken-tacos-close-up-500x500.jpg",
+  "author": null,
+  "yield": "12 tacos",
+  "servings": 12,
+  "prepMin": 20,
+  "cookMin": 15,
+  "totalMin": 35,
+  "category": [
+   "Dinner",
+   "Main Course"
+  ],
+  "cuisine": [
+   "Mexican-Inspired"
+  ],
+  "keywords": [
+   "baked chicken tacos",
+   "street corn chicken tacos",
+   "street corn tacos"
+  ],
+  "ingredients": [
+   "1 tablespoon avocado oil",
+   "20 oz. sweet corn kernels (thawed)",
+   "1 teaspoon sea salt (divided)",
+   "½ cup fresh cilantro (chopped)",
+   "¼ medium red onion (diced)",
+   "½ cup cotija cheese (crumbled)",
+   "2 tablespoons fresh lime juice",
+   "¼ cup 2% Greek yogurt",
+   "2 tablespoons mayonnaise",
+   "½ tablespoon red wine vinegar",
+   "1 tablespoon avocado oil",
+   "½ lb. shredded cooked chicken (cool or warm)",
+   "1 cup taco cooking sauce (such as Frontera Mild Chicken Taco Skillet Sauce)",
+   "½ cup Monterey Jack cheese (shredded)",
+   "½ cup refried beans",
+   "12 small flour tortillas (street taco size)",
+   "1 jalapeño (thinly sliced)",
+   "1 avocado (thinly sliced)"
+  ],
+  "nutrition": {
+   "calories": "281 kcal",
+   "carbohydrateContent": "29 g",
+   "proteinContent": "12 g",
+   "fatContent": "14 g",
+   "fiberContent": "4 g",
+   "sugarContent": "6 g",
+   "servingSize": "1 serving"
+  },
+  "rating": null,
+  "steps": 7,
+  "published": "2026-09-12",
+  "fetchedAt": "2026-11-11"
+ },
+ {
+  "id": "02c61eb6b5d1",
+  "url": "https://cookieandkate.com/spicy-vegan-black-bean-soup/",
+  "source": "cookieandkate",
+  "lang": "en",
+  "name": "Spicy Black Bean Soup",
+  "image": "https://cookieandkate.com/images/2016/02/vegetarianvegan-black-bean-soup-recipe-3-260x195.jpg",
+  "author": "Cookie and Kate",
+  "yield": "6 servings",
+  "servings": 6,
+  "prepMin": 10,
+  "cookMin": 45,
+  "totalMin": 55,
+  "category": [
+   "Soup"
+  ],
+  "cuisine": [
+   "Vegan"
+  ],
+  "keywords": [
+   "black bean soup",
+   "canned beans",
+   "easy weeknight soup"
+  ],
+  "ingredients": [
+   "2 tablespoons extra-virgin olive oil",
+   "2 medium yellow onions, chopped",
+   "3 celery ribs, finely chopped",
+   "1 large carrot, peeled and sliced into thin rounds",
+   "6 garlic cloves, pressed or minced",
+   "4 ½ teaspoons ground cumin",
+   "½ teaspoon red pepper flakes (use ¼ teaspoon if you’re sensitive to spice)",
+   "4 cans (15 ounces each) black beans, rinsed and drained",
+   "4 cups (32 ounces) low-sodium vegetable broth",
+   "¼ cup chopped fresh cilantro (optional)",
+   "1 to 2 teaspoons sherry vinegar, to taste, or 2 tablespoons fresh lime juice",
+   "Sea salt and freshly ground black pepper, to taste",
+   "Optional garnishes: diced avocado, extra cilantro, thinly sliced radishes, tortilla chips…"
+  ],
+  "nutrition": {
+   "calories": "342 calories",
+   "sugarContent": "4.2 g",
+   "sodiumContent": "1563.1 mg",
+   "fatContent": "6.1 g",
+   "saturatedFatContent": "1 g",
+   "transFatContent": "0 g",
+   "carbohydrateContent": "56 g",
+   "fiberContent": "21.3 g",
+   "proteinContent": "18.7 g",
+   "cholesterolContent": "0 mg"
+  },
+  "rating": {
+   "value": 4.9,
+   "count": 693
+  },
+  "steps": 4,
+  "published": "2019-02-05",
+  "fetchedAt": "2026-11-11"
+ },
+ {
   "id": "02c72e7008e0",
   "url": "https://www.budgetbytes.com/carrot-orzo-salad/",
   "source": "budgetbytes",
@@ -930,6 +2758,300 @@
   },
   "steps": 4,
   "published": "2013-05-24",
+  "fetchedAt": "2026-11-11"
+ },
+ {
+  "id": "02f0050e8ad1",
+  "url": "https://chefcuisto.com/recette/conserver-les-courgettes-dans-le-congelateur/",
+  "source": "chefcuisto",
+  "lang": "fr",
+  "name": "Conserver les courgettes dans le congélateur",
+  "image": "https://chefcuisto.com/files/2019/08/conserver-courgette-congelateur.jpg",
+  "author": "Matt",
+  "yield": "1 portion",
+  "servings": 1,
+  "prepMin": null,
+  "cookMin": null,
+  "totalMin": null,
+  "category": [
+   "Cannage et conservation"
+  ],
+  "cuisine": [],
+  "keywords": [],
+  "ingredients": [
+   "Des sacs ziplock",
+   "Une râpe ou bien un spiraleur à légumes"
+  ],
+  "nutrition": null,
+  "rating": {
+   "value": 5,
+   "count": 200
+  },
+  "steps": 7,
+  "published": "2019-08-09",
+  "fetchedAt": "2026-11-11"
+ },
+ {
+  "id": "02fb3c7ae141",
+  "url": "https://www.salutbonjour.ca/cuisine/recettes/croquettes-croustillantes-de-poulet-et-pommes-de-terre-a-laneth-de-jean-francois-plante",
+  "source": "salutbonjour",
+  "lang": "fr",
+  "name": "Croquettes croustillantes de poulet et pommes de terre à l’aneth de Jean-François Plante",
+  "image": "https://m1.quebecormedia.com/emp/emp/pexels_leonardo_aquino_246345118_27609406bef05223-a631-41d9-8d28-538417155b07_ORIGINAL.jpg?impolicy=crop-resize&x=0&y=1335&w=4160&h=3064&width=1200",
+  "author": "JEAN-FRANÇOIS PLANTE",
+  "yield": "12 portion",
+  "servings": 12,
+  "prepMin": null,
+  "cookMin": null,
+  "totalMin": null,
+  "category": [],
+  "cuisine": [],
+  "keywords": [],
+  "ingredients": [
+   "250g de restes de poulets rôti, effiloché",
+   "300g pommes de terre pelées et cuites (2 pommes de terres moyennes)",
+   "(3 c. à soupe) crème sure",
+   "(3 c. à soupe) aneth frais, haché",
+   "1 oeuf",
+   "(1 c. à soupe) moutarde de Dijon",
+   "150g fromage râpé (cheddar ou mozzarella)",
+   "1 gousse d'ail hachée finement",
+   "sel et poivre (au goût)",
+   "(1/4 tasse) farine",
+   "1 oeuf battu avec 1 cuillère à soupe de lait",
+   "100g panko",
+   "50g chips nature (ou l'aneth) écrasées finement (ajouter à la chapelure pour plus de croustillant)",
+   "125ml crème sure",
+   "(1 c. à soupe) mayonnaise",
+   "(1 c. à thé) moutarde de Dijon",
+   "(2 c. à soupe) aneth frais",
+   "1 gousse d'ail",
+   "un filet de lait",
+   "sel et poivre"
+  ],
+  "nutrition": null,
+  "rating": {
+   "value": 5,
+   "count": 5
+  },
+  "steps": 7,
+  "published": "2024-12-04",
+  "fetchedAt": "2026-11-11"
+ },
+ {
+  "id": "02fcfa6e2dfa",
+  "url": "https://chefcuisto.com/recette/hamburger-sur-le-barbecue/",
+  "source": "chefcuisto",
+  "lang": "fr",
+  "name": "Hamburger sur le Barbecue",
+  "image": "https://chefcuisto.com/files/2007/05/hamburger-barbecue.png",
+  "author": "Matt",
+  "yield": "1 portion",
+  "servings": 1,
+  "prepMin": null,
+  "cookMin": null,
+  "totalMin": null,
+  "category": [
+   "Bacon",
+   "Barbecue",
+   "Hamburger"
+  ],
+  "cuisine": [],
+  "keywords": [],
+  "ingredients": [
+   "500 g de boeuf haché",
+   "Oignons finement tranchés",
+   "Tomates",
+   "4 tranches de bacon",
+   "Salade verte",
+   "4 tranches de fromage (Cheddar ou peut-être même Kraft)",
+   "Fines herbes"
+  ],
+  "nutrition": null,
+  "rating": {
+   "value": 5,
+   "count": 1
+  },
+  "steps": 6,
+  "published": "2007-05-11",
+  "fetchedAt": "2026-11-11"
+ },
+ {
+  "id": "0325ce7b4db2",
+  "url": "https://sweetpeasandsaffron.com/honey-chai-roasted-almonds/",
+  "source": "sweetpeasandsaffron",
+  "lang": "en",
+  "name": "Chai and Honey Roasted Almonds",
+  "image": "https://sweetpeasandsaffron.com/wp-content/uploads/2015/09/Honey-Chai-Roasted-Almonds-3-500x500.jpg",
+  "author": "Annie Holmes",
+  "yield": "8 portions",
+  "servings": 8,
+  "prepMin": 2,
+  "cookMin": 20,
+  "totalMin": 22,
+  "category": [
+   "Snack"
+  ],
+  "cuisine": [
+   "American"
+  ],
+  "keywords": [
+   "gift",
+   "gluten-free",
+   "holiday",
+   "nuts"
+  ],
+  "ingredients": [
+   "2 cups whole almonds",
+   "2 tablespoons honey",
+   "2 tablespoons water",
+   "1 tablespoon coconut oil",
+   "1/4 cup brown sugar",
+   "2 teaspoons chai spice blend",
+   "1 teaspoon sea salt"
+  ],
+  "nutrition": {
+   "servingSize": "1 /4 cup",
+   "calories": "213 kcal",
+   "carbohydrateContent": "18 g",
+   "proteinContent": "6 g",
+   "fatContent": "16 g",
+   "saturatedFatContent": "3 g",
+   "sodiumContent": "222 mg",
+   "fiberContent": "3 g",
+   "sugarContent": "13 g"
+  },
+  "rating": {
+   "value": 5,
+   "count": 1
+  },
+  "steps": 5,
+  "published": "2015-09-05",
+  "fetchedAt": "2026-11-11"
+ },
+ {
+  "id": "03425c61d0a3",
+  "url": "https://pinchofyum.com/crispy-fish-tacos-jalapeno-sauce",
+  "source": "pinchofyum",
+  "lang": "en",
+  "name": "Crispy Fish Tacos with Jalapeño Sauce",
+  "image": "https://pinchofyum.com/tachyon/fish-tacos-square.jpg?fit=195%2C195",
+  "author": "Lindsay Ostrom",
+  "yield": "12 tacos",
+  "servings": 12,
+  "prepMin": 15,
+  "cookMin": 15,
+  "totalMin": 30,
+  "category": [
+   "Dinner"
+  ],
+  "cuisine": [
+   "Mexican"
+  ],
+  "keywords": [
+   "crispy fish tacos",
+   "fish tacos",
+   "jalapeño sauce"
+  ],
+  "ingredients": [
+   "1 large jalapeño (if you like spicy, leave the ribs and seeds in there)",
+   "1 cup cilantro leaves",
+   "1/4 cup green onions",
+   "1/4 cup oil",
+   "1/4 cup Greek yogurt",
+   "1/4 cup water",
+   "1/2 avocado",
+   "1/2 teaspoon salt",
+   "2 lbs. firm white fish like cod",
+   "1 cup flour (see notes)",
+   "1/4 cup + 2 tablespoons cornmeal",
+   "1/4 cup cornstarch",
+   "1 teaspoon chili powder or spicy seasoning",
+   "1 teaspoon baking powder",
+   "1/2 teaspoon salt",
+   "1 cup light beer, such as Corona (NA beer works too!)",
+   "1 egg, beaten",
+   "vegetable oil for frying",
+   "12 flour or corn tortillas",
+   "cilantro for topping",
+   "Cotija cheese for topping"
+  ],
+  "nutrition": {
+   "calories": "323 calories",
+   "sugarContent": "0.7 g",
+   "sodiumContent": "262.2 mg",
+   "fatContent": "16.1 g",
+   "saturatedFatContent": "8.6 g",
+   "transFatContent": "0 g",
+   "carbohydrateContent": "25.6 g",
+   "fiberContent": "2.7 g",
+   "proteinContent": "18.5 g",
+   "cholesterolContent": "61.6 mg"
+  },
+  "rating": {
+   "value": 4.8,
+   "count": 23
+  },
+  "steps": 4,
+  "published": "2014-06-23",
+  "fetchedAt": "2026-11-11"
+ },
+ {
+  "id": "038bc0c39213",
+  "url": "https://nourishedkitchen.com/kefir-ranch-dressing/",
+  "source": "nourishedkitchen",
+  "lang": "en",
+  "name": "Kefir Ranch Dressing Recipe",
+  "image": "https://nourishedkitchen.com/wp-content/uploads/2015/09/kefir-ranch-dressing-social-500x500.jpg",
+  "author": null,
+  "yield": "12 servings (about 1 1/2 cups)",
+  "servings": 12,
+  "prepMin": 5,
+  "cookMin": null,
+  "totalMin": 5,
+  "category": [
+   "Salad Dressing"
+  ],
+  "cuisine": [
+   "American"
+  ],
+  "keywords": [
+   "herbs",
+   "kefir"
+  ],
+  "ingredients": [
+   "1 cup milk kefir",
+   "1/4 cup mayonnaise",
+   "1 tablespoons extra virgin olive oil",
+   "1 teaspoon white wine vinegar",
+   "2 teaspoons onion powder",
+   "1 teaspoon garlic powder",
+   "1/4 teaspoon fine sea salt",
+   "2 teaspoons dried chives",
+   "½ teaspoon dried parsley",
+   "¼ teaspoon dried dill",
+   "¼ teaspoon ground black pepper"
+  ],
+  "nutrition": {
+   "calories": "59 kcal",
+   "carbohydrateContent": "2 g",
+   "proteinContent": "1 g",
+   "fatContent": "5 g",
+   "saturatedFatContent": "1 g",
+   "transFatContent": "0.01 g",
+   "cholesterolContent": "4 mg",
+   "sodiumContent": "235 mg",
+   "fiberContent": "0.3 g",
+   "sugarContent": "1 g",
+   "unsaturatedFatContent": "4 g",
+   "servingSize": "1 serving"
+  },
+  "rating": {
+   "value": 5,
+   "count": 9
+  },
+  "steps": 1,
+  "published": "2015-09-18",
   "fetchedAt": "2026-11-11"
  },
  {
@@ -984,6 +3106,77 @@
   "fetchedAt": "2026-11-11"
  },
  {
+  "id": "0401325e5931",
+  "url": "https://www.recipetineats.com/glass-noodle-salad/",
+  "source": "recipetineats",
+  "lang": "en",
+  "name": "Glass noodle salad (cellophane / bean thread noodles)",
+  "image": "https://www.recipetineats.com/tachyon/2023/01/Glass-noodle-salad_7.jpg?resize=500%2C500",
+  "author": null,
+  "yield": "3 - 4",
+  "servings": 3,
+  "prepMin": 20,
+  "cookMin": null,
+  "totalMin": null,
+  "category": [
+   "Light mains",
+   "Salad meal",
+   "Side Salad"
+  ],
+  "cuisine": [
+   "Asian"
+  ],
+  "keywords": [
+   "bean thread noodles",
+   "cellophane noodles",
+   "glass noodle salad"
+  ],
+  "ingredients": [
+   "100 g / 3.5 oz bean thread vermicelli noodles / cellophane noodles ((Note 1))",
+   "3 cups shredded cooked chicken ((about 1/2 store bought roast chicken) (Note 2))",
+   "2 packed cups ((180g) green cabbage, finely sliced)",
+   "1 cucumber (, cut in half, sliced 3mm / 1/8\" thick on the diagonal)",
+   "1 carrot (, peeled then julienned)",
+   "2 green onion stems (, finely sliced on a diagonal)",
+   "1 cup lightly packed coriander/cilantro leaves",
+   "1 cup lightly packed mint leaves",
+   "1 cup unsalted roasted cashew nuts (, roughly chopped)",
+   "1 1/2 tsp lime zest",
+   "2 tsp lime juice",
+   "3/4 tsp caster sugar / superfine sugar ((sub ordinary / granulated))",
+   "1/2 tsp cooking/kosher salt",
+   "3 tbsp light soy sauce",
+   "3 tbsp rice vinegar",
+   "1 1/2 tbsp sesame oil",
+   "1 1/2 tbsp canola oil",
+   "1 1/2 tbsp kewpie mayonnaise ((or other mayo) (Note 3))",
+   "1 tbsp hoisin sauce",
+   "3/4 tsp finely grated fresh ginger",
+   "1/4 tsp Chinese five spice powder ((Note 4))"
+  ],
+  "nutrition": {
+   "calories": "617 kcal",
+   "carbohydrateContent": "41 g",
+   "proteinContent": "41 g",
+   "fatContent": "33 g",
+   "saturatedFatContent": "5 g",
+   "transFatContent": "0.03 g",
+   "cholesterolContent": "92 mg",
+   "sodiumContent": "1247 mg",
+   "fiberContent": "3 g",
+   "sugarContent": "7 g",
+   "unsaturatedFatContent": "24 g",
+   "servingSize": "1 serving"
+  },
+  "rating": {
+   "value": 4.97,
+   "count": 61
+  },
+  "steps": 5,
+  "published": "2023-01-08",
+  "fetchedAt": "2026-11-11"
+ },
+ {
   "id": "041bbd19c935",
   "url": "https://www.bbcgoodfood.com/recipes/cream-chicken-soup",
   "source": "bbcgoodfood",
@@ -1032,6 +3225,259 @@
   "rating": null,
   "steps": 3,
   "published": "2023-02-27",
+  "fetchedAt": "2026-11-11"
+ },
+ {
+  "id": "0518344d70ea",
+  "url": "https://www.boblechef.com/recettes/chili-au-porc-a-la-mijoteuse/",
+  "source": "boblechef",
+  "lang": "fr",
+  "name": "Chili au porc à la mijoteuse",
+  "image": "https://www.boblechef.com/wp-content/uploads/2021/01/boblechef-recette-chili-mijoteuse-720x540.jpg",
+  "author": "Bob le Chef",
+  "yield": "8",
+  "servings": 8,
+  "prepMin": 5,
+  "cookMin": 540,
+  "totalMin": 1265,
+  "category": [],
+  "cuisine": [],
+  "keywords": [],
+  "ingredients": [
+   "1 rôti d’épaule de porc d’environ 1,2 kg (2 ½ lbs)",
+   "30 ml (2 c. à soupe) de poudre de chili",
+   "30 ml (2 c. à soupe) de paprika fumé",
+   "15 ml (1 c. à soupe) de cumin moulu",
+   "15 ml (1 c. à soupe) de poudre d’ail",
+   "15 ml (1 c. à soupe) de poudre d’oignon",
+   "15 ml (1 c. à soupe) d’origan séché",
+   "1 canne de 796 ml de tomates broyées",
+   "375 ml (1 ½ tasse) de sauce BBQ de ton choix",
+   "1 canne de 284 ml de bouillon de bœuf",
+   "2 cannes de 540 ml de haricots noirs",
+   "Sel, poivre au goût"
+  ],
+  "nutrition": null,
+  "rating": {
+   "value": 4.8,
+   "count": 19
+  },
+  "steps": 6,
+  "published": "2021-01-27",
+  "fetchedAt": "2026-11-11"
+ },
+ {
+  "id": "0536c22f2fc0",
+  "url": "https://www.skinnytaste.com/fish-taco-foil-packets/",
+  "source": "skinnytaste",
+  "lang": "en",
+  "name": "Fish Taco Foil Packets",
+  "image": "https://www.skinnytaste.com/wp-content/uploads/2026/07/Foil-Packet-Fish-Tacos-18-500x500.jpg",
+  "author": null,
+  "yield": "2 servings",
+  "servings": 2,
+  "prepMin": 20,
+  "cookMin": 10,
+  "totalMin": 30,
+  "category": [
+   "Dinner"
+  ],
+  "cuisine": [
+   "Tex Mex"
+  ],
+  "keywords": [
+   "fish foil packets",
+   "Fish Tacos",
+   "foil packet dinners",
+   "foil packet for the grill",
+   "foil packets for camping"
+  ],
+  "ingredients": [
+   "½ teaspoon smoked paprika",
+   "½ teaspoon cumin",
+   "¼ teaspoon chili powder",
+   "¼ teaspoon dried oregano",
+   "½ teaspoon kosher salt",
+   "2 6-ounce cod fillets (or any white flaky fish)",
+   "2 teaspoons avocado oil (divided)",
+   "½ red bell pepper (stem and seeds removed and thinly sliced)",
+   "¼ cup red onion (thinly sliced)",
+   "½ cup fresh corn (from 1 ear)",
+   "½ small jalapeño (thinly sliced (optional))",
+   "1 lime (cut into rounds, plus more for serving)",
+   "Cilantro leaves (for garnish)",
+   "4 corn tortillas (charred, for serving)",
+   "Shredded lettuce (for serving)",
+   "¼ cup guacamole (for serving)"
+  ],
+  "nutrition": {
+   "servingSize": "2 fish tacos",
+   "calories": "431 kcal",
+   "carbohydrateContent": "45.5 g",
+   "proteinContent": "36 g",
+   "fatContent": "12 g",
+   "saturatedFatContent": "1.5 g",
+   "cholesterolContent": "73 mg",
+   "sodiumContent": "545 mg",
+   "fiberContent": "7 g",
+   "sugarContent": "7.5 g"
+  },
+  "rating": {
+   "value": 5,
+   "count": 1
+  },
+  "steps": 7,
+  "published": "2026-07-29",
+  "fetchedAt": "2026-11-11"
+ },
+ {
+  "id": "059e20b5bac5",
+  "url": "https://workweeklunch.com/white-bean-veggie-burgers/",
+  "source": "workweeklunch",
+  "lang": "en",
+  "name": "Easy Freezer-Friendly White Bean Veggie Burgers",
+  "image": "https://workweeklunch.com/wp-content/uploads/2024/08/WWL-White-Bean-Burgers10-500x500.jpg",
+  "author": "Nick Quintero",
+  "yield": "6 patties",
+  "servings": 6,
+  "prepMin": 15,
+  "cookMin": 10,
+  "totalMin": 40,
+  "category": [
+   "Main Course"
+  ],
+  "cuisine": [
+   "American"
+  ],
+  "keywords": [
+   "burger",
+   "vegetarian"
+  ],
+  "ingredients": [
+   "1 sweet potato (or any potato you like)",
+   "15 oz can of cannellini beans ((any white bean would work))",
+   "1/3 cup quinoa",
+   "1/4 cup flour (of your choice, I used whole wheat)",
+   "1/2 cup red onion (finely chopped )",
+   "1 red bell pepper (finely chopped (you only need 1/2 cup total))",
+   "1/2 cup corn (I used canned corn)",
+   "1 clove garlic (minced)",
+   "1/2 lemon (for juice )",
+   "1 tsp thyme",
+   "1 tsp garlic powder",
+   "1/2 tsp chipotle powder (add more you like heat!)",
+   "1/2 tsp cayenne (optional, if you like heat)",
+   "salt and pepper to taste",
+   "2 TBSP olive oil"
+  ],
+  "nutrition": null,
+  "rating": {
+   "value": 4,
+   "count": 11
+  },
+  "steps": 8,
+  "published": "2026-06-21",
+  "fetchedAt": "2026-11-11"
+ },
+ {
+  "id": "05b98d057af8",
+  "url": "https://cuisinez.telequebec.tv/recettes/6663/chaudree-de-mais-lardons-et-poireau",
+  "source": "cuisinez",
+  "lang": "fr",
+  "name": "Chaudrée de maïs, lardons et poireau",
+  "image": "https://cuisinez.tele.quebec/Images/img/12734222-41f7-4b3f-a0e3-cec73a4be9ed/f1f01b8b-5d74-4261-ae4f-10968de3df907eeefd5c-b2ee-4043-b76a-11ff0a1f7909.jpg?ts=1676629761",
+  "author": "Christian Bégin",
+  "yield": "2",
+  "servings": 2,
+  "prepMin": 15,
+  "cookMin": 15,
+  "totalMin": 30,
+  "category": [
+   "Choix alimentaires"
+  ],
+  "cuisine": [],
+  "keywords": [],
+  "ingredients": [
+   "½ tasse de lardons coupés en dés",
+   "1 tasse de maïs en grains",
+   "2 tasses de poireaux émincés",
+   "1 tasse de vin blanc",
+   "2 tasses de patates trop pilées (voir note)",
+   "1 l de lait",
+   "¼ de tasse d’herbes fraîches hachées au choix (ciboulette/persil)",
+   "Sel au goût",
+   "Poivre au goût"
+  ],
+  "nutrition": null,
+  "rating": {
+   "value": 3,
+   "count": 4
+  },
+  "steps": 5,
+  "published": "2023-02-24",
+  "fetchedAt": "2026-11-11"
+ },
+ {
+  "id": "05c0b1bfa840",
+  "url": "https://nourishedkitchen.com/curried-lentil-soup-with-coconut-milk/",
+  "source": "nourishedkitchen",
+  "lang": "en",
+  "name": "Curried Lentil Soup Recipe",
+  "image": "https://nourishedkitchen.com/wp-content/uploads/2011/10/curried-lentil-soup-006-500x425.jpg",
+  "author": null,
+  "yield": "8 servings",
+  "servings": 8,
+  "prepMin": 10,
+  "cookMin": 60,
+  "totalMin": 670,
+  "category": [
+   "Soup"
+  ],
+  "cuisine": [
+   "American",
+   "Indian"
+  ],
+  "keywords": [
+   "coconut",
+   "lentils",
+   "spices"
+  ],
+  "ingredients": [
+   "1 1/2 cups yellow split peas",
+   "1/2 cup red lentils",
+   "1 teaspoon coriander seed",
+   "1 teaspoon ground cumin",
+   "1 teaspoon fenugreek",
+   "6 green cardamom pods",
+   "2 tablespoons ghee",
+   "2 shallots (peeled and sliced thin)",
+   "1 tablespoon ginger paste",
+   "1 teaspoon curry powder",
+   "1/4 teaspoon cayenne powder",
+   "6 cups bone broth",
+   "2 cups coconut milk",
+   "yogurt (to serve)",
+   "lime (to serve)",
+   "cilantro (to serve)"
+  ],
+  "nutrition": {
+   "calories": "323 kcal",
+   "carbohydrateContent": "33 g",
+   "proteinContent": "14 g",
+   "fatContent": "17 g",
+   "saturatedFatContent": "13 g",
+   "cholesterolContent": "10 mg",
+   "sodiumContent": "16 mg",
+   "fiberContent": "14 g",
+   "sugarContent": "4 g",
+   "servingSize": "1 serving"
+  },
+  "rating": {
+   "value": 5,
+   "count": 3
+  },
+  "steps": 5,
+  "published": "2011-10-26",
   "fetchedAt": "2026-11-11"
  },
  {
@@ -1097,6 +3543,166 @@
   "fetchedAt": "2026-11-11"
  },
  {
+  "id": "06d56820e285",
+  "url": "https://sweetpeasandsaffron.com/salted-peanut-butter-nutella-sandwich-cookies/",
+  "source": "sweetpeasandsaffron",
+  "lang": "en",
+  "name": "Salted Nutella and Peanut Butter Sandwich Cookies",
+  "image": "https://sweetpeasandsaffron.com/wp-content/uploads/2014/05/PB-nutella-cookies-5wm-500x500.jpg",
+  "author": "Annie Holmes",
+  "yield": "16",
+  "servings": 16,
+  "prepMin": 150,
+  "cookMin": 9,
+  "totalMin": 159,
+  "category": [
+   "Dessert"
+  ],
+  "cuisine": [
+   "American"
+  ],
+  "keywords": [
+   "cookies",
+   "kid-friendly",
+   "peanut"
+  ],
+  "ingredients": [
+   "1/2 cup butter ({113g; unsalted; at room temperature})",
+   "1/2 cup peanut butter ({at room temperature or 20 seconds in the microwave})",
+   "1/2 cup granulated sugar ({100g})",
+   "1/2 cup packed brown sugar ({110g})",
+   "1 egg",
+   "1/2 teaspoon vanilla",
+   "1 1/2 cups all purpose flour ({188g; or fluffed, spooned and leveled})",
+   "1 teaspoon cornstarch",
+   "1/2 teaspoon baking powder",
+   "1/2 teaspoon baking soda",
+   "granulated sugar ({for rolling})",
+   "coarse sea salt ({for sprinkling})",
+   "1 cup Nutella"
+  ],
+  "nutrition": {
+   "servingSize": "1 sandwich cookie",
+   "calories": "298 kcal",
+   "carbohydrateContent": "35 g",
+   "proteinContent": "5 g",
+   "fatContent": "16 g",
+   "saturatedFatContent": "10 g",
+   "cholesterolContent": "25 mg",
+   "sodiumContent": "136 mg",
+   "fiberContent": "2 g",
+   "sugarContent": "24 g"
+  },
+  "rating": {
+   "value": 5,
+   "count": 3
+  },
+  "steps": 7,
+  "published": "2014-05-26",
+  "fetchedAt": "2026-11-11"
+ },
+ {
+  "id": "06e2b7ccc367",
+  "url": "https://www.recipetineats.com/jamaican-slaw/",
+  "source": "recipetineats",
+  "lang": "en",
+  "name": "Jamaican Slaw",
+  "image": "https://www.recipetineats.com/tachyon/2023/01/Jamaican-Slaw_0.jpg?resize=500%2C500",
+  "author": null,
+  "yield": "5 - 6 people",
+  "servings": 5,
+  "prepMin": 15,
+  "cookMin": null,
+  "totalMin": null,
+  "category": [
+   "Side Salad"
+  ],
+  "cuisine": [
+   "Caribbean",
+   "Hawaiian",
+   "Jamaican",
+   "Tropical!"
+  ],
+  "keywords": [
+   "jamaican side salad",
+   "jamaican slaw",
+   "tropical side salad"
+  ],
+  "ingredients": [
+   "4 heaped cups green cabbage (, finely shredded)",
+   "2 cups shredded carrot ((2 - 3 carrots))",
+   "1 1/2 cups diced pineapple (, 1cm / 1/2\" cubes (fresh or canned in juice) (Note 1))",
+   "3/4 cup raisins ((or sultanas))",
+   "3 tbsp yellow mustard (, American or other (Note 2))",
+   "1/3 cup apple cider vinegar",
+   "1/3 cup extra virgin olive oil",
+   "1 tbsp jalapeño (, deseeded, finely minced)",
+   "1/4 cup green onion (, finely chopped (Note 3))",
+   "1/2 tsp cooking/kosher salt",
+   "1/4 tsp black pepper"
+  ],
+  "nutrition": {
+   "calories": "222 kcal",
+   "carbohydrateContent": "28 g",
+   "proteinContent": "2 g",
+   "fatContent": "13 g",
+   "saturatedFatContent": "2 g",
+   "transFatContent": "0.002 g",
+   "sodiumContent": "324 mg",
+   "fiberContent": "5 g",
+   "sugarContent": "8 g",
+   "unsaturatedFatContent": "10 g",
+   "servingSize": "1 serving"
+  },
+  "rating": {
+   "value": 4.62,
+   "count": 13
+  },
+  "steps": 3,
+  "published": "2023-01-17",
+  "fetchedAt": "2026-11-11"
+ },
+ {
+  "id": "07acace71b4a",
+  "url": "https://www.salutbonjour.ca/cuisine/recettes/sandwich-a-la-mortadelle-grillee-burrata-et-salade-fraises-tomates",
+  "source": "salutbonjour",
+  "lang": "fr",
+  "name": "Sandwich à la mortadelle grillée, burrata et salade fraises-tomates",
+  "image": "https://m1.quebecormedia.com/emp/emp/IMG_7978f49005f3-57a7-46cf-b990-605bcd9f4fc4_ORIGINAL.jpg?impolicy=crop-resize&x=0&y=76&w=5712&h=4208&width=1200",
+  "author": "JONATHAN GARNIER",
+  "yield": "2 sandwichs",
+  "servings": 2,
+  "prepMin": null,
+  "cookMin": null,
+  "totalMin": null,
+  "category": [],
+  "cuisine": [],
+  "keywords": [],
+  "ingredients": [
+   "1 boule de pâte à pizza",
+   "(1 c. à soupe) d' huile d'olive",
+   "8 à 12 tranches de mortadelle",
+   "(1 tasse) de fraise coupées",
+   "(1 tasse) de tomate coupées",
+   "1/2 oignon rouge",
+   "(1 c. à thé) de vinaigre de vin rouge",
+   "(1 c. à thé) d' ail hachée fin",
+   "(1 c. à soupe) d' huile d'olive",
+   "(2 c. à thé) de basilic frais",
+   "200 g de burratas",
+   "(1 c. à thé) de miel épicé",
+   "sel et poivre"
+  ],
+  "nutrition": null,
+  "rating": {
+   "value": 5,
+   "count": 1
+  },
+  "steps": 8,
+  "published": "2026-04-14",
+  "fetchedAt": "2026-11-11"
+ },
+ {
   "id": "07b6fbcebd6f",
   "url": "https://minimalistbaker.com/how-to-make-jammy-eggs/",
   "source": "minimalistbaker",
@@ -1141,6 +3747,335 @@
   },
   "steps": 6,
   "published": "2023-04-04",
+  "fetchedAt": "2026-11-11"
+ },
+ {
+  "id": "07cdc889acc6",
+  "url": "https://www.salutbonjour.ca/cuisine/recettes/soupe-repas-au-poulet-facon-thai",
+  "source": "salutbonjour",
+  "lang": "fr",
+  "name": "Soupe repas au poulet façon thaï",
+  "image": "https://m1.quebecormedia.com/emp/emp/recette_soupe_thai_poulet_hugo_st_jacques0e07f292-233a-492b-a086-0cb80b193ab2_ORIGINAL.jpg?impolicy=crop-resize&x=333&y=0&w=1333&h=1000&width=1200",
+  "author": "ÉQUIPE SALUT BONJOUR",
+  "yield": "4 portions",
+  "servings": 4,
+  "prepMin": null,
+  "cookMin": null,
+  "totalMin": null,
+  "category": [],
+  "cuisine": [],
+  "keywords": [],
+  "ingredients": [
+   "30 ml (2 c. à soupe) d' huile de sésame",
+   "500 ml (2 tasses) d' oignons jaunes haché",
+   "15 ml (1 c. à soupe) d' ail haché",
+   "30 ml (2 c. à soupe) de gingembre haché",
+   "30 ml (2 c. à soupe) de citronnelle hachée",
+   "10 ml (2 c. à thé) de cumin moulu",
+   "15 ml (1 c. à soupe) de cari moulu",
+   "5 ml (1 c. à thé) de curcuma moulu",
+   "1 L (4 tasses) de bouillon de poulet",
+   "800 ml de lait de coco",
+   "350 g haricots verts coupés en biseau",
+   "350 g de carottes coupées en biseau",
+   "300 g de fèves germées",
+   "400 g de poitrines de poulet coupée en lanières",
+   "400 g de nouilles aux oeufs cuites",
+   "10 feuilles de basilic thaï",
+   "60 ml (1/4 tasse) de feuilles de coriandre"
+  ],
+  "nutrition": null,
+  "rating": null,
+  "steps": 5,
+  "published": "2025-04-22",
+  "fetchedAt": "2026-11-11"
+ },
+ {
+  "id": "07f090fcc760",
+  "url": "https://www.bbcgoodfood.com/recipes/chicken-white-bean-stew",
+  "source": "bbcgoodfood",
+  "lang": "en",
+  "name": "Easy chicken casserole",
+  "image": "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/recipe-image-legacy-id-192693_11-a5d83e6.jpg?resize=440,400",
+  "author": "Mary Cadogan",
+  "yield": "4",
+  "servings": 4,
+  "prepMin": 20,
+  "cookMin": 60,
+  "totalMin": 80,
+  "category": [
+   "Dinner",
+   "Main course"
+  ],
+  "cuisine": [
+   "British"
+  ],
+  "keywords": [
+   "Bay leaf",
+   "Bay leaves",
+   "Carrot",
+   "Carrots",
+   "Celery",
+   "Chicken casserole",
+   "Chicken stew",
+   "Chicken stock",
+   "Chicken thigh",
+   "Chicken thighs",
+   "Diet",
+   "Family dinner",
+   "goodhealth",
+   "Haricot bean",
+   "Haricot beans",
+   "Healthy recipes",
+   "low-fat chicken recipes",
+   "Mary Cadogan",
+   "Onion",
+   "Onions",
+   "Parsley",
+   "Soup",
+   "Thyme"
+  ],
+  "ingredients": [
+   "2 tbsp sunflower oil",
+   "400g boneless, skinless chicken thigh trimmed and cut into chunks",
+   "1 onion finely chopped",
+   "3 carrots finely chopped",
+   "3 celery sticks, finely chopped",
+   "2 thyme sprigs or ½ tsp dried",
+   "1 bay leaf fresh or dried",
+   "600ml vegetable or chicken stock",
+   "2 x 400g / 14oz cans haricot beans drained",
+   "chopped parsley to serve"
+  ],
+  "nutrition": {
+   "calories": "348 calories",
+   "fatContent": "13 grams fat",
+   "saturatedFatContent": "3 grams saturated fat",
+   "carbohydrateContent": "20 grams carbohydrates",
+   "sugarContent": "5 grams sugar",
+   "fiberContent": "12 grams fiber",
+   "proteinContent": "31 grams protein",
+   "sodiumContent": "1.06 milligram of sodium"
+  },
+  "rating": null,
+  "steps": 2,
+  "published": "2022-12-13",
+  "fetchedAt": "2026-11-11"
+ },
+ {
+  "id": "0815e6cbcd40",
+  "url": "https://www.wellplated.com/sausage-tortellini-soup/",
+  "source": "wellplated",
+  "lang": "en",
+  "name": "Sausage Tortellini Soup",
+  "image": "https://www.wellplated.com/wp-content/uploads/2024/03/Best-Sausage-Tortellini-Soup-Recipe-500x500.jpg",
+  "author": null,
+  "yield": "4 -6 servings",
+  "servings": 4,
+  "prepMin": 10,
+  "cookMin": 35,
+  "totalMin": 45,
+  "category": [
+   "Soup"
+  ],
+  "cuisine": [
+   "American",
+   "Italian"
+  ],
+  "keywords": [
+   "creamy sausage tortellini soup",
+   "italian sausage tortellini soup",
+   "sausage kale tortellini soup",
+   "sausage tortellini soup with spinach"
+  ],
+  "ingredients": [
+   "1 tablespoon extra-virgin olive oil",
+   "1 pound ground Italian turkey sausage (removed from the casings if needed)",
+   "1 large yellow onion (chopped, about 2 cups)",
+   "1 large fennel bulb (chopped, about 2 cups)",
+   "3 large carrots (chopped, about 1 1/2 cups)",
+   "3/4 teaspoon kosher salt",
+   "1/2 teaspoon freshly ground black pepper",
+   "2 tablespoons tomato paste",
+   "3 cloves garlic minced (about 1 tablespoon)",
+   "2 tablespoons all purpose flour",
+   "5 to 6 cups low-sodium chicken broth",
+   "1 tablespoon Italian seasoning",
+   "4 cups chopped kale (or spinach)",
+   "1 (9-ounce) package tortellini ((I used 3-cheese))",
+   "1 tablespoon red wine vinegar",
+   "1/3 cup heavy cream or half-and-half (optional but very good)",
+   "Finely grated Parmesan cheese (for serving)",
+   "Chopped fresh parsley (optional for serving)"
+  ],
+  "nutrition": {
+   "servingSize": "1 (of 4)",
+   "calories": "555 kcal",
+   "carbohydrateContent": "57 g",
+   "proteinContent": "37 g",
+   "fatContent": "22 g",
+   "saturatedFatContent": "7 g",
+   "cholesterolContent": "84 mg",
+   "fiberContent": "11 g",
+   "sugarContent": "13 g",
+   "unsaturatedFatContent": "9 g"
+  },
+  "rating": {
+   "value": 4.93,
+   "count": 13
+  },
+  "steps": 6,
+  "published": "2024-03-11",
+  "fetchedAt": "2026-11-11"
+ },
+ {
+  "id": "08813dfa2b38",
+  "url": "https://www.bbcgoodfood.com/recipes/universal-salad-dressing",
+  "source": "bbcgoodfood",
+  "lang": "en",
+  "name": "Universal salad dressing",
+  "image": "https://images.immediate.co.uk/production/volatile/sites/30/2023/07/Universal-salad-dressing-ae18c9e.jpg?resize=900,836",
+  "author": "Ailsa Burt",
+  "yield": null,
+  "servings": null,
+  "prepMin": 5,
+  "cookMin": null,
+  "totalMin": 5,
+  "category": [
+   "Condiment"
+  ],
+  "cuisine": [],
+  "keywords": [
+   "avoid food waste",
+   "Fresh herbs",
+   "Make more of leftovers",
+   "Salad dressings"
+  ],
+  "ingredients": [
+   "2 garlic cloves",
+   "90ml apple cider vinegar",
+   "90ml olive oil",
+   "1 tbsp Dijon mustard",
+   "3 tbsp maple syrup",
+   "handful of chopped soft herbs"
+  ],
+  "nutrition": null,
+  "rating": null,
+  "steps": 1,
+  "published": "2023-07-31",
+  "fetchedAt": "2026-11-11"
+ },
+ {
+  "id": "095516e0c74f",
+  "url": "https://fitfoodiefinds.com/chicken-thighs-marinade/",
+  "source": "fitfoodiefinds",
+  "lang": "en",
+  "name": "Easy Chicken Thighs Marinade",
+  "image": "https://fitfoodiefinds.com/wp-content/uploads/2022/03/Grilled-Honey-Mustard-Chicken-Thighs-03sq-500x500.jpg",
+  "author": null,
+  "yield": "6",
+  "servings": 6,
+  "prepMin": 45,
+  "cookMin": 0,
+  "totalMin": 45,
+  "category": [
+   "Marinades"
+  ],
+  "cuisine": [
+   "American"
+  ],
+  "keywords": [
+   "chicken thighs marinade"
+  ],
+  "ingredients": [
+   "1.5 lbs. boneless skinless chicken thighs ((~6 thighs))",
+   "½ teaspoon salt",
+   "½ teaspoon ground pepper",
+   "2 teaspoons apple cider vinegar",
+   "1.5 tablespoons dijon mustard",
+   "1 tablespoon whole grain mustard",
+   "1 tablespoon fresh lemon juice",
+   "2 tablespoons soy sauce",
+   "1/2 cup honey",
+   "¼ cup olive oil",
+   "3 cloves garlic (peeled and minced)",
+   "¼ medium white onion (thinly sliced)",
+   "2 teaspoons fresh chives (minced)"
+  ],
+  "nutrition": {
+   "calories": "313 kcal",
+   "carbohydrateContent": "25 g",
+   "proteinContent": "23 g",
+   "fatContent": "14 g",
+   "fiberContent": "1 g",
+   "sugarContent": "24 g",
+   "servingSize": "1 serving"
+  },
+  "rating": null,
+  "steps": 8,
+  "published": "2022-05-06",
+  "fetchedAt": "2026-11-11"
+ },
+ {
+  "id": "098973a6823c",
+  "url": "https://www.skinnytaste.com/jamaican-brown-stew-chicken/",
+  "source": "skinnytaste",
+  "lang": "en",
+  "name": "Jamaican Brown Stew Chicken",
+  "image": "https://www.skinnytaste.com/wp-content/uploads/2012/02/Jamaican-Brown-Stew-Chicken-500x383.jpg",
+  "author": null,
+  "yield": "6 servings",
+  "servings": 6,
+  "prepMin": null,
+  "cookMin": 40,
+  "totalMin": 50,
+  "category": [
+   "Dinner"
+  ],
+  "cuisine": [
+   "American"
+  ],
+  "keywords": [
+   "chicken stew",
+   "comfort dish",
+   "Jamaican Brown Stew Chicken",
+   "jamaican dishes",
+   "jamaican stew chicken"
+  ],
+  "ingredients": [
+   "6 bone-in chicken legs with thighs attached (skin removed (6 thighs, 6 drumsticks))",
+   "1 lime or 1/4 cup lime juice",
+   "1 large tomato (chopped)",
+   "4 medium scallions (chopped)",
+   "1 large onion (chopped)",
+   "2 garlic cloves (chopped)",
+   "1/2 - 1 hot scotch bonnet pepper (seeds + membrane removed, chopped)",
+   "4 sprigs fresh thyme or 2 tsp dried thyme",
+   "2 tbsp low sodium soy sauce (for gluten free use GF Tamari)",
+   "1 tsp coconut oil (canola would be fine too)",
+   "1 medium carrot (chopped finely)",
+   "2 tsp cornstarch (sub tapioca for Keto)",
+   "1 1/2 cups unsweetened light coconut milk (I like Thai Kitchen)",
+   "1/4 tsp kosher salt"
+  ],
+  "nutrition": {
+   "servingSize": "1 thigh and drumstick",
+   "calories": "235 kcal",
+   "carbohydrateContent": "8.5 g",
+   "proteinContent": "27.6 g",
+   "fatContent": "9.3 g",
+   "saturatedFatContent": "2 g",
+   "cholesterolContent": "104 mg",
+   "sodiumContent": "371.5 mg",
+   "fiberContent": "1.6 g",
+   "sugarContent": "1.1 g"
+  },
+  "rating": {
+   "value": 5,
+   "count": 4
+  },
+  "steps": 10,
+  "published": "2012-02-06",
   "fetchedAt": "2026-11-11"
  },
  {
@@ -1201,6 +4136,780 @@
   "fetchedAt": "2026-11-11"
  },
  {
+  "id": "0a7819d271cf",
+  "url": "https://downshiftology.com/recipes/how-to-cook-spaghetti-squash/",
+  "source": "downshiftology",
+  "lang": "en",
+  "name": "How to Cook Spaghetti Squash (Most Flavor)",
+  "image": "https://downshiftology.com/wp-content/uploads/2023/09/How-To-Cook-Spaghetti-Squash-main-1-500x500.jpg",
+  "author": "Lisa Bryan",
+  "yield": "4 servings",
+  "servings": 4,
+  "prepMin": 10,
+  "cookMin": 40,
+  "totalMin": 50,
+  "category": [
+   "Side Dish"
+  ],
+  "cuisine": [
+   "American"
+  ],
+  "keywords": [
+   "How to Cook Spaghetti Squash",
+   "Spaghetti Squash",
+   "Spaghetti Squash Recipe"
+  ],
+  "ingredients": [
+   "1 spaghetti squash",
+   "2 tablespoons extra virgin olive oil",
+   "kosher salt and freshly ground black pepper (to taste)"
+  ],
+  "nutrition": {
+   "calories": "182.1 kcal",
+   "carbohydrateContent": "29.3 g",
+   "proteinContent": "3 g",
+   "fatContent": "7.9 g",
+   "saturatedFatContent": "7.9 g",
+   "sodiumContent": "81.8 mg",
+   "fiberContent": "6.4 g",
+   "sugarContent": "11.5 g",
+   "servingSize": "1 serving"
+  },
+  "rating": {
+   "value": 4.91,
+   "count": 30
+  },
+  "steps": 5,
+  "published": "2023-09-23",
+  "fetchedAt": "2026-11-11"
+ },
+ {
+  "id": "0ab879b5f27d",
+  "url": "https://mealpreponfleek.com/italian-sausage-pasta-salad-meal-prep/",
+  "source": "mealpreponfleek",
+  "lang": "en",
+  "name": "Italian Sausage Pasta Salad Meal Prep",
+  "image": "https://mealpreponfleek.com/wp-content/uploads/2019/06/Italian-Sausage-Pasta-Salad-Meal-Prep-497-584x800.jpg",
+  "author": "Nick Quintero",
+  "yield": "4 meals",
+  "servings": 4,
+  "prepMin": 5,
+  "cookMin": 10,
+  "totalMin": 15,
+  "category": [
+   "Lunch",
+   "Main Dish"
+  ],
+  "cuisine": [
+   "American"
+  ],
+  "keywords": [
+   "Meal Prep",
+   "Sausage"
+  ],
+  "ingredients": [
+   "8 ounces chickpea pasta (or pasta of choice)",
+   "4 Al Fresco pre-cooked Italian Sausages",
+   "1/2 cup sliced black olives (drained)",
+   "1/2 cup red onion (diced)",
+   "1 1/2 cups Cherry Tomatoes (sliced in half)",
+   "3 cups Spinach (divided into 1 cup and 2 cups)",
+   "1/2 cup grated parmesean cheese",
+   "3/4 cup mini mozzarella balls",
+   "1/2 cup Italian Salad dressing (can use up to 1 cup)"
+  ],
+  "nutrition": {
+   "servingSize": "1 meal",
+   "calories": "561 kcal",
+   "carbohydrateContent": "38.9 g",
+   "proteinContent": "37.1 g",
+   "fatContent": "31.2 g",
+   "fiberContent": "10 g"
+  },
+  "rating": {
+   "value": 4.5,
+   "count": 2
+  },
+  "steps": 9,
+  "published": "2024-05-08",
+  "fetchedAt": "2026-11-11"
+ },
+ {
+  "id": "0ba4e1531ce9",
+  "url": "https://cookieandkate.com/berry-chia-seed-jam-recipe/",
+  "source": "cookieandkate",
+  "lang": "en",
+  "name": "Easy Berry Chia Seed Jam",
+  "image": "https://cookieandkate.com/images/2017/02/berry-chia-jam-uses-260x195.jpg",
+  "author": "Cookie and Kate",
+  "yield": "2 2/3 cups",
+  "servings": 2,
+  "prepMin": 10,
+  "cookMin": null,
+  "totalMin": 10,
+  "category": [
+   "Condiment"
+  ],
+  "cuisine": [
+   "Vegan"
+  ],
+  "keywords": [
+   "Berry chia jam"
+  ],
+  "ingredients": [
+   "10 to 12 ounces (around 2 ½ cups) frozen raspberries, preferably organic",
+   "10 to 12 ounces (around 2 ¼ cups) frozen blueberries, preferably organic or wild",
+   "¼ cup chia seeds",
+   "2 tablespoons orange juice (about ½ medium orange, juiced)",
+   "Up to 4 tablespoons maple syrup (optional), to taste"
+  ],
+  "nutrition": {
+   "servingSize": "1/3 cup",
+   "calories": "98 calories",
+   "sugarContent": "12 g",
+   "sodiumContent": "2.9 mg",
+   "fatContent": "2.1 g",
+   "saturatedFatContent": "0.2 g",
+   "transFatContent": "0 g",
+   "carbohydrateContent": "19.8 g",
+   "fiberContent": "5.8 g",
+   "proteinContent": "1.6 g",
+   "cholesterolContent": "0 mg"
+  },
+  "rating": {
+   "value": 4.9,
+   "count": 56
+  },
+  "steps": 4,
+  "published": "2017-02-07",
+  "fetchedAt": "2026-11-11"
+ },
+ {
+  "id": "0c7bfe524488",
+  "url": "https://sweetpeasandsaffron.com/thai-salad/",
+  "source": "sweetpeasandsaffron",
+  "lang": "en",
+  "name": "Crunchy Rainbow Thai Salad",
+  "image": "https://sweetpeasandsaffron.com/wp-content/uploads/2019/04/Crunchy-Rainbow-Thai-Salad-4-500x500.jpg",
+  "author": null,
+  "yield": "8",
+  "servings": 8,
+  "prepMin": 10,
+  "cookMin": null,
+  "totalMin": 10,
+  "category": [
+   "Dinner"
+  ],
+  "cuisine": [
+   "Thai"
+  ],
+  "keywords": [
+   "barbecue",
+   "gluten-free",
+   "jar salad",
+   "peanut",
+   "peanut dressing",
+   "picnic",
+   "side dish",
+   "slaw"
+  ],
+  "ingredients": [
+   "12 oz Mann's Rainbow Salad",
+   "10 oz Mann's Kohlrabi 'Linguine'",
+   "1/2 cup cilantro leaves",
+   "3/4 cup cashews",
+   "5 tablespoons seasoned rice vinegar",
+   "1 tablespoon sesame oil",
+   "1 tablespoon maple syrup ((honey or brown sugar may be subbed))",
+   "1 1/2 tablespoons reduced sodium soy sauce",
+   "1/2 teaspoon ground ginger",
+   "1/4 cup all natural peanut or almond butter"
+  ],
+  "nutrition": {
+   "servingSize": "1 /8 of batch",
+   "calories": "163 kcal",
+   "carbohydrateContent": "13 g",
+   "proteinContent": "5 g",
+   "fatContent": "11 g",
+   "saturatedFatContent": "1 g",
+   "cholesterolContent": "280 mg",
+   "sodiumContent": "280 mg",
+   "fiberContent": "2 g",
+   "sugarContent": "6 g"
+  },
+  "rating": {
+   "value": 5,
+   "count": 1
+  },
+  "steps": 2,
+  "published": "2019-04-07",
+  "fetchedAt": "2026-11-11"
+ },
+ {
+  "id": "0c9caa3245e5",
+  "url": "https://workweeklunch.com/chicken-tortilla-soup/",
+  "source": "workweeklunch",
+  "lang": "en",
+  "name": "Easy Chicken Tortilla Soup",
+  "image": "https://workweeklunch.com/wp-content/uploads/2018/01/tortilla-soups-1.jpg",
+  "author": null,
+  "yield": "3",
+  "servings": 3,
+  "prepMin": 10,
+  "cookMin": 25,
+  "totalMin": null,
+  "category": [],
+  "cuisine": [],
+  "keywords": [],
+  "ingredients": [
+   "1 TBSP olive oil",
+   "2 clove garlic (minced)",
+   "1/2 yellow onion (chopped)",
+   "15 oz can of pinto beans (rinsed and drained)",
+   "28 oz can of crushed tomatoes (do not drain)",
+   "14 oz can of cream style corn (sub normal corn, canned or frozen)",
+   "8 oz chicken breast (cut the breasts in half if they are very thick)",
+   "2 cup chicken broth (any kind works, sub water + 1 tsp salt and more if needed)",
+   "1 yellow bell pepper chopped",
+   "1 chipotle pepper in adobo sauce (seeded, plus one teaspoon of liquid from the can, sub 4 oz can of diced green chiles)",
+   "3 tsp cumin",
+   "2 tsp chili powder",
+   "1 tsp dried oregano",
+   "3 green onion (optional for garnish)",
+   "3/4 cup shredded cheese (optional for garnish)",
+   "1 avocado (optional for garnish)",
+   "tortilla chips (optional for garnish)"
+  ],
+  "nutrition": null,
+  "rating": {
+   "value": 5,
+   "count": 2
+  },
+  "steps": 4,
+  "published": "2025-09-24",
+  "fetchedAt": "2026-11-11"
+ },
+ {
+  "id": "0d2e5dc15e9a",
+  "url": "https://www.boblechef.com/recettes/salade-de-fruits-au-sirop-de-miel/",
+  "source": "boblechef",
+  "lang": "fr",
+  "name": "Salade de fruits au sirop de miel",
+  "image": "https://www.boblechef.com/wp-content/uploads/2017/01/boblechef-recette-salade-de-fruits-720x540.jpg",
+  "author": "Bob Le Chef",
+  "yield": "4",
+  "servings": 4,
+  "prepMin": 15,
+  "cookMin": null,
+  "totalMin": 15,
+  "category": [],
+  "cuisine": [],
+  "keywords": [],
+  "ingredients": [
+   "80 ml (⅓ de tasse) d’eau",
+   "80 ml (⅓ de tasse) de miel de ton choix",
+   "2 casseaux (environ 500 ml ou 2 tasses) de framboises, bleuets, mûres",
+   "½ ananas environ (500 ml ou 2 tasses) coupé en petits dés",
+   "1 mangue ou une demie papaye (environ 500 ml ou 2 tasses) coupée en petits dés",
+   "250 ml (1 tasse) de noix de ton choix, hachées grossièrement (moi je prends des noix pralinées. Moins bonnes pour la santé, mais si bonnes au goût !)"
+  ],
+  "nutrition": null,
+  "rating": null,
+  "steps": 5,
+  "published": "2020-07-10",
+  "fetchedAt": "2026-11-11"
+ },
+ {
+  "id": "0f4bd6f1082d",
+  "url": "https://lecoupdegrace.ca/recette/canard-wellington-avec-confiture-aux-mures/",
+  "source": "lecoupdegrace",
+  "lang": "fr",
+  "name": "Canard wellington avec confiture aux mûres",
+  "image": "https://lecoupdegrace.ca/app/uploads/2018/12/canard-wellington-avec-confiture-aux-mures-inpage-1200x900.jpg",
+  "author": "Le Coup de Grâce",
+  "yield": "2 à 3",
+  "servings": 2,
+  "prepMin": 25,
+  "cookMin": 25,
+  "totalMin": 50,
+  "category": [
+   "Poulet & volailles"
+  ],
+  "cuisine": [
+   "Québécoise"
+  ],
+  "keywords": [],
+  "ingredients": [
+   "2 poitrines de canard (240g chacune)",
+   "200g de pâte feuilletée décongelée, très froide",
+   "2 c. à soupe (30 ml) de moutarde de Dijon",
+   "10 tranches de prosciutto",
+   "2 c. à soupe (30 ml) de confiture aux mûres",
+   "1 oeuf battu",
+   "Sel et poivre du moulin"
+  ],
+  "nutrition": null,
+  "rating": {
+   "value": 4.8,
+   "count": 13
+  },
+  "steps": 9,
+  "published": "2018-12-04",
+  "fetchedAt": "2026-11-11"
+ },
+ {
+  "id": "1013ac4f6856",
+  "url": "https://nourishedkitchen.com/herb-salad/",
+  "source": "nourishedkitchen",
+  "lang": "en",
+  "name": "Herb Salad Recipe",
+  "image": "https://nourishedkitchen.com/wp-content/uploads/2023/03/herb-salad-social-500x500.jpg",
+  "author": null,
+  "yield": "4 servings",
+  "servings": 4,
+  "prepMin": 5,
+  "cookMin": null,
+  "totalMin": 5,
+  "category": [
+   "Salad"
+  ],
+  "cuisine": [
+   "American"
+  ],
+  "keywords": [
+   "herbs"
+  ],
+  "ingredients": [
+   "2 cups dandelion greens ( (torn))",
+   "3 cups watercress leaves",
+   "1/2 cup chopped flat-leaf parsley",
+   "1/4 cup snipped chives",
+   "1/4 cup chopped chervil",
+   "4 medium cloves garlic (minced)",
+   "1/4 teaspoon fine sea salt",
+   "½ teaspoon freshly ground black pepper",
+   "2 teaspoon Dijon-style mustard",
+   "3 tablespoons extra virgin olive oil",
+   "1 tablespoon red wine vinegar"
+  ],
+  "nutrition": {
+   "calories": "122 kcal",
+   "carbohydrateContent": "6 g",
+   "proteinContent": "2 g",
+   "fatContent": "11 g",
+   "saturatedFatContent": "2 g",
+   "sodiumContent": "211 mg",
+   "fiberContent": "2 g",
+   "sugarContent": "0.4 g",
+   "unsaturatedFatContent": "9 g",
+   "servingSize": "1 serving"
+  },
+  "rating": {
+   "value": 5,
+   "count": 2
+  },
+  "steps": 2,
+  "published": "2023-03-23",
+  "fetchedAt": "2026-11-11"
+ },
+ {
+  "id": "10e626e0f399",
+  "url": "https://www.fermentingforfoodies.com/honey-garlic-pickles/",
+  "source": "fermentingforfoodies",
+  "lang": "en",
+  "name": "Honey Garlic Pickles",
+  "image": "https://www.fermentingforfoodies.com/wp-content/uploads/2019/09/Why-you-need-to-try-making-these-sweet-and-sour-fermented-honey-garlic-pickles-500x500.jpg",
+  "author": "Emillie Parrish",
+  "yield": "1 quart",
+  "servings": 1,
+  "prepMin": 15,
+  "cookMin": null,
+  "totalMin": 15,
+  "category": [
+   "Pickles"
+  ],
+  "cuisine": [
+   "Probiotic"
+  ],
+  "keywords": [
+   "barbecue",
+   "bread and butter",
+   "gluten-free",
+   "hamburger pickles",
+   "healthy",
+   "picnic",
+   "probiotic",
+   "summer",
+   "traditional",
+   "vegetarian"
+  ],
+  "ingredients": [
+   "1 lb pickling cucumbers (about 6 to 8)",
+   "1 clove of garlic",
+   "1 tsp pickling spice",
+   "1/2 tsp ground ginger",
+   "1/4 tsp ground turmeric",
+   "1 tsp of non-iodized salt",
+   "2 Tbsp unpasteurized honey",
+   "1 1/2 cups of water (chlorine-free, enough to cover)",
+   "1/2 cup of cider vinegar (optional)"
+  ],
+  "nutrition": null,
+  "rating": {
+   "value": 5,
+   "count": 1
+  },
+  "steps": 5,
+  "published": "2019-09-09",
+  "fetchedAt": "2026-11-11"
+ },
+ {
+  "id": "130f8b7b0f9b",
+  "url": "https://downshiftology.com/recipes/how-to-make-chia-seed-jam/",
+  "source": "downshiftology",
+  "lang": "en",
+  "name": "Easy Chia Seed Jam Recipe",
+  "image": "https://i2.wp.com/www.downshiftology.com/wp-content/uploads/2016/11/Chia-Seed-Jam-8.jpg",
+  "author": "Lisa Bryan",
+  "yield": "12",
+  "servings": 12,
+  "prepMin": 5,
+  "cookMin": 10,
+  "totalMin": 15,
+  "category": [
+   "Breakfast"
+  ],
+  "cuisine": [
+   "American"
+  ],
+  "keywords": [
+   "chia seed jam",
+   "chia seed jam recipe"
+  ],
+  "ingredients": [
+   "1 pound fresh fruit (strawberries, blueberries, raspberries, etc.)",
+   "2 tablespoons maple syrup",
+   "2 tablespoons chia seeds",
+   "1 teaspoon lemon juice"
+  ],
+  "nutrition": {
+   "calories": "40 kcal",
+   "carbohydrateContent": "9 g",
+   "proteinContent": "1 g",
+   "fatContent": "1 g",
+   "saturatedFatContent": "1 g",
+   "sodiumContent": "3 mg",
+   "fiberContent": "1 g",
+   "sugarContent": "6 g",
+   "servingSize": "1 serving"
+  },
+  "rating": {
+   "value": 4.99,
+   "count": 69
+  },
+  "steps": 4,
+  "published": "2020-05-18",
+  "fetchedAt": "2026-11-11"
+ },
+ {
+  "id": "13f983c24c8c",
+  "url": "https://www.fermentingforfoodies.com/carrot-miso-salad/",
+  "source": "fermentingforfoodies",
+  "lang": "en",
+  "name": "Carrot salad With Miso Dressing",
+  "image": "https://www.fermentingforfoodies.com/wp-content/uploads/2017/12/Easy-carrot-miso-salad-is-flavor-packed-500x500.jpg",
+  "author": "Emillie Parrish",
+  "yield": "6",
+  "servings": 6,
+  "prepMin": 10,
+  "cookMin": null,
+  "totalMin": 10,
+  "category": [
+   "Salad"
+  ],
+  "cuisine": [
+   "Asian"
+  ],
+  "keywords": [
+   "Asian-inspired",
+   "barbecue",
+   "dairy-free",
+   "egg-free",
+   "fall",
+   "gluten-free",
+   "keto",
+   "mayonnaise free",
+   "nut-free",
+   "paleo",
+   "picnic",
+   "potluck",
+   "probiotic",
+   "vegan",
+   "winter"
+  ],
+  "ingredients": [
+   "2 Tbsp miso paste",
+   "3 Tbsp olive oil",
+   "2 Tbsp lemon juice",
+   "2 Tbsp cider vinegar",
+   "1 Tbsp toasted sesame oil",
+   "1/4 tsp salt (to taste)",
+   "6 large carrots",
+   "1/4 cup of dried currants or raisins",
+   "2 Tbsp chopped chives (or spring onions)",
+   "1/4 cup toasted sesame seeds"
+  ],
+  "nutrition": {
+   "calories": "175 kcal",
+   "sugarContent": "3 g",
+   "sodiumContent": "353 mg",
+   "fatContent": "13 g",
+   "saturatedFatContent": "2 g",
+   "carbohydrateContent": "14 g",
+   "fiberContent": "3 g",
+   "proteinContent": "3 g",
+   "unsaturatedFatContent": "10 g",
+   "servingSize": "1 serving"
+  },
+  "rating": {
+   "value": 5,
+   "count": 1
+  },
+  "steps": 5,
+  "published": "2021-10-28",
+  "fetchedAt": "2026-11-11"
+ },
+ {
+  "id": "159c53a10c7f",
+  "url": "https://workweeklunch.com/budget-chicken-fried-rice/",
+  "source": "workweeklunch",
+  "lang": "en",
+  "name": "Budget-Friendly Fried Rice With Chicken",
+  "image": "https://workweeklunch.com/wp-content/uploads/2020/08/chicken-fried-rice-budget.png",
+  "author": null,
+  "yield": "3 meals",
+  "servings": 3,
+  "prepMin": 10,
+  "cookMin": 30,
+  "totalMin": 40,
+  "category": [],
+  "cuisine": [],
+  "keywords": [],
+  "ingredients": [
+   "3/4 cup rice",
+   "1/4 tsp salt",
+   "1-1/2 cup water",
+   "2 TBSP olive oil (divided)",
+   "2 eggs (whisked)",
+   "6 oz mixed frozen veggies (1/2 a 12 oz bag of veggies)",
+   "16 oz chicken breast (chopped into small pieces)",
+   "1/3 cup soy sauce (divided)",
+   "1 clove garlic (minced)",
+   "1 tsp agave, maple syrup or honey (or regular white sugar)"
+  ],
+  "nutrition": null,
+  "rating": {
+   "value": 4.75,
+   "count": 4
+  },
+  "steps": 6,
+  "published": "2026-09-05",
+  "fetchedAt": "2026-11-11"
+ },
+ {
+  "id": "15ed2a88dbc9",
+  "url": "https://workweeklunch.com/tuna-pasta-salad/",
+  "source": "workweeklunch",
+  "lang": "en",
+  "name": "Green Tuna Pasta Salad",
+  "image": "https://workweeklunch.com/wp-content/uploads/2022/03/green-tuna-pasta-salad-1-500x500.jpg",
+  "author": null,
+  "yield": "3",
+  "servings": 3,
+  "prepMin": 10,
+  "cookMin": 15,
+  "totalMin": null,
+  "category": [],
+  "cuisine": [],
+  "keywords": [],
+  "ingredients": [
+   "12 oz asparagus (chopped into bite-sized pieces -root end discarded)",
+   "6 oz bowtie pasta (about 2 cups)",
+   "1/2 cup parsley",
+   "1/2 cup basil",
+   "1/2 cup cilantro",
+   "1/2 lemon (for juice)",
+   "1 TBSP dijon mustard",
+   "2 cloves garlic",
+   "1/3 cup plain Greek yogurt",
+   "2/3 cup avocado (about half of a large avocado)",
+   "1/4 cup water",
+   "1/2 tsp salt",
+   "1/4 tsp pepper (ground)",
+   "2 5 oz canned tuna (10 oz. total)",
+   "1/3 cup sun-dried tomatoes (chopped)",
+   "1/2 cup red onion (chopped, sub shallots)"
+  ],
+  "nutrition": null,
+  "rating": null,
+  "steps": 5,
+  "published": "2026-01-23",
+  "fetchedAt": "2026-11-11"
+ },
+ {
+  "id": "1916b05a8407",
+  "url": "https://www.wellplated.com/bbq-chicken-marinade/",
+  "source": "wellplated",
+  "lang": "en",
+  "name": "BBQ Chicken Marinade",
+  "image": "https://www.wellplated.com/wp-content/uploads/2023/06/Best-BBQ-Chicken-Marinade-2-500x500.jpg",
+  "author": null,
+  "yield": "0.5",
+  "servings": 0,
+  "prepMin": 5,
+  "cookMin": null,
+  "totalMin": 5,
+  "category": [
+   "Main Course"
+  ],
+  "cuisine": [
+   "American"
+  ],
+  "keywords": [
+   "apple cider chicken marinade",
+   "barbecue chicken marinade",
+   "bbq marinade recipe",
+   "best chicken marinade for grilling",
+   "chicken marinade healthy",
+   "marinade chicken"
+  ],
+  "ingredients": [
+   "1/4 cup ketchup",
+   "1 tablespoon pure maple syrup",
+   "1 tablespoon apple cider vinegar",
+   "1 tablespoon Worcestershire sauce",
+   "2 teaspoons smoked paprika",
+   "1 teaspoon ground cumin",
+   "1 teaspoon kosher salt",
+   "1 teaspoon garlic powder",
+   "1/2 teaspoon ground black pepper",
+   "1 1/2 pounds boneless skinless chicken breasts or boneless skinless thighs"
+  ],
+  "nutrition": {
+   "servingSize": "0.5 cup",
+   "calories": "46 kcal",
+   "carbohydrateContent": "12 g",
+   "proteinContent": "0.6 g",
+   "fatContent": "0.4 g",
+   "saturatedFatContent": "0.04 g",
+   "fiberContent": "0.6 g",
+   "sugarContent": "8 g",
+   "unsaturatedFatContent": "0.4 g"
+  },
+  "rating": {
+   "value": 4.88,
+   "count": 8
+  },
+  "steps": 3,
+  "published": "2023-06-30",
+  "fetchedAt": "2026-11-11"
+ },
+ {
+  "id": "1c1d6ffd4b38",
+  "url": "https://mealpreponfleek.com/quick-pickled-onions-two-ways/",
+  "source": "mealpreponfleek",
+  "lang": "en",
+  "name": "Quick Pickled Onions Two Ways (Red Onions and White Onions)",
+  "image": "https://mealpreponfleek.com/wp-content/uploads/2026/01/Quick-Pickled-Onions-Two-Ways-red-and-white-onions-2.jpg",
+  "author": "Nick Quintero",
+  "yield": "12 servings",
+  "servings": 12,
+  "prepMin": 5,
+  "cookMin": null,
+  "totalMin": 35,
+  "category": [
+   "Appetizer",
+   "condiment",
+   "Side Dish",
+   "Snack"
+  ],
+  "cuisine": [
+   "American",
+   "Mediterranean",
+   "Mexican"
+  ],
+  "keywords": [
+   "Meal Prep",
+   "pickled",
+   "quick",
+   "spicy"
+  ],
+  "ingredients": [
+   "1 ea large onion (red or white, thinly sliced)",
+   "1 cup water",
+   "1 cup vinegar (apple cider or white, 5%)",
+   "1 Tbsp salt",
+   "3 Tbsp sugar",
+   "Optional: sliced jalapeños (garlic, peppercorns)"
+  ],
+  "nutrition": {
+   "servingSize": "1 serving",
+   "calories": "15 kcal",
+   "carbohydrateContent": "3 g",
+   "proteinContent": "0.001 g",
+   "fatContent": "0.01 g",
+   "sodiumContent": "583 mg",
+   "fiberContent": "0.002 g",
+   "sugarContent": "3 g"
+  },
+  "rating": null,
+  "steps": 7,
+  "published": "2026-01-14",
+  "fetchedAt": "2026-11-11"
+ },
+ {
+  "id": "1d53d90ac410",
+  "url": "https://www.fermentingforfoodies.com/homemade-koji-rice/",
+  "source": "fermentingforfoodies",
+  "lang": "en",
+  "name": "Homemade Koji Rice",
+  "image": "https://www.fermentingforfoodies.com/wp-content/uploads/2018/03/Homemade-koji-for-Japanese-mold-ferments-miso-sake-amazake-and-more-500x500.jpg",
+  "author": "Emillie Parrish",
+  "yield": "4 cups",
+  "servings": 4,
+  "prepMin": 15,
+  "cookMin": 15,
+  "totalMin": 30,
+  "category": [
+   "Ingredient"
+  ],
+  "cuisine": [
+   "Japanese"
+  ],
+  "keywords": [
+   "gluten-free",
+   "koji barley",
+   "koji kin",
+   "miso",
+   "nut-free",
+   "sake",
+   "soy-free",
+   "vegan"
+  ],
+  "ingredients": [
+   "2 cups rice (white or polished brown)",
+   "1/4 tsp koji-kin culture (see notes)"
+  ],
+  "nutrition": null,
+  "rating": {
+   "value": 4.88,
+   "count": 8
+  },
+  "steps": 9,
+  "published": "2018-03-05",
+  "fetchedAt": "2026-11-11"
+ },
+ {
   "id": "1dc12628f52e",
   "url": "https://minimalistbaker.com/gingery-apple-cabbage-sauerkraut/",
   "source": "minimalistbaker",
@@ -1254,6 +4963,94 @@
   "fetchedAt": "2026-11-11"
  },
  {
+  "id": "1eb777083ee2",
+  "url": "https://sweetpeasandsaffron.com/super-easy-chipotle-chicken-marinade/",
+  "source": "sweetpeasandsaffron",
+  "lang": "en",
+  "name": "Chipotle Chicken Marinade Copycat",
+  "image": "https://sweetpeasandsaffron.com/wp-content/uploads/2017/11/Chipotle-Lime-Chicken-Marinade-2-500x500.jpg",
+  "author": null,
+  "yield": "4",
+  "servings": 4,
+  "prepMin": 10,
+  "cookMin": 25,
+  "totalMin": 35,
+  "category": [
+   "Dinner"
+  ],
+  "cuisine": [
+   "Mexican"
+  ],
+  "keywords": [
+   "chicken",
+   "dairy-free",
+   "freezer",
+   "gluten-free",
+   "marinade"
+  ],
+  "ingredients": [
+   "1 lbs chicken breast ((roughly 2 chicken breasts))",
+   "2 tablespoons olive oil",
+   "2 teaspoons adobo sauce ((from a can of chipotle peppers; see *notes))",
+   "1/2 teaspoon paprika ((sweet, although smoked would also be great))",
+   "2 teaspoons brown sugar",
+   "2 cloves garlic minced",
+   "2 tablespoons lime juice",
+   "1/4 teaspoon salt"
+  ],
+  "nutrition": {
+   "servingSize": "4 oz chicken breast",
+   "calories": "81 kcal",
+   "carbohydrateContent": "3 g",
+   "fatContent": "7 g",
+   "saturatedFatContent": "1 g",
+   "sodiumContent": "575 mg",
+   "sugarContent": "2 g"
+  },
+  "rating": {
+   "value": 5,
+   "count": 6
+  },
+  "steps": 5,
+  "published": "2020-05-18",
+  "fetchedAt": "2026-11-11"
+ },
+ {
+  "id": "1f939f84b2c8",
+  "url": "https://chefcuisto.com/recette/creme-glacee-double-chocolat-sans-lactose/",
+  "source": "chefcuisto",
+  "lang": "fr",
+  "name": "Crème glacée double chocolat sans lactose",
+  "image": "https://chefcuisto.com/files/2016/08/creme-glacee-double-chocolat.jpg",
+  "author": "Matt",
+  "yield": "4-6",
+  "servings": 4,
+  "prepMin": 5,
+  "cookMin": null,
+  "totalMin": 5,
+  "category": [
+   "Chocolat",
+   "Rafraîchissant"
+  ],
+  "cuisine": [],
+  "keywords": [],
+  "ingredients": [
+   "2 bananes gelées",
+   "1/2 tasse (125 ml) de poudre de cacao",
+   "1 tasse (250 ml) de lait d’amande (faire son lait d’amandes)",
+   "1/2 tasse (125 ml) de pépites de chocolat + un peu plus pour la garniture",
+   "Des décorations à gâteaux au chocolat pour la garniture (optionnel)"
+  ],
+  "nutrition": null,
+  "rating": {
+   "value": 5,
+   "count": 79
+  },
+  "steps": 4,
+  "published": "2016-08-04",
+  "fetchedAt": "2026-11-11"
+ },
+ {
   "id": "26990f36080b",
   "url": "https://www.bbcgoodfood.com/recipes/spicy-kimchi-pancake-kimchi-jeon",
   "source": "bbcgoodfood",
@@ -1301,6 +5098,101 @@
   "rating": null,
   "steps": 6,
   "published": "2023-01-25",
+  "fetchedAt": "2026-11-11"
+ },
+ {
+  "id": "2b63601cac88",
+  "url": "https://pinchofyum.com/gochujang-chicken-burgers-with-kimchi-bacon-jam",
+  "source": "pinchofyum",
+  "lang": "en",
+  "name": "Gochujang Chicken Burgers with Kimchi Bacon Jam",
+  "image": "https://pinchofyum.com/tachyon/Gochujang-Chicken-Burgers-Square.png?fit=195%2C195",
+  "author": "Lindsay Ostrom",
+  "yield": "4-5 burgers",
+  "servings": 4,
+  "prepMin": 10,
+  "cookMin": 20,
+  "totalMin": 30,
+  "category": [
+   "Burgers"
+  ],
+  "cuisine": [
+   "Korean-Inspired"
+  ],
+  "keywords": [
+   "gochujang burgers",
+   "kimchi bacon jam",
+   "chicken burgers with gochujang"
+  ],
+  "ingredients": [
+   "1 lb. ground chicken",
+   "1/2 cup panko breadcrumbs",
+   "2 tablespoons gochujang sauce (I use this one)",
+   "1/2 teaspoon garlic powder",
+   "1 teaspoon coarse kosher salt",
+   "avocado oil or olive oil for frying",
+   "6 slices bacon, cut into small pieces",
+   "1 1/2 cups kimchi, cut into small shreddy pieces (my personal preference for texture!)",
+   "2 tablespoons brown sugar",
+   "Buns",
+   "Cheese (optional – I use gouda cheese)",
+   "Cilantro or greens",
+   "Mayo",
+   "Cucumber slices"
+  ],
+  "nutrition": {
+   "calories": "485 calories",
+   "sugarContent": "7.2 g",
+   "sodiumContent": "1450.3 mg",
+   "fatContent": "33.8 g",
+   "saturatedFatContent": "9.2 g",
+   "transFatContent": "0.1 g",
+   "carbohydrateContent": "17.8 g",
+   "fiberContent": "1.7 g",
+   "proteinContent": "27.5 g",
+   "cholesterolContent": "124 mg"
+  },
+  "rating": {
+   "value": 5,
+   "count": 107
+  },
+  "steps": 4,
+  "published": "2023-08-07",
+  "fetchedAt": "2026-11-11"
+ },
+ {
+  "id": "2c390825815d",
+  "url": "https://cuisinez.telequebec.tv/recettes/7517/pierogis-a-la-choucroute",
+  "source": "cuisinez",
+  "lang": "fr",
+  "name": "Pierogis à la choucroute",
+  "image": "https://cuisinez.tele.quebec/Images/img/da490f4d-88a9-4927-b91d-8c152ffe4c36/69b1f867-91c0-41ac-b6c9-66b94439411e54e2fcb9-6dcc-4993-97ff-e00550a746c5.jpg?ts=1701869838",
+  "author": "Curieux Bégin",
+  "yield": "30",
+  "servings": 30,
+  "prepMin": 30,
+  "cookMin": 15,
+  "totalMin": 45,
+  "category": [
+   "Choix alimentaires"
+  ],
+  "cuisine": [],
+  "keywords": [],
+  "ingredients": [
+   "750 ml (3 tasses) de farine tout usage",
+   "2 œufs",
+   "15 ml (1 c. à soupe) d’huile végétale",
+   "500 ml (2 tasses) de choucroute, bien égouttée",
+   "Beurre, pour la cuisson",
+   "Huile, pour la cuisson"
+  ],
+  "nutrition": null,
+  "rating": {
+   "value": 3,
+   "count": 2
+  },
+  "steps": 11,
+  "published": "2024-01-12",
   "fetchedAt": "2026-11-11"
  },
  {
@@ -1355,6 +5247,473 @@
   },
   "steps": 10,
   "published": "2025-04-26",
+  "fetchedAt": "2026-11-11"
+ },
+ {
+  "id": "4994052657c4",
+  "url": "https://www.salutbonjour.ca/cuisine/recettes/bout-de-cotes-levees-a-la-coreenne-et-riz-jasmin-au-kimchi",
+  "source": "salutbonjour",
+  "lang": "fr",
+  "name": "Bout de côtes levées à la Coréenne et riz jasmin au Kimchi",
+  "image": "https://m1.quebecormedia.com/emp/emp/SB_20260420_3802a4ff16d0-c378-497d-b4b7-3728567a30a6_ORIGINAL.jpg?impolicy=crop-resize&x=0&y=93&w=5000&h=3750&width=1200",
+  "author": "HUGO SAINT-JACQUES",
+  "yield": "4 portions",
+  "servings": 4,
+  "prepMin": null,
+  "cookMin": null,
+  "totalMin": null,
+  "category": [],
+  "cuisine": [],
+  "keywords": [],
+  "ingredients": [
+   "(1/2 tasse) de sauce soya faible en sel",
+   "(1/4 tasse) de mirin",
+   "(1/4 tasse) de sauce hoisin",
+   "(2 c. à soupe) de cassonade",
+   "(2 c. à soupe) de pâte de piments Gochujang",
+   "(2 c. à soupe) de gingembre haché",
+   "2 gousse d'ail",
+   "1,2 kg de travers de boeuf à la coréenne",
+   "(3 tasses) de riz jasmin cuit la veille",
+   "(2 c. à soupe) d' huile de sésame",
+   "(1/4 tasse) d' oignon rouge coupés en dés",
+   "(1 tasse) de pois sucrés",
+   "(1 tasse) de kimchi",
+   "(1/2 tasse) de coriandre",
+   "2 lime en quartier",
+   "feuille de coriandre",
+   "graine de sésame"
+  ],
+  "nutrition": null,
+  "rating": null,
+  "steps": 6,
+  "published": "2026-04-20",
+  "fetchedAt": "2026-11-11"
+ },
+ {
+  "id": "787d50d16932",
+  "url": "https://fitfoodiefinds.com/easy-kombucha-lemonade/",
+  "source": "fitfoodiefinds",
+  "lang": "en",
+  "name": "Easy Kombucha Lemonade",
+  "image": "https://fitfoodiefinds.com/wp-content/uploads/2014/06/square7-500x500.jpg",
+  "author": "Lee Hersh",
+  "yield": "4 servings",
+  "servings": 4,
+  "prepMin": 5,
+  "cookMin": 0,
+  "totalMin": null,
+  "category": [
+   "Drink"
+  ],
+  "cuisine": [
+   "American"
+  ],
+  "keywords": [
+   "Kombucha"
+  ],
+  "ingredients": [
+   "1 bottle of kombucha (plain or about 2 cups of homemade kombucha)",
+   "1/2 cup fresh lemon juice",
+   "1 tablespoon coconut sugar",
+   "1 cup water"
+  ],
+  "nutrition": {
+   "calories": "17 kcal",
+   "sugarContent": "3 g",
+   "fatContent": "0.1 g",
+   "carbohydrateContent": "5 g",
+   "fiberContent": "0.1 g",
+   "proteinContent": "0.1 g",
+   "servingSize": "1 serving"
+  },
+  "rating": null,
+  "steps": 3,
+  "published": "2019-05-29",
+  "fetchedAt": "2026-11-11"
+ },
+ {
+  "id": "804067e705c5",
+  "url": "https://mealpreponfleek.com/kimchi-buddha-bowl-meal-prep/",
+  "source": "mealpreponfleek",
+  "lang": "en",
+  "name": "Kimchi Buddha Bowl Meal Prep",
+  "image": "https://mealpreponfleek.com/wp-content/uploads/2019/01/5_KimchiBuddhaBowl_4Containers_Cropped_Tonis-800x640.jpg",
+  "author": "Nick Quintero",
+  "yield": "4 meals",
+  "servings": 4,
+  "prepMin": 10,
+  "cookMin": 35,
+  "totalMin": 45,
+  "category": [
+   "Lunch"
+  ],
+  "cuisine": [
+   "American",
+   "Asian"
+  ],
+  "keywords": [
+   "Beans"
+  ],
+  "ingredients": [
+   "1 can Cannellini Beans (drained and rinsed)",
+   "1/2 medium head of cauliflower (riced)",
+   "2 cups mixed greens",
+   "1 medium purple sweet potato (diced (can sub any potato))",
+   "1 medium watermelon radish (thinly sliced)",
+   "1 lime (quartered)",
+   "1/4 cup kimchi",
+   "2 tbsp tamari sauce",
+   "1 tbsp rice wine vinegar",
+   "1/2 tsp sesame oil",
+   "2 tbsp avocado oil",
+   "salt & pepper (to taste)",
+   "Sesame Seeds (optional )"
+  ],
+  "nutrition": {
+   "servingSize": "1 meal",
+   "calories": "253 kcal",
+   "carbohydrateContent": "35.7 g",
+   "proteinContent": "10.7 g",
+   "fatContent": "8.4 g",
+   "fiberContent": "12.7 g"
+  },
+  "rating": {
+   "value": 4,
+   "count": 2
+  },
+  "steps": 7,
+  "published": "2019-02-04",
+  "fetchedAt": "2026-11-11"
+ },
+ {
+  "id": "8adc535afe51",
+  "url": "https://cookieandkate.com/kombucha-moscow-mules/",
+  "source": "cookieandkate",
+  "lang": "en",
+  "name": "Kombucha Moscow Mules",
+  "image": "https://cookieandkate.com/images/2014/06/kombucha-moscow-mules1-260x195.jpg",
+  "author": "Cookie and Kate",
+  "yield": "1",
+  "servings": 1,
+  "prepMin": 2,
+  "cookMin": null,
+  "totalMin": 2,
+  "category": [
+   "Cocktail"
+  ],
+  "cuisine": [],
+  "keywords": [],
+  "ingredients": [
+   "1 part vodka",
+   "3 parts kombucha (ginger or gingerberry)",
+   "½ lime, juiced"
+  ],
+  "nutrition": {
+   "calories": "171 calories",
+   "sugarContent": "6.4 g",
+   "sodiumContent": "1 mg",
+   "fatContent": "0 g",
+   "saturatedFatContent": "0 g",
+   "transFatContent": "0 g",
+   "carbohydrateContent": "7.9 g",
+   "fiberContent": "0.1 g",
+   "proteinContent": "0.1 g",
+   "cholesterolContent": "0 mg"
+  },
+  "rating": {
+   "value": 5,
+   "count": 3
+  },
+  "steps": 2,
+  "published": "2014-06-13",
+  "fetchedAt": "2026-11-11"
+ },
+ {
+  "id": "9f2329dfb314",
+  "url": "https://www.skinnytaste.com/sourdough-stuffing/",
+  "source": "skinnytaste",
+  "lang": "en",
+  "name": "Sourdough Stuffing with Caramelized Onions and Mushrooms",
+  "image": "https://www.skinnytaste.com/wp-content/uploads/2025/11/Sourdough-Stuffing-10-500x500.jpg",
+  "author": null,
+  "yield": "12 servings",
+  "servings": 12,
+  "prepMin": 20,
+  "cookMin": 65,
+  "totalMin": 100,
+  "category": [
+   "holiday side dish",
+   "Side Dish"
+  ],
+  "cuisine": [
+   "American"
+  ],
+  "keywords": [
+   "sourdough stuffing",
+   "Stuffing",
+   "Thanksgiving",
+   "Thanksgiving side dish",
+   "vegetarian"
+  ],
+  "ingredients": [
+   "16 ounce loaf sourdough bread (cut into ½-inch cubes)",
+   "3 tablespoons olive oil (divided)",
+   "2 large yellow onions (chopped medium)",
+   "1 ½ pounds white mushrooms (cleaned and sliced)",
+   "3 stalks celery (chopped)",
+   "2 tablespoons fresh thyme ( or rosemary, finely chopped)",
+   "2 tablespoons fresh sage (chopped)",
+   "2 cups low-sodium vegetable broth",
+   "1 large egg (beaten)",
+   "⅔ cups fresh parsley (chopped)",
+   "1 1/4 teaspoons kosher salt (divided)",
+   "⅛ teaspoon black pepper",
+   "olive oil spray"
+  ],
+  "nutrition": {
+   "servingSize": "1 cup",
+   "calories": "164 kcal",
+   "carbohydrateContent": "24.5 g",
+   "proteinContent": "7 g",
+   "fatContent": "5 g",
+   "saturatedFatContent": "1 g",
+   "cholesterolContent": "15.5 mg",
+   "sodiumContent": "374 mg",
+   "fiberContent": "2.5 g",
+   "sugarContent": "4 g"
+  },
+  "rating": {
+   "value": 5,
+   "count": 2
+  },
+  "steps": 7,
+  "published": "2025-11-10",
+  "fetchedAt": "2026-11-11"
+ },
+ {
+  "id": "a0ab73dec81b",
+  "url": "https://www.fermentingforfoodies.com/reuben-sandwiches/",
+  "source": "fermentingforfoodies",
+  "lang": "en",
+  "name": "Vegan Reuben Sandwich",
+  "image": "https://www.fermentingforfoodies.com/wp-content/uploads/2021/10/Tempeh-vegan-Reuben-sandwich-500x500.jpg",
+  "author": "Emillie Parrish",
+  "yield": "4 sandwiches",
+  "servings": 4,
+  "prepMin": 15,
+  "cookMin": null,
+  "totalMin": 15,
+  "category": [
+   "Dinner"
+  ],
+  "cuisine": [
+   "American"
+  ],
+  "keywords": [
+   "dinner",
+   "easy",
+   "fall",
+   "gluten-free",
+   "healthy",
+   "quick",
+   "snack",
+   "summer",
+   "vegan",
+   "vegetarian"
+  ],
+  "ingredients": [
+   "1/2 cup vegan mayonnaise",
+   "2 Tbsp ketchup",
+   "1 tsp Dijon mustard",
+   "1/2 tsp finely chopped onion.",
+   "8 slices of rye bread (or whole-grain GF bread)",
+   "1/2 cup sauerkraut (well-drained)",
+   "8 slices of melting vegan cheese",
+   "4 thinly sliced tempeh (1/4-inch thick)",
+   "2 Tbsp Earth Balance Butter"
+  ],
+  "nutrition": {
+   "servingSize": "1 Sandwich",
+   "calories": "538 kcal",
+   "sugarContent": "4 g",
+   "sodiumContent": "1211 mg",
+   "fatContent": "34 g",
+   "saturatedFatContent": "6 g",
+   "carbohydrateContent": "46 g",
+   "fiberContent": "6 g",
+   "proteinContent": "7 g",
+   "unsaturatedFatContent": "6 g"
+  },
+  "rating": {
+   "value": 5,
+   "count": 1
+  },
+  "steps": 7,
+  "published": "2021-10-16",
+  "fetchedAt": "2026-11-11"
+ },
+ {
+  "id": "a7dc5339aa13",
+  "url": "https://nourishedkitchen.com/burger-bowls/",
+  "source": "nourishedkitchen",
+  "lang": "en",
+  "name": "Burger Bowl Recipe",
+  "image": "https://nourishedkitchen.com/wp-content/uploads/2013/04/burger-bowls-social-500x500.jpg",
+  "author": null,
+  "yield": "4 servings",
+  "servings": 4,
+  "prepMin": 10,
+  "cookMin": 20,
+  "totalMin": 30,
+  "category": [
+   "Dinner"
+  ],
+  "cuisine": [
+   "American"
+  ],
+  "keywords": [],
+  "ingredients": [
+   "1 tablespoon extra virgin olive oil",
+   "1 pound ground beef",
+   "1 teaspoon garlic powder",
+   "2 teaspoons onion powder",
+   "½ teaspoon paprika",
+   "1 teaspoon fine sea salt",
+   "½ teaspoon black pepper",
+   "1 teaspoon Worcestershire sauce",
+   "¼ cup mayonnaise",
+   "2 tablespoons ketchup",
+   "1 teaspoon hot sauce",
+   "1 teaspoon red wine vinegar",
+   "1 head Bibb lettuce",
+   "1 cup shredded cheddar cheese",
+   "1 sour pickle ((sliced cross-wise))",
+   "8 ounces cherry tomatoes ((halved))",
+   "½ medium red onion ((sliced thin))",
+   "4 slices cooked bacon ((chopped))"
+  ],
+  "nutrition": {
+   "calories": "648 kcal",
+   "carbohydrateContent": "7 g",
+   "proteinContent": "30 g",
+   "fatContent": "55 g",
+   "saturatedFatContent": "19 g",
+   "transFatContent": "1 g",
+   "cholesterolContent": "129 mg",
+   "sodiumContent": "1198 mg",
+   "fiberContent": "1 g",
+   "sugarContent": "3 g",
+   "unsaturatedFatContent": "30 g",
+   "servingSize": "1 serving"
+  },
+  "rating": {
+   "value": 4.8,
+   "count": 10
+  },
+  "steps": 4,
+  "published": "2013-04-12",
+  "fetchedAt": "2026-11-11"
+ },
+ {
+  "id": "abf215527aa2",
+  "url": "https://www.recipetineats.com/korean-kimchi-fried-rice/",
+  "source": "recipetineats",
+  "lang": "en",
+  "name": "Kimchi Fried Rice",
+  "image": "https://www.recipetineats.com/tachyon/2021/03/Kimchi-Fried-Rice_7-SQ.jpg?resize=500%2C500",
+  "author": null,
+  "yield": "4 - 5 as a side",
+  "servings": 4,
+  "prepMin": 10,
+  "cookMin": 6,
+  "totalMin": null,
+  "category": [
+   "Rice",
+   "Side Dish"
+  ],
+  "cuisine": [
+   "Asian",
+   "Korean"
+  ],
+  "keywords": [
+   "fried rice recipe",
+   "Kimchi fried rice",
+   "korean fried rice",
+   "Korean rice dish",
+   "korean side dish",
+   "spicy fried rice"
+  ],
+  "ingredients": [
+   "2 tsp sesame oil (, toasted, separated (1 tsp + 1 tsp))",
+   "2 garlic cloves (, finely chopped)",
+   "200g/7oz enoki mushrooms ((Note 1))",
+   "1 tbsp oil (, vegetable, peanut or canola)",
+   "1 tbsp gochujang ((Korean chilli paste, Note 2))",
+   "1 cup (packed) kimchi ((Note 3))",
+   "1/4 cup kimchi juice (, from the kimchi above (Note 3))",
+   "3 cups cooked (, day old white rice (Note 4))",
+   "Fried egg (, runny yolk, sunny-side up)",
+   "Black sesame seeds",
+   "Green onions (, finely sliced)",
+   "Crispy seaweed strips ((Note 5))"
+  ],
+  "nutrition": {
+   "calories": "243 kcal",
+   "carbohydrateContent": "39 g",
+   "proteinContent": "6 g",
+   "fatContent": "7 g",
+   "saturatedFatContent": "1 g",
+   "transFatContent": "1 g",
+   "cholesterolContent": "41 mg",
+   "sodiumContent": "19 mg",
+   "fiberContent": "2 g",
+   "sugarContent": "1 g",
+   "servingSize": "1 serving"
+  },
+  "rating": {
+   "value": 5,
+   "count": 23
+  },
+  "steps": 8,
+  "published": "2021-03-15",
+  "fetchedAt": "2026-11-11"
+ },
+ {
+  "id": "fdc5004e6998",
+  "url": "https://lecoupdegrace.ca/recette/choucroute-maison-au-vin-blanc-et-genievre/",
+  "source": "lecoupdegrace",
+  "lang": "fr",
+  "name": "Choucroute maison au vin blanc et genièvre",
+  "image": "https://lecoupdegrace.ca/app/uploads/2026/09/recette-choucroute-maison-au-vin-blanc-et-genievre-1200x900.jpg",
+  "author": "Le Coup de Grâce",
+  "yield": "2 litres",
+  "servings": 2,
+  "prepMin": 25,
+  "cookMin": null,
+  "totalMin": 25,
+  "category": [
+   "Accompagnements"
+  ],
+  "cuisine": [
+   "Québécoise"
+  ],
+  "keywords": [],
+  "ingredients": [
+   "1 chou vert bien ferme (environ 2 lb / 900 g)",
+   "1 c. à soupe (15 ml) de sel de mer fin",
+   "¼ tasse (60 ml) de vin blanc sec, idéalement un sauvignon blanc",
+   "1 c. à thé (5 ml) de baies de genièvre",
+   "½ c. à thé (2 ml) de graines de carvi (facultatif)",
+   "Eau salée, au besoin (1 c. à thé (5 ml) de sel de mer fin par tasse (250 ml) d’eau)"
+  ],
+  "nutrition": null,
+  "rating": {
+   "value": 4.6,
+   "count": 15
+  },
+  "steps": 7,
+  "published": "2026-09-14",
   "fetchedAt": "2026-11-11"
  }
 ]
