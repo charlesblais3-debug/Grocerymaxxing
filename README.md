@@ -50,9 +50,15 @@ page for the method.
    French + English) and its quantity is converted to grams.
 2. Each flyer item is matched the same way and its price is normalised to $/g from the
    printed unit (`/lb`, `/kg`, `/100 g`), the package size, or a typical unit weight.
-3. Per ingredient: cheapest current flyer price among the selected stores → otherwise the
-   StatCan average price → otherwise "not priced". The cost is prorated to the quantity
-   the recipe uses, and the recipe page shows which flyer item was used for every line.
+3. Every ingredient has one **reference price**, identical for all stores: StatCan's Québec
+   average → otherwise the regular price flyers state themselves → otherwise an estimate
+   from the flyer prices seen in the last 26 weeks (`data/price-history.json`).
+4. A line costs `min(store's flyer price, reference price)`. A flyer can therefore only
+   lower a recipe's cost, and the same lines are priced whatever the store.
+   `scripts/verify-prices.mjs` checks these rules for every recipe × store × date and
+   runs in CI before each deploy.
+5. A recipe missing the price of a protein or of a large part of the dish is marked
+   "incomplete" and left out of cost rankings.
 
 It is an **estimate**: weight conversions and product matching are approximations, which
 is why the app always shows how many ingredients were priced and with what.

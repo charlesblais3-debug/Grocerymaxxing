@@ -9,6 +9,7 @@
     "build": "npm run index && vite build",
     "preview": "vite preview",
     "test": "vitest run",
+    "verify": "npm run index && node scripts/verify-prices.mjs && node scripts/audit.mjs",
     "fetch:flyers": "node scripts/fetch-flyers.mjs",
     "fetch:recipes": "node scripts/fetch-recipes.mjs",
     "fetch:baseline": "node scripts/fetch-baseline.mjs"

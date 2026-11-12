@@ -70,6 +70,8 @@ export function costRecipe(recipe, offers, baseline) {
   let deals = 0;
   let savings = 0;
   let comparable = 0; // cost of the lines whose regular price is known
+  const grams = recipe.ings.reduce((n, l) => n + (l.g && !ING_BY_ID[l.ing]?.free ? l.g : 0), 0);
+  const missing = [];
   const lines = recipe.ings.map((l) => {
     const ing = l.ing ? ING_BY_ID[l.ing] : null;
     if (ing?.free) return { ...l, cost: 0, src: 'free' };
@@ -78,7 +80,12 @@ export function costRecipe(recipe, offers, baseline) {
     // they are shown as pantry items instead of dragging the coverage figure down.
     if (!p && ing && (ing.cat === 'spices' || l.nq)) return { ...l, cost: null, src: 'pantry' };
     countable++;
-    if (!p) return { ...l, cost: null, src: null };
+    if (!p) {
+      // An unpriced protein, or an unpriced ingredient that is a big part of the dish,
+      // makes the total meaningless: say so instead of showing a low price.
+      if (ing && (ing.cat === 'meat' || ing.cat === 'fish' || (l.g != null && l.g >= 0.2 * grams))) missing.push(l.ing);
+      return { ...l, cost: null, src: null };
+    }
     const cost = l.g * p.perG;
     total += cost;
     priced++;
@@ -100,7 +107,7 @@ export function costRecipe(recipe, offers, baseline) {
     total: has ? total : null,
     per: perKind ? total / div : null,
     perKind,
-    priced, countable, deals, savings, lines,
+    priced, countable, deals, savings, lines, missing,
     // Share saved against the regular price of the same basket.
     savingsPct: has && savings > 0 ? savings / (total + savings) : 0,
     // How much of the cost that percentage is based on (the rest has no known regular price).
@@ -110,4 +117,5 @@ export function costRecipe(recipe, offers, baseline) {
 }
 
 /** A cost can be compared across recipes when most lines are priced and it is per meal/serving. */
-export const reliable = (c) => c.per != null && c.coverage >= 0.75 && c.perKind !== 'unit';
+export const complete = (c) => c.total != null && c.coverage >= 0.75 && !c.missing.length;
+export const reliable = (c) => c.per != null && complete(c) && c.perKind !== 'unit';

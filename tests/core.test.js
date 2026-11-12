@@ -291,3 +291,37 @@ describe('savings', () => {
     expect(c.savingsPct).toBeCloseTo(5 / 10.6, 3);
   });
 });
+
+describe('pricing is consistent across stores', () => {
+  const recipe = { servings: 4, ings: [{ raw: 'a', ing: 'chicken_whole', g: 1600 }, { raw: 'b', ing: 'mango', g: 600 }, { raw: 'c', ing: 'broth_chicken', g: 500 }, { raw: 'd', ing: 'kimchi', g: 100 }] };
+  const base = { chicken_whole: { perG: 0.0064 }, mango: { perG: 0.004 }, broth_veg: { perG: 0.0016 } };
+  const items = [{ name: 'mangue', pg: { mango: 0.003 }, store: 'a' }, { name: 'poulet entier', pg: { chicken_whole: 0.009 }, store: 'b' }];
+  const cost = (stores) => costRecipe(recipe, bestOffers(items, new Set(stores), '2030-01-01', base), base);
+  it('an ingredient without a deal is charged its reference price, never zero', () => {
+    const none = cost([]);
+    expect(none.lines.map((l) => l.src)).toEqual(['base', 'base', 'base', null]);
+    expect(none.total).toBeCloseTo(1600 * 0.0064 + 600 * 0.004 + 500 * 0.0016);
+  });
+  it('a store with a deal costs less, and one with a dearer flyer price costs the same', () => {
+    expect(cost(['a']).total).toBeCloseTo(cost([]).total - 600 * 0.001);
+    expect(cost(['b']).total).toBeCloseTo(cost([]).total);
+    expect(cost(['b']).deals).toBe(0);
+    expect(cost(['a', 'b']).total).toBeLessThanOrEqual(cost(['a']).total);
+  });
+  it('a missing protein makes the price incomplete', async () => {
+    const { complete } = await import('../shared/cost.js');
+    const c = costRecipe({ servings: 4, ings: [{ raw: 'x', ing: 'duck', g: 800 }, { raw: 'y', ing: 'mango', g: 200 }] }, new Map(), base);
+    expect(c.missing).toEqual(['duck']);
+    expect(complete(c)).toBe(false);
+  });
+  it('reference prices: StatCan first, then flyer regular, then flyer upper quartile', async () => {
+    const { buildBaseline } = await import('../scripts/build-index.mjs');
+    const statcan = { products: [{ name: 'Whole chicken, per kilogram', value: 6.39, date: '2026-09' }, { name: 'Chicken breasts, per kilogram', value: 14.39, date: '2026-09' }, { name: 'Ground beef, per kilogram', value: 16.43, date: '2026-09' }, { name: 'Eggs, 1 dozen', value: 4.09, date: '2026-09' }] };
+    const history = { weeks: { '2026-11-05': [['a', 'ginger', 0.004, 0, 1], ['b', 'ginger', 0.006, 0, 1], ['a', 'mango', 0.003, 0.005, 1], ['a', 'chicken_whole', 0.004, 0, 1]] } };
+    const { prices } = buildBaseline(statcan, history);
+    expect(prices.chicken_whole).toMatchObject({ kind: 'statcan', perG: 0.00639 });
+    expect(Object.keys(prices)).toEqual(expect.arrayContaining(['chicken_breast', 'beef_ground', 'egg']));
+    expect(prices.mango).toMatchObject({ kind: 'flyer-regular', perG: 0.005 });
+    expect(prices.ginger).toMatchObject({ kind: 'flyer', perG: 0.006 });
+  });
+});

@@ -75,7 +75,7 @@ export function Chip({ on, onClick, children, title }) {
 export function CostTag({ cost, big }) {
   const { fmt, t } = useApp();
   if (!cost || cost.total == null) return <span className="cost none">{t('noPrice')}</span>;
-  const partial = cost.coverage < 0.75;
+  const partial = cost.coverage < 0.75 || cost.missing?.length > 0;
   const v = cost.per ?? cost.total;
   const unit = { meal: t('perMeal'), serving: t('perServing'), unit: t('perUnit') }[cost.perKind] || t('wholeRecipe');
   return (

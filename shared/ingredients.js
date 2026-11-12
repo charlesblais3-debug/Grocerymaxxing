@@ -26,7 +26,7 @@ I('chicken_whole', 'Poulet entier', 'Whole chicken', 'meat', 'poulet entier|whol
 I('chicken_wing', 'Ailes de poulet', 'Chicken wings', 'meat', 'aile de poulet|chicken wing', { u: 90 });
 I('chicken_ground', 'Poulet haché', 'Ground chicken', 'meat', 'poulet hache|ground chicken');
 I('chicken', 'Poulet', 'Chicken', 'meat', 'poulet|chicken|poulet cuit|cooked chicken', { ro: 1, fb: 'chicken_breast', u: 200 });
-I('turkey_ground', 'Dinde hachée', 'Ground turkey', 'meat', 'dinde hachee|dindon hache|ground turkey');
+I('turkey_ground', 'Dinde hachée', 'Ground turkey', 'meat', 'dinde hachee|dindon hache|ground turkey', { fb: 'chicken_ground' });
 I('turkey', 'Dinde', 'Turkey', 'meat', 'dinde|dindon|turkey|poitrine de dinde|turkey breast', { ro: 1, fb: 'turkey_ground' });
 I('beef_ground', 'Bœuf haché', 'Ground beef', 'meat', 'boeuf hache|ground beef|minced beef|beef mince|viande hachee|steak hache');
 I('beef_stew', 'Cubes de bœuf à ragoût', 'Stewing beef', 'meat', 'cube de boeuf|boeuf a ragout|boeuf en cube|stewing beef|stew beef|beef stew meat|beef chuck|chuck roast|palette de boeuf|boeuf a braiser|rosbif|roti de boeuf|beef roast');
@@ -101,7 +101,7 @@ I('sweet_potato', 'Patate douce', 'Sweet potato', 'produce', 'patate douce|sweet
 I('tomato', 'Tomates', 'Tomatoes', 'produce', 'tomate|tomato|tomate italienne|roma tomato|tomate sur vigne', { u: 120, d: 0.75 });
 I('cherry_tomato', 'Tomates cerises', 'Cherry tomatoes', 'produce', 'tomate cerise|cherry tomato|tomate raisin|grape tomato', { u: 15, d: 0.6 });
 I('bell_pepper', 'Poivron', 'Bell pepper', 'produce', 'poivron|bell pepper|poivron rouge|red pepper|poivron vert|green pepper|piment doux|sweet pepper|poivron jaune|poivron orange', { u: 150, d: 0.55 });
-I('hot_pepper', 'Piment fort', 'Hot pepper', 'produce', 'jalapeno|piment fort|chili pepper|piment thai|serrano|habanero|piment oiseau|red chili|green chili', { u: 15, d: 0.5 });
+I('hot_pepper', 'Piment fort', 'Hot pepper', 'produce', 'chillies|chilies|chilly|green chili|jalapeno|piment fort|chili pepper|piment thai|serrano|habanero|piment oiseau|red chili|green chili', { u: 15, d: 0.5 });
 I('cucumber', 'Concombre', 'Cucumber', 'produce', 'concombre|cucumber|concombre anglais|english cucumber|concombre libanais', { u: 300, d: 0.55 });
 I('zucchini', 'Courgette', 'Zucchini', 'produce', 'courgette|zucchini', { u: 200, d: 0.55 });
 I('eggplant', 'Aubergine', 'Eggplant', 'produce', 'aubergine|eggplant', { u: 450, d: 0.35 });
@@ -198,8 +198,8 @@ I('tomato_paste', 'Pâte de tomates', 'Tomato paste', 'pantry', 'pate de tomate|
 I('tomato_sauce', 'Sauce tomate', 'Tomato sauce', 'pantry', 'sauce tomate|tomato sauce|sauce marinara|marinara|sauce pour pate|pasta sauce|sauce a spaghetti|sauce a pizza|pizza sauce|sauce arrabbiata', { d: 1.03, u: 650 });
 I('sundried_tomato', 'Tomates séchées', 'Sun-dried tomatoes', 'pantry', 'tomate sechee|sun dried tomato|sundried tomato', { d: 0.5 });
 I('salsa', 'Salsa', 'Salsa', 'pantry', 'salsa|pico de gallo', { d: 1.05 });
-I('broth_chicken', 'Bouillon de poulet', 'Chicken broth', 'pantry', 'bouillon de poulet|chicken broth|chicken stock|fond de volaille|bouillon de volaille', { d: 1 });
-I('broth_beef', 'Bouillon de bœuf', 'Beef broth', 'pantry', 'bouillon de boeuf|beef broth|beef stock|fond de veau|fond de boeuf', { d: 1 });
+I('broth_chicken', 'Bouillon de poulet', 'Chicken broth', 'pantry', 'bouillon de poulet|chicken broth|chicken stock|fond de volaille|bouillon de volaille', { d: 1, fb: 'broth_veg' });
+I('broth_beef', 'Bouillon de bœuf', 'Beef broth', 'pantry', 'bouillon de boeuf|beef broth|beef stock|fond de veau|fond de boeuf', { d: 1, fb: 'broth_veg' });
 I('broth_veg', 'Bouillon de légumes', 'Vegetable broth', 'pantry', 'bouillon de legume|vegetable broth|vegetable stock|bouillon|broth|stock|dashi', { d: 1 });
 I('olive_oil', "Huile d'olive", 'Olive oil', 'pantry', 'huile olive|olive oil|huile olive extra vierge|extra virgin olive oil', { d: 0.92 });
 I('veg_oil', 'Huile végétale', 'Vegetable oil', 'pantry', 'huile vegetale|vegetable oil|huile de canola|canola oil|huile de tournesol|sunflower oil|huile de pepin de raisin|huile arachide|huile avocat|avocado oil|huile neutre|neutral oil|huile de mais|huile a friture|huile de cuisson|cooking oil|huile|oil', { d: 0.92 });

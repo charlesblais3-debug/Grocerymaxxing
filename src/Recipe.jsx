@@ -6,7 +6,7 @@ import { ING_BY_ID } from '../shared/ingredients.js';
 import { L } from './i18n.js';
 
 export default function Recipe({ id }) {
-  const { byId, costs, t, lang, fmt, sourceName, plan, setBatches, meta } = useApp();
+  const { byId, costs, t, lang, fmt, sourceName, plan, setBatches, meta, baseline } = useApp();
   const [have, setHave] = useState({});
   const r = byId.get(id);
   if (!r) return <div className="state">404</div>;
@@ -35,6 +35,7 @@ export default function Recipe({ id }) {
           <div className="costbox">
             <CostTag cost={c} big />
             {c.total != null && <div className="sub">{t('total')} : ≈ {fmt(c.total)} · {c.priced}/{c.countable} {t('coverage')}</div>}
+            {c.missing.length > 0 && <div className="warnbox">{t('incomplete')} {[...new Set(c.missing)].map((id) => ING_BY_ID[id][lang === 'en' ? 'en' : 'fr'].toLowerCase()).join(', ')}.</div>}
             <SavingBar cost={c} label />
             {adjusted && <div className="sub mealnote">{lang === 'en'
               ? `Counted as ${r.meals} meals (${r.mealBasis === 'kcal' ? 'about 550 kcal each, from the published nutrition' : 'about 450 g of food each'})${r.servings ? ` — the source says ${r.yield || r.servings + ' servings'}` : ''}.`
@@ -68,7 +69,7 @@ export default function Recipe({ id }) {
                       {l.via ? <small> · ≈ {ING_BY_ID[l.via][lang === 'en' ? 'en' : 'fr']}</small> : null}
                     </span>
                   )}
-                  {l.src === 'base' && <span className="base" title={t('regular')}>{t('regularShort')}</span>}
+                  {l.src === 'base' && <span className="base">{t(baseline[l.via || l.ing]?.kind === 'statcan' ? 'refStatcan' : baseline[l.via || l.ing]?.kind === 'flyer-regular' ? 'refFlyerRegular' : 'refFlyer')} · {fmt((l.cost / l.g) * 1000)}/kg</span>}
                   {l.src == null && <span className="none">{l.odd ? t('oddQty') : t('notPriced')}</span>}
                   {l.src === 'pantry' && <span className="none">{t('pantryItem')}</span>}
                 </div>

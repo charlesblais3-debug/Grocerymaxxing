@@ -10,7 +10,8 @@ async function writeJson(path, data) {
   await writeFile(path, JSON.stringify(data));
 }
 import { parseIngredientLine, matchIngredient, matchFlyerItem, forms } from '../shared/match.js';
-import { unitPrice, regularRatio } from '../shared/price.js';
+import { unitPrice } from '../shared/price.js';
+import { priceItem } from './history.mjs';
 import { classify, isMealDish } from '../shared/taxonomy.js';
 import { ING_BY_ID } from '../shared/ingredients.js';
 import { SOURCES } from './sources.mjs';
@@ -96,17 +97,8 @@ export function buildFlyers(data) {
     if (!kept.has(f.store)) continue; // flyers gathered before the store list was narrowed
     flyerStore[f.id] = f.store;
     for (const it of f.items) {
-      const ings = matchFlyerItem(it.name);
+      const { ings, pg, basis, fm, rr } = priceItem(it);
       if (!ings.length && f.general) continue;
-      const pg = {};
-      let basis;
-      for (const ing of ings) {
-        const up = unitPrice(it, ING_BY_ID[ing]);
-        // Without the item's price text we cannot tell "each" from "per lb": trust only printed sizes.
-        if (!up || (!it.d && up.basis !== 'size')) continue;
-        pg[ing] = +up.perG.toFixed(6);
-        basis ||= up.basis;
-      }
       const { food, d, ...pub } = it;
       // The same product repeats in every regional edition of a banner's flyer: keep one copy.
       const key = `${f.store}|${it.name}|${it.price}|${it.pre || ''}|${it.post || ''}|${(it.from || f.from).slice(0, 10)}|${(it.to || f.to).slice(0, 10)}`;
@@ -116,9 +108,7 @@ export function buildFlyers(data) {
         ...pub, flyers: [f.id], store: f.store,
         from: (it.from || f.from || '').slice(0, 10), to: (it.to || f.to || '').slice(0, 10),
         ing: ings[0], ings: ings.length > 1 ? ings : undefined,
-        fm: ings.length && forms(it.name).length ? forms(it.name) : undefined,
-        pg: Object.keys(pg).length ? pg : undefined, perG: pg[ings[0]], basis,
-        rr: Object.keys(pg).length ? regularRatio(it) || undefined : undefined,
+        fm: fm || undefined, pg: pg || undefined, perG: pg?.[ings[0]], basis, rr: rr || undefined,
       };
       seen.set(key, row);
       items.push(row);
@@ -141,34 +131,52 @@ const STATCAN = [
   [/^Beef stewing/i, ['beef_stew']], [/^Beef (striploin|top sirloin)/i, ['beef_steak']], [/^Beef rib/i, []],
   [/^Block cheese/i, ['cheddar']], [/^Canned beans and lentils/i, ['black_beans', 'kidney_beans', 'chickpeas']],
   [/^Cream,/i, ['cream_35']], [/^Dried lentils/i, ['lentils']], [/^Peppers/i, ['bell_pepper']],
-  [/^Nut milk/i, []], [/^Chicken drumsticks/i, ['chicken_drumstick']], [/^Chicken thigh/i, ['chicken_thigh']], [/^Canned (salmon|peach|pear|soup)/i, []], [/^Salad greens/i, []],
+  [/^Nut milk/i, []], [/^Whole chicken/i, ['chicken_whole']], [/^Chicken drumsticks/i, ['chicken_drumstick']], [/^Chicken thigh/i, ['chicken_thigh']], [/^Canned (salmon|peach|pear|soup)/i, []], [/^Salad greens/i, []],
 ];
 
-export function buildBaseline(data) {
-  if (!data) return { source: null, prices: {} };
+/**
+ * Reference ("regular") price of every ingredient we have any evidence for, so that a
+ * recipe line costs the same at every store unless that store's flyer lowers it.
+ *   1. Statistics Canada average retail price for Québec;
+ *   2. otherwise the regular price flyers themselves state ("was 6,99"), median;
+ *   3. otherwise the upper quartile of the flyer prices seen in the last 26 weeks —
+ *      flyer prices are sale prices, so the high end is the closest to a regular price.
+ */
+export function buildBaseline(data, history) {
   const byIng = {};
-  for (const p of data.products) {
+  for (const p of data?.products || []) {
     const rule = STATCAN.find(([re]) => re.test(p.name));
     for (const ing of rule ? rule[1] : [matchIngredient(p.name, { flyer: true })].filter(Boolean)) {
-    const post = /per kilogram/i.test(p.name) ? '/kg' : '';
-    const up = unitPrice({ price: p.value, post, name: p.name.replace(/per kilogram/i, '') }, ING_BY_ID[ing]);
-    if (!up) continue;
-    (byIng[ing] ||= []).push({ perG: up.perG, label: p.name, date: p.date });
+      const post = /per kilogram/i.test(p.name) ? '/kg' : '';
+      const up = unitPrice({ price: p.value, post, name: p.name.replace(/per kilogram/i, '') }, ING_BY_ID[ing]);
+      if (!up) continue;
+      (byIng[ing] ||= []).push({ perG: up.perG, label: p.name, date: p.date });
     }
   }
   const prices = {};
   for (const [ing, list] of Object.entries(byIng)) {
     list.sort((a, b) => a.perG - b.perG);
     const mid = list[Math.floor((list.length - 1) / 2)];
-    prices[ing] = { perG: +mid.perG.toFixed(6), label: mid.label, date: mid.date };
+    prices[ing] = { perG: +mid.perG.toFixed(6), label: mid.label, date: mid.date, kind: 'statcan' };
   }
-  return { source: data.source, url: data.url, refDate: data.refDate, prices };
+  const obs = {};
+  for (const rows of Object.values(history?.weeks || {})) for (const r of rows) (obs[r[1]] ||= []).push(r);
+  const quantile = (xs, q) => { const s = xs.slice().sort((a, b) => a - b); return s[Math.min(s.length - 1, Math.floor(q * s.length))]; };
+  for (const [ing, all] of Object.entries(obs)) {
+    if (prices[ing] || !ING_BY_ID[ing]) continue;
+    const rows = all.some((r) => r[4]) ? all.filter((r) => r[4]) : all; // plain products when there are any
+    const regs = rows.filter((r) => r[3] > 0).map((r) => r[3]);
+    prices[ing] = regs.length
+      ? { perG: +quantile(regs, 0.5).toFixed(6), kind: 'flyer-regular', n: regs.length }
+      : { perG: +quantile(rows.map((r) => r[2]), 0.75).toFixed(6), kind: 'flyer', n: rows.length };
+  }
+  return { source: data?.source || null, url: data?.url, refDate: data?.refDate, prices };
 }
 
 async function main() {
   const recipes = buildRecipes(await readJson('data/recipes.json', []));
   const flyers = buildFlyers(await loadFlyers('data/flyers.json'));
-  const baseline = buildBaseline(await readJson('data/baseline.json', null));
+  const baseline = buildBaseline(await readJson('data/baseline.json', null), await readJson('data/price-history.json', null));
   await writeJson('public/data/recipes.json', recipes);
   await writeJson('public/data/flyers.json', flyers);
   await writeJson('public/data/meta.json', {
@@ -182,7 +190,7 @@ async function main() {
   const priced = flyers.items.filter((i) => i.pg).length;
   console.log(`index: ${recipes.length} recipes (${recipes.filter((r) => r.macros).length} with nutrition), ` +
     `${lines.length} ingredient lines (${matched} matched, ${weighed} with a weight), ` +
-    `${flyers.items.length} flyer items (${priced} unit-priced), ${Object.keys(baseline.prices).length} baseline prices`);
+    `${flyers.items.length} flyer items (${priced} unit-priced), ${Object.keys(baseline.prices).length} reference prices (${Object.values(baseline.prices).filter((p) => p.kind === 'statcan').length} StatCan)`);
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) await main();

@@ -191,4 +191,8 @@ async function main() {
   await writeFile(OUT, serialise({ fetchedAt: same ? previous.fetchedAt : new Date().toISOString(), regions, flyers }));
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) await main();
+if (import.meta.url === `file://${process.argv[1]}`) {
+  await main();
+  const { updateHistory } = await import('./history.mjs');
+  await updateHistory(); // remember this week's prices as future reference prices
+}
