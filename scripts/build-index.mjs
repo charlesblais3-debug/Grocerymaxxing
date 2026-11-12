@@ -11,7 +11,7 @@ async function writeJson(path, data) {
 }
 import { parseIngredientLine, matchFlyerItemFull, baseId } from '../shared/match.js';
 import { unitPrice } from '../shared/price.js';
-import { priceItem } from './history.mjs';
+import { priceItem, mergeHistory } from './history.mjs';
 import { classify, isMealDish, isProteinIng } from '../shared/taxonomy.js';
 import { computeNutrition } from '../shared/nutrition.js';
 import { ING_BY_ID } from '../shared/ingredients.js';
@@ -208,7 +208,10 @@ export function buildBaseline(data, history) {
 async function main() {
   const recipes = buildRecipes(await readJson('data/recipes.json', []));
   const flyers = buildFlyers(await loadFlyers('data/flyers.json'));
-  const baseline = buildBaseline(await readJson('data/baseline.json', null), await readJson('data/price-history.json', null));
+  // The stored history plus whatever is in the flyers right now: an ingredient on offer
+  // somewhere today therefore always has a reference price, even if the history file is stale.
+  const flyerData = await loadFlyers('data/flyers.json');
+  const baseline = buildBaseline(await readJson('data/baseline.json', null), mergeHistory(await readJson('data/price-history.json', null), flyerData));
   await writeJson('public/data/recipes.json', recipes);
   await writeJson('public/data/flyers.json', flyers);
   await writeJson('public/data/meta.json', {

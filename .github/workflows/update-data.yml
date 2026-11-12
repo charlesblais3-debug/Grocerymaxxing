@@ -59,6 +59,9 @@ jobs:
         env:
           SOURCES: ${{ inputs.sources || env.SOURCES }}
           TARGET_SCALE: ${{ inputs.scale || env.TARGET_SCALE || '1' }}
+      - name: Price history
+        run: node scripts/history.mjs
+        continue-on-error: true
       - name: Index check
         run: node scripts/build-index.mjs
       - name: Commit data

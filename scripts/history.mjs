@@ -31,30 +31,38 @@ export function priceItem(it) {
   return { ings, pg: has ? pg : null, seg: Object.keys(seg).length ? seg : null, basis, fm: fm.length ? fm : null, rr: has ? regularRatio(it) : null };
 }
 
-/** Adds the current flyers' prices to the history. Rows: [store, ingredient, $/g, regular $/g or 0, plain form 1/0]. */
-export async function updateHistory(data) {
-  const flyers = data || (await loadFlyers());
-  const hist = await readJson(OUT, { weeks: {} });
+/**
+ * Folds the current flyers' prices into a history object (pure: nothing is written).
+ * Rows: [store, price key, $/g, retailer's claimed regular $/g or 0, plain form 1/0].
+ */
+export function mergeHistory(hist, flyers) {
+  const out = { weeks: { ...(hist?.weeks || {}) } };
   // Rows recorded before groups were split into members cannot say which member they were.
-  for (const [w, rows] of Object.entries(hist.weeks)) hist.weeks[w] = rows.filter((r) => r[1].includes('~') || ING_BY_ID[r[1]]?.members.length === 1);
-  if (!flyers) return hist;
+  for (const [w, rows] of Object.entries(out.weeks)) out.weeks[w] = rows.filter((r) => r[1].includes('~') || ING_BY_ID[r[1]]?.members.length === 1);
+  if (!flyers) return out;
   const kept = new Set([...STORES, ...REFERENCE_STORES].map((s) => s.id));
   for (const f of Object.values(flyers.flyers)) {
     if (!kept.has(f.store)) continue;
     const week = (f.from || '').slice(0, 10);
     if (!week) continue;
-    const rows = new Map((hist.weeks[week] || []).map((r) => [r.slice(0, 3).join('|'), r]));
+    const rows = new Map((out.weeks[week] || []).map((r) => [r.slice(0, 3).join('|'), r]));
     for (const it of f.items) {
       const p = priceItem(it);
       if (!p.pg) continue;
-      for (const [ing, perG] of Object.entries(p.pg)) {
-        rows.set(`${f.store}|${ing}|${perG}`, [f.store, ing, perG, p.rr ? +(perG * p.rr).toFixed(6) : 0, p.fm ? 0 : 1]);
+      for (const [pk, perG] of Object.entries(p.pg)) {
+        rows.set(`${f.store}|${pk}|${perG}`, [f.store, pk, perG, p.rr ? +(perG * p.rr).toFixed(6) : 0, p.fm ? 0 : 1]);
       }
     }
-    hist.weeks[week] = [...rows.values()].sort((a, b) => (a[1] + a[0]).localeCompare(b[1] + b[0]) || a[2] - b[2]);
+    out.weeks[week] = [...rows.values()].sort((a, b) => (a[1] + a[0]).localeCompare(b[1] + b[0]) || a[2] - b[2]);
   }
-  const weeks = Object.keys(hist.weeks).sort().slice(-KEEP_WEEKS);
-  hist.weeks = Object.fromEntries(weeks.map((w) => [w, hist.weeks[w]]));
+  const weeks = Object.keys(out.weeks).sort().slice(-KEEP_WEEKS);
+  out.weeks = Object.fromEntries(weeks.map((w) => [w, out.weeks[w]]));
+  return out;
+}
+
+/** Adds the current flyers' prices to data/price-history.json. */
+export async function updateHistory(data) {
+  const hist = mergeHistory(await readJson(OUT, { weeks: {} }), data || (await loadFlyers()));
   await writeJson(OUT, hist);
   return hist;
 }
