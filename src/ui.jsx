@@ -4,6 +4,7 @@ import { MEAL_TYPES } from '../shared/taxonomy.js';
 import { L } from './i18n.js';
 import { INGREDIENTS, ING_BY_ID } from '../shared/ingredients.js';
 import { deaccent } from '../shared/text.js';
+import { dealScore } from '../shared/score.js';
 
 export function Img({ src, alt = '', className }) {
   const [bad, setBad] = useState(false);
@@ -246,4 +247,12 @@ export function DealBadge({ offer }) {
   const n = dealNote(hist, offer);
   if (!n) return null;
   return <span className={`dealbadge ${n.kind}`}>{n.kind === 'low' ? `${t('lowestIn')} ${n.weeks} ${t('weeksWord')}` : t('newThisWeek')}</span>;
+}
+
+/** Deal score out of 10 (see shared/score.js): how good the price is, not how big the claimed discount. */
+export function Score({ offer }) {
+  const { baseline, hist, t } = useApp();
+  const s = dealScore(offer, baseline, hist);
+  if (s == null) return null;
+  return <span className={`score ${s >= 8 ? 'hi' : s >= 5 ? 'mid' : 'lo'}`} title={t('scoreTitle')}>{s}/10</span>;
 }

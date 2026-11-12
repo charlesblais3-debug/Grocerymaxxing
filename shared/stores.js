@@ -32,7 +32,7 @@ export function storeGuide(allOffers, baseline, storeIds) {
     if (!store) continue;
     const other = plain.find((o) => o.store !== best.store);
     const margin = other ? 1 - best.perG / other.perG : null;
-    const base = best.rr ? best.perG * best.rr : baseline[pk]?.perG;
+    const base = baseline[pk]?.perG ?? (best.rr ? best.perG * Math.min(best.rr, 2) : null);
     const off = base && base > best.perG ? 1 - best.perG / base : null;
     // A win must be clear: at least 8 % cheaper than the next store, or the only flyer with
     // it at a real discount.

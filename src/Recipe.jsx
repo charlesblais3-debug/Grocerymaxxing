@@ -22,6 +22,7 @@ export default function Recipe({ id }) {
   const num = (x) => String(x).replace('.', lang === 'en' ? '.' : ',');
   const date = (d) => new Date(d + 'T12:00:00').toLocaleDateString(lang === 'en' ? 'en-CA' : 'fr-CA', { day: 'numeric', month: 'short' });
   const src = sourceName[r.source] || r.source;
+  const validTo = c.lines.filter((l) => l.src === 'flyer' && l.offer.to).map((l) => l.offer.to).sort()[0];
   return (
     <article className="wrap recipe">
       <a className="link" href="#/" onClick={(e) => { if (window.history.length > 1) { e.preventDefault(); window.history.back(); } }}>{t('back')}</a>
@@ -38,7 +39,7 @@ export default function Recipe({ id }) {
           </div>
           <div className="costbox">
             <CostTag cost={c} big />
-            {c.total != null && <div className="sub">{t('total')} : ≈ {fmt(c.total)} · {c.priced}/{c.countable} {t('coverage')}</div>}
+            {c.total != null && <div className="sub">{t('total')} : ≈ {fmt(c.total)} · {c.priced}/{c.countable} {t('coverage')}{validTo ? ` · ${t('flyersUntil')} ${date(validTo)}` : ''} · <a href="#/a-propos">{t('howPriced')}</a></div>}
             {c.missing.length > 0 && <div className="warnbox">{t('incomplete')} {[...new Set(c.missing)].map((id) => ING_BY_ID[id][lang === 'en' ? 'en' : 'fr'].toLowerCase()).join(', ')}.</div>}
             <SavingBar cost={c} label />
             {adjusted && <div className="sub mealnote">{lang === 'en'

@@ -21,9 +21,12 @@ export function bestOffers(flyerItems, stores, today, baseline = {}) {
     if (it.from && it.from.slice(0, 10) > today) continue;
     for (const [pk, perG] of Object.entries(it.pg)) {
       // A "deal" at more than 2.5x the regular price is a mismatched product, not a deal...
-      if (baseline[pk] && perG > baseline[pk].perG * 2.5) continue;
+      // (Only against Statistics Canada averages: references taken from flyers are
+      // themselves flyer prices, so a much lower one is simply a better deal.)
+      const sc = baseline[pk]?.kind === 'statcan' || baseline[pk]?.kind == null ? baseline[pk] : null;
+      if (sc && perG > sc.perG * 2.5) continue;
       // ...and one at less than a third of the regular price is a misread size or unit.
-      if (baseline[pk] && perG < baseline[pk].perG * 0.33) continue;
+      if (sc && perG < sc.perG * 0.33) continue;
       const id = baseId(pk);
       const o = { ...it, ing: id, pk, perG };
       add(pk, o);
@@ -62,9 +65,9 @@ function lookup(pk, fm, offers, baseline, seen = 0) {
   // A flyer price above the reference price is not a deal (premium brand, small format):
   // the shopper would not pay more than usual, so the reference price is used.
   if (offer && !(base && offer.perG > base.perG)) {
-    // Regular price to compare with: the flyer's own "was" price when it gives one,
-    // otherwise the reference price.
-    const regular = offer.rr ? offer.perG * offer.rr : base?.perG ?? null;
+    // Saving = against OUR reference price. A retailer's own "regular price" tends to flatter
+    // its discount, so it is only used when we have no reference, and capped at half off.
+    const regular = base?.perG ?? (offer.rr ? offer.perG * Math.min(offer.rr, 2) : null);
     return { perG: offer.perG, src: 'flyer', offer, regular };
   }
   if (base) return { perG: base.perG, src: 'base', ref: base };

@@ -288,8 +288,8 @@ describe('savings', () => {
     expect(c.lines[0]).toMatchObject({ src: 'base' });
     expect(c.lines[0].cost).toBeCloseTo(0.6);
     expect(c.deals).toBe(1);
-    expect(c.lines[1].saved).toBeCloseTo(5); // the flyer's own regular price (2x) wins over the average
-    expect(c.savingsPct).toBeCloseTo(5 / 10.6, 3);
+    expect(c.lines[1].saved).toBeCloseTo(2); // against our reference price, not the retailer's claimed regular price
+    expect(c.savingsPct).toBeCloseTo(2 / 7.6, 3);
   });
 });
 
@@ -315,14 +315,14 @@ describe('pricing is consistent across stores', () => {
     expect(c.missing).toEqual(['duck']);
     expect(complete(c)).toBe(false);
   });
-  it('reference prices: StatCan first, then flyer regular, then flyer upper quartile', async () => {
+  it('reference prices: StatCan first, then the median of flyer prices actually seen', async () => {
     const { buildBaseline } = await import('../scripts/build-index.mjs');
     const statcan = { products: [{ name: 'Whole chicken, per kilogram', value: 6.39, date: '2026-09' }, { name: 'Chicken breasts, per kilogram', value: 14.39, date: '2026-09' }, { name: 'Ground beef, per kilogram', value: 16.43, date: '2026-09' }, { name: 'Eggs, 1 dozen', value: 4.09, date: '2026-09' }] };
     const history = { weeks: { '2026-11-05': [['a', 'ginger', 0.004, 0, 1], ['b', 'ginger', 0.006, 0, 1], ['a', 'mango', 0.003, 0.005, 1], ['a', 'chicken_whole', 0.004, 0, 1]] } };
     const { prices } = buildBaseline(statcan, history);
     expect(prices.chicken_whole).toMatchObject({ kind: 'statcan', perG: 0.00639 });
     expect(Object.keys(prices)).toEqual(expect.arrayContaining(['chicken_breast', 'beef_ground', 'egg']));
-    expect(prices.mango).toMatchObject({ kind: 'flyer-regular', perG: 0.005 });
+    expect(prices.mango).toMatchObject({ kind: 'flyer', perG: 0.003 }); // the retailer's claimed regular price (0.005) is ignored
     expect(prices.ginger).toMatchObject({ kind: 'flyer', perG: 0.006 });
   });
 });
@@ -400,5 +400,28 @@ describe('no substitutions between different foods', () => {
     expect(cost('4 prunes').src).toBe('base');
     expect(cost('100 g de noix').src).toBe('base'); // generic: median of the members seen
     expect(cost('100 g de noix de Grenoble').src).toBeNull();
+  });
+});
+
+describe('deal score and plan refinements', () => {
+  it('scores the price itself, with a bonus for a historic low', async () => {
+    const { dealScore } = await import('../shared/score.js');
+    const base = { onion: { perG: 0.004 } };
+    expect(dealScore({ pk: 'onion', perG: 0.004 }, base, {})).toBe(3);
+    expect(dealScore({ pk: 'onion', perG: 0.0028 }, base, {})).toBe(8); // 30 % under
+    expect(dealScore({ pk: 'onion', perG: 0.006 }, base, {})).toBe(1); // dearer than usual
+    expect(dealScore({ pk: 'kiwi', perG: 0.006 }, base, {})).toBeNull(); // nothing to compare with
+    const hist = { onion: { '2030-01-01': { a: 0.0035 }, '2030-01-08': { a: 0.0033 }, '2030-01-15': { b: 0.0036 } } };
+    expect(dealScore({ pk: 'onion', perG: 0.0032, from: '2030-01-22' }, base, hist)).toBe(7); // 20 % under (6) + lowest in 3 weeks
+  });
+  it('swaps one dinner without repeating the week, and honours macro goals', async () => {
+    const { suggestPlan } = await import('../shared/planner.js');
+    const mk = (id, protein, p) => ({ id, source: id, meals: 4, servings: 4, macros: { kcal: 500, protein: p }, tax: { meals: ['main'], cuisines: [], protein, diets: [] } });
+    const recipes = [mk('a', 'chicken', 40), mk('b', 'chicken', 20), mk('c', 'beef', 45), mk('d', 'fish', 15)];
+    const costs = new Map(recipes.map((r) => [r.id, { total: 8, per: 2, perKind: 'meal', coverage: 1, missing: [], savingsPct: 0 }]));
+    const keep = [recipes[0]];
+    const [next] = suggestPlan(recipes, costs, { people: 4, dinners: 1, keep, avoid: new Set(['a', 'b']) });
+    expect(['c', 'd']).toContain(next.id); // not the kept one, not the avoided one, and not chicken again
+    expect(suggestPlan(recipes, costs, { people: 4, dinners: 5, minProtein: 30 }).map((x) => x.id).sort()).toEqual(['a', 'c']);
   });
 });

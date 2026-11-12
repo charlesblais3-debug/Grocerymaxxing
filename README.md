@@ -55,8 +55,8 @@ page for the method.
 2. Each flyer item is matched the same way and its price is normalised to $/g from the
    printed unit (`/lb`, `/kg`, `/100 g`), the package size, or a typical unit weight.
 3. Every ingredient has one **reference price**, identical for all stores: StatCan's Québec
-   average → otherwise the regular price flyers state themselves → otherwise an estimate
-   from the flyer prices seen in the last 26 weeks (`data/price-history.json`).
+   average → otherwise an estimate from the flyer prices actually seen in the last 26 weeks
+   (retailers' own "regular price" claims are not used) (`data/price-history.json`).
 4. A line costs `min(store's flyer price, reference price)`. A flyer can therefore only
    lower a recipe's cost, and the same lines are priced whatever the store.
    `scripts/verify-prices.mjs` checks these rules for every recipe × store × date and

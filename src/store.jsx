@@ -30,7 +30,10 @@ export function AppProvider({ children }) {
   const [budget, setBudget] = usePersisted('budget', null);
   const [checks, setChecks] = usePersisted('checks', {}); // grocery list ticks, by ingredient
   const [pantry, setPantry] = usePersisted('pantry', []); // ingredients already at home
-  const [favs, setFavs] = usePersisted('favs', []); // ingredients to watch for deals
+  const [favs, setFavs] = usePersisted('favs', []);
+  const [left, setLeft] = usePersisted('left', {}); // recipeId -> day its leftovers are eaten
+  const [recent, setRecent] = usePersisted('recent', []); // recipes proposed lately, not to repeat
+  const [targets, setTargets] = usePersisted('targets', { minp: 0, maxk: 0 }); // ingredients to watch for deals
   const [theme, setTheme] = usePersisted('theme', 'light'); // light unless the visitor asks for dark
   const [week, setWeek] = useState('now'); // 'now' | 'next' (flyers are published a few days ahead)
 
@@ -78,6 +81,10 @@ export function AppProvider({ children }) {
       ideas, guide, multi, theme, setTheme,
       days, people, setPeople, budget, setBudget, checks, pantry, have, favs, hist: meta.baseline?.hist || {},
       setDay: (id, d) => setDays((x) => ({ ...x, [id]: d })),
+      left, recent, targets, setTargets,
+      setLeftDay: (id, d) => setLeft((x) => ({ ...x, [id]: d })),
+      remember: (ids) => setRecent((x) => [...new Set([...ids, ...x])].slice(0, 20)),
+      replaceInPlan: (oldId, item) => { setPlan((p) => { const q = { ...p }; delete q[oldId]; q[item.id] = item.batches; return q; }); setDays((d) => ({ ...d, [item.id]: d[oldId] })); },
       setPlanAll: (list) => { setPlan(Object.fromEntries(list.map((x) => [x.id, x.batches]))); setDays(Object.fromEntries(list.map((x) => [x.id, x.day]))); },
       toggleCheck: (id) => setChecks((x) => { const y = { ...x }; if (y[id]) delete y[id]; else y[id] = 1; return y; }),
       clearChecks: () => setChecks({}),
@@ -97,7 +104,7 @@ export function AppProvider({ children }) {
       plan,
       setBatches: (id, n) => setPlan((p) => { const q = { ...p }; if (n > 0) q[id] = n; else delete q[id]; return q; }),
     };
-  }, [data, lang, region, storeSel, plan, week, multi, theme, days, people, budget, checks, pantry, favs]);
+  }, [data, lang, region, storeSel, plan, week, multi, theme, days, people, budget, checks, pantry, favs, left, recent, targets]);
 
   if (error) return <div className="state">⚠️ {error}</div>;
   if (!value) {

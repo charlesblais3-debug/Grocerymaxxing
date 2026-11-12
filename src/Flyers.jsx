@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { useApp } from './store.jsx';
-import { Img, Chip, Store, IngredientPicker, DealBadge, offerText, nice } from './ui.jsx';
+import { Img, Chip, Store, IngredientPicker, DealBadge, Score, offerText, nice } from './ui.jsx';
 import { AISLES, ING_BY_ID } from '../shared/ingredients.js';
 import { deaccent } from '../shared/text.js';
 import { bestFor } from '../shared/cost.js';
@@ -47,7 +47,7 @@ export default function Flyers() {
       <p className="note">{t('updated')} {new Date(flyers.fetchedAt).toLocaleDateString(lang === 'en' ? 'en-CA' : 'fr-CA', { weekday: 'long', day: 'numeric', month: 'long' })} · {flyers.source}</p>
       <section className="guide" aria-label={t('guideTitle')}>
         <h1>{t('guideTitle')}</h1>
-        <p className="note">{t('guideIntro')}</p>
+        <p className="note">{t('guideIntro')} {t('scoreIntro')}</p>
         <div className="guide-grid">
           {guide.map((s, n) => (
             <article key={s.id} className={`guide-card ${selected.has(s.id) ? 'on' : ''}`}>
@@ -60,7 +60,7 @@ export default function Flyers() {
                 <ul>
                   {s.wins.slice(0, 4).map((w) => (
                     <li key={w.pk}>
-                      <b>{pkLabel(w.pk, lang)}</b> <span className="p">{fmt(w.offer.perG * 1000)}/kg</span>
+                      <b>{pkLabel(w.pk, lang)}</b> <Score offer={w.offer} /> <span className="p">{fmt(w.offer.perG * 1000)}/kg</span>
                       <small>{w.only ? t('onlyFlyer') : `${Math.round(w.margin * 100)} % ${t('cheaperThanNext')}`}{w.off ? ` · −${Math.round(w.off * 100)} % ${t('vsRegular')}` : ''}</small>
                     </li>
                   ))}
@@ -110,7 +110,8 @@ export default function Flyers() {
               {i.pg ? <DealBadge offer={{ ...i, perG: i.perG }} /> : null}
               <div className="card-foot">
                 <span className="cost">{offerText(i, fmt)}</span>
-                {i.perG ? <span className="macro">{fmt(i.perG * 1000)}/kg{i.basis === 'each' ? ' ≈' : ''}</span> : null}
+                {i.perG ? <span className="macro">{fmt(i.perG * 100)}/100 g{i.basis === 'each' ? ' ≈' : ''}</span> : null}
+                {i.pg ? <Score offer={i} /> : null}
               </div>
               {i.story ? <div className="meta">{i.story}</div> : null}
               {i.ing && !favs.includes(i.ing) ? <button type="button" className="link" onClick={() => toggleFav(i.ing)}>☆ {t('watch')} {ING_BY_ID[i.ing][lk].toLowerCase()}</button> : null}

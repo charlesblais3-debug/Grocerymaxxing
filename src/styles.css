@@ -294,6 +294,27 @@ a.card:hover { transform: translateY(-2px); box-shadow: 0 2px 4px rgba(40, 30, 1
 .favlist li { display: flex; gap: 8px; align-items: center; background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 6px 10px; font-size: .88rem; }
 .favlist li.on { border-color: var(--brand); }
 
+.score { display: inline-block; font-size: .72rem; font-weight: 800; border-radius: 6px; padding: 1px 6px; font-variant-numeric: tabular-nums; }
+.score.hi { background: var(--brand); color: var(--brand-ink); }
+.score.mid { background: var(--deal); color: var(--deal-ink); }
+.score.lo { background: var(--line); color: var(--muted); }
+.pricechips { display: flex; gap: 6px; flex-wrap: wrap; margin-right: auto; margin-left: 8px; }
+details.more { border-top: 1px solid var(--line); padding-top: 10px; }
+details.more > summary, .goals > summary, .mydata > summary, .plan-ctl > summary { cursor: pointer; font-size: .85rem; font-weight: 600; color: var(--muted); }
+details.more[open] > summary { margin-bottom: 10px; }
+details.more > * + * { margin-top: 10px; }
+details.more .mine { border-top: 0; padding-top: 0; }
+.goals { font-size: .9rem; }
+.goals[open] { display: flex; gap: 8px 16px; align-items: center; flex-wrap: wrap; }
+.goals label { display: flex; gap: 6px; align-items: center; }
+details.plan-ctl { display: block; }
+details.plan-ctl > div { display: flex; gap: 8px 10px; align-items: center; flex-wrap: wrap; margin-top: 6px; }
+.plan-item.leftover { opacity: .8; }
+.plan-item.leftover a { font-weight: 500; font-style: italic; }
+.stat.saved b { color: var(--brand); }
+.mydata { margin-top: 28px; padding-top: 12px; border-top: 2px solid var(--line); }
+.mydata .btn { margin-top: 8px; }
+
 @media print {
   .top, .storebar, .tabbar, .foot, .noprint, .plan-ctl, .row-tools, details { display: none !important; }
   body { background: #fff; padding: 0; }

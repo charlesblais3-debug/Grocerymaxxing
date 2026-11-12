@@ -156,9 +156,7 @@ const STATCAN = [
  * Reference ("regular") price of every ingredient we have any evidence for, so that a
  * recipe line costs the same at every store unless that store's flyer lowers it.
  *   1. Statistics Canada average retail price for Québec;
- *   2. otherwise the regular price flyers themselves state ("was 6,99"), median;
- *   3. otherwise the upper quartile of the flyer prices seen in the last 26 weeks —
- *      flyer prices are sale prices, so the high end is the closest to a regular price.
+ *   2. otherwise the median of the flyer prices seen in the last 26 weeks.
  */
 export function buildBaseline(data, history) {
   const byIng = {};
@@ -183,10 +181,11 @@ export function buildBaseline(data, history) {
   for (const [ing, all] of Object.entries(obs)) {
     if (prices[ing] || !ING_BY_ID[baseId(ing)]) continue;
     const rows = all.some((r) => r[4]) ? all.filter((r) => r[4]) : all; // plain products when there are any
-    const regs = rows.filter((r) => r[3] > 0).map((r) => r[3]);
-    prices[ing] = regs.length
-      ? { perG: +quantile(regs, 0.5).toFixed(6), kind: 'flyer-regular', n: regs.length }
-      : { perG: +quantile(rows.map((r) => r[2]), 0.75).toFixed(6), kind: 'flyer', n: rows.length };
+    // Retailers' own "regular price" claims are NOT used: they flatter the discount (a sole
+    // fillet "regularly" at 100 $/kg). What stores actually charged is the evidence.
+    // The median, not the top of the range: one ingredient covers budget and premium
+    // products, and a high reference would turn every ordinary price into a fake "-50 %".
+    prices[ing] = { perG: +quantile(rows.map((r) => r[2]), 0.5).toFixed(6), kind: 'flyer', n: rows.length };
   }
   // A generic request ("nuts", "white fish") is priced at the median of the group's members.
   for (const ing of Object.values(ING_BY_ID)) {
