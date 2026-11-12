@@ -31,9 +31,25 @@ export const STORES = [
   { id: 'adonis', name: 'Adonis', re: /adonis/ },
 ];
 
+// Banners gathered ONLY as price evidence: they never appear in the app, but what they
+// charge for sesame oil, miso or baking powder helps set a reference price for ingredients
+// the seven main banners rarely advertise.
+export const REFERENCE_STORES = [
+  { id: 'tnt', name: 'T&T', re: /^t ?& ?t/, ref: true },
+  { id: 'kimphat', name: 'Kim Phat', re: /kim phat/, ref: true },
+  { id: 'avril', name: 'Avril', re: /^avril/, ref: true },
+  { id: 'rachellebery', name: 'Rachelle Béry', re: /rachelle/, ref: true },
+  { id: 'tradition', name: 'Marché Tradition', re: /tradition/, ref: true },
+  { id: 'bonichoix', name: 'Bonichoix', re: /bonichoix/, ref: true },
+  { id: 'richelieu', name: 'Marché Richelieu', re: /richelieu/, ref: true },
+  { id: 'pa', name: 'Supermarché PA', re: /^(supermarche )?p\.?a\.?\b/, ref: true },
+  { id: 'mayrand', name: 'Mayrand', re: /mayrand/, ref: true },
+  { id: 'costco', name: 'Costco', re: /^costco/, ref: true },
+];
+
 export function storeFor(merchant) {
   const m = deaccent(merchant || '').trim();
-  return STORES.find((s) => s.re.test(m)) || null;
+  return [...STORES, ...REFERENCE_STORES].find((s) => s.re.test(m)) || null;
 }
 
 const num = (v) => {
@@ -164,11 +180,11 @@ async function main() {
         name: str(f.name),
         from: str(f.valid_from),
         to: str(f.valid_to),
-        general: store.general || undefined,
+        general: store.general || store.ref || undefined,
         cats: str(f.categories_csv ?? (Array.isArray(f.categories) ? f.categories.join(',') : '')) || undefined,
         items: rawItems.map(toItem).filter(Boolean)
           .map((it) => ({ ...it, food: matchFlyerItem(it.name).length ? 1 : undefined }))
-          .filter((it) => it.food || !store.general),
+          .filter((it) => it.food || !(store.general || store.ref)),
       };
       if (!flyers[id].items.length) { delete flyers[id]; ids.pop(); }
     }

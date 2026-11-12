@@ -1,10 +1,10 @@
 import React, { useMemo, useState, useEffect } from 'react';
 import { useApp } from './store.jsx';
-import { RecipeCard, Img, Store, Icon, IngredientPicker, DealBadge, nice, mealScale } from './ui.jsx';
+import { RecipeCard, Img, Store, Icon, IngredientPicker, DealBadge, offerName, mealScale } from './ui.jsx';
 import { MEAL_TYPES, CUISINES, PROTEINS, DIETS } from '../shared/taxonomy.js';
 import { ING_BY_ID } from '../shared/ingredients.js';
 import { deaccent } from '../shared/text.js';
-import { reliable as isReliable } from '../shared/cost.js';
+import { reliable as isReliable, bestFor } from '../shared/cost.js';
 import { L } from './i18n.js';
 
 const PAGE = 48;
@@ -85,7 +85,7 @@ export default function Browse({ query }) {
   if (!recipes.length) return <div className="state">{t('noData')}</div>;
   const sources = [...new Set(recipes.map((r) => r.source))];
   const nActive = ['cuisine', 'protein', 'diet', 'source', 'time', 'cost', 'macros', 'sale', 'ing', 'q', 'prep', 'mine', 'minp', 'maxk'].filter((k) => query.get(k)).length;
-  const favDeals = app.favs.map((id) => app.offers.get(id)?.[0]).filter(Boolean);
+  const favDeals = app.favs.map((id) => bestFor(app.offers, id)).filter(Boolean);
   const active = ['prep', 'mine', 'minp', 'maxk', 'meal', 'cuisine', 'protein', 'diet', 'source', 'time', 'cost', 'macros', 'sale', 'ing', 'q'].some((k) => query.get(k));
 
   return (
@@ -106,7 +106,7 @@ export default function Browse({ query }) {
                 </div>
                 <div className="hero-info">
                   <b>{ING_BY_ID[b.anchor.id][lang === 'en' ? 'en' : 'fr']}</b>
-                  <small>{nice(b.anchor.offer.name, lang)}</small>
+                  <small>{offerName(b.anchor.offer, lang)}</small>
                   <DealBadge offer={b.anchor.offer} />
                   <span className="go">{b.recipes.length} {t('differentMeals')} →</span>
                 </div>

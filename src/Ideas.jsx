@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useApp } from './store.jsx';
-import { RecipeCard, Store, offerText, nice } from './ui.jsx';
+import { RecipeCard, Store, offerText, nice, offerName } from './ui.jsx';
 import { ING_BY_ID } from '../shared/ingredients.js';
 
 const LINK_COLORS = ['#15803d', '#e0a100', '#c75b39', '#2f6fd0', '#8b5cf6'];
@@ -39,7 +39,7 @@ export default function Ideas() {
             <div className="bundle-head">
               <div>
                 <h2>{name(b.anchor.id)} <small>× {b.recipes.length} {t('differentMeals')}</small></h2>
-                <div className="offer"><Store id={b.anchor.offer.store} /> {nice(b.anchor.offer.name, lang)} — <b>{offerText(b.anchor.offer, fmt)}</b>{b.anchor.off ? <em className="off"> −{Math.round(b.anchor.off * 100)} % {t('vsRegular')}</em> : null}</div>
+                <div className="offer"><Store id={b.anchor.offer.store} /> {offerName(b.anchor.offer, lang)} — <b>{offerText(b.anchor.offer, fmt)}</b>{b.anchor.off ? <em className="off"> −{Math.round(b.anchor.off * 100)} % {t('vsRegular')}</em> : null}</div>
               </div>
               <div className="bundle-stats">
                 <div><small>{t('planTotal')}</small><b>≈ {fmt(b.total)}</b></div>

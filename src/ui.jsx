@@ -53,6 +53,16 @@ export function nice(name, lang) {
   return n.charAt(0).toUpperCase() + n.slice(1);
 }
 
+/**
+ * Name of an offer as it applies to the ingredient it was matched for. A flyer line such as
+ * "mangue rouge, fruit de la passion" is one price for either fruit: for a mango we show
+ * "Mangue rouge", not the whole label.
+ */
+export function offerName(o, lang) {
+  const seg = o.seg?.[o.pk];
+  return nice(seg || o.name, seg ? 'fr' : lang);
+}
+
 export function offerText(o, fmt) {
   const p = `${o.pre ? o.pre + ' ' : ''}${fmt(o.price)}${o.post ? ' ' + o.post : ''}`;
   return p.replace(/\s+/g, ' ');
@@ -221,7 +231,7 @@ export function IngredientPicker({ onPick, exclude = [], placeholder }) {
  * ingredient that was not in this store's flyer the week before.
  */
 export function dealNote(hist, offer) {
-  const weeks = hist?.[offer.ing];
+  const weeks = hist?.[offer.pk || offer.ing];
   if (!weeks || !offer.from) return null;
   const prior = Object.keys(weeks).filter((w) => w < offer.from).sort();
   if (!prior.length) return null;

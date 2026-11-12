@@ -4,7 +4,7 @@
 // otherwise the Statistics Canada average retail price for Québec, otherwise unpriced.
 // Costs are prorated to the quantity the recipe uses (the Budget Bytes convention).
 import { ING_BY_ID } from './ingredients.js';
-import { formsCompatible } from './match.js';
+import { formsCompatible, baseId } from './match.js';
 
 /**
  * @param {object[]} flyerItems indexed flyer items ({ pg, store, from, to, fm, ... })
@@ -14,47 +14,64 @@ import { formsCompatible } from './match.js';
  */
 export function bestOffers(flyerItems, stores, today, baseline = {}) {
   const all = new Map();
+  const add = (key, o) => { if (!all.has(key)) all.set(key, []); all.get(key).push(o); };
   for (const it of flyerItems) {
     if (!it.pg || !stores.has(it.store)) continue;
     if (it.to && it.to.slice(0, 10) < today) continue;
     if (it.from && it.from.slice(0, 10) > today) continue;
-    for (const [ing, perG] of Object.entries(it.pg)) {
-      // A "deal" at more than 2.5x the regular price is a mismatched product, not a deal.
-      if (baseline[ing] && perG > baseline[ing].perG * 2.5) continue;
+    for (const [pk, perG] of Object.entries(it.pg)) {
+      // A "deal" at more than 2.5x the regular price is a mismatched product, not a deal...
+      if (baseline[pk] && perG > baseline[pk].perG * 2.5) continue;
       // ...and one at less than a third of the regular price is a misread size or unit.
-      if (baseline[ing] && perG < baseline[ing].perG * 0.33) continue;
-      if (!all.has(ing)) all.set(ing, []);
-      all.get(ing).push({ ...it, ing, perG });
+      if (baseline[pk] && perG < baseline[pk].perG * 0.33) continue;
+      const id = baseId(pk);
+      const o = { ...it, ing: id, pk, perG };
+      add(pk, o);
+      // "*group": every member's offers, for recipe lines that ask for the generic ("nuts").
+      if (pk !== id) add('*' + id, o);
     }
   }
   for (const list of all.values()) list.sort((a, b) => a.perG - b.perG);
   return all;
 }
 
-/** Cheapest offer for an ingredient whose product form suits the recipe line. */
-export function pickOffer(offers, id, lineForms) {
-  const list = offers.get(id);
-  if (!list) return null;
-  return list.find((o) => formsCompatible(id, o.fm, lineForms)) || null;
+/**
+ * Cheapest offer for a price key whose product form suits the recipe line. A specific
+ * member ("walnut") only takes offers for that member; a generic one takes any member's.
+ */
+export function pickOffer(offers, pk, lineForms) {
+  const id = baseId(pk);
+  const own = offers.get(pk) || [];
+  const any = pk === id && ING_BY_ID[id]?.members.some((m) => m.generic) ? offers.get('*' + id) || [] : [];
+  let best = null;
+  for (const o of [...own, ...any]) {
+    if ((!best || o.perG < best.perG) && formsCompatible(id, o.fm, lineForms)) best = o;
+  }
+  return best;
 }
 
-function lookup(id, fm, offers, baseline, seen = 0) {
-  const ing = ING_BY_ID[id];
+/** Cheapest current offer for an ingredient group, whatever the member (favourites, guide). */
+export const bestFor = (offers, id) => pickOffer(offers, id, ALL_FORMS);
+const ALL_FORMS = ['sliced', 'smoked', 'dried', 'cooked', 'breaded', 'seasoned', 'stuffed', 'ball', 'curds', 'spread', 'drink', 'canned'];
+
+function lookup(pk, fm, offers, baseline, seen = 0) {
+  const ing = ING_BY_ID[baseId(pk)];
   if (!ing) return null;
-  const offer = pickOffer(offers, id, fm);
-  const base = baseline[id];
-  // A flyer price above the average regular price is not a deal (premium brand, small
-  // format): the shopper would not pay more than usual, so the regular price is used.
+  const offer = pickOffer(offers, pk, fm);
+  const base = baseline[pk];
+  // A flyer price above the reference price is not a deal (premium brand, small format):
+  // the shopper would not pay more than usual, so the reference price is used.
   if (offer && !(base && offer.perG > base.perG)) {
     // Regular price to compare with: the flyer's own "was" price when it gives one,
-    // otherwise the Statistics Canada average.
+    // otherwise the reference price.
     const regular = offer.rr ? offer.perG * offer.rr : base?.perG ?? null;
     return { perG: offer.perG, src: 'flyer', offer, regular };
   }
-  if (base) return { perG: base.perG, src: 'base' };
-  if (ing.fb && seen < 2) {
+  if (base) return { perG: base.perG, src: 'base', ref: base };
+  // Only a generic ingredient borrows another one's price ("poulet" -> chicken breast).
+  if (ing.fb && pk === ing.id && seen < 2) {
     const r = lookup(ing.fb, fm, offers, baseline, seen + 1);
-    if (r) return { ...r, via: ing.fb };
+    if (r) return { ...r, via: baseId(ing.fb) };
   }
   return null;
 }
@@ -77,7 +94,7 @@ export function costRecipe(recipe, offers, baseline, have) {
     if (ing?.free) return { ...l, cost: 0, src: 'free' };
     // Already in the kitchen: nothing to buy for this line.
     if (have && l.ing && (have.has(l.ing) || have.has(l.via))) return { ...l, cost: 0, src: 'have' };
-    const p = ing && l.g != null ? lookup(l.ing, l.fm, offers, baseline) : null;
+    const p = ing && l.g != null ? lookup(l.pk || l.ing, l.fm, offers, baseline) : null;
     // Seasonings and "to taste" lines cost pennies and have no quantity to price:
     // they are shown as pantry items instead of dragging the coverage figure down.
     if (!p && ing && (ing.cat === 'spices' || l.nq)) return { ...l, cost: null, src: 'pantry' };
@@ -98,7 +115,7 @@ export function costRecipe(recipe, offers, baseline, have) {
       savings += saved;
       if (p.regular) comparable += cost;
     } else comparable += cost;
-    return { ...l, cost, src: p.src, offer: p.offer, via: p.via, saved };
+    return { ...l, cost, src: p.src, offer: p.offer, via: p.via, saved, ref: p.ref };
   });
   const has = priced > 0;
   // Cost is quoted per meal for meal dishes (see build-index: `meals`), otherwise per

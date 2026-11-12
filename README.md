@@ -61,7 +61,9 @@ page for the method.
    lower a recipe's cost, and the same lines are priced whatever the store.
    `scripts/verify-prices.mjs` checks these rules for every recipe × store × date and
    runs in CI before each deploy.
-5. A recipe missing the price of a protein or of a large part of the dish is marked
+5. No substitutions: ingredient groups are split into members (peach ≠ plum, walnut ≠ pecan)
+   and a flyer product only prices the member it actually is.
+6. A recipe missing the price of a protein or of a large part of the dish is marked
    "incomplete" and left out of cost rankings.
 
 It is an **estimate**: weight conversions and product matching are approximations, which

@@ -65,11 +65,16 @@ export const NUTRITION = {
   vinegar: [20, 0, 0.6, 0, 0], soy_sauce: [53, 8.1, 4.9, 0.6, 0.8], fish_sauce: [60, 3, 11, 0.2, 0], hot_sauce: [50, 1.5, 9, 1, 2],
   worcestershire: [130, 0.5, 30, 0.4, 0.5], ketchup: [101, 1, 27.4, 0.1, 0.3], mustard: [66, 4.4, 5.3, 4, 3.3], mayo: [680, 1, 0.6, 75, 0],
   pesto: [450, 5, 6, 45, 2], miso: [199, 11.7, 26.5, 6, 5.4], kimchi: [15, 1.1, 2.4, 0.5, 1.6], dressing: [430, 1, 7, 44, 0.3],
-  olives: [145, 1, 3.8, 15.3, 3.3], pickles: [12, 0.5, 2.4, 0.2, 1], jam: [250, 0.4, 65, 0.1, 1], wine: [82, 0.1, 2.6, 0, 0],
+  olives: [145, 1, 3.8, 15.3, 3.3], capers: [23, 2.4, 4.9, 0.9, 3.2], pickles: [12, 0.5, 2.4, 0.2, 1], jam: [250, 0.4, 65, 0.1, 1], wine: [82, 0.1, 2.6, 0, 0],
   // Sugar & baking
   sugar: [387, 0, 100, 0, 0], brown_sugar: [380, 0.1, 98, 0, 0], icing_sugar: [389, 0, 99.8, 0, 0], maple_syrup: [260, 0, 67, 0.1, 0],
   honey: [304, 0.3, 82.4, 0, 0.2], chocolate: [535, 6, 59, 31, 6], cocoa: [228, 19.6, 57.9, 13.7, 33.2], vanilla: [288, 0.1, 12.7, 0.1, 0],
   gelatin: [335, 85.6, 0, 0.1, 0],
+  buttermilk: [40, 3.3, 4.8, 0.9, 0], whipped_cream: [257, 3.2, 12.5, 22.2, 0], cooking_spray: [0, 0, 0, 0, 0], pomegranate: [83, 1.7, 18.7, 1.2, 4],
+  cherries: [63, 1.1, 16, 0.2, 2.1], plantain: [122, 1.3, 31.9, 0.4, 2.3], lemongrass: [99, 1.8, 25.3, 0.5, 0], horseradish: [48, 1.2, 11.3, 0.7, 3.3],
+  guacamole: [155, 2, 8.6, 14, 6], refried_beans: [90, 5, 13.5, 2, 4.4], alfredo: [150, 2.5, 5, 13.5, 0], gravy: [50, 1.5, 5.5, 2.3, 0.3],
+  granola: [471, 10, 64, 20, 7], english_muffin: [227, 8.9, 44.2, 1.7, 3.5], applesauce: [68, 0.2, 17.5, 0.2, 1.2], seaweed: [35, 5.8, 5.1, 0.3, 0.3],
+  spirits: [231, 0, 0, 0, 0], coleslaw_mix: [27, 1.2, 6.2, 0.1, 2.4], green_chiles: [21, 0.7, 4.6, 0.3, 1.7],
   // Seasonings contribute next to nothing at recipe quantities.
   salt: [0, 0, 0, 0, 0], pepper: [251, 10.4, 64, 3.3, 25.3], spice: [280, 11, 55, 9, 28], thyme: [101, 5.6, 24.5, 1.7, 14], rosemary: [131, 3.3, 20.7, 5.9, 14.1], water: [0, 0, 0, 0, 0],
 };

@@ -9,7 +9,7 @@ async function writeJson(path, data) {
   await mkdir('public/data', { recursive: true });
   await writeFile(path, JSON.stringify(data));
 }
-import { parseIngredientLine, matchIngredient, matchFlyerItem, forms } from '../shared/match.js';
+import { parseIngredientLine, matchFlyerItemFull, baseId } from '../shared/match.js';
 import { unitPrice } from '../shared/price.js';
 import { priceItem } from './history.mjs';
 import { classify, isMealDish, isProteinIng } from '../shared/taxonomy.js';
@@ -115,7 +115,7 @@ export function buildFlyers(data) {
     if (!kept.has(f.store)) continue; // flyers gathered before the store list was narrowed
     flyerStore[f.id] = f.store;
     for (const it of f.items) {
-      const { ings, pg, basis, fm, rr } = priceItem(it);
+      const { ings, pg, seg, basis, fm, rr } = priceItem(it);
       if (!ings.length && f.general) continue;
       const { food, d, ...pub } = it;
       // The same product repeats in every regional edition of a banner's flyer: keep one copy.
@@ -126,7 +126,7 @@ export function buildFlyers(data) {
         ...pub, flyers: [f.id], store: f.store,
         from: (it.from || f.from || '').slice(0, 10), to: (it.to || f.to || '').slice(0, 10),
         ing: ings[0], ings: ings.length > 1 ? ings : undefined,
-        fm: fm || undefined, pg: pg || undefined, perG: pg?.[ings[0]], basis, rr: rr || undefined,
+        fm: fm || undefined, pg: pg || undefined, seg: seg || undefined, pk: pg ? Object.keys(pg)[0] : undefined, perG: pg ? Object.values(pg)[0] : undefined, basis, rr: rr || undefined,
       };
       seen.set(key, row);
       items.push(row);
@@ -146,9 +146,9 @@ export function buildFlyers(data) {
 
 // Statistics Canada product labels the generic matcher gets wrong or cannot place.
 const STATCAN = [
-  [/^Beef stewing/i, ['beef_stew']], [/^Beef (striploin|top sirloin)/i, ['beef_steak']], [/^Beef rib/i, []],
-  [/^Block cheese/i, ['cheddar']], [/^Canned beans and lentils/i, ['black_beans', 'kidney_beans', 'chickpeas']],
-  [/^Cream,/i, ['cream_35']], [/^Dried lentils/i, ['lentils']], [/^Peppers/i, ['bell_pepper']],
+  [/^Beef stewing/i, ['beef_stew~cube_de_boeuf']], [/^Beef striploin/i, ['beef_steak~contre_filet']], [/^Beef top sirloin/i, ['beef_steak~surlonge']], [/^Beef rib/i, []],
+  [/^Block cheese/i, ['cheddar']], [/^Canned beans and lentils/i, ['black_beans', 'kidney_beans~haricot_rouge', 'chickpeas', 'white_beans~haricot_blanc']], [/^Canned baked beans/i, ['white_beans~feve_au_lard']],
+  [/^Cream,/i, ['cream_35']], [/^Dried lentils/i, ['lentils~lentille']], [/^Peppers/i, ['bell_pepper']],
   [/^Nut milk/i, []], [/^Whole chicken/i, ['chicken_whole']], [/^Chicken drumsticks/i, ['chicken_drumstick']], [/^Chicken thigh/i, ['chicken_thigh']], [/^Canned (salmon|peach|pear|soup)/i, []], [/^Salad greens/i, []],
 ];
 
@@ -164,9 +164,9 @@ export function buildBaseline(data, history) {
   const byIng = {};
   for (const p of data?.products || []) {
     const rule = STATCAN.find(([re]) => re.test(p.name));
-    for (const ing of rule ? rule[1] : [matchIngredient(p.name, { flyer: true })].filter(Boolean)) {
+    for (const ing of rule ? rule[1] : matchFlyerItemFull(p.name).slice(0, 1).map((h) => h.pk)) {
       const post = /per kilogram/i.test(p.name) ? '/kg' : '';
-      const up = unitPrice({ price: p.value, post, name: p.name.replace(/per kilogram/i, '') }, ING_BY_ID[ing]);
+      const up = unitPrice({ price: p.value, post, name: p.name.replace(/per kilogram/i, '') }, ING_BY_ID[baseId(ing)]);
       if (!up) continue;
       (byIng[ing] ||= []).push({ perG: up.perG, label: p.name, date: p.date });
     }
@@ -181,12 +181,18 @@ export function buildBaseline(data, history) {
   for (const rows of Object.values(history?.weeks || {})) for (const r of rows) (obs[r[1]] ||= []).push(r);
   const quantile = (xs, q) => { const s = xs.slice().sort((a, b) => a - b); return s[Math.min(s.length - 1, Math.floor(q * s.length))]; };
   for (const [ing, all] of Object.entries(obs)) {
-    if (prices[ing] || !ING_BY_ID[ing]) continue;
+    if (prices[ing] || !ING_BY_ID[baseId(ing)]) continue;
     const rows = all.some((r) => r[4]) ? all.filter((r) => r[4]) : all; // plain products when there are any
     const regs = rows.filter((r) => r[3] > 0).map((r) => r[3]);
     prices[ing] = regs.length
       ? { perG: +quantile(regs, 0.5).toFixed(6), kind: 'flyer-regular', n: regs.length }
       : { perG: +quantile(rows.map((r) => r[2]), 0.75).toFixed(6), kind: 'flyer', n: rows.length };
+  }
+  // A generic request ("nuts", "white fish") is priced at the median of the group's members.
+  for (const ing of Object.values(ING_BY_ID)) {
+    if (ing.members.length < 2 || prices[ing.id]) continue;
+    const ms = ing.members.map((m) => prices[`${ing.id}~${m.key}`]?.perG).filter(Boolean).sort((a, b) => a - b);
+    if (ing.members.some((m) => m.generic) && ms.length) prices[ing.id] = { perG: ms[Math.floor((ms.length - 1) / 2)], kind: 'flyer', n: ms.length };
   }
   // Cheapest plain price seen per ingredient, week and store: lets the app say "lowest in
   // N weeks" and "new this week".

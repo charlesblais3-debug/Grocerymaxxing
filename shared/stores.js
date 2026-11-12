@@ -2,6 +2,7 @@
 // says where each store has the best price, so someone who shops at one store can pick it.
 import { ING_BY_ID } from './ingredients.js';
 import { anchorKind } from './synergy.js';
+import { baseId } from './match.js';
 
 // Everyday basics worth comparing even though they are too common to plan a week around.
 const BASICS = new Set(['egg', 'milk', 'butter', 'potato', 'carrot', 'onion', 'tomato', 'bread', 'pasta', 'rice']);
@@ -17,7 +18,9 @@ export const GROUPS = { meat: 'meat', fish: 'meat', produce: 'produce', frozen: 
  */
 export function storeGuide(allOffers, baseline, storeIds) {
   const out = new Map(storeIds.map((id) => [id, { id, score: 0, deals: 0, wins: [], groups: {} }]));
-  for (const [ing, list] of allOffers) {
+  for (const [pk, list] of allOffers) {
+    if (pk.startsWith('*')) continue;
+    const ing = baseId(pk);
     const def = ING_BY_ID[ing];
     const kind = anchorKind(ing) || (BASICS.has(ing) ? 'basic' : null);
     // Plain products only: a sliced or seasoned version winning on price says nothing useful.
@@ -29,13 +32,13 @@ export function storeGuide(allOffers, baseline, storeIds) {
     if (!store) continue;
     const other = plain.find((o) => o.store !== best.store);
     const margin = other ? 1 - best.perG / other.perG : null;
-    const base = best.rr ? best.perG * best.rr : baseline[ing]?.perG;
+    const base = best.rr ? best.perG * best.rr : baseline[pk]?.perG;
     const off = base && base > best.perG ? 1 - best.perG / base : null;
     // A win must be clear: at least 8 % cheaper than the next store, or the only flyer with
     // it at a real discount.
     if (other ? margin < 0.08 : !(off >= 0.1)) continue;
     const weight = WEIGHT[kind] * (1 + (off || 0) + (margin || 0));
-    store.wins.push({ ing, kind, offer: best, margin, off, only: !other, weight });
+    store.wins.push({ ing, pk, kind, offer: best, margin, off, only: !other, weight });
     store.score += weight;
     const g = GROUPS[def.cat] || 'pantry';
     store.groups[g] = (store.groups[g] || 0) + weight;

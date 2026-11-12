@@ -5,12 +5,29 @@ import { tokens, parseQuantity, deaccent } from './text.js';
 
 const INDEX = new Map(); // first token -> [{ toks, id }]
 for (const ing of INGREDIENTS) {
-  for (const syn of ing.syn) {
-    const toks = tokens(syn);
-    if (!toks.length) continue;
-    if (!INDEX.has(toks[0])) INDEX.set(toks[0], []);
-    INDEX.get(toks[0]).push({ toks, id: ing.id });
-  }
+  ing.members.forEach((member, m) => {
+    // Price key: the group id for single-member groups and for a generic member ("nuts"),
+    // "group~n" for a specific member of a multi-member group ("walnut").
+    const pk = ing.members.length === 1 || member.generic ? ing.id : `${ing.id}~${member.key}`;
+    for (const syn of member.syn) {
+      const toks = tokens(syn);
+      if (!toks.length) continue;
+      if (!INDEX.has(toks[0])) INDEX.set(toks[0], []);
+      INDEX.get(toks[0]).push({ toks, id: ing.id, pk });
+    }
+  });
+}
+
+/** Group id of a price key ("peach~2" -> "peach"). */
+export const baseId = (pk) => (pk ? pk.split('~')[0] : pk);
+/** Display name of a price key: the member's own name when it is a specific member. */
+export function pkLabel(pk, lang) {
+  const ing = ING_BY_ID[baseId(pk)];
+  if (!ing) return pk;
+  const m = pk.includes('~') ? ing.members.find((x) => x.key === pk.split('~')[1]) : null;
+  if (!m) return ing[lang === 'en' ? 'en' : 'fr'];
+  const name = (lang === 'en' && m.syn[1]) || m.syn[0];
+  return name.charAt(0).toUpperCase() + name.slice(1);
 }
 
 // Words that mean a flyer product is a prepared food / non-food that merely mentions an
@@ -39,7 +56,7 @@ function findAll(toks) {
     for (const c of cands) {
       let ok = true;
       for (let k = 1; k < c.toks.length; k++) if (toks[i + k] !== c.toks[k]) { ok = false; break; }
-      if (ok) hits.push({ id: c.id, len: c.toks.length, pos: i, toks: c.toks });
+      if (ok) hits.push({ id: c.id, pk: c.pk, len: c.toks.length, pos: i, toks: c.toks });
     }
   }
   hits.sort((a, b) => b.len - a.len || a.pos - b.pos);
@@ -60,6 +77,11 @@ export function matchIngredient(text, { flyer = false } = {}) {
  * @returns {string[]} ingredient ids, the main one first
  */
 export function matchFlyerItem(name) {
+  return [...new Set(matchFlyerItemFull(name).map((o) => o.id))];
+}
+
+/** Same, with the price key and the part of the label that matched: [{ id, pk, seg }]. */
+export function matchFlyerItemFull(name) {
   const all = tokens(name);
   const out = [];
   // "fr | en" are two renderings of the same name; inside one, "X ou Y, Z" lists alternatives.
@@ -77,14 +99,14 @@ export function matchFlyerItem(name) {
         if ((cat === 'meat' || cat === 'fish') && !h.toks.some((t) => ANIMALS.has(t)) && toks.some((t) => ANIMALS.has(t))) continue;
         const vetoed = all.some((t) => FLYER_VETO.has(t) && !h.toks.includes(t));
         // Alternatives must sit in the same aisle as the main product ("courges … ou spaghettis" is not pasta).
-        const sameAisle = !out.length || ING_BY_ID[out[0]].cat === ING_BY_ID[h.id].cat;
-        if (!vetoed && sameAisle) hit = h.id;
+        const sameAisle = !out.length || ING_BY_ID[out[0].id].cat === ING_BY_ID[h.id].cat;
+        if (!vetoed && sameAisle) hit = h;
         break;
       }
       // "Poulet rôti barbecue ou ail et fines herbes": when the product itself is unknown,
       // what follows "ou" is a flavour, not a product.
       if (!hit && i === 0) break;
-      if (hit && !out.includes(hit)) out.push(hit);
+      if (hit && !out.some((o) => o.pk === hit.pk)) out.push({ id: hit.id, pk: hit.pk, seg: segments[i].trim() });
     }
   }
   return out;
@@ -115,13 +137,14 @@ export function gramsFor(ing, q) {
 
 /** Parse one recipe ingredient line -> { raw, ing, g } */
 export function parseIngredientLine(raw) {
-  const id = matchIngredient(raw);
+  const hit = findAll(tokens(raw))[0];
+  const id = hit?.id ?? null;
   const ing = id ? ING_BY_ID[id] : null;
   const q = parseQuantity(raw);
   const g = ing ? gramsFor(ing, q) : null;
   // nq: the line gives no quantity at all ("sel et poivre", "olive oil, for drizzling").
   const fm = forms(raw);
-  return { raw, ing: id, g: g != null ? Math.round(g * 10) / 10 : null, nq: q.none ? 1 : undefined, fm: fm.length ? fm : undefined };
+  return { raw, ing: id, pk: hit && hit.pk !== id ? hit.pk : undefined, g: g != null ? Math.round(g * 10) / 10 : null, nq: q.none ? 1 : undefined, fm: fm.length ? fm : undefined };
 }
 
 // ---- Product forms ---------------------------------------------------------------------

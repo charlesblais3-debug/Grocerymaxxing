@@ -3,37 +3,42 @@
 // price at a store that has no deal on it this week — otherwise that ingredient would
 // count as free there and stores with fewer deals would look cheaper.
 import { readJson, writeJson } from './lib/http.mjs';
-import { matchFlyerItem, forms } from '../shared/match.js';
+import { matchFlyerItemFull, forms } from '../shared/match.js';
 import { unitPrice, regularRatio } from '../shared/price.js';
 import { ING_BY_ID } from '../shared/ingredients.js';
-import { STORES, loadFlyers } from './fetch-flyers.mjs';
+import { STORES, REFERENCE_STORES, loadFlyers } from './fetch-flyers.mjs';
 
 const OUT = 'data/price-history.json';
 const KEEP_WEEKS = 26;
 
 /** Ingredients a flyer item stands for and its price per gram of each. */
 export function priceItem(it) {
-  const ings = matchFlyerItem(it.name);
-  const pg = {};
+  const hits = matchFlyerItemFull(it.name);
+  const ings = [...new Set(hits.map((h) => h.id))];
+  const pg = {}; // price key -> $/g
+  const seg = {}; // price key -> the part of the label that names it ("mangue rouge")
   let basis;
-  for (const ing of ings) {
-    const up = unitPrice(it, ING_BY_ID[ing]);
+  for (const h of hits) {
+    const up = unitPrice(it, ING_BY_ID[h.id]);
     // Without the item's price text we cannot tell "each" from "per lb": trust only printed sizes.
     if (!up || (!it.d && up.basis !== 'size')) continue;
-    pg[ing] = +up.perG.toFixed(6);
+    pg[h.pk] = +up.perG.toFixed(6);
+    if (hits.length > 1) seg[h.pk] = h.seg;
     basis ||= up.basis;
   }
   const has = Object.keys(pg).length > 0;
   const fm = ings.length ? forms(it.name) : [];
-  return { ings, pg: has ? pg : null, basis, fm: fm.length ? fm : null, rr: has ? regularRatio(it) : null };
+  return { ings, pg: has ? pg : null, seg: Object.keys(seg).length ? seg : null, basis, fm: fm.length ? fm : null, rr: has ? regularRatio(it) : null };
 }
 
 /** Adds the current flyers' prices to the history. Rows: [store, ingredient, $/g, regular $/g or 0, plain form 1/0]. */
 export async function updateHistory(data) {
   const flyers = data || (await loadFlyers());
   const hist = await readJson(OUT, { weeks: {} });
+  // Rows recorded before groups were split into members cannot say which member they were.
+  for (const [w, rows] of Object.entries(hist.weeks)) hist.weeks[w] = rows.filter((r) => r[1].includes('~') || ING_BY_ID[r[1]]?.members.length === 1);
   if (!flyers) return hist;
-  const kept = new Set(STORES.map((s) => s.id));
+  const kept = new Set([...STORES, ...REFERENCE_STORES].map((s) => s.id));
   for (const f of Object.values(flyers.flyers)) {
     if (!kept.has(f.store)) continue;
     const week = (f.from || '').slice(0, 10);

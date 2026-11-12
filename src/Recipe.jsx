@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useApp } from './store.jsx';
-import { Img, CostTag, SavingBar, MacroRing, Store, Icon, DealBadge, offerText, nice, mealScale } from './ui.jsx';
+import { Img, CostTag, SavingBar, MacroRing, Store, Icon, DealBadge, offerText, nice, mealScale, offerName } from './ui.jsx';
 import { MEAL_TYPES, CUISINES } from '../shared/taxonomy.js';
 import { ING_BY_ID } from '../shared/ingredients.js';
 import { L } from './i18n.js';
@@ -75,12 +75,12 @@ export default function Recipe({ id }) {
                 <div className="src">
                   {l.src === 'flyer' && (
                     <span className="offer">
-                      <Store id={l.offer.store} /> <DealBadge offer={l.offer} /> {nice(l.offer.name, lang)} — <b>{offerText(l.offer, fmt)}</b>
+                      <Store id={l.offer.store} /> <DealBadge offer={l.offer} /> {offerName(l.offer, lang)} — <b>{offerText(l.offer, fmt)}</b>
                       {l.offer.to ? <small> · {t('until')} {date(l.offer.to)}</small> : null}
                       {l.via ? <small> · ≈ {ING_BY_ID[l.via][lang === 'en' ? 'en' : 'fr']}</small> : null}
                     </span>
                   )}
-                  {l.src === 'base' && <span className="base">{t(baseline[l.via || l.ing]?.kind === 'statcan' ? 'refStatcan' : baseline[l.via || l.ing]?.kind === 'flyer-regular' ? 'refFlyerRegular' : 'refFlyer')} · {fmt((l.cost / l.g) * 1000)}/kg</span>}
+                  {l.src === 'base' && <span className="base">{t(l.ref?.kind === 'statcan' ? 'refStatcan' : l.ref?.kind === 'flyer-regular' ? 'refFlyerRegular' : 'refFlyer')} · {fmt((l.cost / l.g) * 1000)}/kg</span>}
                   {l.src == null && <span className="none">{l.odd ? t('oddQty') : t('notPriced')}</span>}
                   {l.src === 'pantry' && <span className="none">{t('pantryItem')}</span>}
                   {l.src === 'have' && <span className="none">{t('atHome')}</span>}

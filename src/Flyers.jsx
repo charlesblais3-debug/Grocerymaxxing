@@ -3,6 +3,8 @@ import { useApp } from './store.jsx';
 import { Img, Chip, Store, IngredientPicker, DealBadge, offerText, nice } from './ui.jsx';
 import { AISLES, ING_BY_ID } from '../shared/ingredients.js';
 import { deaccent } from '../shared/text.js';
+import { bestFor } from '../shared/cost.js';
+import { pkLabel } from '../shared/match.js';
 
 export default function Flyers() {
   const { regionItems, selected, storeName, recipes, t, lang, fmt, flyers, guide, pickStore, favs, toggleFav, offers } = useApp();
@@ -57,8 +59,8 @@ export default function Flyers() {
               {s.wins.length ? (
                 <ul>
                   {s.wins.slice(0, 4).map((w) => (
-                    <li key={w.ing}>
-                      <b>{ING_BY_ID[w.ing][lk]}</b> <span className="p">{fmt(w.offer.perG * 1000)}/kg</span>
+                    <li key={w.pk}>
+                      <b>{pkLabel(w.pk, lang)}</b> <span className="p">{fmt(w.offer.perG * 1000)}/kg</span>
                       <small>{w.only ? t('onlyFlyer') : `${Math.round(w.margin * 100)} % ${t('cheaperThanNext')}`}{w.off ? ` · −${Math.round(w.off * 100)} % ${t('vsRegular')}` : ''}</small>
                     </li>
                   ))}
@@ -78,7 +80,7 @@ export default function Flyers() {
         <IngredientPicker exclude={favs} onPick={toggleFav} placeholder={t('addIngredient')} />
         <ul className="favlist">
           {favs.map((id) => {
-            const o = offers.get(id)?.[0];
+            const o = bestFor(offers, id);
             return ING_BY_ID[id] && (
               <li key={id} className={o ? 'on' : ''}>
                 <b>{ING_BY_ID[id][lk]}</b>

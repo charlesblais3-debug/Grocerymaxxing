@@ -4,8 +4,12 @@
 //   2. A store's flyer can only lower a recipe's cost: cost(store) <= cost(no flyer).
 //   3. More stores never cost more: cost(all stores) <= cost(any single store).
 //   4. Every line is charged at min(flyer price, reference price).
+//   5. No substitution: a flyer product is only used for the very food the line asks for
+//      (same member), for a generic request ("nuts"), or for a declared generic fallback.
 import { readFile } from 'node:fs/promises';
 import { bestOffers, costRecipe } from '../shared/cost.js';
+import { ING_BY_ID } from '../shared/ingredients.js';
+import { baseId } from '../shared/match.js';
 
 const load = async (f) => JSON.parse(await readFile(`public/data/${f}.json`, 'utf8'));
 const [recipes, flyers, meta] = await Promise.all([load('recipes'), load('flyers'), load('meta')]);
@@ -33,7 +37,12 @@ for (const [regionId, region] of Object.entries(flyers.regions)) {
         if ((c.total ?? 0) > (c0.total ?? 0) + EPS) note(2, r, `${regionId}/${s}/${day}: ${c.total} > ${c0.total}`);
         if ((cAll.total ?? 0) > (c.total ?? 0) + EPS) note(3, r, `${regionId}/${s}/${day}: all stores ${cAll.total} > ${c.total}`);
         for (const l of c.lines) {
-          const ref = base[l.via || l.ing]?.perG;
+          const ref = base[l.pk || l.ing]?.perG;
+          if (l.src === 'flyer' && !l.via) {
+            const want = l.pk || l.ing;
+            const generic = want === l.ing && ING_BY_ID[l.ing].members.some((m) => m.generic);
+            if (l.offer.pk !== want && !(generic && baseId(l.offer.pk) === l.ing)) note(5, r, `${l.raw.slice(0, 40)} priced with ${l.offer.pk}`);
+          }
           if (l.cost && ref && l.cost > l.g * ref + EPS) note(4, r, `${l.raw.slice(0, 40)}: charged above the reference price`);
         }
       }

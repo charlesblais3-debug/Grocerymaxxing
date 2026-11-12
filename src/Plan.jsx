@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { useApp } from './store.jsx';
-import { Img, Store, Icon, IngredientPicker, offerText, nice, mealScale } from './ui.jsx';
+import { Img, Store, Icon, IngredientPicker, offerText, nice, mealScale, offerName } from './ui.jsx';
 import { AISLES, ING_BY_ID } from '../shared/ingredients.js';
 import { suggestPlan, batchesFor } from '../shared/planner.js';
 
@@ -130,7 +130,7 @@ export default function Plan() {
                 <ul>{groups[k].sort((a, b) => a.def[lk].localeCompare(b.def[lk])).map((a) => (
                   <li key={a.ing} className={checks[a.ing] ? 'done' : ''}>
                     <label><input type="checkbox" checked={!!checks[a.ing]} onChange={() => toggleCheck(a.ing)} /> <b>{a.def[lk]}</b>{qty(a) ? <span className="meta"> ≈ {qty(a)}</span> : null}</label>
-                    {a.offer ? <div className="offer"><Store id={a.offer.store} /> {nice(a.offer.name, lang)} — <b>{offerText(a.offer, fmt)}</b></div> : null}
+                    {a.offer ? <div className="offer"><Store id={a.offer.store} /> {offerName(a.offer, lang)} — <b>{offerText(a.offer, fmt)}</b></div> : null}
                     <div className="row-tools noprint"><button type="button" className="link" onClick={() => togglePantry(a.ing)}>{t('haveIt')}</button></div>
                   </li>
                 ))}</ul>

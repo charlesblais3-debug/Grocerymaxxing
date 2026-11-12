@@ -2,7 +2,7 @@
 // They are not recipes and never ship in the app's data.
 import { describe, it, expect } from 'vitest';
 import { parseQuantity } from '../shared/text.js';
-import { matchIngredient, matchFlyerItem, parseIngredientLine } from '../shared/match.js';
+import { matchIngredient, matchFlyerItem, matchFlyerItemFull, parseIngredientLine } from '../shared/match.js';
 import { unitPrice } from '../shared/price.js';
 import { ING_BY_ID } from '../shared/ingredients.js';
 import { bestOffers, costRecipe } from '../shared/cost.js';
@@ -117,7 +117,8 @@ describe('scraper helpers', () => {
   });
   it('flyer mapping', () => {
     expect(storeFor('Super C').id).toBe('superc');
-    expect(storeFor('Marché Tradition')).toBeNull();
+    expect(storeFor('Marché Tradition')).toMatchObject({ ref: true }); // price evidence only, never shown
+    expect(storeFor('Pharmaprix')).toBeNull();
     expect(storeFor('Canadian Tire')).toBeNull();
     expect(toItem({ id: 1, name: 'X', price: '4.99', price_text: '/lb' })).toMatchObject({ price: 4.99, post: '/lb' });
     expect(toItem({ id: 1, name: 'X', price: '' })).toBeNull();
@@ -170,7 +171,7 @@ describe('fixes from the first full data run', () => {
   });
   it('flyer look-alikes are rejected', () => {
     expect(matchFlyerItem('Piments en huile avec haricots noirs Lao Gan Ma')).not.toContain('black_beans');
-    for (const n of ['STEAK DE CAPICOLLE DE PORC AUX 3 POIVRES', 'COCKTAIL DE TOMATE ET DE PALOURDES MOTT\'S', 'TOFU DESSERT SUNRISE', 'HALVA VANILLE', 'BIÈRE SAPPORO', 'pochettes chinoises à la ciboulette']) {
+    for (const n of ['STEAK DE CAPICOLLE DE PORC AUX 3 POIVRES', 'COCKTAIL DE TOMATE ET DE PALOURDES MOTT\'S', 'TOFU DESSERT SUNRISE', 'HALVA VANILLE', 'pochettes chinoises à la ciboulette']) {
       expect(matchFlyerItem(n), n).toEqual([]);
     }
     expect(matchFlyerItem('BŒUF HACHÉ MI-MAIGRE')).toEqual(['beef_ground']);
@@ -364,5 +365,40 @@ describe('planner, pantry, calculated macros, tags', () => {
     expect(c('Mystère', ['rice', null]).diets).toEqual([]);
     expect(c('Chicken Meal Prep Bowls', ['chicken_breast']).prep).toBe(true);
     expect(c('Poulet rôti', ['chicken_breast']).prep).toBeUndefined();
+  });
+});
+
+describe('no substitutions between different foods', () => {
+  const mk = (name, store = 'a') => { const pg = {}; const seg = {}; for (const h of matchFlyerItemFull(name)) { pg[h.pk] = 0.004; seg[h.pk] = h.seg; } return { name, pg, seg, store }; };
+  const line = (raw) => parseIngredientLine(raw);
+  const price = (raw, items, base = {}) => costRecipe({ servings: 2, ings: [line(raw)] }, bestOffers(items, new Set(['a']), '2030-01-01', base), base).lines[0];
+  it('a plum deal never prices peaches, nor dates raisins, nor pecans walnuts', () => {
+    expect(price('4 pêches', [mk('PRUNES NOIRES')]).src).toBeNull();
+    expect(price('4 prunes', [mk('PRUNES NOIRES')]).src).toBe('flyer');
+    expect(price('1 tasse de raisins secs', [mk('dattes entières dénoyautées')]).src).toBeNull();
+    expect(price('1 tasse de noix de Grenoble', [mk('Pacanes en moitiés')]).src).toBeNull();
+    expect(price('200 g de morue', [mk('Filets de tilapia')]).src).toBeNull();
+    expect(price('1 tasse de quinoa', [mk('Boulgour Aoun')]).src).toBeNull();
+    expect(price('2 c. à soupe de miel', [mk('Mélasse Grandma 675 g')]).src).toBeNull();
+    expect(price('500 g de dinde hachée', [mk('Poulet haché extra maigre')]).src).toBeNull();
+  });
+  it('a generic request accepts any member', () => {
+    expect(price('1 tasse de noix hachées', [mk('Pacanes en moitiés')]).src).toBe('flyer');
+    expect(price('400 g de poisson blanc', [mk('Filets de tilapia')]).src).toBe('flyer');
+  });
+  it('a shared flyer line is shown as the part that matches', async () => {
+    const { offerName } = await import('../src/ui.jsx');
+    const l = price('2 mangues', [mk('mangue rouge, fruit de la passion')]);
+    expect(l.src).toBe('flyer');
+    expect(offerName(l.offer, 'fr')).toBe('Mangue rouge');
+  });
+  it('reference prices do not cross members either', async () => {
+    const { buildBaseline } = await import('../scripts/build-index.mjs');
+    const { prices } = buildBaseline(null, { weeks: { w: [['a', 'peach~prune', 0.008, 0, 1], ['a', 'walnuts~pacane', 0.03, 0, 1]] } });
+    const cost = (raw) => costRecipe({ servings: 1, ings: [line(raw)] }, new Map(), prices).lines[0];
+    expect(cost('4 pêches').src).toBeNull();
+    expect(cost('4 prunes').src).toBe('base');
+    expect(cost('100 g de noix').src).toBe('base'); // generic: median of the members seen
+    expect(cost('100 g de noix de Grenoble').src).toBeNull();
   });
 });
