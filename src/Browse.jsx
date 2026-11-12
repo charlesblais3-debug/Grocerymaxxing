@@ -1,6 +1,6 @@
 import React, { useMemo, useState, useEffect } from 'react';
 import { useApp } from './store.jsx';
-import { RecipeCard, Img, Store, Icon, nice } from './ui.jsx';
+import { RecipeCard, Img, Store, Icon, IngredientPicker, DealBadge, nice, mealScale } from './ui.jsx';
 import { MEAL_TYPES, CUISINES, PROTEINS, DIETS } from '../shared/taxonomy.js';
 import { ING_BY_ID } from '../shared/ingredients.js';
 import { deaccent } from '../shared/text.js';
@@ -25,7 +25,7 @@ export default function Browse({ query }) {
   const f = {
     q: query.get('q') || '', meal: query.get('meal'), cuisine: query.get('cuisine'), protein: query.get('protein'),
     diet: query.get('diet'), source: query.get('source'), time: +query.get('time') || 0, cost: +query.get('cost') || 0,
-    macros: query.get('macros') === '1', sale: query.get('sale') === '1', ing: query.get('ing'), sort: query.get('sort') || 'deals',
+    macros: query.get('macros') === '1', prep: query.get('prep') === '1', mine: query.get('mine') === '1', minp: +query.get('minp') || 0, maxk: +query.get('maxk') || 0, sale: query.get('sale') === '1', ing: query.get('ing'), sort: query.get('sort') || 'deals',
   };
   const [text, setText] = useState(f.q);
   useEffect(() => { setText(f.q); }, [f.q]);
@@ -45,6 +45,10 @@ export default function Browse({ query }) {
       if (f.time && !(r.time && r.time <= f.time)) return false;
       if (f.cost && !(isReliable(c) && c.per <= f.cost)) return false;
       if (f.macros && !r.macros) return false;
+      if (f.prep && !r.tax.prep) return false;
+      if (f.minp && !(r.macros?.protein != null && r.macros.protein * mealScale(r) >= f.minp)) return false;
+      if (f.maxk && !(r.macros && r.macros.kcal * mealScale(r) <= f.maxk)) return false;
+      if (f.mine && !r.ings.some((l) => app.have.has(l.ing))) return false;
       if (f.sale && !c.deals) return false;
       if (f.ing && !r.ings.some((l) => l.ing === f.ing || ING_BY_ID[l.ing]?.fb === f.ing)) return false;
       if (words.length) {
@@ -53,7 +57,7 @@ export default function Browse({ query }) {
       }
       return true;
     });
-  }, [recipes, costs, query.toString()]);
+  }, [recipes, costs, query.toString(), app.have]);
 
   const mealCounts = useMemo(() => {
     const m = {};
@@ -73,13 +77,16 @@ export default function Browse({ query }) {
       time: (a, b) => (a.time || 1e9) - (b.time || 1e9),
       rating: (a, b) => score(b) - score(a),
     };
+    // "Cook with what I have": most pantry ingredients first.
+    if (f.mine) { const n = (r) => new Set(r.ings.map((l) => l.ing).filter((g) => app.have.has(g))).size; return rows.sort((a, b) => n(b) - n(a) || sorters.cost(a, b)); }
     return rows.sort(sorters[f.sort] || sorters.deals);
   }, [base, f.meal, f.sort, costs]);
 
   if (!recipes.length) return <div className="state">{t('noData')}</div>;
   const sources = [...new Set(recipes.map((r) => r.source))];
-  const nActive = ['cuisine', 'protein', 'diet', 'source', 'time', 'cost', 'macros', 'sale', 'ing', 'q'].filter((k) => query.get(k)).length;
-  const active = ['meal', 'cuisine', 'protein', 'diet', 'source', 'time', 'cost', 'macros', 'sale', 'ing', 'q'].some((k) => query.get(k));
+  const nActive = ['cuisine', 'protein', 'diet', 'source', 'time', 'cost', 'macros', 'sale', 'ing', 'q', 'prep', 'mine', 'minp', 'maxk'].filter((k) => query.get(k)).length;
+  const favDeals = app.favs.map((id) => app.offers.get(id)?.[0]).filter(Boolean);
+  const active = ['prep', 'mine', 'minp', 'maxk', 'meal', 'cuisine', 'protein', 'diet', 'source', 'time', 'cost', 'macros', 'sale', 'ing', 'q'].some((k) => query.get(k));
 
   return (
     <div className="wrap browse">
@@ -100,12 +107,16 @@ export default function Browse({ query }) {
                 <div className="hero-info">
                   <b>{ING_BY_ID[b.anchor.id][lang === 'en' ? 'en' : 'fr']}</b>
                   <small>{nice(b.anchor.offer.name, lang)}</small>
+                  <DealBadge offer={b.anchor.offer} />
                   <span className="go">{b.recipes.length} {t('differentMeals')} →</span>
                 </div>
               </a>
             ))}
           </div>
         </section>
+      )}
+      {!active && favDeals.length > 0 && (
+        <p className="favline">★ {t('favsOnSale')} : {favDeals.map((o) => <a key={o.ing} href={`#/?ing=${o.ing}&sale=1`}><b>{ING_BY_ID[o.ing][lang === 'en' ? 'en' : 'fr']}</b> {app.fmt(o.perG * 1000)}/kg <Store id={o.store} /> <DealBadge offer={o} /></a>)}</p>
       )}
       <div className="tiles" role="group" aria-label={t('mealType')}>
         <button type="button" className={`tile ${!f.meal ? 'on' : ''}`} aria-pressed={!f.meal} onClick={() => set({ meal: null })}><span className="em" aria-hidden="true">🍽️</span><span>{t('all')}</span><b>{base.length}</b></button>
@@ -124,13 +135,21 @@ export default function Browse({ query }) {
             <input type="search" value={text} onChange={(e) => setText(e.target.value)} placeholder={t('search')} aria-label={t('search')} />
             {f.ing && ING_BY_ID[f.ing] && <div className="ingpill">{t('ingredientFilter')} : <b>{ING_BY_ID[f.ing][lang === 'en' ? 'en' : 'fr']}</b> <button type="button" onClick={() => set({ ing: null })} aria-label={t('remove')}>×</button></div>}
             <label className="check"><input type="checkbox" checked={f.sale} onChange={(e) => set({ sale: e.target.checked ? '1' : null })} /> {t('onSale')}</label>
+            <label className="check"><input type="checkbox" checked={f.prep} onChange={(e) => set({ prep: e.target.checked ? '1' : null })} /> {t('prepFilter')}</label>
             <label className="check"><input type="checkbox" checked={f.macros} onChange={(e) => set({ macros: e.target.checked ? '1' : null })} /> {t('withMacros')}</label>
             <Select label={t('cuisine')} value={f.cuisine} onChange={(v) => set({ cuisine: v })} any={t('any')} options={CUISINES.map((c) => [c[0], L(lang, c)])} />
             <Select label={t('protein')} value={f.protein} onChange={(v) => set({ protein: v })} any={t('any')} options={PROTEINS.map((c) => [c[0], L(lang, c)])} />
             <Select label={t('diet')} value={f.diet} onChange={(v) => set({ diet: v })} any={t('any')} options={DIETS.map((c) => [c[0], L(lang, c)])} />
+            <Select label={t('minProtein')} value={f.minp || ''} onChange={(v) => set({ minp: v })} any={t('any')} options={[20, 30, 40, 50].map((n) => [n, `≥ ${n} g`])} />
+            <Select label={t('maxKcal')} value={f.maxk || ''} onChange={(v) => set({ maxk: v })} any={t('any')} options={[400, 500, 600, 800].map((n) => [n, `≤ ${n} kcal`])} />
             <Select label={t('maxCost')} value={f.cost || ''} onChange={(v) => set({ cost: v })} any={t('any')} options={[2, 3, 4, 5, 7, 10].map((n) => [n, `≤ ${app.fmt(n)}`])} />
             <Select label={t('maxTime')} value={f.time || ''} onChange={(v) => set({ time: v })} any={t('any')} options={[15, 30, 45, 60, 120].map((n) => [n, `≤ ${n} ${t('min')}`])} />
             <Select label={t('source')} value={f.source} onChange={(v) => set({ source: v })} any={t('any')} options={sources.map((s) => [s, sourceName[s] || s])} />
+            <div className="mine">
+              <label className="check"><input type="checkbox" checked={f.mine} onChange={(e) => set({ mine: e.target.checked ? '1' : null })} /> {t('useMine')}</label>
+              <IngredientPicker exclude={app.pantry} onPick={app.togglePantry} placeholder={t('addIngredient')} />
+              <div className="pills">{app.pantry.map((id) => ING_BY_ID[id] && <button type="button" key={id} className="pill" onClick={() => app.togglePantry(id)}>{ING_BY_ID[id][lang === 'en' ? 'en' : 'fr']} ×</button>)}</div>
+            </div>
             {active && <button type="button" className="link" onClick={() => { window.location.hash = '#/'; }}>{t('clear')}</button>}
           </div>
         </aside>

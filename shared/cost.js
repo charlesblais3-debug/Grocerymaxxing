@@ -63,7 +63,7 @@ function lookup(id, fm, offers, baseline, seen = 0) {
  * @returns {{ total:number|null, per:number|null, perKind:'meal'|'serving'|'unit'|null,
  *   priced:number, countable:number, deals:number, savings:number, coverage:number, lines:object[] }}
  */
-export function costRecipe(recipe, offers, baseline) {
+export function costRecipe(recipe, offers, baseline, have) {
   let total = 0;
   let priced = 0;
   let countable = 0;
@@ -75,6 +75,8 @@ export function costRecipe(recipe, offers, baseline) {
   const lines = recipe.ings.map((l) => {
     const ing = l.ing ? ING_BY_ID[l.ing] : null;
     if (ing?.free) return { ...l, cost: 0, src: 'free' };
+    // Already in the kitchen: nothing to buy for this line.
+    if (have && l.ing && (have.has(l.ing) || have.has(l.via))) return { ...l, cost: 0, src: 'have' };
     const p = ing && l.g != null ? lookup(l.ing, l.fm, offers, baseline) : null;
     // Seasonings and "to taste" lines cost pennies and have no quantity to price:
     // they are shown as pantry items instead of dragging the coverage figure down.

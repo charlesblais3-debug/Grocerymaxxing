@@ -26,3 +26,15 @@ console.log('\nCostliest single lines per meal:');
 for (const l of lines.sort((a, b) => b.per - a.per).slice(0, +process.env.N || 14)) console.log(show(l));
 console.log('\nCheapest and dearest reliable recipes:');
 for (const x of [...ok.sort((a, b) => a.c.per - b.c.per).slice(0, 6), ...ok.slice(-6)]) console.log(`  ${x.c.per.toFixed(2)} /${x.c.perKind} · ${x.r.name.slice(0, 44)} · yield ${x.r.yield} · meals ${x.r.meals} (${x.r.mealBasis}) · kcal ${x.r.macros?.kcal ?? '-'} · ${x.c.priced}/${x.c.countable}`);
+
+// Calculated macros checked against the sources that publish theirs.
+const both = recipes.filter((r) => r.calcCheck && r.macros && !r.macros.calc && r.macros.kcal > 50);
+const ratios = both.map((r) => r.calcCheck / r.macros.kcal).sort((a, b) => a - b);
+if (ratios.length) {
+  const within = (p) => Math.round((ratios.filter((x) => Math.abs(x - 1) <= p).length / ratios.length) * 100);
+  console.log(`\nCalculated vs published calories on ${ratios.length} recipes: median ratio ${ratios[Math.floor(ratios.length / 2)].toFixed(2)}, within ±20 %: ${within(0.2)} %, within ±35 %: ${within(0.35)} %`);
+}
+console.log(`macros: ${recipes.filter((r) => r.macros && !r.macros.calc).length} published, ${recipes.filter((r) => r.macros?.calc).length} calculated, ${recipes.filter((r) => !r.macros).length} none`);
+const tags = {};
+for (const r of recipes) { for (const d of r.tax.diets) tags[d] = (tags[d] || 0) + 1; if (r.tax.prep) tags.prep = (tags.prep || 0) + 1; }
+console.log('tags:', JSON.stringify(tags));

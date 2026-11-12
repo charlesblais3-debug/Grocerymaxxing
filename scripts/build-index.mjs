@@ -12,7 +12,8 @@ async function writeJson(path, data) {
 import { parseIngredientLine, matchIngredient, matchFlyerItem, forms } from '../shared/match.js';
 import { unitPrice } from '../shared/price.js';
 import { priceItem } from './history.mjs';
-import { classify, isMealDish } from '../shared/taxonomy.js';
+import { classify, isMealDish, isProteinIng } from '../shared/taxonomy.js';
+import { computeNutrition } from '../shared/nutrition.js';
 import { ING_BY_ID } from '../shared/ingredients.js';
 import { SOURCES } from './sources.mjs';
 import { STORES, loadFlyers } from './fetch-flyers.mjs';
@@ -83,7 +84,24 @@ export function buildRecipes(raw) {
     }
     rest.meals = meals || undefined;
     rest.mealBasis = meals ? mealBasis : undefined;
-    return { ...rest, time, macros: macros && macros.kcal != null ? macros : null, ings, tax };
+
+    // --- Macros. Published values win. Otherwise they are calculated from the ingredient
+    // weights and the nutrient table, per serving (or per meal when the source gives no
+    // serving count), and flagged `calc` so the app can say so.
+    let outMacros = macros && macros.kcal != null ? macros : null;
+    const calc = computeNutrition(ings, isProteinIng);
+    const div = rest.servings || meals;
+    if (calc && div) {
+      const per = Object.fromEntries(Object.entries(calc).map(([k, v]) => [k, +(v / div).toFixed(1)]));
+      if (per.kcal >= 20 && per.kcal <= 2500) {
+        // A source that publishes calories but "0 g" of protein for a chicken dish has a broken
+        // nutrition block: the calculation is the better answer there too.
+        const broken = outMacros && !outMacros.protein && per.protein >= 8;
+        if (!outMacros || broken) outMacros = { ...per, sugar: null, sodium: null, satFat: null, serving: null, calc: 1 };
+        else rest.calcCheck = per.kcal; // kept only for the audit: calculated vs published
+      }
+    }
+    return { ...rest, time, macros: outMacros, ings, tax };
   });
 }
 
@@ -170,7 +188,16 @@ export function buildBaseline(data, history) {
       ? { perG: +quantile(regs, 0.5).toFixed(6), kind: 'flyer-regular', n: regs.length }
       : { perG: +quantile(rows.map((r) => r[2]), 0.75).toFixed(6), kind: 'flyer', n: rows.length };
   }
-  return { source: data?.source || null, url: data?.url, refDate: data?.refDate, prices };
+  // Cheapest plain price seen per ingredient, week and store: lets the app say "lowest in
+  // N weeks" and "new this week".
+  const hist = {};
+  for (const [week, rows] of Object.entries(history?.weeks || {})) {
+    for (const [store, ing, perG] of rows) {
+      const w = ((hist[ing] ||= {})[week] ||= {});
+      if (!(w[store] <= perG)) w[store] = perG;
+    }
+  }
+  return { source: data?.source || null, url: data?.url, refDate: data?.refDate, prices, hist };
 }
 
 async function main() {

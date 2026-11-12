@@ -1,11 +1,11 @@
 import React, { useMemo, useState } from 'react';
 import { useApp } from './store.jsx';
-import { Img, Chip, Store, offerText, nice } from './ui.jsx';
+import { Img, Chip, Store, IngredientPicker, DealBadge, offerText, nice } from './ui.jsx';
 import { AISLES, ING_BY_ID } from '../shared/ingredients.js';
 import { deaccent } from '../shared/text.js';
 
 export default function Flyers() {
-  const { regionItems, selected, storeName, recipes, t, lang, fmt, flyers, guide, pickStore } = useApp();
+  const { regionItems, selected, storeName, recipes, t, lang, fmt, flyers, guide, pickStore, favs, toggleFav, offers } = useApp();
   const [q, setQ] = useState('');
   const [aisle, setAisle] = useState('');
   const [matched, setMatched] = useState(true);
@@ -72,6 +72,23 @@ export default function Flyers() {
           ))}
         </div>
       </section>
+      <section className="favs">
+        <h2>★ {t('favsTitle')}</h2>
+        <p className="note">{t('favsIntro')}</p>
+        <IngredientPicker exclude={favs} onPick={toggleFav} placeholder={t('addIngredient')} />
+        <ul className="favlist">
+          {favs.map((id) => {
+            const o = offers.get(id)?.[0];
+            return ING_BY_ID[id] && (
+              <li key={id} className={o ? 'on' : ''}>
+                <b>{ING_BY_ID[id][lk]}</b>
+                {o ? <span><Store id={o.store} /> {fmt(o.perG * 1000)}/kg <DealBadge offer={o} /> <a className="link" href={`#/?ing=${id}&sale=1`}>{t('recipes')} →</a></span> : <span className="meta">{t('notOnSale')}</span>}
+                <button type="button" className="link" onClick={() => toggleFav(id)} aria-label={t('remove')}>×</button>
+              </li>
+            );
+          })}
+        </ul>
+      </section>
       <div className="flybar">
         <input type="search" value={q} onChange={(e) => { setQ(e.target.value); setShown(120); }} placeholder={t('flyerSearch')} aria-label={t('flyerSearch')} />
         <label className="check"><input type="checkbox" checked={matched} onChange={(e) => setMatched(e.target.checked)} /> {t('matchedOnly')}</label>
@@ -88,11 +105,13 @@ export default function Flyers() {
             <div className="card-body">
               <div className="meta"><Store id={i.store} />{i.to ? ` · ${t('until')} ${new Date(i.to + 'T12:00:00').toLocaleDateString(lang === 'en' ? 'en-CA' : 'fr-CA', { day: 'numeric', month: 'short' })}` : ''}</div>
               <h3>{nice(i.name, lang)}</h3>
+              {i.pg ? <DealBadge offer={{ ...i, perG: i.perG }} /> : null}
               <div className="card-foot">
                 <span className="cost">{offerText(i, fmt)}</span>
                 {i.perG ? <span className="macro">{fmt(i.perG * 1000)}/kg{i.basis === 'each' ? ' ≈' : ''}</span> : null}
               </div>
               {i.story ? <div className="meta">{i.story}</div> : null}
+              {i.ing && !favs.includes(i.ing) ? <button type="button" className="link" onClick={() => toggleFav(i.ing)}>☆ {t('watch')} {ING_BY_ID[i.ing][lk].toLowerCase()}</button> : null}
               {(i.ings || (i.ing ? [i.ing] : [])).filter((g) => uses[g]).map((g) => <a key={g} className="link" href={`#/?ing=${g}`}>{uses[g]} {t('recipesWith')} {ING_BY_ID[g][lk].toLowerCase()} →</a>)}
             </div>
           </div>

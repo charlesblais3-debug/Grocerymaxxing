@@ -95,12 +95,18 @@ const PROTEIN_OF = {
 };
 const ANIMAL = new Set(['chicken', 'beef', 'pork', 'fish']);
 const NON_VEGAN = new Set(['egg', 'milk', 'cream_35', 'cream_10', 'sour_cream', 'butter', 'yogurt', 'yogurt_greek', 'cheddar', 'mozzarella', 'parmesan', 'feta', 'cream_cheese', 'ricotta', 'swiss', 'cheese', 'condensed_milk', 'honey', 'gelatin', 'fish_sauce', 'worcestershire', 'mayo', 'broth_chicken', 'broth_beef']);
+const GLUTEN = new Set(['flour', 'pasta', 'bread', 'buns', 'tortilla', 'breadcrumbs', 'crackers', 'croutons', 'pie_crust', 'soy_sauce', 'quinoa', 'rice_noodle', 'oats', 'wine', 'fish_sauce', 'worcestershire', 'broth_chicken', 'broth_beef', 'broth_veg', 'sausage', 'yeast', 'cornmeal', 'miso', 'dressing', 'hot_sauce']);
+const DAIRY = new Set(['milk', 'cream_35', 'cream_10', 'sour_cream', 'butter', 'yogurt', 'yogurt_greek', 'cheddar', 'cheese_curds', 'mozzarella', 'bocconcini', 'parmesan', 'feta', 'cream_cheese', 'ricotta', 'swiss', 'brie', 'goat_cheese', 'blue_cheese', 'halloumi', 'cheese', 'condensed_milk', 'chocolate', 'pesto', 'margarine', 'dressing']);
+const NUTS = new Set(['peanuts', 'peanut_butter', 'almonds', 'walnuts', 'pesto', 'seeds', 'chocolate', 'coconut']);
+const PREP_SOURCES = new Set(['workweeklunch', 'mealpreponfleek', 'sweetpeasandsaffron']);
 const HIDDEN_MEAT = new Set(['broth_chicken', 'broth_beef', 'fish_sauce', 'gelatin', 'worcestershire']);
 
 /**
  * @param {object} r raw recipe (name, category[], cuisine[], keywords[])
  * @param {{ing:string|null}[]} ings parsed ingredient lines
  */
+export const isProteinIng = (id) => ANIMAL.has(PROTEIN_OF[id]);
+
 export function classify(r, ings) {
   const title = deaccent(r.name || '');
   const meta = deaccent([...(r.category || []), ...(r.keywords || [])].join(' | '));
@@ -148,12 +154,25 @@ export function classify(r, ings) {
     if (!diets.includes('vegetarian')) diets.push('vegetarian');
     diets.push('vegan');
   }
-  return { meals, cuisines, protein, diets };
+  // Ingredient-based tags: only asserted when every line is recognised. They describe the
+  // ingredient list, not cross-contamination — never a guarantee for an allergy.
+  const has = (set) => ings.some((l) => set.has(l.ing));
+  const says = (re) => re.test(meta) || re.test(title);
+  if ((allKnown && !has(GLUTEN)) || says(/\b(sans gluten|gluten[- ]free)\b/)) diets.push('glutenfree');
+  if ((allKnown && !has(DAIRY)) || says(/\b(sans (?:produits? laitiers?|lactose)|dairy[- ]free)\b/) || diets.includes('vegan')) diets.push('dairyfree');
+  if (allKnown && !has(NUTS)) diets.push('nutfree');
+  // Meal prep: only when the source says so (its own words, or a site devoted to it).
+  const prep = PREP_SOURCES.has(r.source) || says(/\b(meal[- ]?prep|make[- ]ahead|freezer|freezes well|batch cooking|se congele|a congeler|congelation|boite a lunch|lunch ?box|lunchs?)\b/);
+  return { meals, cuisines, protein, diets, prep: prep || undefined };
+
 }
 
 export const DIETS = [
   ['vegetarian', 'Végétarien', 'Vegetarian'],
   ['vegan', 'Végane', 'Vegan'],
+  ['glutenfree', 'Sans gluten (selon les ingrédients)', 'Gluten-free (by ingredients)'],
+  ['dairyfree', 'Sans produits laitiers (selon les ingrédients)', 'Dairy-free (by ingredients)'],
+  ['nutfree', 'Sans noix ni arachides (selon les ingrédients)', 'Nut-free (by ingredients)'],
 ];
 
 /** Dish types that are a meal on their own; the others are quoted per serving as published. */

@@ -325,3 +325,44 @@ describe('pricing is consistent across stores', () => {
     expect(prices.ginger).toMatchObject({ kind: 'flyer', perG: 0.006 });
   });
 });
+
+describe('planner, pantry, calculated macros, tags', () => {
+  it('pantry items are not charged and stay consistent', () => {
+    const r = { servings: 2, ings: [{ raw: 'a', ing: 'chicken_breast', g: 400 }, { raw: 'b', ing: 'onion', g: 100 }] };
+    const base = { chicken_breast: { perG: 0.014 }, onion: { perG: 0.003 } };
+    const c = costRecipe(r, new Map(), base, new Set(['onion']));
+    expect(c.total).toBeCloseTo(5.6);
+    expect(c.lines[1]).toMatchObject({ src: 'have', cost: 0 });
+    expect(c.countable).toBe(1);
+  });
+  it('suggests a varied week within the budget, scaled to the household', async () => {
+    const { suggestPlan, batchesFor } = await import('../shared/planner.js');
+    const mk = (id, protein, total, meal = 'main') => ({ id, source: id, meals: 4, servings: 4, tax: { meals: [meal], cuisines: [], protein, diets: [] } });
+    const recipes = [mk('a', 'chicken'), mk('b', 'chicken'), mk('c', 'beef'), mk('d', 'fish'), mk('e', 'plant'), mk('f', 'pork')];
+    const cost = { a: 8, b: 9, c: 12, d: 14, e: 6, f: 10 };
+    const costs = new Map(recipes.map((r) => [r.id, { total: cost[r.id], per: cost[r.id] / 4, perKind: 'meal', coverage: 1, missing: [], savingsPct: 0 }]));
+    expect(batchesFor(recipes[0], 2)).toBe(0.5);
+    expect(batchesFor(recipes[0], 6)).toBe(1.5);
+    const plan = suggestPlan(recipes, costs, { budget: 30, people: 4, dinners: 5 });
+    expect(plan.reduce((n, p) => n + p.cost, 0)).toBeLessThanOrEqual(30);
+    expect(new Set(plan.map((p) => recipes.find((r) => r.id === p.id).tax.protein)).size).toBe(plan.length);
+    expect(plan.map((p) => p.day)).toEqual(plan.map((_, i) => i));
+  });
+  it('calculates macros only when the recipe is well understood', async () => {
+    const { computeNutrition } = await import('../shared/nutrition.js');
+    const isP = (id) => ['chicken_breast', 'duck'].includes(id);
+    const ok = computeNutrition([{ ing: 'chicken_breast', g: 400 }, { ing: 'rice', g: 200 }, { ing: 'olive_oil', g: 20 }, { ing: 'salt', nq: 1 }], isP);
+    expect(ok.kcal).toBeCloseTo(480 + 730 + 176.8, 0);
+    expect(ok.protein).toBeCloseTo(90 + 14.2, 0);
+    expect(computeNutrition([{ ing: 'chicken_breast', g: null }, { ing: 'rice', g: 200 }, { ing: 'onion', g: 100 }, { ing: 'carrot', g: 100 }], isP)).toBeNull();
+    expect(computeNutrition([{ ing: null, g: null }, { ing: 'rice', g: 200 }, { ing: 'onion', g: 100 }], isP)).toBeNull();
+  });
+  it('diet and meal-prep tags', () => {
+    const c = (name, ings, extra = {}) => classify({ name, category: [], keywords: [], cuisine: [], ...extra }, ings.map((ing) => ({ ing })));
+    expect(c('Riz au poulet', ['chicken_breast', 'rice', 'onion']).diets).toEqual(expect.arrayContaining(['glutenfree', 'dairyfree', 'nutfree']));
+    expect(c('Pâtes au fromage', ['pasta', 'cheddar']).diets).not.toContain('glutenfree');
+    expect(c('Mystère', ['rice', null]).diets).toEqual([]);
+    expect(c('Chicken Meal Prep Bowls', ['chicken_breast']).prep).toBe(true);
+    expect(c('Poulet rôti', ['chicken_breast']).prep).toBeUndefined();
+  });
+});

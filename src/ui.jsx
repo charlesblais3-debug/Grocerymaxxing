@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useApp } from './store.jsx';
 import { MEAL_TYPES } from '../shared/taxonomy.js';
 import { L } from './i18n.js';
+import { INGREDIENTS, ING_BY_ID } from '../shared/ingredients.js';
+import { deaccent } from '../shared/text.js';
 
 export function Img({ src, alt = '', className }) {
   const [bad, setBad] = useState(false);
@@ -116,12 +118,12 @@ export function RecipeCard({ r }) {
         <span className="price-tag"><CostTag cost={c} /></span>
       </div>
       <div className="card-body">
-        <div className="meta">{meal ? L(lang, meal) + ' · ' : ''}{sourceName[r.source] || r.source}</div>
+        <div className="meta">{meal ? L(lang, meal) + ' · ' : ''}{sourceName[r.source] || r.source}{r.tax.prep ? ' · meal prep' : ''}</div>
         <h3>{r.name}</h3>
         <SavingBar cost={c} />
         <div className="card-foot">
           {r.time ? <span><Icon name="clock" size={14} /> {r.time} {t('min')}</span> : null}
-          {r.macros ? <span><Icon name="flame" size={14} /> {Math.round(r.macros.kcal * k)}</span> : null}
+          {r.macros ? <span title={r.macros.calc ? t('calcShort') : undefined}><Icon name="flame" size={14} /> {r.macros.calc ? '~' : ''}{Math.round(r.macros.kcal * k)}</span> : null}
           {r.macros?.protein != null ? <span><Icon name="protein" size={14} /> {Math.round(r.macros.protein * k)} g</span> : null}
         </div>
       </div>
@@ -197,4 +199,41 @@ export function StoreBar() {
       </div>
     </div>
   );
+}
+
+/** Type-ahead to pick a canonical ingredient (pantry, favourites). */
+export function IngredientPicker({ onPick, exclude = [], placeholder }) {
+  const { lang } = useApp();
+  const [q, setQ] = useState('');
+  const lk = lang === 'en' ? 'en' : 'fr';
+  const needle = deaccent(q.trim());
+  const hits = needle.length < 2 ? [] : INGREDIENTS.filter((i) => !i.free && !exclude.includes(i.id) && (deaccent(i[lk]).includes(needle) || i.syn.some((x) => deaccent(x).startsWith(needle)))).slice(0, 8);
+  return (
+    <div className="picker">
+      <input type="search" value={q} onChange={(e) => setQ(e.target.value)} placeholder={placeholder} aria-label={placeholder} />
+      {hits.length > 0 && <div className="picker-list">{hits.map((i) => <button type="button" key={i.id} onClick={() => { onPick(i.id); setQ(''); }}>{i[lk]}</button>)}</div>}
+    </div>
+  );
+}
+
+/**
+ * What the price history says about an offer: the lowest price seen in N weeks, or an
+ * ingredient that was not in this store's flyer the week before.
+ */
+export function dealNote(hist, offer) {
+  const weeks = hist?.[offer.ing];
+  if (!weeks || !offer.from) return null;
+  const prior = Object.keys(weeks).filter((w) => w < offer.from).sort();
+  if (!prior.length) return null;
+  const min = Math.min(...prior.flatMap((w) => Object.values(weeks[w])));
+  if (prior.length >= 3 && offer.perG <= min * 1.001) return { kind: 'low', weeks: prior.length };
+  const last = prior[prior.length - 1];
+  if (weeks[last][offer.store] == null) return { kind: 'new' };
+  return null;
+}
+export function DealBadge({ offer }) {
+  const { hist, t } = useApp();
+  const n = dealNote(hist, offer);
+  if (!n) return null;
+  return <span className={`dealbadge ${n.kind}`}>{n.kind === 'low' ? `${t('lowestIn')} ${n.weeks} ${t('weeksWord')}` : t('newThisWeek')}</span>;
 }

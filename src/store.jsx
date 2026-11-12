@@ -25,6 +25,12 @@ export function AppProvider({ children }) {
   const [storeSel, setStoreSel] = usePersisted('stores3', null); // null = all stores of the region
   const [plan, setPlan] = usePersisted('plan', {}); // recipeId -> batches
   const [multi, setMultiRaw] = usePersisted('multi', false);
+  const [days, setDays] = usePersisted('days', {}); // recipeId -> 0..6 (Mon..Sun)
+  const [people, setPeople] = usePersisted('people', 2);
+  const [budget, setBudget] = usePersisted('budget', null);
+  const [checks, setChecks] = usePersisted('checks', {}); // grocery list ticks, by ingredient
+  const [pantry, setPantry] = usePersisted('pantry', []); // ingredients already at home
+  const [favs, setFavs] = usePersisted('favs', []); // ingredients to watch for deals
   const [theme, setTheme] = usePersisted('theme', 'light'); // light unless the visitor asks for dark
   const [week, setWeek] = useState('now'); // 'now' | 'next' (flyers are published a few days ahead)
 
@@ -59,7 +65,8 @@ export function AppProvider({ children }) {
     const selected = new Set(multi ? chosen : chosen.slice(0, 1));
     const baseline = meta.baseline?.prices || {};
     const offers = bestOffers(regionItems, selected, ref, baseline);
-    const costs = new Map(recipes.map((r) => [r.id, costRecipe(r, offers, baseline)]));
+    const have = new Set(pantry);
+    const costs = new Map(recipes.map((r) => [r.id, costRecipe(r, offers, baseline, have)]));
     const ideas = buildIdeas(recipes, costs, offers, baseline);
     const guide = storeGuide(bestOffers(regionItems, new Set(available), ref, baseline), baseline, available);
     const byId = new Map(recipes.map((r) => [r.id, r]));
@@ -69,6 +76,13 @@ export function AppProvider({ children }) {
     return {
       recipes, byId, flyers, meta, regions, regionId, regionStores, selected, regionItems, offers, baseline, costs,
       ideas, guide, multi, theme, setTheme,
+      days, people, setPeople, budget, setBudget, checks, pantry, have, favs, hist: meta.baseline?.hist || {},
+      setDay: (id, d) => setDays((x) => ({ ...x, [id]: d })),
+      setPlanAll: (list) => { setPlan(Object.fromEntries(list.map((x) => [x.id, x.batches]))); setDays(Object.fromEntries(list.map((x) => [x.id, x.day]))); },
+      toggleCheck: (id) => setChecks((x) => { const y = { ...x }; if (y[id]) delete y[id]; else y[id] = 1; return y; }),
+      clearChecks: () => setChecks({}),
+      togglePantry: (id) => setPantry((x) => (x.includes(id) ? x.filter((y) => y !== id) : [...x, id])),
+      toggleFav: (id) => setFavs((x) => (x.includes(id) ? x.filter((y) => y !== id) : [...x, id])),
       setMulti: (on) => { setMultiRaw(on); if (!on) setStoreSel([...selected].slice(0, 1)); },
       storeName, sourceName, today, ref, nextStart, week: ref === today ? 'now' : 'next', setWeek,
       lang, setLang, t: mkT(lang), fmt: (n) => (n == null ? '—' : money.format(n)),
@@ -83,7 +97,7 @@ export function AppProvider({ children }) {
       plan,
       setBatches: (id, n) => setPlan((p) => { const q = { ...p }; if (n > 0) q[id] = n; else delete q[id]; return q; }),
     };
-  }, [data, lang, region, storeSel, plan, week, multi, theme]);
+  }, [data, lang, region, storeSel, plan, week, multi, theme, days, people, budget, checks, pantry, favs]);
 
   if (error) return <div className="state">⚠️ {error}</div>;
   if (!value) {

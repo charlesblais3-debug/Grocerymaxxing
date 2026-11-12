@@ -30,8 +30,8 @@ export default function About() {
         : 'A "serving" on a recipe site can be a 150-kcal bite. For dishes that make a meal (mains, soups, salads, pasta, sandwiches, breakfasts) the cost is therefore given per meal: the source\'s serving is kept when it is meal-sized; otherwise the recipe is re-divided into meals of about 550 kcal (from the published values) or about 450 g of food. The recipe page always says when this was done and what the source states. Sauces, preserves, desserts and sides stay priced per serving.'}</p>
       <h2>{fr ? 'Les valeurs nutritives' : 'Nutrition'}</h2>
       <p>{fr
-        ? "Les macros affichées sont celles publiées par la source, par portion. Quand une source n'en publie pas, rien n'est affiché plutôt qu'un chiffre calculé."
-        : 'Macros shown are the ones published by the source, per serving. When a source publishes none, nothing is shown rather than a computed figure.'}</p>
+        ? "Quand la source publie des valeurs nutritives, ce sont elles qui sont affichées. Sinon, elles sont calculées à partir des ingrédients et d'une table de valeurs de référence par 100 g, et marquées « calculé ». Ce calcul est approximatif (comparé aux recettes qui publient leurs valeurs, il tombe à ±20 % des calories environ une fois sur deux) et n'est fait que si presque tous les ingrédients sont reconnus et pesés. Les filtres sans gluten, sans produits laitiers et sans noix décrivent la liste d'ingrédients seulement : ils ne tiennent pas compte de la contamination croisée et ne doivent pas servir en cas d'allergie."
+        : "When the source publishes nutrition, that is what is shown. Otherwise it is calculated from the ingredients and a table of reference values per 100 g, and marked \"calculated\". The calculation is approximate (against recipes that publish theirs, it lands within ±20 % of the calories about half the time) and is only done when nearly every ingredient is recognised and weighed. The gluten-free, dairy-free and nut-free filters describe the ingredient list only: they ignore cross-contamination and must not be relied on for an allergy."}</p>
     </div>
   );
 }
