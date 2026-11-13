@@ -330,8 +330,10 @@ export function parseIngredientLine(raw, lang) {
       const t = deaccent(b);
       // Only a bracket that IS a weight ("(about 1 pound)", "(600g/1.3 lbs; see note)"), not
       // one that mentions a weight in passing ("(1 ½ avocados yield ~270 g diced)").
-      if (/\b(or|ou|sub|substitute|remplacer|alternative|yields?|donne|makes?)\b/.test(t) || !/^\(\s*(?:about|approx\.?|approximately|environ|env\.|roughly|around|total|~|≈)?\s*[\d.,/ ~-]+\s*(g|kg|grammes?|grams?|kilos?|oz|ounces?|lbs?|pounds?|livres?)\b/.test(t.replace(/[½¼¾⅓⅔]/g, '1'))) continue;
-      const w = parseQuantity(t.slice(1, -1)).g;
+      if (/\b(or|ou|sub|substitute|remplacer|alternative|yields?|donne|makes?)\b/.test(t) || !/^\(\s*(?:about|approx\.?|approximately|environ|env\.|roughly|around|total|~|≈)?\s*[\d.,/ ~-]+\s*(g|kg|grammes?|grams?|kilos?|oz|ounces?|lbs?|pounds?|livres?|ml|l|litres?|liters?)\b/.test(t.replace(/[½¼¾⅓⅔]/g, '1'))) continue;
+      // A weight, or a volume for a liquid ("1 bouteille (750 ml) de vin").
+      const bq = parseQuantity(t.slice(1, -1));
+      const w = bq.g ?? (bq.ml != null && ing.d ? bq.ml * ing.d : null);
       if (!w) continue;
       const each = /\b(each|chacune?s?|chaque|apiece)\b/.test(t);
       const total = /\b(total|in all|en tout)\b/.test(t);
@@ -428,9 +430,11 @@ export function formsCompatible(ingId, itemForms, lineForms) {
 // Words that name a different, prepared product ("… Cream Cheese Product", "… Breakfast Sandwich").
 // A store listing containing one is only evidence for an ingredient whose own names use it
 // ("soy sauce", "pita chips").
-const PRODUCT_WORDS = new Set(tokens('baguette baguettes pickled granulated popping steamed sip pudding custard product sandwich sandwiches quiche quiches bites bakes pancake pancakes chips crisps crackers cracker croutons pizza burrito burritos meal meals kit kits frittata toast fillets pickle pickles paste powder oil spread dip drink drinks beverage soda tea juice smoothie bar bars cookies cookie cake cakes pie pies candy candies gummies cereal granola soup sauce dressing seasoning alternative flavour flavoured flavored flavor dumplings noodles ramen sausages sausage burger burgers patties nuggets strips wings jerky salad mix blend cream cheese milk yogurt butter ice popsicle wrap wraps bread buns muffins bagels pasta lasagna stew curry entree bowl bowls tray platter snack snacks treat chocolate caramel syrup vinaigrette marinade rub glaze puree purees baby food energy macaroni mac dinner perogies pierogies luncheon meat meatballs waffles pastries pastry toaster dish dishwashing liquid refill clean samosa samosas spring roll rolls cocktail concentrate crunchies pockets fries wieners hash crumble crumbles wrapped medley prepared ropes burst blast flour stewed refried leaves cubes tenders popcorn pretzels jam jelly preserves filling frosting icing gum lozenges shot shots kombucha water sparkling lemonade punch nectar cocktail chunky gravy stuffed breaded battered crusted coated glazed roasted smoked infused'));
+const PRODUCT_WORDS = new Set(tokens('foam creamer whitener halawa halva variety baguette baguettes pickled granulated popping steamed sip pudding custard product sandwich sandwiches quiche quiches bites bakes pancake pancakes chips crisps crackers cracker croutons pizza burrito burritos meal meals kit kits frittata toast fillets pickle pickles paste powder oil spread dip drink drinks beverage soda tea juice smoothie bar bars cookies cookie cake cakes pie pies candy candies gummies cereal granola soup sauce dressing seasoning alternative flavour flavoured flavored flavor dumplings noodles ramen sausages sausage burger burgers patties nuggets strips wings jerky salad mix blend cream cheese milk yogurt butter ice popsicle wrap wraps bread buns muffins bagels pasta lasagna stew curry entree bowl bowls tray platter snack snacks treat chocolate caramel syrup vinaigrette marinade rub glaze baby food energy macaroni mac dinner perogies pierogies luncheon meat meatballs waffles pastries pastry toaster dish dishwashing liquid refill clean samosa samosas spring roll rolls cocktail concentrate crunchies pockets fries wieners hash crumble crumbles wrapped medley prepared ropes burst blast flour stewed refried leaves cubes tenders popcorn pretzels jam jelly preserves filling frosting icing gum lozenges shot shots kombucha water sparkling lemonade punch nectar cocktail chunky gravy stuffed breaded battered crusted coated glazed roasted smoked infused'));
+// Serving ideas in a listing ("Tangy Salad & Pizza Topping"), not what is sold.
+const USE_WORDS = new Set(tokens('salad pizza topping'));
 // Words that may follow the food without changing what it is ("Butter 454 G", "Diced Tomatoes, No Salt Added").
-const NEUTRAL_WORDS = new Set(tokens('fresh organic whole plain original regular classic natural pure unsalted salted lightly no salt added low reduced sodium less fat free light extra virgin lean boneless skinless large small medium jumbo mini baby value size pack family count bag bottle jar can cans canned tin tub box carton pouch shelf stable ready to use iqf frozen diced crushed chopped sliced minced whole ground dried dry raw uncooked unsweetened sweetened sugar red green yellow white black brown golden sweet hot mild spicy grade canada a aa product of imported domestic and with in by the your market each kg g ml l lb oz ct pc pcs pieces piece x premium select selection finest our great'));
+const NEUTRAL_WORDS = new Set(tokens('danish french italian greek mexican japanese thai english traditional style authentic fresh organic whole plain original regular classic natural pure unsalted salted lightly no salt added low reduced sodium less fat free light extra virgin lean boneless skinless large small medium jumbo mini baby value size pack family count bag bottle jar can cans canned tin tub box carton pouch shelf stable ready to use iqf frozen diced crushed chopped sliced minced whole ground dried dry raw uncooked unsweetened sweetened sugar red green yellow white black brown golden sweet hot mild spicy grade canada a aa product of imported domestic and with in by the your market each kg g ml l lb oz ct pc pcs pieces piece x premium select selection finest our great'));
 
 /**
  * Ingredient for a store catalogue listing ("Great Value Soya Sauce 450 Ml"), or null.
@@ -440,17 +444,29 @@ const NEUTRAL_WORDS = new Set(tokens('fresh organic whole plain original regular
 export function matchShelfProduct(name) {
   const line = parseIngredientLine(name, 'en');
   if (!line.ing || line.alt) return null;
-  const flyer = matchFlyerItemFull(name);
-  if (flyer.length > 1 || (flyer.length === 1 && flyer[0].id !== line.ing)) return null;
   const def = ING_BY_ID[line.ing];
   const own = new Set(def.syn.flatMap((x) => tokens(x)));
   if (def.cat === 'dairy' && !/milk|cream|butter|yogurt|egg/.test(def.id)) own.add(tokens('cheese')[0]); // "Camembert Danish Cheese"
-  const toks = tokens(name.replace(/[\d][\d.,/]*\s*[a-z]*/gi, ' ').replace(/[®™’']/g, ''));
-  for (const t of toks) if (PRODUCT_WORDS.has(t) && !own.has(t)) return null;
-  const first = toks.findIndex((t) => own.has(t));
-  if (first < 0) return null;
-  for (const t of toks.slice(first)) if (!own.has(t) && !NEUTRAL_WORDS.has(t)) return null;
-  // Another food before it makes it a flavour or a dish ("Tomato Basil" sauce, "Ginger Beef").
-  for (const t of toks.slice(0, first)) { const other = matchIngredient(t); if (other && other !== line.ing && !NEUTRAL_WORDS.has(t)) return null; }
+  // The flyer matcher may read a broader word that is part of this name ("sugar" in "Icing Sugar").
+  const flyer = matchFlyerItemFull(name);
+  if (flyer.length > 1 || (flyer.length === 1 && flyer[0].id !== line.ing && !own.has(flyer[0].head))) return null;
+  // Brackets hold notes ("(Salted And Fermented Vegetables)"); after a comma come selling
+  // points ("Capers In Brine, Tangy Salad & Pizza Topping"). Only the part naming the food counts.
+  const clean = (x) => tokens(x.replace(/\b(in|packed in|dans l'?|dans)\s+(extra virgin olive |olive |sunflower |vegetable )?(oil|brine|water|syrup|juice|huile|saumure|eau|sirop|jus)\b/gi, ' ').replace(/[\d][\d.,/]*\s*[a-z]*/gi, ' ').replace(/[®™’']/g, ''));
+  const parts = name.replace(/\([^)]*\)/g, ' ').split(',').map(clean);
+  const at = parts.findIndex((p) => p.some((t) => own.has(t)));
+  if (at < 0) return null;
+  const before = parts.slice(0, at).flat();
+  const part = parts[at];
+  // The food is the last run of its own words ("Redpath Sugar Redpath Icing Sugar": "icing sugar").
+  let last = part.length - 1;
+  while (last >= 0 && !own.has(part[last])) last--;
+  let i = last;
+  while (i > 0 && own.has(part[i - 1])) i--;
+  for (const t of parts.flat()) if (PRODUCT_WORDS.has(t) && !USE_WORDS.has(t) && !own.has(t)) return null;
+  // Nothing after the food may name something else ("… Cream Cheese Product")…
+  for (const t of part.slice(i)) if (!own.has(t) && !NEUTRAL_WORDS.has(t)) return null;
+  // …and no other food may come before it ("Tomato Basil" sauce, "Ginger Beef").
+  for (const t of [...before, ...part.slice(0, i)]) { const other = matchIngredient(t); if (other && other !== line.ing && !own.has(t) && !NEUTRAL_WORDS.has(t)) return null; }
   return { id: line.ing, pk: line.pk || line.ing };
 }

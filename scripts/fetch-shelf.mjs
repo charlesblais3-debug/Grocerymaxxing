@@ -13,6 +13,15 @@ const API = process.env.FLIPP_API || 'https://backflipp.wishabi.com/flipp';
 const POSTAL = 'H2X1Y4';
 const OUT = process.env.SHELF_OUT || 'data/shelf.json';
 
+// Common English shelf names the ingredient list does not spell out (searches are in English).
+const EXTRA = ['worcestershire sauce', 'lea perrins', 'jalapeno peppers', 'leeks', 'dried cranberries', 'pumpkin puree', 'canned pumpkin',
+  'gruyere cheese', 'cheese ravioli', 'bbq sauce', 'barbecue sauce', 'miso paste', 'white miso', 'icing sugar', 'powdered sugar', 'unflavoured gelatin',
+  'almond butter', 'coleslaw mix', 'wonton wrappers', 'hamburger buns', 'hot dog buns', 'crab meat', 'swiss chard', 'snow peas', 'thai chili',
+  'sweet cherries', 'hemp hearts', 'pizza dough', 'anchovy fillets', 'pure vanilla extract', 'sun dried tomatoes', 'pine nuts', 'agave syrup',
+  'medjool dates', 'dried apricots', 'coconut flakes', 'egg roll wrappers', 'phyllo pastry', 'puff pastry', 'pie crust', 'tortilla wraps',
+  'poppy seed', 'cardamom', 'ground cloves', 'fenugreek', 'enchilada sauce', 'buffalo sauce', 'chili crisp', 'dark soy sauce', 'ponzu', 'fish stock',
+  'juniper berries', 'taco seasoning', 'italian seasoning', 'onion soup mix', 'frozen mixed vegetables', 'hash browns', 'cannellini beans', 'apple juice'];
+
 /** Search terms: each ingredient's English name and the first names of each member. */
 export function queries() {
   const q = new Set();
@@ -21,6 +30,7 @@ export function queries() {
     q.add(i.en.toLowerCase());
     for (const m of i.members) for (const s of m.syn.slice(0, 3)) q.add(s);
   }
+  for (const x of EXTRA) q.add(x);
   return [...q];
 }
 

@@ -11,7 +11,7 @@ async function writeJson(path, data) {
   await writeFile(path, JSON.stringify(data));
 }
 import { parseIngredientLine, matchFlyerItemFull, matchShelfProduct, baseId, forms, formsCompatible } from '../shared/match.js';
-import { unitPrice } from '../shared/price.js';
+import { unitPrice, BUNCH } from '../shared/price.js';
 import { priceItem, mergeHistory } from './history.mjs';
 import { classify, isMealDish, isProteinIng } from '../shared/taxonomy.js';
 import { computeNutrition } from '../shared/nutrition.js';
@@ -178,7 +178,7 @@ const STATCAN = [
  *   1. Statistics Canada average retail price for Québec;
  *   2. otherwise the median of the flyer prices seen in the last 26 weeks.
  */
-const NOT_GROCERY = /\b(yarn|acrylic|fabric|gerbera|daisy|daisies|flowers?|bouquet|plants?|seedlings?|planter|tape|toy|toys|plush|figure|funko|pants?|shirts?|socks|dog|dogs|cat|cats|pet|pets|puppy|kitten|treats?|shampoo|conditioner|soap|lotion|body wash|hand cream|candles?|detergent|cosmetics?|lipstick|bronzer|baby girls'?|baby boys'?|toddler|costume|ornament|mug|tumbler|book|vinyl|lego|crayons?|markers?|vitamins?|supplements?|capsules|gummies)\b/i;
+const NOT_GROCERY = /\b(bird|birds|birdseed|spray millet|parakeet|budgie|yarn|acrylic|fabric|gerbera|daisy|daisies|flowers?|bouquet|plants?|seedlings?|planter|tape|toy|toys|plush|figure|funko|pants?|shirts?|socks|dog|dogs|cat|cats|pet|pets|puppy|kitten|treats?|shampoo|conditioner|soap|lotion|body wash|hand cream|candles?|detergent|cosmetics?|lipstick|bronzer|baby girls'?|baby boys'?|toddler|costume|ornament|mug|tumbler|book|vinyl|lego|crayons?|markers?|vitamins?|supplements?|capsules|gummies)\b/i;
 
 export function buildBaseline(data, history, shelf = null) {
   const byIng = {};
@@ -220,7 +220,10 @@ export function buildBaseline(data, history, shelf = null) {
     const kept = distinct.filter((x) => x >= m0 / 2.5 && x <= m0 * 2.5);
     // One product is not evidence of what an ingredient costs (it may be a premium brand or
     // a misprint): at least two distinct products are needed, else the line stays unpriced.
-    if (kept.length < 2) continue;
+    // Exception: produce sold by the bunch (parsley, dill, kale…). Its price is per bunch, hard
+    // to misread, and the amounts are cents, so one store's bunch price is enough.
+    // Produce seen once at one of the seven stores is accepted too (a jalapeño, a fennel bulb).
+    if (kept.length < 2 && !(kept.length === 1 && (BUNCH.has(baseId(ing)) || (rows === main && ING_BY_ID[baseId(ing)].cat === 'produce')))) continue;
     prices[ing] = { perG: +median(kept).toFixed(6), kind: 'flyer', n: kept.length, ...(rows === main ? {} : { refStores: 1 }) };
   }
   // Still no price: Walmart's everyday online price (Walmart is one of the seven stores). Read
@@ -233,10 +236,21 @@ export function buildBaseline(data, history, shelf = null) {
     const h = matchShelfProduct(p.name);
     if (!h) continue;
     const def = ING_BY_ID[h.id];
-    if (!def || def.free || !formsCompatible(h.id, forms(p.name), [])) continue;
+    // "Seasoned" (BBQ, teriyaki…) only matters for meat, fish and the like: a BBQ sauce is just a sauce.
+    // Product forms only matter for fresh foods; a dried or canned member is that form already.
+    const isPackaged = /sech|dried|conserve|canned|puree/.test(def?.members.find((m) => def.id + '~' + m.key === h.pk)?.syn.join(' ') || '');
+    const fm = !['meat', 'fish', 'dairy', 'produce'].includes(def?.cat) ? [] : forms(p.name).filter((f) => !(isPackaged && ['dried', 'canned'].includes(f)));
+    if (!def || def.free || !formsCompatible(h.id, fm, [])) continue;
+    // Not for meat (StatCan and flyers cover it; the catalogue's sized meats are prepared dishes),
+    // nor for produce, whose sized listings are jarred or dried (diced peaches, chili flakes).
+    // Jarred minced ginger is close enough to fresh to price it. Generic requests ("chicken")
+    // keep borrowing their usual cut's price.
+    // A produce member that is itself dried or canned ("canneberges séchées") is a packaged good.
+    const packaged = /sech|dried|conserve|canned|puree/.test(def.members.find((m) => `${def.id}~${m.key}` === h.pk)?.syn.join(' ') || '');
+    if (def.cat === 'meat' || (def.cat === 'produce' && def.id !== 'ginger' && !BUNCH.has(def.id) && !packaged) || (def.fb && h.pk === def.id)) continue;
     const up = unitPrice({ price: p.price, name: p.name, post: '' }, def);
     // Only a stated package size: a price per piece cannot tell one avocado from a bag.
-    if (!up || up.basis === 'each') continue;
+    if (!up || (up.basis === 'each' && !BUNCH.has(def.id))) continue; // a bunch is a bunch
     (shelfObs[h.pk] ||= []).push(up.perG);
   }
   for (const [pk, list] of Object.entries(shelfObs)) {

@@ -432,6 +432,19 @@ describe('deal score and plan refinements', () => {
 
 // Every case below is a pricing error found in the November 2026 audit.
 describe('pricing audit regressions', () => {
+  it('store catalogue listings price an ingredient only when that is what they sell', async () => {
+    const { matchShelfProduct } = await import('../shared/match.js');
+    const id = (n) => matchShelfProduct(n)?.pk ?? null;
+    expect(id('Great Value Soya Sauce 450 Ml')).toBe('soy_sauce');
+    expect(id('Great Value Rice Vinegar 355 Ml')).toBe('vinegar~vinaigre_de_riz');
+    expect(id('Redpath Sugar Redpath Icing Sugar 1 Kg')).toBe('icing_sugar');
+    expect(id('Great Value Capers In Brine, Tangy Salad & Pizza Topping, 90 Ml')).toBe('capers');
+    expect(id('Arm & Hammer Pure Baking Soda, Multi-Purpose Cleaner, Natural Deodorizer, 500 g')).toBe('baking_soda');
+    expect(id('Castello Camembert Danish Cheese 125 G')).toBe('brie');
+    for (const n of ['Philadelphia Blueberry Cream Cheese Product, 227 G Tub', 'Canada Red Tomato Basil 600ml', 'Asian Inspirations Ginger Beef, 400 G',
+      "Parent's Choice Organic Apple, Pear & Brown Rice Baby Food Purée 128 ml", 'Monster Energy Monster Bad Apple 473ml', 'Cracker Barrel Old Cheddar Cheese Block, 400g',
+      'Egg Bites! 5 Cheese, Bite-Sized 5 Cheese Quiches 336 G', 'Arm & Hammer Fridge-N-Freezer, Baking Soda Deodorizer, 500g', 'Goldilocks Steamed Pork Buns, 580 G']) expect(id(n), n).toBeNull();
+  });
   it('reads common French quantity forms and leaves non-food lines out', () => {
     const P = (s, lang = 'fr') => { const l = parseIngredientLine(s, lang); return [l.ing, l.g, l.x, l.opt]; };
     expect(P('1/4 de tasse (65 ml) d’huile d’olive')[1]).toBe(57.5); // "de tasse"

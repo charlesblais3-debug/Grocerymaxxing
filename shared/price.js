@@ -86,9 +86,9 @@ export function packCount(text) {
 // Ingredients a flyer may price per piece ("ch.") — produce that is really sold one at a
 // time. Anything else needs a weight or a size: a "6 $" pack of chicken or bag of onions
 // says nothing about how much food it is.
-const EACH_OK = new Set(['avocado', 'mango', 'cucumber', 'lettuce', 'cauliflower', 'broccoli', 'cabbage', 'melon', 'pineapple', 'squash', 'celery', 'eggplant', 'fennel', 'bell_pepper', 'lemon', 'lime', 'grapefruit', 'parsley', 'cilantro', 'dill', 'mint', 'basil', 'green_onion', 'kale', 'bok_choy', 'corn', 'garlic', 'radish', 'asparagus', 'egg', 'zucchini', 'kiwi', 'pomegranate']);
+const EACH_OK = new Set(['avocado', 'mango', 'cucumber', 'lettuce', 'cauliflower', 'broccoli', 'cabbage', 'melon', 'pineapple', 'squash', 'celery', 'eggplant', 'fennel', 'bell_pepper', 'lemon', 'lime', 'grapefruit', 'chives', 'parsley', 'cilantro', 'dill', 'mint', 'basil', 'green_onion', 'kale', 'bok_choy', 'corn', 'garlic', 'radish', 'asparagus', 'egg', 'zucchini', 'kiwi', 'pomegranate']);
 // Sold by the bunch or the dozen: a plural name ("oignons verts") is still one unit.
-const BUNCH = new Set(['egg', 'green_onion', 'radish', 'parsley', 'cilantro', 'dill', 'mint', 'basil', 'asparagus', 'kale']);
+export const BUNCH = new Set(['egg', 'green_onion', 'radish', 'parsley', 'cilantro', 'dill', 'mint', 'basil', 'asparagus', 'kale', 'chives']);
 const PACKED = /\b(sac|bag|paquet|pack|emballage|caisse|barquette|contenant|boite|filet|lb|lbs|kg|bte|panier|basket|clamshell|format)\b/;
 
 /**

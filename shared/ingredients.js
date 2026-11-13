@@ -183,7 +183,7 @@ I('quinoa', 'Quinoa', 'Quinoa', 'pantry', 'quinoa;couscous;boulgour|bulgur;orge|
 I('oats', "Flocons d'avoine", 'Rolled oats', 'pantry', 'flocon avoine|rolled oat|gruau|oatmeal|avoine|oats|quick oat', { d: 0.38 });
 I('flour', 'Farine', 'Flour', 'pantry', 'farine|flour|farine tout usage|all purpose flour|farine de ble|farine non blanchie|bread flour|farine a pain|whole wheat flour|farine de ble entier', { d: 0.53 });
 I('cornstarch', 'Fécule de maïs', 'Cornstarch', 'pantry', 'fecule de mais|cornstarch|corn starch|cornflour|fecule', { d: 0.54 });
-I('cornmeal', 'Semoule de maïs', 'Cornmeal', 'pantry', 'semoule de mais|cornmeal|polenta|semoule', { d: 0.65 });
+I('cornmeal', 'Semoule de maïs', 'Cornmeal', 'pantry', 'semoule de mais|corn meal|cornmeal|polenta|semoule', { d: 0.65 });
 I('bread', 'Pain', 'Bread', 'bakery', 'pain|bread|pain tranche|sliced bread|pain de ble|pain blanc|baguette|pain croute|ciabatta|pain au levain|sourdough', { u: 675, units: { tranche: 35 } });
 I('buns', 'Pains à burger / hot-dog', 'Buns', 'bakery', 'pain a hamburger|pain hamburger|pain a panini|pain panini|panini bread|pain kaiser individuel|pain a sous marin|burger bun|hamburger bun|pain a hot dog|hot dog bun|pain kaiser|brioche bun|petit pain|bun|roll|pain sous marin', { u: 60, pk: 8 });
 I('tortilla', 'Tortillas', 'Tortillas', 'bakery', 'tortilla|wrap|flour tortilla|tortilla de ble|tortilla de farine|whole wheat tortilla|tacos souples|taco souple|tacos souple|soft taco|tortilla souple;tortilla de mais|corn tortilla|tortilla au mais|taco shell|coquille a taco;pita|pita bread|pain pita|pita pocket;pain naan|naan;pain plat|flatbread|chapati', { u: 50, pk: 8 });
