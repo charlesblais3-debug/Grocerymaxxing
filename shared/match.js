@@ -424,3 +424,33 @@ export function formsCompatible(ingId, itemForms, lineForms) {
   const ok = FORM_OK[ingId] || [];
   return itemForms.every((f) => ok.includes(f) || lineForms?.includes(f));
 }
+
+// Words that name a different, prepared product ("… Cream Cheese Product", "… Breakfast Sandwich").
+// A store listing containing one is only evidence for an ingredient whose own names use it
+// ("soy sauce", "pita chips").
+const PRODUCT_WORDS = new Set(tokens('baguette baguettes pickled granulated popping steamed sip pudding custard product sandwich sandwiches quiche quiches bites bakes pancake pancakes chips crisps crackers cracker croutons pizza burrito burritos meal meals kit kits frittata toast fillets pickle pickles paste powder oil spread dip drink drinks beverage soda tea juice smoothie bar bars cookies cookie cake cakes pie pies candy candies gummies cereal granola soup sauce dressing seasoning alternative flavour flavoured flavored flavor dumplings noodles ramen sausages sausage burger burgers patties nuggets strips wings jerky salad mix blend cream cheese milk yogurt butter ice popsicle wrap wraps bread buns muffins bagels pasta lasagna stew curry entree bowl bowls tray platter snack snacks treat chocolate caramel syrup vinaigrette marinade rub glaze puree purees baby food energy macaroni mac dinner perogies pierogies luncheon meat meatballs waffles pastries pastry toaster dish dishwashing liquid refill clean samosa samosas spring roll rolls cocktail concentrate crunchies pockets fries wieners hash crumble crumbles wrapped medley prepared ropes burst blast flour stewed refried leaves cubes tenders popcorn pretzels jam jelly preserves filling frosting icing gum lozenges shot shots kombucha water sparkling lemonade punch nectar cocktail chunky gravy stuffed breaded battered crusted coated glazed roasted smoked infused'));
+// Words that may follow the food without changing what it is ("Butter 454 G", "Diced Tomatoes, No Salt Added").
+const NEUTRAL_WORDS = new Set(tokens('fresh organic whole plain original regular classic natural pure unsalted salted lightly no salt added low reduced sodium less fat free light extra virgin lean boneless skinless large small medium jumbo mini baby value size pack family count bag bottle jar can cans canned tin tub box carton pouch shelf stable ready to use iqf frozen diced crushed chopped sliced minced whole ground dried dry raw uncooked unsweetened sweetened sugar red green yellow white black brown golden sweet hot mild spicy grade canada a aa product of imported domestic and with in by the your market each kg g ml l lb oz ct pc pcs pieces piece x premium select selection finest our great'));
+
+/**
+ * Ingredient for a store catalogue listing ("Great Value Soya Sauce 450 Ml"), or null.
+ * Stricter than flyer matching: the food must be what the listing sells, not a flavour of it,
+ * and nothing after it may name something else.
+ */
+export function matchShelfProduct(name) {
+  const line = parseIngredientLine(name, 'en');
+  if (!line.ing || line.alt) return null;
+  const flyer = matchFlyerItemFull(name);
+  if (flyer.length > 1 || (flyer.length === 1 && flyer[0].id !== line.ing)) return null;
+  const def = ING_BY_ID[line.ing];
+  const own = new Set(def.syn.flatMap((x) => tokens(x)));
+  if (def.cat === 'dairy' && !/milk|cream|butter|yogurt|egg/.test(def.id)) own.add(tokens('cheese')[0]); // "Camembert Danish Cheese"
+  const toks = tokens(name.replace(/[\d][\d.,/]*\s*[a-z]*/gi, ' ').replace(/[®™’']/g, ''));
+  for (const t of toks) if (PRODUCT_WORDS.has(t) && !own.has(t)) return null;
+  const first = toks.findIndex((t) => own.has(t));
+  if (first < 0) return null;
+  for (const t of toks.slice(first)) if (!own.has(t) && !NEUTRAL_WORDS.has(t)) return null;
+  // Another food before it makes it a flavour or a dish ("Tomato Basil" sauce, "Ginger Beef").
+  for (const t of toks.slice(0, first)) { const other = matchIngredient(t); if (other && other !== line.ing && !NEUTRAL_WORDS.has(t)) return null; }
+  return { id: line.ing, pk: line.pk || line.ing };
+}

@@ -10,7 +10,7 @@ async function writeJson(path, data) {
   await mkdir('public/data', { recursive: true });
   await writeFile(path, JSON.stringify(data));
 }
-import { parseIngredientLine, matchFlyerItemFull, baseId, forms, formsCompatible } from '../shared/match.js';
+import { parseIngredientLine, matchFlyerItemFull, matchShelfProduct, baseId, forms, formsCompatible } from '../shared/match.js';
 import { unitPrice } from '../shared/price.js';
 import { priceItem, mergeHistory } from './history.mjs';
 import { classify, isMealDish, isProteinIng } from '../shared/taxonomy.js';
@@ -178,7 +178,7 @@ const STATCAN = [
  *   1. Statistics Canada average retail price for Québec;
  *   2. otherwise the median of the flyer prices seen in the last 26 weeks.
  */
-const NOT_GROCERY = /\b(tape|toy|toys|plush|figure|funko|pants?|shirts?|socks|dog|dogs|cat|cats|pet|pets|puppy|kitten|treats?|shampoo|conditioner|soap|lotion|body wash|hand cream|candles?|detergent|cosmetics?|lipstick|bronzer|baby girls'?|baby boys'?|toddler|costume|ornament|mug|tumbler|book|vinyl|lego|crayons?|markers?|vitamins?|supplements?|capsules|gummies)\b/i;
+const NOT_GROCERY = /\b(yarn|acrylic|fabric|gerbera|daisy|daisies|flowers?|bouquet|plants?|seedlings?|planter|tape|toy|toys|plush|figure|funko|pants?|shirts?|socks|dog|dogs|cat|cats|pet|pets|puppy|kitten|treats?|shampoo|conditioner|soap|lotion|body wash|hand cream|candles?|detergent|cosmetics?|lipstick|bronzer|baby girls'?|baby boys'?|toddler|costume|ornament|mug|tumbler|book|vinyl|lego|crayons?|markers?|vitamins?|supplements?|capsules|gummies)\b/i;
 
 export function buildBaseline(data, history, shelf = null) {
   const byIng = {};
@@ -230,13 +230,13 @@ export function buildBaseline(data, history, shelf = null) {
   for (const p of shelf?.products || []) {
     // The catalogue also sells tape, toys, pet food and clothes ("Duck Brand duct tape").
     if (NOT_GROCERY.test(p.name)) continue;
-    const hits = matchFlyerItemFull(p.name);
-    if (hits.length !== 1) continue;
-    const h = hits[0];
+    const h = matchShelfProduct(p.name);
+    if (!h) continue;
     const def = ING_BY_ID[h.id];
     if (!def || def.free || !formsCompatible(h.id, forms(p.name), [])) continue;
     const up = unitPrice({ price: p.price, name: p.name, post: '' }, def);
-    if (!up) continue;
+    // Only a stated package size: a price per piece cannot tell one avocado from a bag.
+    if (!up || up.basis === 'each') continue;
     (shelfObs[h.pk] ||= []).push(up.perG);
   }
   for (const [pk, list] of Object.entries(shelfObs)) {
