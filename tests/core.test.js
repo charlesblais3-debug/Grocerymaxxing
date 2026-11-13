@@ -450,6 +450,10 @@ describe('pricing audit regressions', () => {
     expect(P('9 lasagna noodles (about ½ lb.)')[1]).toBeCloseTo(226.8); // no piece weight known: the bracket is the total
     expect(P('4 tablespoons butter for the bread')[0]).toBe('butter');
     expect(P('1 cup water for the rice')[0]).toBe('water');
+    expect(P('4 bone-in pork loin chops (1 ¼- to 1 ½-inches thick)')[0]).toBe('pork_chop'); // chops, not a roast
+    expect(P('180 - 220 g / 6 -7oz chicken breast')[1]).toBe(180); // a spaced range is not a note
+    expect(P('4 large beef short ribs (about 2kg)')[1]).toBe(2000);
+    expect(P('4 escalopes de poitrine de dinde (400-500 grammes au total)', 'fr')[1]).toBe(400);
   });
   it('flyer sizes are read strictly', async () => {
     const { packageSize, unitPrice } = await import('../shared/price.js');

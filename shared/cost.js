@@ -68,6 +68,12 @@ function lookup(pk, fm, offers, baseline, seen = 0) {
     if (offer && offer.perG <= base.perG) return { perG: offer.perG, src: 'flyer', offer, regular: base.perG };
     return { perG: base.perG, src: 'base', ref: base };
   }
+  // A kind of white fish with no price of its own ("aiglefin") is priced as white fish,
+  // for groups whose members cost about the same (option `mfb`).
+  if (pk !== ing.id && ing.mfb && seen < 2) {
+    const r = lookup(ing.id, fm, offers, baseline, seen + 1);
+    if (r) return { ...r, via: ing.id };
+  }
   // Only a generic ingredient borrows another one's price ("poulet" -> chicken breast).
   if (ing.fb && pk === ing.id && seen < 2) {
     const r = lookup(ing.fb, fm, offers, baseline, seen + 1);

@@ -224,7 +224,7 @@ export function parseIngredientLine(raw, lang) {
   // Brackets hold notes, sizes and tips ("(I cooked my quinoa with curry powder)", "(salt-free)"):
   // the ingredient is named outside them. An unclosed bracket runs to the end of the line.
   // Text after a dash or semicolon is a note too ("cherry tomatoes – smaller tomatoes are better").
-  const outside = raw.replace(/\([^()]*(\([^()]*\)[^()]*)*\)/g, ' ').replace(/\([^)]*$/, ' ').replace(/\s[–—-]\s.*$|;.*$/, ' ');
+  const outside = raw.replace(/\([^()]*(\([^()]*\)[^()]*)*\)/g, ' ').replace(/\([^)]*$/, ' ').replace(/(?<!\d)\s[–—-]\s(?!\d).*$|;.*$/, ' ');
   // When everything outside the brackets is quantity and packaging ("1 can (540 mL diced
   // tomatoes)", "1 1/2 lbs boneless (skinless chicken cutlets)"), the brackets hold the food.
   const words = tokens(outside).some((t) => /[a-z]{3}/.test(t) && !FILLER.has(t));
@@ -319,17 +319,18 @@ export function parseIngredientLine(raw, lang) {
   // "1 medium eggplant (about 1 pound)", "2 oignons (300 g)": a count whose weight is given in
   // brackets. The stated weight is better than our average size. "Each" multiplies; otherwise
   // the reading (total or each) closest to our average size is used.
-  if (ing && q.count != null && q.g == null && q.ml == null && (!q.countUnit || WHOLE.has(q.countUnit))) {
+  if (ing && q.count != null && q.g == null && q.ml == null) {
     for (const b of raw.match(/\(([^()]*)\)/g) || []) {
       const t = deaccent(b);
       // Only a bracket that IS a weight ("(about 1 pound)", "(600g/1.3 lbs; see note)"), not
       // one that mentions a weight in passing ("(1 ½ avocados yield ~270 g diced)").
-      if (/\b(or|ou|sub|substitute|remplacer|alternative|yields?|donne|makes?)\b/.test(t) || !/^\(\s*(?:about|approx\.?|approximately|environ|env\.|roughly|around|total|~|≈)?\s*[\d.,/ ~-]+\s*(g|kg|oz|ounces?|lbs?|pounds?|livres?)\b/.test(t.replace(/[½¼¾⅓⅔]/g, '1'))) continue;
+      if (/\b(or|ou|sub|substitute|remplacer|alternative|yields?|donne|makes?)\b/.test(t) || !/^\(\s*(?:about|approx\.?|approximately|environ|env\.|roughly|around|total|~|≈)?\s*[\d.,/ ~-]+\s*(g|kg|grammes?|grams?|kilos?|oz|ounces?|lbs?|pounds?|livres?)\b/.test(t.replace(/[½¼¾⅓⅔]/g, '1'))) continue;
       const w = parseQuantity(t.slice(1, -1)).g;
       if (!w) continue;
       const each = /\b(each|chacune?s?|chaque|apiece)\b/.test(t);
+      const total = /\b(total|in all|en tout)\b/.test(t);
       const avg = (ing.ru ?? ing.u) * q.count;
-      const tot = each || (avg > 0 && q.count > 1 && Math.abs(Math.log((w * q.count) / avg)) < Math.abs(Math.log(w / avg)) - 0.5) ? w * q.count : w;
+      const tot = each || (!total && avg > 0 && q.count > 1 && Math.abs(Math.log((w * q.count) / avg)) < Math.abs(Math.log(w / avg)) - 0.5) ? w * q.count : w;
       q = { g: tot, ml: null };
       break;
     }

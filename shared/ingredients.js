@@ -37,16 +37,16 @@ I('chicken_whole', 'Poulet entier', 'Whole chicken', 'meat', 'poulet entier|whol
 I('chicken_wing', 'Ailes de poulet', 'Chicken wings', 'meat', 'aile de poulet|chicken wing', { u: 90 });
 I('chicken_ground', 'Poulet haché', 'Ground chicken', 'meat', 'poulet hache|ground chicken', { d: 0.9 });
 I('chicken', 'Poulet', 'Chicken', 'meat', 'poulet|chicken|poulet cuit|cooked chicken', { d: 0.6, ro: 1, fb: 'chicken_breast', u: 200 });
-I('turkey_ground', 'Dinde hachée', 'Ground turkey', 'meat', 'dinde hachee|dindon hache|ground turkey', { d: 0.9 });
-I('turkey', 'Dinde', 'Turkey', 'meat', 'dinde|dindon|turkey|poitrine de dinde|turkey breast', { d: 0.6, ro: 1 });
+I('turkey_ground', 'Dinde hachée', 'Ground turkey', 'meat', 'dinde hachee|dindon hache|ground turkey', { d: 0.9, fb: 'chicken_ground' });
+I('turkey', 'Dinde', 'Turkey', 'meat', 'dinde|dindon|turkey|poitrine de dinde|turkey breast', { d: 0.6, ro: 1, fb: 'chicken_breast' });
 I('beef_ground', 'Bœuf haché', 'Ground beef', 'meat', 'boeuf hache|ground beef|minced beef|beef mince|viande hachee|steak hache', { d: 0.9 });
 I('beef_stew', 'Cubes de bœuf à ragoût', 'Stewing beef', 'meat', 'cube de boeuf|boeuf a ragout|boeuf en cube|stewing beef|stew beef|beef stew meat|boeuf a braiser;palette de boeuf|beef chuck|chuck roast|rosbif|roti de boeuf|beef roast', { d: 0.6 });
 I('beef_steak', 'Bifteck', 'Steak', 'meat', '*bifteck|steak;bavette|flank steak;surlonge|sirloin;contre filet|striploin|faux filet;entrecote|ribeye;filet mignon', { u: 250 });
 I('beef', 'Bœuf', 'Beef', 'meat', 'boeuf|beef', { d: 0.6, ro: 1, fb: 'beef_stew~cube_de_boeuf' });
 I('pork_ground', 'Porc haché', 'Ground pork', 'meat', 'porc hache|ground pork', { d: 0.9 });
-I('pork_chop', 'Côtelettes de porc', 'Pork chops', 'meat', 'cotelette de porc|pork chop', { u: 170 });
+I('pork_chop', 'Côtelettes de porc', 'Pork chops', 'meat', 'cotelette de porc|pork chop|pork loin chop|loin chop|cotelette de longe|cotelette de longe de porc|pork rib chop|cotelette de porc desossee', { u: 170 });
 I('pork_tenderloin', 'Filet de porc', 'Pork tenderloin', 'meat', 'filet de porc|pork tenderloin', { u: 450 });
-I('pork_loin', 'Longe de porc', 'Pork loin', 'meat', 'longe de porc|pork loin|roti de porc|pork roast');
+I('pork_loin', 'Longe de porc', 'Pork loin', 'meat', 'longe de porc|pork loin|roti de porc|pork roast', { units: { tranche: 25 } });
 I('pork_shoulder', 'Épaule de porc', 'Pork shoulder', 'meat', 'epaule de porc|pork shoulder|pork butt|soc de porc|porc effiloche|jambon d epaule|jambon picnic|epaule picnic|picnic ham|picnic shoulder|pork picnic', { d: 0.6 });
 I('pork_ribs', 'Côtes levées', 'Pork ribs', 'meat', 'cote levee|pork rib|spare rib|back rib|cotes de dos');
 I('pork', 'Porc', 'Pork', 'meat', 'porc|pork', { d: 0.6, ro: 1, fb: 'pork_loin' });
@@ -55,18 +55,18 @@ I('ham', 'Jambon', 'Ham', 'meat', 'jambon|ham', { d: 0.6, units: { tranche: 25 }
 I('sausage', 'Saucisses', 'Sausages', 'meat', '*saucisse|sausage|saucisse italienne|italian sausage;chorizo;merguez', { d: 0.6, u: 90 });
 I('duck', 'Canard', 'Duck', 'meat', '*canard|duck;magret|poitrine de canard|duck breast;cuisse de canard|duck leg|canard confit|duck confit', { u: 240 });
 I('lamb', 'Agneau', 'Lamb', 'meat', 'agneau|lamb|gigot', { d: 0.6 });
-I('veal', 'Veau', 'Veal', 'meat', 'veau|veal|veau hache|ground veal', { d: 0.9 });
-I('prosciutto', 'Prosciutto', 'Prosciutto', 'meat', 'prosciutto|pancetta', { units: { tranche: 15 } });
-I('pepperoni', 'Pepperoni', 'Pepperoni', 'meat', 'pepperoni;salami|saucisson;mortadelle|mortadella;capicollo');
+I('veal', 'Veau', 'Veal', 'meat', 'veau|veal|veau hache|ground veal', { d: 0.9, u: 110 });
+I('prosciutto', 'Prosciutto', 'Prosciutto', 'meat', 'prosciutto|pancetta', { d: 0.5, units: { tranche: 15 } });
+I('pepperoni', 'Pepperoni', 'Pepperoni', 'meat', 'pepperoni;salami|saucisson;mortadelle|mortadella;capicollo', { d: 0.6 });
 
 // ---- Poissons / Fish
 I('salmon', 'Saumon', 'Salmon', 'fish', 'saumon|salmon|filet de saumon|salmon fillet|pave de saumon', { d: 0.6, u: 150 });
 I('salmon_smoked', 'Saumon fumé', 'Smoked salmon', 'fish', 'saumon fume|smoked salmon');
-I('white_fish', 'Poisson blanc', 'White fish', 'fish', '*poisson blanc|white fish|fish fillet|filet de poisson;morue|cod;aiglefin|haddock;tilapia;sole|plie|plaice;pangasius|basa;goberge|pollock;dore|walleye;fletan|halibut', { d: 0.6, u: 150 });
+I('white_fish', 'Poisson blanc', 'White fish', 'fish', '*poisson blanc|white fish|fish fillet|filet de poisson;morue|cod;aiglefin|haddock;tilapia;sole|plie|plaice;pangasius|basa;goberge|pollock;dore|walleye;fletan|halibut;sebaste|redfish|ocean perch', { d: 0.6, u: 150, mfb: 1 });
 I('trout', 'Truite', 'Trout', 'fish', 'truite|trout|truite arc en ciel|rainbow trout|omble|arctic char', { d: 0.6, u: 150 });
 I('shrimp', 'Crevettes', 'Shrimp', 'fish', 'crevette|shrimp|prawn', { d: 0.6, u: 12 });
 I('tuna_can', 'Thon en conserve', 'Canned tuna', 'pantry', 'thon en conserve|canned tuna|thon pale|thon blanc|flaked tuna|thon|tuna', { d: 0.6, u: 120 });
-I('scallop', 'Pétoncles', 'Scallops', 'fish', 'petoncle|scallop');
+I('scallop', 'Pétoncles', 'Scallops', 'fish', 'petoncle|scallop', { u: 25 });
 I('mussels', 'Moules', 'Mussels', 'fish', 'moule|mussel');
 I('sardine', 'Sardines', 'Sardines', 'pantry', 'sardine;anchois|anchovy|anchovies');
 
