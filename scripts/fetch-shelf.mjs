@@ -11,7 +11,7 @@ import { INGREDIENTS } from '../shared/ingredients.js';
 
 const API = process.env.FLIPP_API || 'https://backflipp.wishabi.com/flipp';
 const POSTAL = 'H2X1Y4';
-const OUT = 'data/shelf.json';
+const OUT = process.env.SHELF_OUT || 'data/shelf.json';
 
 /** Search terms: each ingredient's English name and the first names of each member. */
 export function queries() {
