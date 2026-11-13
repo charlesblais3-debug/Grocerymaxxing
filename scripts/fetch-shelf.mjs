@@ -27,30 +27,39 @@ export function queries() {
 async function main() {
   const old = await readJson(OUT, null);
   const bySku = new Map((old?.products || []).map((p) => [p.sku, p]));
+  // Searches done in the last 6 days are skipped, so an interrupted run resumes where it stopped.
+  const searched = { ...(old?.searched || {}) };
   const today = new Date().toISOString().slice(0, 10);
+  const fresh = new Date(Date.now() - 6 * 864e5).toISOString().slice(0, 10);
+  // ONLY=term1,term2: search just these (after adding ingredients); others are kept as stored.
+  const all = process.env.ONLY ? process.env.ONLY.split(',').map((x) => x.trim()).filter(Boolean) : queries();
+  const list = all.filter((q) => process.env.ONLY || !(searched[q] >= fresh));
   let ok = 0;
   let failed = 0;
-  // ONLY=term1,term2: search just these (after adding ingredients); others are kept as stored.
-  const list = process.env.ONLY ? process.env.ONLY.split(',').map((x) => x.trim()).filter(Boolean) : queries();
-  for (const q of list) {
-    const { status, text } = await get(`${API}/items/search?locale=en-ca&postal_code=${POSTAL}&q=${encodeURIComponent(q)}`, { delayMs: 350, accept: 'application/json' });
+  const save = async () => {
+    // Prices not seen again for 8 weeks are dropped (discontinued products).
+    const cutoff = new Date(Date.now() - 56 * 864e5).toISOString().slice(0, 10);
+    const products = [...bySku.values()].filter((p) => p.date >= cutoff).sort((a, b) => a.name.localeCompare(b.name));
+    await writeJson(OUT, { source: 'Walmart.ca (catalogue en ligne, via Flipp)', fetchedAt: new Date().toISOString(), searched, products });
+    return products.length;
+  };
+  for (const [i, q] of list.entries()) {
+    const { status, text } = await get(`${API}/items/search?locale=en-ca&postal_code=${POSTAL}&q=${encodeURIComponent(q)}`, { delayMs: 250, accept: 'application/json' });
     if (status !== 200) { failed++; continue; }
-    ok++;
     let j;
-    try { j = JSON.parse(text); } catch { continue; }
+    try { j = JSON.parse(text); } catch { failed++; continue; }
+    ok++;
+    searched[q] = today;
     for (const e of j.ecom_items || []) {
       if (e.merchant !== 'Walmart' || !e.name || !(e.current_price > 0)) continue;
       // The everyday price: a temporary rollback shows the regular one as original_price.
       const price = e.original_price > e.current_price ? e.original_price : e.current_price;
       bySku.set(e.sku || e.global_id, { sku: e.sku || e.global_id, name: e.name, price, date: today });
     }
+    if ((i + 1) % 50 === 0) log(`shelf: ${i + 1}/${list.length} searches, ${await save()} products`);
   }
-  // Prices not seen again for 8 weeks are dropped (discontinued products).
-  const cutoff = new Date(Date.now() - 56 * 864e5).toISOString().slice(0, 10);
-  const products = [...bySku.values()].filter((p) => p.date >= cutoff).sort((a, b) => a.name.localeCompare(b.name));
-  if (!ok) { log(`shelf: every search failed, keeping ${OUT}`); return; }
-  await writeJson(OUT, { source: 'Walmart.ca (catalogue en ligne, via Flipp)', fetchedAt: new Date().toISOString(), products });
-  log(`shelf: ${ok} searches (${failed} failed), ${products.length} Walmart products`);
+  if (!ok && list.length) { log(`shelf: every search failed, keeping ${OUT}`); return; }
+  log(`shelf: ${ok} searches (${failed} failed, ${all.length - list.length} skipped as fresh), ${await save()} Walmart products`);
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) await main();
