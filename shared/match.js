@@ -387,7 +387,7 @@ const FORMS = {
   dried: /\b(sechee?s?|dried|deshydratee?s?)\b/,
   cooked: /\b(cuite?s?|cooked|rotie?s?|roti|rotisserie|roasted|barbecue|bbq|pret a manger|ready to eat)\b/,
   breaded: /\b(panee?s?|breaded|croustillante?s?|crispy|tempura)\b/,
-  seasoned: /\b(assaisonnee?s?|marinee?s?|seasoned|marinated|epicee?s?|aux? (?:fines )?herbes|a l ail|saveur|flavou?r(?:ed)?)\b/,
+  seasoned: /\b(assaisonnee?s?|marinee?s?|seasoned|marinated|epicee?s?|tandoori|tikka|shawarma|souvlaki|kebab|teriyaki|bbq|barbecue|cajun|buffalo|honey garlic|aux? (?:fines )?herbes|a l ail|saveur|flavou?r(?:ed)?)\b/,
   stuffed: /\b(farcie?s?|stuffed)\b/,
   ball: /\b(bocconcini|perles?|pearls?|burrata)\b/,
   curds: /\b(en grains?|curds?)\b/,

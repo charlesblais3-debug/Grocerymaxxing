@@ -178,6 +178,8 @@ const STATCAN = [
  *   1. Statistics Canada average retail price for Québec;
  *   2. otherwise the median of the flyer prices seen in the last 26 weeks.
  */
+const NOT_GROCERY = /\b(tape|toy|toys|plush|figure|funko|pants?|shirts?|socks|dog|dogs|cat|cats|pet|pets|puppy|kitten|treats?|shampoo|conditioner|soap|lotion|body wash|hand cream|candles?|detergent|cosmetics?|lipstick|bronzer|baby girls'?|baby boys'?|toddler|costume|ornament|mug|tumbler|book|vinyl|lego|crayons?|markers?|vitamins?|supplements?|capsules|gummies)\b/i;
+
 export function buildBaseline(data, history, shelf = null) {
   const byIng = {};
   for (const p of data?.products || []) {
@@ -226,6 +228,8 @@ export function buildBaseline(data, history, shelf = null) {
   // readable package size, a plain form. Each listing counts once; outliers are dropped.
   const shelfObs = {};
   for (const p of shelf?.products || []) {
+    // The catalogue also sells tape, toys, pet food and clothes ("Duck Brand duct tape").
+    if (NOT_GROCERY.test(p.name)) continue;
     const hits = matchFlyerItemFull(p.name);
     if (hits.length !== 1) continue;
     const h = hits[0];
