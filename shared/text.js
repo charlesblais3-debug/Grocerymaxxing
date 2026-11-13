@@ -55,6 +55,9 @@ const UNITS = [
   ['tasses?|t\\.', 'ml', 250],
   ['cups?', 'ml', 237],
   ['pintes?|quarts?|qt', 'ml', 946],
+  ['pints?|chopines?', 'ml', 473],
+  ['inch(?:es)?|in\\.|pouces?|po\\.?(?![a-z])', 'len', 1],
+  ['cm|centimetres?|centimeters?', 'len', 0.394],
   ['c\\.?\\s*a\\s*(?:soupe|table|s\\.?)(?![a-z])|cuill?eres?\\s*a\\s*(?:soupe|table)|cuil\\.?\\s*a\\s*(?:soupe|table)|tablespoons?|tbsps?\\.?|tbs\\.?', 'ml', 15],
   ['c\\.?\\s*a\\s*(?:the|cafe|t\\.?|c\\.?)(?![a-z])|cuill?eres?\\s*a\\s*(?:the|cafe)|cuil\\.?\\s*a\\s*(?:the|cafe)|teaspoons?|tsps?\\.?', 'ml', 5],
   ['pincees?|pinch(?:es)?|dash(?:es)?|soupcons?', 'g', 0.3],
@@ -62,9 +65,10 @@ const UNITS = [
   ['tranches?|slices?|rashers?|strips?|lanieres?', 'n', 'tranche'],
   ['branches?|tiges?|stalks?|ribs?|sprigs?|brins?', 'n', 'branche'],
   ['douzaines?|dozens?', 'n', 'douzaine'],
-  ['feuilles?|leaf|leaves', 'n', 'feuille'],
+  ['feuilles?|leaf|leaves|sheets?|abaisses?', 'n', 'feuille'],
   ['tetes?|heads?|pieds?|pommes? de', 'n', 'tete'],
   ['bottes?|bouquets?|bunch(?:es)?', 'n', 'botte'],
+  ['quartiers?|wedges?|tranches? de citron', 'n', 'quartier'],
   ['poignees?|handfuls?', 'n', 'poignee'],
   ['filets?|fillets?|paves?', 'n', 'filet'],
 ];
@@ -73,7 +77,7 @@ const UNIT_RE = UNITS.map(([src, kind, f]) => ({ re: new RegExp('^(?:' + src + '
 const LOOSE_RE = UNITS.filter((u) => u[1] === 'n').map(([src, kind, f]) => ({ re: new RegExp('^(?:[a-z]+\\s+){1,2}(?:' + src + ')(?![a-z])'), kind, f }));
 const WORDS = { one: 1, two: 2, three: 3, four: 4, five: 5, six: 6, half: '1/2', un: 1, une: 1, deux: 2, trois: 3, quatre: 4, cinq: 5, demi: '1/2', demie: '1/2' };
 const NUM_RE = /(\d+\s+\d+\/\d+|\d+\/\d+|\d+(?:[.,]\d+)?)/g;
-const CONTAINER_RE = /\b(boites?|conserves?|cans?|tins?|paquets?|packages?|pkgs?|packs?|sacs?|sachets?|bags?|bouteilles?|bottles?|pots?|jars?|contenants?|containers?|briques?|cartons?|barquettes?)\b/;
+const CONTAINER_RE = /\b(boites?|conserves?|cans?|tins?|paquets?|packages?|pkgs?|packs?|sacs?|sachets?|bags?|bouteilles?|bottles?|pots?|jars?|contenants?|containers?|briques?|cartons?|barquettes?|box(?:es)?|blocks?|bricks?|tubs?)\b/;
 
 function toNumber(str) {
   const s = str.trim().replace(',', '.');
@@ -92,7 +96,10 @@ function toNumber(str) {
 export function parseQuantity(raw) {
   let s = deaccent(raw).replace(/\(\s*\$\s*[\d.,]+\s*\*?\s*\)/g, ' '); // source cost notes like "($0.75)"
   for (const [k, v] of Object.entries(FRACTIONS)) s = s.replaceAll(k, ' ' + v);
+  s = s.replace(/\b(?:une|a|one)?\s*douzaine\s+d(?:e\s+|')|\ba dozen\s+(?:of\s+)?/g, ' 12 '); // "une douzaine de feuilles" = 12 leaves
   s = s.replace(/^\s*([a-z]+)\b(?!\s+peu\b)/, (m, w) => (WORDS[w] != null ? String(WORDS[w]) : m)); // "one 14-ounce can", "une gousse"
+  // "2 -15 oz cans", "2 (15 oz) cans": a count of packages, not the range 2 to 15.
+  s = s.replace(/(\d+)\s+-\s*(\d+(?:[.,]\d+)?)\s*(oz|g|ml|lb|lbs|l)\b/g, (m, a, b, u) => (+b >= 4 * +a ? `${a} x ${b} ${u}` : m));
   s = s.replace(/(\d)\s*(?:-|–|—|\ba\b|\bto\b|\bou\b|\bor\b)\s*(\d)/g, '$1 ~ $2'); // ranges: keep the first bound
   s = s.replace(/(\d)\s+(?:scant|heaping|heaped|generous|level|rounded|packed|large|small|medium|big|bonnes?|gross?e?s?|petite?s?|healthy)\s+/g, '$1 ');
   const found = [];
@@ -119,6 +126,7 @@ export function parseQuantity(raw) {
 
   const rank = (f) => {
     if (!f.unit) return 0;
+    if (f.unit.kind === 'len') return -1;
     if (f.unit.kind === 'n') return 1;
     if (f.unit.kind === 'ml' && [250, 237, 15, 5, 946].includes(f.unit.f)) return 2;
     if (f.unit.kind === 'g' && [453.6, 28.35].includes(f.unit.f)) return 3;
@@ -129,6 +137,16 @@ export function parseQuantity(raw) {
   const first = found[0];
   // "2 boîtes de 398 ml", "2 (15 oz) cans": leading bare count multiplies the package size.
   let mult = 1;
+  // "4 5-6 oz salmon fillets", "2 (6 oz) fillets": a count directly followed by each one's size.
+  if (best !== first && !first.unit && rank(best) >= 3 && first.qty <= 12 && Number.isInteger(first.qty)
+    && /^\s*[(]?\s*$/.test(s.slice(first.pos + String(first.qty).length, best.pos))) mult = first.qty;
+  // "2 filets de porc de 450 g", "4 chicken breasts of 200 g each": N pieces of a stated size.
+  if (best !== first && (!first.unit || first.unit.kind === 'n') && rank(best) >= 3 && first.qty <= 12 && Number.isInteger(first.qty)
+    && /^\s*(?:[a-z'-]+(?:\s+[a-z'-]+){0,3}\s+)?(?:de|d'|of|d)\s*$/.test(s.slice(first.pos + String(first.qty).length, best.pos).replace(/^\s*[a-z'-]+/, (w) => w)) && /^\s*[a-z'-]+(?:\s+[a-z'-]+){0,3}\s+(?:de|d'|of|d)\s*$/.test(s.slice(first.pos + String(first.qty).length, best.pos))) mult = first.qty;
+  // "4 salmon fillets, about 6 oz each", "4 côtelettes d'environ 300 g chacune": N pieces of that weight.
+  if (best !== first && (!first.unit || first.unit.kind === 'n') && rank(best) >= 3 && first.qty <= 24 && Number.isInteger(first.qty)
+    && /\b(each|chacune?s?|chaque|apiece|piece|morceau)\b/.test(s.slice(best.pos, best.pos + 40))) mult = first.qty;
+  // "2 boîtes de 398 ml", "½ 16 oz box": a bare number before a package size counts packages.
   if (best !== first && !first.unit && rank(best) >= 3 && CONTAINER_RE.test(s) && first.qty <= 24) mult = first.qty;
   // "4 x 100 g" / "900 g (2x450 g)": a multipack; never multiply a total that is already printed.
   const times = s.match(/(\d+)\s*x\s*(\d+(?:[.,]\d+)?)\s*(kg|g|ml|l)\b/);
@@ -140,6 +158,7 @@ export function parseQuantity(raw) {
 
   const out = { g: null, ml: null, count: null, countUnit: null };
   if (!best.unit) { out.count = best.qty; return out; }
+  if (best.unit.kind === 'len') { out.len = best.qty * best.unit.f; return out; }
   if (best.unit.kind === 'g') out.g = best.qty * best.unit.f * mult;
   else if (best.unit.kind === 'ml') out.ml = best.qty * best.unit.f * mult;
   else { out.count = best.qty; out.countUnit = best.unit.f; }

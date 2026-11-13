@@ -31,14 +31,13 @@ export const STORES = [
   { id: 'adonis', name: 'Adonis', re: /adonis/ },
 ];
 
-// Banners gathered ONLY as price evidence: they never appear in the app, but what they
+// Banners gathered ONLY as price evidence (health-food chains such as Avril and Rachelle
+// Béry are left out: their prices are not typical of a grocery basket): they never appear in the app, but what they
 // charge for sesame oil, miso or baking powder helps set a reference price for ingredients
 // the seven main banners rarely advertise.
 export const REFERENCE_STORES = [
   { id: 'tnt', name: 'T&T', re: /^t ?& ?t/, ref: true },
   { id: 'kimphat', name: 'Kim Phat', re: /kim phat/, ref: true },
-  { id: 'avril', name: 'Avril', re: /^avril/, ref: true },
-  { id: 'rachellebery', name: 'Rachelle Béry', re: /rachelle/, ref: true },
   { id: 'tradition', name: 'Marché Tradition', re: /tradition/, ref: true },
   { id: 'bonichoix', name: 'Bonichoix', re: /bonichoix/, ref: true },
   { id: 'richelieu', name: 'Marché Richelieu', re: /richelieu/, ref: true },

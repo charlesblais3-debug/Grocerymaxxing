@@ -245,7 +245,7 @@ it('weekly ideas bundle varied recipes around one deal and skip staples', async 
     ings: [{ raw: 'a', ing: 'chicken_thigh', g: 500 }, { raw: 'b', ing: extra, g: 200 }, { raw: 'c', ing: 'onion', g: 100 }] });
   const recipes = [mk('r1', 'soup', 'bell_pepper'), mk('r2', 'soup', 'broccoli'), mk('r3', 'main', 'bell_pepper'), mk('r4', 'pasta', 'broccoli'), mk('r5', 'salad', 'bell_pepper')];
   const offers = bestOffers(['chicken_thigh', 'bell_pepper', 'onion'].map((g) => ({ name: g, pg: { [g]: 0.004 }, store: 'maxi' })), new Set(['maxi']), '2030-01-01');
-  const base = { chicken_thigh: { perG: 0.009 } };
+  const base = { chicken_thigh: { perG: 0.009 }, bell_pepper: { perG: 0.005 }, onion: { perG: 0.005 }, broccoli: { perG: 0.005 } };
   const costs = new Map(recipes.map((r) => [r.id, costRecipe(r, offers, base)]));
   const { anchors, bundles } = buildIdeas(recipes, costs, offers, base);
   expect(anchors[0].id).toBe('chicken_thigh');
@@ -318,12 +318,13 @@ describe('pricing is consistent across stores', () => {
   it('reference prices: StatCan first, then the median of flyer prices actually seen', async () => {
     const { buildBaseline } = await import('../scripts/build-index.mjs');
     const statcan = { products: [{ name: 'Whole chicken, per kilogram', value: 6.39, date: '2026-09' }, { name: 'Chicken breasts, per kilogram', value: 14.39, date: '2026-09' }, { name: 'Ground beef, per kilogram', value: 16.43, date: '2026-09' }, { name: 'Eggs, 1 dozen', value: 4.09, date: '2026-09' }] };
-    const history = { weeks: { '2026-11-05': [['a', 'ginger', 0.004, 0, 1], ['b', 'ginger', 0.006, 0, 1], ['a', 'mango', 0.003, 0.005, 1], ['a', 'chicken_whole', 0.004, 0, 1]] } };
+    const history = { weeks: { '2026-11-05': [['maxi', 'ginger', 0.004, 0, 1], ['iga', 'ginger', 0.006, 0, 1], ['maxi', 'mango', 0.003, 0.005, 1], ['iga', 'mango', 0.003, 0, 1], ['maxi', 'kiwi', 0.004, 0, 1], ['maxi', 'chicken_whole', 0.004, 0, 1]] } };
     const { prices } = buildBaseline(statcan, history);
     expect(prices.chicken_whole).toMatchObject({ kind: 'statcan', perG: 0.00639 });
     expect(Object.keys(prices)).toEqual(expect.arrayContaining(['chicken_breast', 'beef_ground', 'egg']));
     expect(prices.mango).toMatchObject({ kind: 'flyer', perG: 0.003 }); // the retailer's claimed regular price (0.005) is ignored
-    expect(prices.ginger).toMatchObject({ kind: 'flyer', perG: 0.006 });
+    expect(prices.ginger).toMatchObject({ kind: 'flyer', perG: 0.005 }); // median of two products
+    expect(prices.kiwi).toBeUndefined(); // one product is not enough evidence
   });
 });
 
@@ -371,16 +372,19 @@ describe('planner, pantry, calculated macros, tags', () => {
 describe('no substitutions between different foods', () => {
   const mk = (name, store = 'a') => { const pg = {}; const seg = {}; for (const h of matchFlyerItemFull(name)) { pg[h.pk] = 0.004; seg[h.pk] = h.seg; } return { name, pg, seg, store }; };
   const line = (raw) => parseIngredientLine(raw);
-  const price = (raw, items, base = {}) => costRecipe({ servings: 2, ings: [line(raw)] }, bestOffers(items, new Set(['a']), '2030-01-01', base), base).lines[0];
+  // Every food here has a reference price (flyers only lower one), so a line is 'flyer' when
+  // the right offer applies and 'base' when no offer for that food exists.
+  const REF = new Proxy({}, { get: (_, k) => (typeof k === 'string' ? { perG: 0.01, kind: 'statcan' } : undefined), has: () => true });
+  const price = (raw, items, base = REF) => costRecipe({ servings: 2, ings: [line(raw)] }, bestOffers(items, new Set(['a']), '2030-01-01', base), base).lines[0];
   it('a plum deal never prices peaches, nor dates raisins, nor pecans walnuts', () => {
-    expect(price('4 pêches', [mk('PRUNES NOIRES')]).src).toBeNull();
+    expect(price('4 pêches', [mk('PRUNES NOIRES')]).src).toBe('base');
     expect(price('4 prunes', [mk('PRUNES NOIRES')]).src).toBe('flyer');
-    expect(price('1 tasse de raisins secs', [mk('dattes entières dénoyautées')]).src).toBeNull();
-    expect(price('1 tasse de noix de Grenoble', [mk('Pacanes en moitiés')]).src).toBeNull();
-    expect(price('200 g de morue', [mk('Filets de tilapia')]).src).toBeNull();
-    expect(price('1 tasse de quinoa', [mk('Boulgour Aoun')]).src).toBeNull();
-    expect(price('2 c. à soupe de miel', [mk('Mélasse Grandma 675 g')]).src).toBeNull();
-    expect(price('500 g de dinde hachée', [mk('Poulet haché extra maigre')]).src).toBeNull();
+    expect(price('1 tasse de raisins secs', [mk('dattes entières dénoyautées')]).src).toBe('base');
+    expect(price('1 tasse de noix de Grenoble', [mk('Pacanes en moitiés')]).src).toBe('base');
+    expect(price('200 g de morue', [mk('Filets de tilapia')]).src).toBe('base');
+    expect(price('1 tasse de quinoa', [mk('Boulgour Aoun')]).src).toBe('base');
+    expect(price('2 c. à soupe de miel', [mk('Mélasse Grandma 675 g')]).src).toBe('base');
+    expect(price('500 g de dinde hachée', [mk('Poulet haché extra maigre')]).src).toBe('base');
   });
   it('a generic request accepts any member', () => {
     expect(price('1 tasse de noix hachées', [mk('Pacanes en moitiés')]).src).toBe('flyer');
@@ -394,7 +398,7 @@ describe('no substitutions between different foods', () => {
   });
   it('reference prices do not cross members either', async () => {
     const { buildBaseline } = await import('../scripts/build-index.mjs');
-    const { prices } = buildBaseline(null, { weeks: { w: [['a', 'peach~prune', 0.008, 0, 1], ['a', 'walnuts~pacane', 0.03, 0, 1]] } });
+    const { prices } = buildBaseline(null, { weeks: { w: [['maxi', 'peach~prune', 0.008, 0, 1], ['iga', 'peach~prune', 0.009, 0, 1], ['maxi', 'walnuts~pacane', 0.03, 0, 1], ['iga', 'walnuts~pacane', 0.032, 0, 1]] } });
     const cost = (raw) => costRecipe({ servings: 1, ings: [line(raw)] }, new Map(), prices).lines[0];
     expect(cost('4 pêches').src).toBeNull();
     expect(cost('4 prunes').src).toBe('base');
@@ -423,5 +427,89 @@ describe('deal score and plan refinements', () => {
     const [next] = suggestPlan(recipes, costs, { people: 4, dinners: 1, keep, avoid: new Set(['a', 'b']) });
     expect(['c', 'd']).toContain(next.id); // not the kept one, not the avoided one, and not chicken again
     expect(suggestPlan(recipes, costs, { people: 4, dinners: 5, minProtein: 30 }).map((x) => x.id).sort()).toEqual(['a', 'c']);
+  });
+});
+
+// Every case below is a pricing error found in the November 2026 audit.
+describe('pricing audit regressions', () => {
+  it('recipe quantities given in brackets, cooked grains, legs and frying are read correctly', () => {
+    const P = (s, lang = 'en') => { const l = parseIngredientLine(s, lang); return [l.ing, l.g, l.np]; };
+    expect(P('1 medium-to-large yellow squash (about ½ pound), diced')[0]).toBe('zucchini'); // summer squash, not a 1 kg butternut
+    expect(P('6 small red potatoes (1-1.5 lbs.)')[1]).toBeCloseTo(453.6); // the bracket is the total
+    expect(P('4 chicken breasts (6 oz)')[1]).toBeCloseTo(680.4); // the bracket is each
+    expect(P('1 ½ medium-large ripe avocados ((1 ½ large avocados yield ~270 g diced))')[1]).toBe(255); // a note, not a size
+    expect(P('6 tasses de riz brun (cuit)', 'fr')[1]).toBe(375); // dry rice to buy
+    expect(P('4 cuisses de poulet', 'fr')[1]).toBe(1120); // whole legs
+    expect(P("1 jambon d'épaule picnic avec os (environ 4 kg)", 'fr')[0]).toBe('pork_shoulder');
+    expect(P('1 contenant de porc effiloché avec sauce de 400 g', 'fr')[2]).toBe(1); // ready-made: not priced as raw pork
+    expect(P('6 cups cubed (peeled butternut squash (about 30 ounces))')[0]).toBe('squash');
+    expect(P('2 lemon wedges')[1]).toBe(26);
+    expect(P('4 salmon fillets, about 6 oz each')[1]).toBeCloseTo(680.4); // each, not in total
+    expect(P("4 côtelettes de porc avec os d'environ 300 g chacune", 'fr')[1]).toBe(1200);
+    expect(P('4 (6 oz) salmon fillets')[1]).toBeCloseTo(680.4);
+    expect(P('9 lasagna noodles (about ½ lb.)')[1]).toBeCloseTo(226.8); // no piece weight known: the bracket is the total
+    expect(P('4 tablespoons butter for the bread')[0]).toBe('butter');
+    expect(P('1 cup water for the rice')[0]).toBe('water');
+  });
+  it('flyer sizes are read strictly', async () => {
+    const { packageSize, unitPrice } = await import('../shared/price.js');
+    expect(packageSize('SAUCISSES DALISA, 375/450 G')).toEqual({ kind: 'g', v: 412.5 }); // not the fraction 0.83 g
+    expect(packageSize('CASTELLO HAVARTI, CHEDDAR OU BLEU, 125-200 G')).toEqual({ ambiguous: true });
+    expect(packageSize('THON 85/170 G OU LÉGUMES 341-398 ML')).toEqual({ ambiguous: true });
+    expect(packageSize('Potatoes, 4.54 kilograms')).toEqual({ kind: 'g', v: 4540 });
+    expect(packageSize('BOEUF HACHÉ, 900 g (2x450 g)')).toEqual({ kind: 'g', v: 900 });
+    const I = ING_BY_ID;
+    expect(unitPrice({ name: 'OIGNONS JAUNES', price: 1.99 }, I.onion)).toBeNull(); // a bag of unknown size
+    expect(unitPrice({ name: 'POITRINES DE POULET PC', price: 13 }, I.chicken_breast)).toBeNull(); // a pack
+    expect(unitPrice({ name: 'AVOCATS HASS', price: 6 }, I.avocado)).toBeNull(); // plural: a bag
+    expect(unitPrice({ name: 'OIGNONS VERTS', price: 0.99 }, I.green_onion).perG).toBeCloseTo(0.0099); // a bunch
+    expect(unitPrice({ name: 'Fromage 200 g', price: 5, pre: 'À partir de' }, I.cheddar)).toBeNull();
+    expect(unitPrice({ name: 'Pâtes 900 g', price: 10, pre: '2/', post: "ou 5,49$ l'unité" }, I.pasta).perG).toBeCloseTo(5.49 / 900);
+  });
+  it('processed or different products never price a raw ingredient', () => {
+    const none = ['pommes de terre frites | McCain Fries', 'GRATIN DE POMMES DE TERRE', 'TRIO SUCRE À LA CRÈME ET FUDGE', 'OSSO BUCO DE VEAU DE LAIT | FROZEN MILK-FED VEAL',
+      'Cubes de bouillon de poulet OXO', 'lait au chocolat Québon', 'ghee légume Aseel', 'SAUCISSES DE CANARD LAC BROME', 'SAUCISSES FUMÉES SANS NOM® | SMOKED SAUSAGES',
+      'MÉLANGE DE LAITUES AVEC GARNITURES', 'RILLETTES DE SAUMON FUMÉ', 'BOEUF, PORC ET VEAU HACHÉS MAIGRES', 'TOMATES PASTENE', 'BOMBAS MOZZA ET PESTO PC',
+      'TARTINADE AU CARAMEL', 'BOURSIN® GARLIC & FINE HERBS'];
+    for (const n of none) expect(matchFlyerItem(n), n).toEqual([]);
+    expect(matchFlyerItemFull('brie double crème | double cream cheese').map((h) => h.pk)).toEqual(['brie']);
+    expect(matchFlyerItemFull('POIVRONS JAUNES, ROUGES, ORANGE').map((h) => h.pk)).toEqual(['bell_pepper']);
+    expect(matchFlyerItemFull('tomates mélangées ou cerises').map((h) => h.pk)).toEqual(['tomato', 'cherry_tomato']);
+    expect(matchFlyerItemFull('bifteck de surlonge de boeuf').map((h) => h.pk)).toEqual(['beef_steak~surlonge']);
+  });
+  it('recipe quantities', () => {
+    const g = (s) => parseIngredientLine(s).g;
+    const k = (s) => parseIngredientLine(s).pk || parseIngredientLine(s).ing;
+    expect(g('6 inch broccoli stem')).toBeNull();
+    expect(g('1 pint grape tomatoes')).toBeCloseTo(283.8);
+    expect(g('4 cups day-old cooked jasmine rice')).toBeCloseTo(237);
+    expect(g('½ 16 oz. box rigatoni')).toBeCloseTo(226.8);
+    expect(g('2 -15 oz cans butter beans')).toBeCloseTo(850.5);
+    expect(g('1 bunch green onions')).toBe(100);
+    expect(g('1 lime (1 Tbsp juice, $0.50)')).toBe(65);
+    expect(g('4 5-6 oz salmon fillets')).toBeCloseTo(567);
+    expect(g('2 filets de porc de 450 grammes')).toBe(900);
+    expect(g('2 sheets puff pastry')).toBe(450);
+    expect(g('5 feuilles de laitue romaine')).toBe(75);
+    expect(k('16 small corn tortillas')).toBe('tortilla~tortilla_de_mais');
+    expect(k('4 8-inch flour tortillas')).toBe('tortilla~tortilla');
+    expect(k('2 -15 oz cans butter beans')).toBe('white_beans~haricot_de_lima');
+    expect(k('16 oz potato gnocchi')).toBe('pasta~gnocchi');
+    expect(k('1/4 cup balsamic vinegar')).toBe('vinegar~vinaigre_balsamique');
+    expect(k('2 cups whole milk ricotta')).toBe('ricotta~ricotta');
+    expect(k('1 tsp dried thyme')).toBe('spice');
+    expect(k('2 boîtes de 398 ml de tomates')).toBe('canned_tomato');
+    expect(k('25 g de fromage à raclette')).toBe('swiss~raclette');
+    expect(k('5 lbs chicken pieces')).toBe('chicken_drumstick');
+    expect(parseIngredientLine('1 20 oz. can pineapple chunks').np).toBe(1);
+    expect(parseIngredientLine('500 g de bœuf, porc ou veau haché').alt).toEqual(['beef', 'pork', 'veal']);
+  });
+  it('alternatives are priced at the cheapest; flyers never create a price', () => {
+    const base = { pork_loin: { perG: 0.008 }, beef_stew: { perG: 0.02 }, veal: { perG: 0.022 } };
+    const l = { ...parseIngredientLine('500 g de bœuf, porc ou veau haché') };
+    const c = costRecipe({ servings: 2, ings: [l] }, new Map(), base);
+    expect(c.lines[0].cost).toBeCloseTo(4); // pork at 8 $/kg
+    const offers = bestOffers([{ name: 'kiwi', pg: { kiwi: 0.004 }, store: 'a' }], new Set(['a']), '2030-01-01', {});
+    expect(costRecipe({ servings: 1, ings: [{ raw: 'x', ing: 'kiwi', g: 100 }] }, offers, {}).lines[0].src).toBeNull();
   });
 });

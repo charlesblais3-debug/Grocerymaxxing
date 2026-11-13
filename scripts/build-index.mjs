@@ -3,6 +3,7 @@
 // normalised to a price per gram, baseline prices mapped to ingredients.
 import { writeFile, mkdir } from 'node:fs/promises';
 import { readJson } from './lib/http.mjs';
+import { deaccent } from '../shared/text.js';
 
 // Compact output: these files are downloaded by every visitor.
 async function writeJson(path, data) {
@@ -17,6 +18,10 @@ import { computeNutrition } from '../shared/nutrition.js';
 import { ING_BY_ID } from '../shared/ingredients.js';
 import { SOURCES } from './sources.mjs';
 import { STORES, loadFlyers } from './fetch-flyers.mjs';
+const MAIN = new Set(STORES.map((x) => x.id));
+// Grams of food in a meal when a recipe has to be divided by weight (a main without its sides).
+const MEAL_G = 350;
+const CITRUS = new Set(['lemon', 'lime', 'orange', 'grapefruit']);
 
 const numOf = (v) => {
   const m = String(v ?? '').replace(',', '.').match(/-?\d+(?:\.\d+)?/);
@@ -25,7 +30,7 @@ const numOf = (v) => {
 
 export function buildRecipes(raw) {
   return raw.map((r) => {
-    const ings = r.ingredients.map(parseIngredientLine);
+    const ings = r.ingredients.map((x) => parseIngredientLine(x, r.lang));
     const n = r.nutrition || {};
     // Published nutrition only (per serving, as stated by the source). Never computed.
     const macros = r.nutrition ? {
@@ -45,13 +50,25 @@ export function buildRecipes(raw) {
     // "585 ml", "900 g": a volume or weight, not a number of servings.
     if (rest.unitYield && (rest.servings > 48 || /^\s*[\d.,/ ]+\s*(ml|l|g|kg|oz|lb|litres?|tasses?|cups?)\b/.test(y))) rest.servings = null;
 
+    // "Le jus de 1 orange" and "le zeste de ½ orange" come from the same fruit: the zest line
+    // costs nothing more when the recipe already buys that fruit for its juice or flesh.
+    for (const l of ings) {
+      if (!CITRUS.has(l.ing) || !/\b(zeste?s?|zest|ecorce|rind)\b/.test(deaccent(l.raw))) continue;
+      if (ings.some((o) => o !== l && o.ing === l.ing && !/\b(zeste?s?|zest)\b/.test(deaccent(o.raw)))) l.g = 0;
+    }
+    // Deep-frying oil ("750 ml oil for frying", "1.5 litres vegetable oil") mostly stays in
+    // the pot: count what the food absorbs (about 15 %), not the whole bottle.
+    for (const l of ings) {
+      if (!['veg_oil', 'olive_oil', 'coconut_oil'].includes(l.ing) || l.g == null) continue;
+      if (/\b(fry|frying|deep|friture|frire|frit)\b/.test(deaccent(l.raw)) || l.g > 400) l.g = Math.round(l.g * 0.15);
+    }
     // Safety net: one ingredient weighing more than a whole plate per serving means the
     // quantity was misread. Leave the line unpriced instead of charging for it.
     if (rest.servings && !rest.unitYield) {
       for (const l of ings) {
         const def = ING_BY_ID[l.ing];
         if (!def || l.g == null) continue;
-        const cap = def.free || /^broth_|milk$|canned_tomato|tomato_sauce|coconut_milk|wine/.test(def.id) ? 900 : def.cat === 'meat' || def.cat === 'fish' ? 500 : 450;
+        const cap = def.free || /^broth_|milk$|canned_tomato|tomato_sauce|coconut_milk|wine/.test(def.id) ? 900 : def.cat === 'meat' || def.cat === 'fish' ? 700 : 450; // bone-in meat weighs more
         if (l.g / rest.servings > cap) { l.g = null; l.odd = 1; }
       }
     }
@@ -59,7 +76,7 @@ export function buildRecipes(raw) {
     // --- Meals. A "portion" on a recipe site can be a 150-kcal bite; what matters when
     // cooking is the cost of a plate that makes a meal. For meal dishes the published
     // serving is kept when it is meal-sized, otherwise the recipe is re-divided into
-    // meals of about 550 kcal (published nutrition) or about 450 g of food (weights).
+    // meals of about 550 kcal (published nutrition) or about 350 g of food (weights).
     const tax = classify(r, ings);
     let meals = null;
     let mealBasis = null;
@@ -68,7 +85,7 @@ export function buildRecipes(raw) {
       const weighed = ings.filter((l) => l.g != null).length / Math.max(1, ings.filter((l) => !l.nq).length);
       const half = (x) => Math.max(1, Math.round(x * 2) / 2);
       const s = rest.unitYield ? null : rest.servings;
-      const byWeight = weighed >= 0.7 && food > 0 ? food / 450 : 0;
+      const byWeight = weighed >= 0.7 && food > 0 ? food / MEAL_G : 0;
       if (macros?.kcal && s) {
         if (macros.kcal >= 350) { meals = s; mealBasis = 'source'; } else {
           // Published calories that contradict the weight of food on the plate (a "1 kcal"
@@ -78,7 +95,7 @@ export function buildRecipes(raw) {
         }
       } else if (weighed >= 0.7 && food > 0) {
         const per = s ? food / s : 0;
-        if (s && per >= 280 && per <= 900) { meals = s; mealBasis = 'source'; } else { meals = half(food / 450); mealBasis = 'weight'; }
+        if (s && per >= 250 && per <= 900 && !(s === 1 && food > 700)) { meals = s; mealBasis = 'source'; } else { meals = half(food / MEAL_G); mealBasis = 'weight'; }
       } else if (s) { meals = s; mealBasis = 'source'; }
       if (mealBasis === 'kcal' && meals > s) { meals = s; mealBasis = 'source'; }
     }
@@ -147,9 +164,9 @@ export function buildFlyers(data) {
 // Statistics Canada product labels the generic matcher gets wrong or cannot place.
 const STATCAN = [
   [/^Beef stewing/i, ['beef_stew~cube_de_boeuf']], [/^Beef striploin/i, ['beef_steak~contre_filet']], [/^Beef top sirloin/i, ['beef_steak~surlonge']], [/^Beef rib/i, []],
-  [/^Block cheese/i, ['cheddar']], [/^Canned beans and lentils/i, ['black_beans', 'kidney_beans~haricot_rouge', 'chickpeas', 'white_beans~haricot_blanc']], [/^Canned baked beans/i, ['white_beans~feve_au_lard']],
+  [/^Block cheese/i, ['cheddar']], [/^Canned beans and lentils/i, ['black_beans', 'kidney_beans~haricot_rouge', 'kidney_beans~haricot_pinto', 'kidney_beans~haricot_romain', 'chickpeas', 'white_beans~haricot_blanc', 'white_beans~haricot_de_lima', 'white_beans~legumineuse']], [/^Frozen spinach/i, ['spinach_frozen']], [/^Canned baked beans/i, ['white_beans~feve_au_lard']],
   [/^Cream,/i, ['cream_35']], [/^Dried lentils/i, ['lentils~lentille']], [/^Peppers/i, ['bell_pepper']],
-  [/^Nut milk/i, []], [/^Whole chicken/i, ['chicken_whole']], [/^Chicken drumsticks/i, ['chicken_drumstick']], [/^Chicken thigh/i, ['chicken_thigh']], [/^Canned (salmon|peach|pear|soup)/i, []], [/^Salad greens/i, []],
+  [/^Nut milk/i, []], [/^Whole chicken/i, ['chicken_whole']], [/^Chicken drumsticks/i, ['chicken_drumstick']], [/^Chicken thigh/i, ['chicken_thigh']], [/^Canned (salmon|peach|pear)/i, []], [/^Canned soup/i, ['canned_soup']], [/^Salad greens/i, ['lettuce~mesclun']], [/^Dry or fresh pasta/i, ['pasta']], [/^Frozen broccoli/i, []], [/^Frozen strawberries/i, ['frozen_fruit']],
 ];
 
 /**
@@ -163,7 +180,7 @@ export function buildBaseline(data, history) {
   for (const p of data?.products || []) {
     const rule = STATCAN.find(([re]) => re.test(p.name));
     for (const ing of rule ? rule[1] : matchFlyerItemFull(p.name).slice(0, 1).map((h) => h.pk)) {
-      const post = /per kilogram/i.test(p.name) ? '/kg' : '';
+      const post = /per kilogram/i.test(p.name) ? '/kg' : /,\s*unit\b/i.test(p.name) ? 'ch.' : '';
       const up = unitPrice({ price: p.value, post, name: p.name.replace(/per kilogram/i, '') }, ING_BY_ID[baseId(ing)]);
       if (!up) continue;
       (byIng[ing] ||= []).push({ perG: up.perG, label: p.name, date: p.date });
@@ -171,21 +188,35 @@ export function buildBaseline(data, history) {
   }
   const prices = {};
   for (const [ing, list] of Object.entries(byIng)) {
+    // Several StatCan products for one ingredient (a 10 lb bag and loose potatoes per kg):
+    // the true median, labelled with the product closest to it.
     list.sort((a, b) => a.perG - b.perG);
-    const mid = list[Math.floor((list.length - 1) / 2)];
-    prices[ing] = { perG: +mid.perG.toFixed(6), label: mid.label, date: mid.date, kind: 'statcan' };
+    const m = (list.length - 1) / 2;
+    const perG = (list[Math.floor(m)].perG + list[Math.ceil(m)].perG) / 2;
+    const near = list.reduce((x, y) => (Math.abs(y.perG - perG) < Math.abs(x.perG - perG) ? y : x));
+    prices[ing] = { perG: +perG.toFixed(6), label: list.length > 1 ? list.map((x) => x.label).join(' / ') : near.label, date: near.date, kind: 'statcan' };
   }
   const obs = {};
   for (const rows of Object.values(history?.weeks || {})) for (const r of rows) (obs[r[1]] ||= []).push(r);
   const quantile = (xs, q) => { const s = xs.slice().sort((a, b) => a - b); return s[Math.min(s.length - 1, Math.floor(q * s.length))]; };
+  const median = (xs) => { const s = xs.slice().sort((a, b) => a - b); const m = (s.length - 1) / 2; return (s[Math.floor(m)] + s[Math.ceil(m)]) / 2; };
   for (const [ing, all] of Object.entries(obs)) {
     if (prices[ing] || !ING_BY_ID[baseId(ing)]) continue;
-    const rows = all.some((r) => r[4]) ? all.filter((r) => r[4]) : all; // plain products when there are any
-    // Retailers' own "regular price" claims are NOT used: they flatter the discount (a sole
-    // fillet "regularly" at 100 $/kg). What stores actually charged is the evidence.
-    // The median, not the top of the range: one ingredient covers budget and premium
-    // products, and a high reference would turn every ordinary price into a fake "-50 %".
-    prices[ing] = { perG: +quantile(rows.map((r) => r[2]), 0.5).toFixed(6), kind: 'flyer', n: rows.length };
+    // Evidence, in order of trust: plain products (not sliced, smoked, frozen…) from the seven
+    // main banners; failing that, the reference-only banners (health-food and specialty
+    // stores, often pricier). Each distinct product price counts once, however many weeks
+    // it ran. Prices far from the bulk (a 46 ml concentrate among 900 ml cartons) are dropped.
+    const plain = all.some((r) => r[4]) ? all.filter((r) => r[4]) : all;
+    const main = plain.filter((r) => MAIN.has(r[0]));
+    const distinctN = (rs) => new Set(rs.map((r) => `${r[0]}|${r[2]}`)).size;
+    const rows = distinctN(main) >= 2 ? main : plain;
+    const distinct = [...new Map(rows.map((r) => [`${r[0]}|${r[2]}`, r[2]])).values()];
+    const m0 = median(distinct);
+    const kept = distinct.filter((x) => x >= m0 / 2.5 && x <= m0 * 2.5);
+    // One product is not evidence of what an ingredient costs (it may be a premium brand or
+    // a misprint): at least two distinct products are needed, else the line stays unpriced.
+    if (kept.length < 2) continue;
+    prices[ing] = { perG: +median(kept).toFixed(6), kind: 'flyer', n: kept.length, ...(rows === main ? {} : { refStores: 1 }) };
   }
   // A generic request ("nuts", "white fish") is priced at the median of the group's members.
   for (const ing of Object.values(ING_BY_ID)) {

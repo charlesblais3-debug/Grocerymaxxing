@@ -19,9 +19,9 @@ export function priceItem(it) {
   const seg = {}; // price key -> the part of the label that names it ("mangue rouge")
   let basis;
   for (const h of hits) {
-    const up = unitPrice(it, ING_BY_ID[h.id]);
-    // Without the item's price text we cannot tell "each" from "per lb": trust only printed sizes.
-    if (!up || (!it.d && up.basis !== 'size')) continue;
+    const up = unitPrice(it, ING_BY_ID[h.id], hits.length > 1 ? h.seg : null);
+    // Without the item's price wording ("2/", "/lb", "à partir de") the number cannot be read.
+    if (!up || !it.d) continue;
     pg[h.pk] = +up.perG.toFixed(6);
     if (hits.length > 1) seg[h.pk] = h.seg;
     basis ||= up.basis;

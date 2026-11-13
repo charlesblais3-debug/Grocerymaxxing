@@ -37,9 +37,9 @@ for (const [regionId, region] of Object.entries(flyers.regions)) {
         if ((c.total ?? 0) > (c0.total ?? 0) + EPS) note(2, r, `${regionId}/${s}/${day}: ${c.total} > ${c0.total}`);
         if ((cAll.total ?? 0) > (c.total ?? 0) + EPS) note(3, r, `${regionId}/${s}/${day}: all stores ${cAll.total} > ${c.total}`);
         for (const l of c.lines) {
-          const ref = base[l.pk || l.ing]?.perG;
+          const ref = base[l.via || l.pk || l.ing]?.perG;
           if (l.src === 'flyer' && !l.via) {
-            const want = l.pk || l.ing;
+            const want = l.pk || l.ing; // for alternatives, l.pk is the one chosen
             const generic = want === l.ing && ING_BY_ID[l.ing].members.some((m) => m.generic);
             if (l.offer.pk !== want && !(generic && baseId(l.offer.pk) === l.ing)) note(5, r, `${l.raw.slice(0, 40)} priced with ${l.offer.pk}`);
           }
