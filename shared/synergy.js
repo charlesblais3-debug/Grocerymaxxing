@@ -3,6 +3,7 @@
 // across several meals without eating the same dish all week.
 import { ING_BY_ID } from './ingredients.js';
 import { isMealDish } from './taxonomy.js';
+import { complete } from './cost.js';
 
 // Ingredients worth planning a week around: proteins, vegetables, fruit, cheese.
 // Staples that are in almost every recipe (onion, garlic, butter, milk, eggs, herbs, lemon,
@@ -33,7 +34,7 @@ const priced = (l) => l.via || l.ing;
 export function buildIdeas(recipes, costs, offers, baseline, { size = 4, maxBundles = 8 } = {}) {
   // 1. What is on sale and actually used by a recipe line, with its discount.
   const used = new Map(); // ingredient -> { offer, recipes:Set }
-  const meals = recipes.filter((r) => isMealDish(r.tax) && costs.get(r.id)?.coverage >= 0.6);
+  const meals = recipes.filter((r) => isMealDish(r.tax) && complete(costs.get(r.id)));
   for (const r of meals) {
     for (const l of costs.get(r.id).lines) {
       if (l.src !== 'flyer') continue;

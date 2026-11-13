@@ -18,6 +18,7 @@ export function deaccent(s) {
 /** Light FR/EN singulariser so "oeufs", "poireaux", "tomatoes", "radishes" line up. */
 export function stem(tok) {
   if (tok.length <= 3) return tok;
+  if (tok === 'baies') return 'baie'; // French "berries", not the English -ies plural
   let t = tok;
   if (t.endsWith('ies') && t.length > 4) t = t.slice(0, -3) + 'y';
   else if (t.endsWith('eaux')) t = t.slice(0, -1);
@@ -54,6 +55,7 @@ const UNITS = [
   ['litres?|liters?|l', 'ml', 1000],
   ['tasses?|t\\.', 'ml', 250],
   ['cups?', 'ml', 237],
+  ['gallons?', 'ml', 3785],
   ['pintes?|quarts?|qt', 'ml', 946],
   ['pints?|chopines?', 'ml', 473],
   ['inch(?:es)?|in\\.|pouces?|po\\.?(?![a-z])', 'len', 1],
@@ -62,7 +64,11 @@ const UNITS = [
   ['c\\.?\\s*a\\s*(?:the|cafe|t\\.?|c\\.?)(?![a-z])|cuill?eres?\\s*a\\s*(?:the|cafe)|cuil\\.?\\s*a\\s*(?:the|cafe)|teaspoons?|tsps?\\.?', 'ml', 5],
   ['pincees?|pinch(?:es)?|dash(?:es)?|soupcons?', 'g', 0.3],
   ['gousses?|cloves?', 'n', 'gousse'],
-  ['tranches?|slices?|rashers?|strips?|lanieres?', 'n', 'tranche'],
+  ['tranches?(?! de citron)|slices?|rashers?|strips?|lanieres?|rings?|anneaux?', 'n', 'tranche'],
+  ['gouttes?|drops?', 'n', 'goutte'],
+  ['sticks?(?= (?:of )?(?:unsalted |salted |softened |cold |melted )?butter)|batonnets? de beurre', 'n', 'stick'],
+  ['carres?|squares?', 'n', 'carre'],
+  ['nids?|nests?', 'n', 'nid'],
   ['branches?|tiges?|stalks?|ribs?|sprigs?|brins?', 'n', 'branche'],
   ['douzaines?|dozens?', 'n', 'douzaine'],
   ['feuilles?|leaf|leaves|sheets?|abaisses?', 'n', 'feuille'],
@@ -94,9 +100,14 @@ function toNumber(str) {
  * (metric weight > metric volume > imperial weight > cups/spoons > bare count).
  */
 export function parseQuantity(raw) {
-  let s = deaccent(raw).replace(/\(\s*\$\s*[\d.,]+\s*\*?\s*\)/g, ' '); // source cost notes like "($0.75)"
+  // "1 oignon tranché": the adjective "tranché" is not the unit "tranche" once accents are gone.
+  let s = deaccent(raw.replace(/tranch(?:é|ée|és|ées)(?![a-zà-ÿ])/gi, 'emince')).replace(/\(\s*\$\s*[\d.,]+\s*\*?\s*\)/g, ' '); // source cost notes like "($0.75)"
   for (const [k, v] of Object.entries(FRACTIONS)) s = s.replaceAll(k, ' ' + v);
   s = s.replace(/\b(?:une|a|one)?\s*douzaine\s+d(?:e\s+|')|\ba dozen\s+(?:of\s+)?/g, ' 12 '); // "une douzaine de feuilles" = 12 leaves
+  // "1/4 de tasse", "1 1/2 de tasse": the "de" sits between the number and its unit.
+  s = s.replace(/(\d)\s+(?:de\s+|d')(?=tasses?\b|c\.|cuill)/g, '$1 ');
+  // Fat or alcohol percentages ("crème 35 %", "lait 2%") are not quantities.
+  s = s.replace(/\d+(?:[.,]\d+)?\s*%/g, ' ');
   s = s.replace(/^\s*([a-z]+)\b(?!\s+peu\b)/, (m, w) => (WORDS[w] != null ? String(WORDS[w]) : m)); // "one 14-ounce can", "une gousse"
   // "2 -15 oz cans", "2 (15 oz) cans": a count of packages, not the range 2 to 15.
   s = s.replace(/(\d+)\s+-\s*(\d+(?:[.,]\d+)?)\s*(oz|g|ml|lb|lbs|l)\b/g, (m, a, b, u) => (+b >= 4 * +a ? `${a} x ${b} ${u}` : m));

@@ -5,6 +5,7 @@ import { L } from './i18n.js';
 import { INGREDIENTS, ING_BY_ID } from '../shared/ingredients.js';
 import { deaccent } from '../shared/text.js';
 import { dealScore } from '../shared/score.js';
+import { complete } from '../shared/cost.js';
 
 export function Img({ src, alt = '', className }) {
   const [bad, setBad] = useState(false);
@@ -88,7 +89,7 @@ export function Chip({ on, onClick, children, title }) {
 export function CostTag({ cost, big }) {
   const { fmt, t } = useApp();
   if (!cost || cost.total == null) return <span className="cost none">{t('noPrice')}</span>;
-  const partial = cost.coverage < 0.75 || cost.missing?.length > 0;
+  const partial = !complete(cost);
   const v = cost.per ?? cost.total;
   const unit = { meal: t('perMeal'), serving: t('perServing'), unit: t('perUnit') }[cost.perKind] || t('wholeRecipe');
   return (

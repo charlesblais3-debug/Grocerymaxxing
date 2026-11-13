@@ -23,7 +23,7 @@ export function suggestPlan(recipes, costs, { budget = null, people = 2, dinners
   // (an unrecognised ingredient could be the expensive one).
   const pool = recipes.filter((r) => r.meals && r.tax.protein && r.tax.meals.some((m) => DINNER.has(m)) && !r.tax.meals.includes('appetizer') && !r.tax.meals.includes('side')
     && !avoid.has(r.id) && !keep.includes(r)
-    && reliable(costs.get(r.id)) && costs.get(r.id).coverage >= 0.9 && (!r.ings || r.ings.every((l) => l.ing))
+    && reliable(costs.get(r.id)) && (!r.ings || r.ings.every((l) => l.ing))
     && (!minProtein || perMeal(r, 'protein') >= minProtein) && (!maxKcal || (perMeal(r, 'kcal') != null && perMeal(r, 'kcal') <= maxKcal)));
   const week = keep.map((r) => ({ r }));
   const picked = [];

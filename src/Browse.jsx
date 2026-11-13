@@ -4,7 +4,7 @@ import { RecipeCard, Img, Store, Icon, IngredientPicker, DealBadge, offerName, m
 import { MEAL_TYPES, CUISINES, PROTEINS, DIETS } from '../shared/taxonomy.js';
 import { ING_BY_ID } from '../shared/ingredients.js';
 import { deaccent } from '../shared/text.js';
-import { reliable as isReliable, bestFor } from '../shared/cost.js';
+import { reliable as isReliable, complete as isComplete, bestFor } from '../shared/cost.js';
 import { L } from './i18n.js';
 
 const PAGE = 48;
@@ -78,8 +78,11 @@ export default function Browse({ query }) {
       rating: (a, b) => score(b) - score(a),
     };
     // "Cook with what I have": most pantry ingredients first.
-    if (f.mine) { const n = (r) => new Set(r.ings.map((l) => l.ing).filter((g) => app.have.has(g))).size; return rows.sort((a, b) => n(b) - n(a) || sorters.cost(a, b)); }
-    return rows.sort(sorters[f.sort] || sorters.deals);
+    if (f.mine) { const n = (r) => new Set(r.ings.map((l) => l.ing).filter((g) => app.have.has(g))).size; return rows.sort((a, b) => (isComplete(c(a)) ? 0 : 1) - (isComplete(c(b)) ? 0 : 1) || n(b) - n(a) || sorters.cost(a, b)); }
+    // Fully priced recipes always come first, whatever the sort: a partial price is never on top.
+    const done = (r) => (isComplete(c(r)) ? 0 : 1);
+    const pick = sorters[f.sort] || sorters.deals;
+    return rows.sort((a, b) => done(a) - done(b) || pick(a, b));
   }, [base, f.meal, f.sort, costs]);
 
   if (!recipes.length) return <div className="state">{t('noData')}</div>;

@@ -5,7 +5,7 @@ import { parseQuantity } from '../shared/text.js';
 import { matchIngredient, matchFlyerItem, matchFlyerItemFull, parseIngredientLine } from '../shared/match.js';
 import { unitPrice } from '../shared/price.js';
 import { ING_BY_ID } from '../shared/ingredients.js';
-import { bestOffers, costRecipe } from '../shared/cost.js';
+import { bestOffers, costRecipe, complete } from '../shared/cost.js';
 import { classify } from '../shared/taxonomy.js';
 import { parseRobots } from '../scripts/lib/http.mjs';
 import { extractRecipe, toRecord } from '../scripts/fetch-recipes.mjs';
@@ -422,7 +422,7 @@ describe('deal score and plan refinements', () => {
     const { suggestPlan } = await import('../shared/planner.js');
     const mk = (id, protein, p) => ({ id, source: id, meals: 4, servings: 4, macros: { kcal: 500, protein: p }, tax: { meals: ['main'], cuisines: [], protein, diets: [] } });
     const recipes = [mk('a', 'chicken', 40), mk('b', 'chicken', 20), mk('c', 'beef', 45), mk('d', 'fish', 15)];
-    const costs = new Map(recipes.map((r) => [r.id, { total: 8, per: 2, perKind: 'meal', coverage: 1, missing: [], savingsPct: 0 }]));
+    const costs = new Map(recipes.map((r) => [r.id, { total: 8, per: 2, perKind: 'meal', coverage: 1, priced: 5, countable: 5, missing: [], savingsPct: 0 }]));
     const keep = [recipes[0]];
     const [next] = suggestPlan(recipes, costs, { people: 4, dinners: 1, keep, avoid: new Set(['a', 'b']) });
     expect(['c', 'd']).toContain(next.id); // not the kept one, not the avoided one, and not chicken again
@@ -432,6 +432,35 @@ describe('deal score and plan refinements', () => {
 
 // Every case below is a pricing error found in the November 2026 audit.
 describe('pricing audit regressions', () => {
+  it('reads common French quantity forms and leaves non-food lines out', () => {
+    const P = (s, lang = 'fr') => { const l = parseIngredientLine(s, lang); return [l.ing, l.g, l.x, l.opt]; };
+    expect(P('1/4 de tasse (65 ml) d’huile d’olive')[1]).toBe(57.5); // "de tasse"
+    expect(P('(1 tasse) de crème 35 %')[1]).toBe(250); // 35 % is not a count
+    expect(P('1 oignon jaune tranché')[1]).toBe(150); // the adjective, not slices
+    expect(P('250 ml (1 tasse) de gruyère râpé')[0]).toBe('swiss'); // grated, not a grater
+    expect(P('32 asperges vertes')[1]).toBe(640); // small items in large numbers
+    expect(P('1 stick unsalted butter', 'en')[1]).toBe(113);
+    expect(P('1 celery stick finely chopped', 'en')[1]).toBe(50);
+    expect(P('POUR LA GARNITURE :')[2]).toBe(1);
+    expect(P('Rendement : 1 litre')[2]).toBe(1);
+    expect(P('16 pics à brochettes')[2]).toBe(1);
+    expect(P('2 celery sticks (, grated using a box grater)', 'en')[2]).toBeUndefined(); // food named: not equipment
+    expect(P('fresh herbs (optional)', 'en')[3]).toBe(1);
+    expect(P('1 enveloppe de soupe à l\'oignon')[0]).toBe('soup_mix');
+    expect(P('1 litre de jus de légumes')[0]).toBe('juice');
+  });
+  it('only fully priced recipes are complete; optional and non-food lines do not block it', () => {
+    const base = { onion: { perG: 0.003 } };
+    const r = { id: 'x', servings: 2, ings: [
+      { raw: '1 oignon', ing: 'onion', g: 150 },
+      { raw: 'POUR LA GARNITURE :', ing: null, x: 1 },
+      { raw: 'herbes fraîches (facultatif)', ing: null, nq: 1, opt: 1 },
+    ] };
+    const c = costRecipe(r, new Map(), base);
+    expect(complete(c)).toBe(true);
+    const c2 = costRecipe({ ...r, ings: [...r.ings, { raw: '1 c. à soupe de mystère', ing: null, g: null }] }, new Map(), base);
+    expect(complete(c2)).toBe(false); // an unrecognised line with a quantity blocks it
+  });
   it('recipe quantities given in brackets, cooked grains, legs and frying are read correctly', () => {
     const P = (s, lang = 'en') => { const l = parseIngredientLine(s, lang); return [l.ing, l.g, l.np]; };
     expect(P('1 medium-to-large yellow squash (about ½ pound), diced')[0]).toBe('zucchini'); // summer squash, not a 1 kg butternut

@@ -53,6 +53,10 @@ jobs:
         if: github.event_name == 'push' || github.event_name == 'workflow_dispatch' && inputs.recipes || github.event.schedule == '43 7 * * 1'
         run: node scripts/fetch-baseline.mjs
         continue-on-error: true
+      - name: Everyday prices (Walmart online catalogue)
+        if: github.event_name == 'push' || github.event_name == 'workflow_dispatch' && inputs.recipes || github.event.schedule == '43 7 * * 1'
+        run: node scripts/fetch-shelf.mjs
+        continue-on-error: true
       - name: Recipes
         if: github.event_name == 'push' || github.event_name == 'workflow_dispatch' && inputs.recipes || github.event.schedule == '43 7 * * 1'
         run: node scripts/fetch-recipes.mjs

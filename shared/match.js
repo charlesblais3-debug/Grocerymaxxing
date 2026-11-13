@@ -205,6 +205,7 @@ export function gramsFor(ing, q) {
   if (q.len != null) return ing.units?.len ? q.len * ing.units.len : null; // "2 inch piece ginger"
   if (q.count != null) {
     if (q.countUnit === 'douzaine') return ing.u ? q.count * 12 * ing.u : null;
+    if (q.countUnit === 'goutte') return q.count * 0.05; // drops: a few hundredths of a gram
     if (q.countUnit) {
       // A named unit we have no weight for ("5 feuilles", "1 poignée") is left unpriced
       // rather than guessed from the weight of a whole head or pack.
@@ -212,12 +213,17 @@ export function gramsFor(ing, q) {
       return w != null ? q.count * w : null;
     }
     // Bare counts above 24 are almost always a stray number ("375 F"), not a quantity.
+    // Small items are counted in larger numbers ("32 asperges", "45 mini-guimauves").
     const unit = ing.ru ?? ing.u;
-    const g = unit && q.count <= 24 ? q.count * unit : null;
+    const g = unit && (q.count <= 24 || (unit <= 30 && q.count <= 100)) ? q.count * unit : null;
     return g != null && g > 3000 && q.count > 3 ? null : g;
   }
   return null;
 }
+
+const HEADING = /(:\s*$)|^[-–—_*\s]+$|^(rendement|yield|makes|donne|pour (la|le|les|l')\b[^,]*:|for the\b[^,]*:)/;
+const EQUIPMENT = /\b(sacs? (ziplock|refermables?|de congelation)|ziplocks?|pics? a brochettes?|brochettes? de bois|bamboo skewers?|wooden skewers?|skewers?|lollipop sticks?|batonnets?|cure-dents?|toothpicks?|ficelle|kitchen twine|butcher'?s twine|papier (parchemin|sulfurise|d'aluminium|ciré)|parchment paper|wax paper|aluminum foil|mason jars?|pots? masson|bocaux? (en verre|stérilisés?)|styrofoam|pellets|une rape|grater|spiraleur|spiralizer|chaudron|thermometre|thermometer|moule a|cheesecloth|coton a fromage|etamine|glass jars?|quart (mason )?jar)/;
+const OPTIONAL = /\b(optional|optionnel(le)?s?|facultatif|facultative|garnish|garnir|garniture|en garniture|to serve|for serving|pour servir|au service|au gout|to taste|if desired|si desire|au choix|of choice|de votre choix|de ton choix|for decorating|pour decorer|toppings?)\b/;
 
 /** Parse one recipe ingredient line -> { raw, ing, g } */
 export function parseIngredientLine(raw, lang) {
@@ -362,7 +368,13 @@ export function parseIngredientLine(raw, lang) {
   const canned = ing && ing.cat === 'produce' && !['canned_tomato', 'corn'].includes(id) && /\b(cans?|canned|tins?|tinned|en conserve|conserves?|jarred|bocal)\b/.test(deaccent(outside));
   // Ready-made pulled pork ("1 contenant de porc effiloché avec sauce") is not raw shoulder.
   const ready = id === 'pork_shoulder' && /\b(effiloche|pulled)\b/.test(deaccent(outside)) && !/\b(epaule|shoulder|butt|soc)\b/.test(deaccent(outside));
-  return { raw, ing: id, alt, pk: hit && hit.pk !== id ? hit.pk : undefined, g: g != null ? Math.round(g * 10) / 10 : null, nq: q.none ? 1 : undefined, fm: fm.length ? fm : undefined, np: canned || ready ? 1 : undefined };
+  // Not something to buy: section headings ("POUR LA GARNITURE :"), yields ("Rendement : 1 litre"),
+  // equipment ("Des sacs ziplock", "16 pics à brochettes", "Parchment paper").
+  // Equipment only when no food is named ("grated using a box grater" is still celery).
+  const x = HEADING.test(deaccent(raw).trim()) || (!id && EQUIPMENT.test(deaccent(raw))) ? 1 : undefined;
+  // Optional or to-serve extras: they count when we can price them, never against the recipe.
+  const opt = OPTIONAL.test(deaccent(raw)) ? 1 : undefined;
+  return { raw, ing: x ? null : id, x, opt, alt, pk: hit && hit.pk !== id ? hit.pk : undefined, g: g != null ? Math.round(g * 10) / 10 : null, nq: q.none ? 1 : undefined, fm: fm.length ? fm : undefined, np: canned || ready ? 1 : undefined };
 }
 
 // ---- Product forms ---------------------------------------------------------------------

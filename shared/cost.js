@@ -107,13 +107,16 @@ export function costRecipe(recipe, offers, baseline, have) {
   const missing = [];
   const lines = recipe.ings.map((l) => {
     const ing = l.ing ? ING_BY_ID[l.ing] : null;
-    if (ing?.free) return { ...l, cost: 0, src: 'free' };
+    if (ing?.free || l.x) return { ...l, cost: 0, src: 'free' };
     // Already in the kitchen: nothing to buy for this line.
     if (have && l.ing && (have.has(l.ing) || have.has(l.via))) return { ...l, cost: 0, src: 'have' };
     const p = ing && l.g != null && !l.np ? lookupAlt(l, offers, baseline) : null;
     // Seasonings and "to taste" lines cost pennies and have no quantity to price:
     // they are shown as pantry items instead of dragging the coverage figure down.
     if (!p && ing && (ing.cat === 'spices' || l.nq)) return { ...l, cost: null, src: 'pantry' };
+    // An optional extra, or an unmeasured "fresh herbs, to taste", that we cannot price is
+    // left out rather than counted as missing: the recipe is complete without it.
+    if (!p && (l.opt || (!ing && l.nq))) return { ...l, cost: null, src: 'optional' };
     countable++;
     if (!p) {
       // An unpriced protein, or an unpriced ingredient that is a big part of the dish,
@@ -151,6 +154,7 @@ export function costRecipe(recipe, offers, baseline, have) {
   };
 }
 
-/** A cost can be compared across recipes when most lines are priced and it is per meal/serving. */
-export const complete = (c) => c.total != null && c.coverage >= 0.75 && !c.missing.length;
+/** Every line that has to be bought is priced ("salt to taste" has nothing to buy). Only these
+ * costs are ranked, used in ideas or the planner: a partial total always looks cheaper than it is. */
+export const complete = (c) => c != null && c.total != null && c.countable > 0 && c.priced === c.countable && !c.missing.length;
 export const reliable = (c) => c.per != null && complete(c) && c.perKind !== 'unit';

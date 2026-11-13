@@ -5,6 +5,7 @@ import { MEAL_TYPES, CUISINES } from '../shared/taxonomy.js';
 import { ING_BY_ID } from '../shared/ingredients.js';
 import { L } from './i18n.js';
 import { batchesFor } from '../shared/planner.js';
+import { complete } from '../shared/cost.js';
 
 export default function Recipe({ id }) {
   const { byId, costs, t, lang, fmt, sourceName, plan, setBatches, meta, baseline, have: pantry, togglePantry, people } = useApp();
@@ -40,7 +41,7 @@ export default function Recipe({ id }) {
           <div className="costbox">
             <CostTag cost={c} big />
             {c.total != null && <div className="sub">{t('total')} : ≈ {fmt(c.total)} · {c.priced}/{c.countable} {t('coverage')}{validTo ? ` · ${t('flyersUntil')} ${date(validTo)}` : ''} · <a href="#/a-propos">{t('howPriced')}</a></div>}
-            {c.missing.length > 0 && <div className="warnbox">{t('incomplete')} {[...new Set(c.missing)].map((id) => ING_BY_ID[id][lang === 'en' ? 'en' : 'fr'].toLowerCase()).join(', ')}.</div>}
+            {c.total != null && !complete(c) && <div className="warnbox">{t('incomplete')} {[...new Set(c.lines.filter((l) => l.src === null).map((l) => (l.ing ? ING_BY_ID[l.ing][lang === 'en' ? 'en' : 'fr'].toLowerCase() : l.raw.replace(/\s*\(.*$/, '').slice(0, 40))))].join(', ')}. {t('incompleteNote')}</div>}
             <SavingBar cost={c} label />
             {adjusted && <div className="sub mealnote">{lang === 'en'
               ? `Counted as ${r.meals} meals (${r.mealBasis === 'kcal' ? 'about 550 kcal each, from the published nutrition' : 'about 350 g of food each'})${r.servings ? ` — the source says ${r.yield || r.servings + ' servings'}` : ''}.`
@@ -72,7 +73,7 @@ export default function Recipe({ id }) {
                   <input type="checkbox" checked={l.ing ? pantry.has(l.ing) : !!have[i]} onChange={(e) => (l.ing && !ING_BY_ID[l.ing].free ? togglePantry(l.ing) : setHave({ ...have, [i]: e.target.checked }))} />
                   <span className="raw">{l.raw}</span>
                 </label>
-                <span className="num">{l.cost ? fmt(l.cost) : l.src === 'free' || l.src === 'pantry' || l.src === 'have' ? '' : '—'}</span>
+                <span className="num">{l.cost ? fmt(l.cost) : ['free', 'pantry', 'have', 'optional'].includes(l.src) ? '' : '—'}</span>
                 <div className="src">
                   {l.src === 'flyer' && (
                     <span className="offer">
@@ -81,9 +82,10 @@ export default function Recipe({ id }) {
                       {l.via ? <small> · ≈ {ING_BY_ID[l.via][lang === 'en' ? 'en' : 'fr']}</small> : null}
                     </span>
                   )}
-                  {l.src === 'base' && <span className="base">{t(l.ref?.kind === 'statcan' ? 'refStatcan' : l.ref?.kind === 'flyer-regular' ? 'refFlyerRegular' : 'refFlyer')} · {fmt((l.cost / l.g) * 1000)}/kg</span>}
+                  {l.src === 'base' && <span className="base">{t(l.ref?.kind === 'statcan' ? 'refStatcan' : l.ref?.kind === 'shelf' ? 'refShelf' : l.ref?.kind === 'flyer-regular' ? 'refFlyerRegular' : 'refFlyer')} · {fmt((l.cost / l.g) * 1000)}/kg</span>}
                   {l.src == null && <span className="none">{l.odd ? t('oddQty') : t('notPriced')}</span>}
                   {l.src === 'pantry' && <span className="none">{t('pantryItem')}</span>}
+                  {l.src === 'optional' && <span className="none">{t('optionalItem')}</span>}
                   {l.src === 'have' && <span className="none">{t('atHome')}</span>}
                 </div>
               </li>

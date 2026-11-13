@@ -10,7 +10,7 @@ async function writeJson(path, data) {
   await mkdir('public/data', { recursive: true });
   await writeFile(path, JSON.stringify(data));
 }
-import { parseIngredientLine, matchFlyerItemFull, baseId } from '../shared/match.js';
+import { parseIngredientLine, matchFlyerItemFull, baseId, forms, formsCompatible } from '../shared/match.js';
 import { unitPrice } from '../shared/price.js';
 import { priceItem, mergeHistory } from './history.mjs';
 import { classify, isMealDish, isProteinIng } from '../shared/taxonomy.js';
@@ -68,7 +68,7 @@ export function buildRecipes(raw) {
       for (const l of ings) {
         const def = ING_BY_ID[l.ing];
         if (!def || l.g == null) continue;
-        const cap = def.free || /^broth_|milk$|canned_tomato|tomato_sauce|coconut_milk|wine/.test(def.id) ? 900 : def.cat === 'meat' || def.cat === 'fish' ? 700 : 450; // bone-in meat weighs more
+        const cap = def.free || /^broth_|milk$|canned_tomato|tomato_sauce|coconut_milk|wine|^squash$|cabbage|cauliflower|pineapple|melon|bok_choy|juice/.test(def.id) ? 900 : def.cat === 'meat' || def.cat === 'fish' ? 700 : 450; // bone-in meat weighs more
         if (l.g / rest.servings > cap) { l.g = null; l.odd = 1; }
       }
     }
@@ -98,6 +98,9 @@ export function buildRecipes(raw) {
         if (s && per >= 250 && per <= 900 && !(s === 1 && food > 700)) { meals = s; mealBasis = 'source'; } else { meals = half(food / MEAL_G); mealBasis = 'weight'; }
       } else if (s) { meals = s; mealBasis = 'source'; }
       if (mealBasis === 'kcal' && meals > s) { meals = s; mealBasis = 'source'; }
+      // A meal is never a few bites: "50 servings" of meatballs from 600 g of food is not 13 meals.
+      // When the weight is known and gives under ~180 g a meal, the weight decides.
+      if (meals && weighed >= 0.7 && food > 0 && meals > food / 180) { meals = half(food / MEAL_G); mealBasis = 'weight'; }
     }
     rest.meals = meals || undefined;
     rest.mealBasis = meals ? mealBasis : undefined;
@@ -175,7 +178,7 @@ const STATCAN = [
  *   1. Statistics Canada average retail price for Québec;
  *   2. otherwise the median of the flyer prices seen in the last 26 weeks.
  */
-export function buildBaseline(data, history) {
+export function buildBaseline(data, history, shelf = null) {
   const byIng = {};
   for (const p of data?.products || []) {
     const rule = STATCAN.find(([re]) => re.test(p.name));
@@ -218,6 +221,26 @@ export function buildBaseline(data, history) {
     if (kept.length < 2) continue;
     prices[ing] = { perG: +median(kept).toFixed(6), kind: 'flyer', n: kept.length, ...(rows === main ? {} : { refStores: 1 }) };
   }
+  // Still no price: Walmart's everyday online price (Walmart is one of the seven stores). Read
+  // with the same rules as flyer items: a single product per listing, matched by name, a
+  // readable package size, a plain form. Each listing counts once; outliers are dropped.
+  const shelfObs = {};
+  for (const p of shelf?.products || []) {
+    const hits = matchFlyerItemFull(p.name);
+    if (hits.length !== 1) continue;
+    const h = hits[0];
+    const def = ING_BY_ID[h.id];
+    if (!def || def.free || !formsCompatible(h.id, forms(p.name), [])) continue;
+    const up = unitPrice({ price: p.price, name: p.name, post: '' }, def);
+    if (!up) continue;
+    (shelfObs[h.pk] ||= []).push(up.perG);
+  }
+  for (const [pk, list] of Object.entries(shelfObs)) {
+    if (prices[pk]) continue;
+    const m0 = median(list);
+    const kept = list.filter((x) => x >= m0 / 2.5 && x <= m0 * 2.5);
+    prices[pk] = { perG: +median(kept).toFixed(6), kind: 'shelf', n: kept.length, date: shelf.fetchedAt?.slice(0, 10) };
+  }
   // A generic request ("nuts", "white fish") is priced at the median of the group's members.
   for (const ing of Object.values(ING_BY_ID)) {
     if (ing.members.length < 2 || prices[ing.id]) continue;
@@ -242,7 +265,7 @@ async function main() {
   // The stored history plus whatever is in the flyers right now: an ingredient on offer
   // somewhere today therefore always has a reference price, even if the history file is stale.
   const flyerData = await loadFlyers('data/flyers.json');
-  const baseline = buildBaseline(await readJson('data/baseline.json', null), mergeHistory(await readJson('data/price-history.json', null), flyerData));
+  const baseline = buildBaseline(await readJson('data/baseline.json', null), mergeHistory(await readJson('data/price-history.json', null), flyerData), await readJson('data/shelf.json', null));
   await writeJson('public/data/recipes.json', recipes);
   await writeJson('public/data/flyers.json', flyers);
   await writeJson('public/data/meta.json', {
