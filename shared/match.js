@@ -434,7 +434,7 @@ const PRODUCT_WORDS = new Set(tokens('foam creamer whitener halawa halva variety
 // Serving ideas in a listing ("Tangy Salad & Pizza Topping"), not what is sold.
 const USE_WORDS = new Set(tokens('salad pizza topping'));
 // Words that may follow the food without changing what it is ("Butter 454 G", "Diced Tomatoes, No Salt Added").
-const NEUTRAL_WORDS = new Set(tokens('danish french italian greek mexican japanese thai english traditional style authentic fresh organic whole plain original regular classic natural pure unsalted salted lightly no salt added low reduced sodium less fat free light extra virgin lean boneless skinless large small medium jumbo mini baby value size pack family count bag bottle jar can cans canned tin tub box carton pouch shelf stable ready to use iqf frozen diced crushed chopped sliced minced whole ground dried dry raw uncooked unsweetened sweetened sugar red green yellow white black brown golden sweet hot mild spicy grade canada a aa product of imported domestic and with in by the your market each kg g ml l lb oz ct pc pcs pieces piece x premium select selection finest our great'));
+const NEUTRAL_WORDS = new Set(tokens('barrel barril fresh pasta danish french italian greek mexican japanese thai english traditional style authentic fresh organic whole plain original regular classic natural pure unsalted salted lightly no salt added low reduced sodium less fat free light extra virgin lean boneless skinless large small medium jumbo mini baby value size pack family count bag bottle jar can cans canned tin tub box carton pouch shelf stable ready to use iqf frozen diced crushed chopped sliced minced whole ground dried dry raw uncooked unsweetened sweetened sugar red green yellow white black brown golden sweet hot mild spicy grade canada a aa product of imported domestic and with in by the your market each kg g ml l lb oz ct pc pcs pieces piece x premium select selection finest our great'));
 
 /**
  * Ingredient for a store catalogue listing ("Great Value Soya Sauce 450 Ml"), or null.
@@ -449,7 +449,10 @@ export function matchShelfProduct(name) {
   if (def.cat === 'dairy' && !/milk|cream|butter|yogurt|egg/.test(def.id)) own.add(tokens('cheese')[0]); // "Camembert Danish Cheese"
   // The flyer matcher may read a broader word that is part of this name ("sugar" in "Icing Sugar").
   const flyer = matchFlyerItemFull(name);
-  if (flyer.length > 1 || (flyer.length === 1 && flyer[0].id !== line.ing && !own.has(flyer[0].head))) return null;
+  // Filled pasta names its filling ("Ricotta Spinach Fresh Pasta Ravioli"): that is the product.
+  const filled = line.pk === 'pasta~ravioli';
+  if (flyer.length > 1 && !filled) return null;
+  if (flyer.length === 1 && flyer[0].id !== line.ing && !own.has(flyer[0].head) && !filled) return null;
   // Brackets hold notes ("(Salted And Fermented Vegetables)"); after a comma come selling
   // points ("Capers In Brine, Tangy Salad & Pizza Topping"). Only the part naming the food counts.
   const clean = (x) => tokens(x.replace(/\b(in|packed in|dans l'?|dans)\s+(extra virgin olive |olive |sunflower |vegetable )?(oil|brine|water|syrup|juice|huile|saumure|eau|sirop|jus)\b/gi, ' ').replace(/[\d][\d.,/]*\s*[a-z]*/gi, ' ').replace(/[®™’']/g, ''));
@@ -467,6 +470,6 @@ export function matchShelfProduct(name) {
   // Nothing after the food may name something else ("… Cream Cheese Product")…
   for (const t of part.slice(i)) if (!own.has(t) && !NEUTRAL_WORDS.has(t)) return null;
   // …and no other food may come before it ("Tomato Basil" sauce, "Ginger Beef").
-  for (const t of [...before, ...part.slice(0, i)]) { const other = matchIngredient(t); if (other && other !== line.ing && !own.has(t) && !NEUTRAL_WORDS.has(t)) return null; }
+  if (!filled) for (const t of [...before, ...part.slice(0, i)]) { const other = matchIngredient(t); if (other && other !== line.ing && !own.has(t) && !NEUTRAL_WORDS.has(t)) return null; }
   return { id: line.ing, pk: line.pk || line.ing };
 }

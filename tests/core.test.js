@@ -318,13 +318,19 @@ describe('pricing is consistent across stores', () => {
   it('reference prices: StatCan first, then the median of flyer prices actually seen', async () => {
     const { buildBaseline } = await import('../scripts/build-index.mjs');
     const statcan = { products: [{ name: 'Whole chicken, per kilogram', value: 6.39, date: '2026-09' }, { name: 'Chicken breasts, per kilogram', value: 14.39, date: '2026-09' }, { name: 'Ground beef, per kilogram', value: 16.43, date: '2026-09' }, { name: 'Eggs, 1 dozen', value: 4.09, date: '2026-09' }] };
-    const history = { weeks: { '2026-11-05': [['maxi', 'ginger', 0.004, 0, 1], ['iga', 'ginger', 0.006, 0, 1], ['maxi', 'mango', 0.003, 0.005, 1], ['iga', 'mango', 0.003, 0, 1], ['maxi', 'kiwi', 0.004, 0, 1], ['maxi', 'chicken_whole', 0.004, 0, 1]] } };
+    const history = { weeks: { '2026-11-05': [['maxi', 'ginger', 0.004, 0, 1], ['iga', 'ginger', 0.006, 0, 1], ['maxi', 'mango', 0.003, 0.005, 1], ['iga', 'mango', 0.003, 0, 1], ['maxi', 'kiwi', 0.004, 0, 1], ['maxi', 'capers', 0.03, 0, 1], ['maxi', 'coleslaw_mix', 0.0013, 0, 1], ['iga', 'leek', 0.012, 0, 0], ['maxi', 'chicken_whole', 0.004, 0, 1]] } };
     const { prices } = buildBaseline(statcan, history);
     expect(prices.chicken_whole).toMatchObject({ kind: 'statcan', perG: 0.00639 });
     expect(Object.keys(prices)).toEqual(expect.arrayContaining(['chicken_breast', 'beef_ground', 'egg']));
     expect(prices.mango).toMatchObject({ kind: 'flyer', perG: 0.003 }); // the retailer's claimed regular price (0.005) is ignored
     expect(prices.ginger).toMatchObject({ kind: 'flyer', perG: 0.005 }); // median of two products
-    expect(prices.kiwi).toBeUndefined(); // one product is not enough evidence
+    expect(prices.kiwi).toMatchObject({ kind: 'flyer', perG: 0.004, n: 1 }); // one plain produce price at a main store
+    expect(prices.capers).toBeUndefined(); // one product is not enough evidence for a packaged good
+    expect(prices.coleslaw_mix).toBeUndefined(); // a clearance price is no reference
+    expect(prices.leek).toBeUndefined(); // "poireaux tranchés" is not the plain product
+    // One flyer price confirmed by the Walmart catalogue is.
+    const shelf = { products: [{ name: 'Great Value Capers In Brine, 100 G', price: 3.2 }] };
+    expect(buildBaseline(statcan, history, shelf).prices.capers).toMatchObject({ kind: 'flyer', n: 2, perG: 0.031 });
   });
 });
 

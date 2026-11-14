@@ -6,7 +6,8 @@ const MIN = 0.0002; // $0.20/kg
 // Ceiling in $/kg per aisle: above it the "match" is a different product (sea cucumber,
 // saffron-priced anything) or a parsing error, so it must not be used to cost a recipe.
 const CEIL = { produce: 45, meat: 75, fish: 95, dairy: 65, bakery: 35, pantry: 60, frozen: 30, spices: 300, other: 60 };
-const HERBS = new Set(['parsley', 'cilantro', 'basil', 'dill', 'mint', 'chives', 'thyme', 'rosemary', 'vanilla', 'yeast', 'walnuts', 'almonds', 'seeds', 'parmesan', 'prosciutto', 'salmon_smoked', 'scallop', 'chocolate']);
+// Expensive by nature (herbs by the gram, nuts, imported cheeses): a higher ceiling.
+const HERBS = new Set(['swiss', 'blue_cheese', 'goat_cheese', 'brie', 'parsley', 'cilantro', 'basil', 'dill', 'mint', 'chives', 'thyme', 'rosemary', 'vanilla', 'yeast', 'walnuts', 'almonds', 'seeds', 'parmesan', 'prosciutto', 'salmon_smoked', 'scallop', 'chocolate']);
 export const ceiling = (ing) => (HERBS.has(ing.id) ? 160 : CEIL[ing.cat] ?? 60) / 1000;
 
 /**
@@ -86,7 +87,7 @@ export function packCount(text) {
 // Ingredients a flyer may price per piece ("ch.") — produce that is really sold one at a
 // time. Anything else needs a weight or a size: a "6 $" pack of chicken or bag of onions
 // says nothing about how much food it is.
-const EACH_OK = new Set(['avocado', 'mango', 'cucumber', 'lettuce', 'cauliflower', 'broccoli', 'cabbage', 'melon', 'pineapple', 'squash', 'celery', 'eggplant', 'fennel', 'bell_pepper', 'lemon', 'lime', 'grapefruit', 'chives', 'parsley', 'cilantro', 'dill', 'mint', 'basil', 'green_onion', 'kale', 'bok_choy', 'corn', 'garlic', 'radish', 'asparagus', 'egg', 'zucchini', 'kiwi', 'pomegranate']);
+const EACH_OK = new Set(['leek', 'buns', 'avocado', 'mango', 'cucumber', 'lettuce', 'cauliflower', 'broccoli', 'cabbage', 'melon', 'pineapple', 'squash', 'celery', 'eggplant', 'fennel', 'bell_pepper', 'lemon', 'lime', 'grapefruit', 'chives', 'parsley', 'cilantro', 'dill', 'mint', 'basil', 'green_onion', 'kale', 'bok_choy', 'corn', 'garlic', 'radish', 'asparagus', 'egg', 'zucchini', 'kiwi', 'pomegranate']);
 // Sold by the bunch or the dozen: a plural name ("oignons verts") is still one unit.
 export const BUNCH = new Set(['egg', 'green_onion', 'radish', 'parsley', 'cilantro', 'dill', 'mint', 'basil', 'asparagus', 'kale', 'chives']);
 const PACKED = /\b(sac|bag|paquet|pack|emballage|caisse|barquette|contenant|boite|filet|lb|lbs|kg|bte|panier|basket|clamshell|format)\b/;
@@ -130,8 +131,10 @@ export function unitPrice(item, ing, segment) {
       // "AVOCATS HASS 6 $" is a bag: a plural name needs an explicit per-piece price.
       const head = deaccent(label).trim().split(/[\s,|]+/)[0] || '';
       const perPiece = /\b(ch|chq|chacun|each|ea|l'?unite|unite|un)\b\.?/.test(post);
-      if (!count && !perPiece && !BUNCH.has(ing.id) && head.length > 3 && /[sx]$/.test(head)) return null;
-      const n = count || (ing.id === 'egg' ? 12 : 1);
+      // …unless the ingredient is sold in a usual pack ("poireaux" = 3 leeks, "pains à hamburger" = 8).
+      const plural = !count && !perPiece && !BUNCH.has(ing.id) && head.length > 3 && /[sx]$/.test(head);
+      if (plural && !ing.pk) return null;
+      const n = count || (ing.id === 'egg' ? 12 : plural ? ing.pk : 1);
       perG = p / ((ing.su ?? ing.u) * n);
       basis = 'each';
     }

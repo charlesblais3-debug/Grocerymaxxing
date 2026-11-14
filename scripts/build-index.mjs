@@ -205,6 +205,7 @@ export function buildBaseline(data, history, shelf = null) {
   for (const rows of Object.values(history?.weeks || {})) for (const r of rows) (obs[r[1]] ||= []).push(r);
   const quantile = (xs, q) => { const s = xs.slice().sort((a, b) => a - b); return s[Math.min(s.length - 1, Math.floor(q * s.length))]; };
   const median = (xs) => { const s = xs.slice().sort((a, b) => a - b); const m = (s.length - 1) / 2; return (s[Math.floor(m)] + s[Math.ceil(m)]) / 2; };
+  const singles = {}; // price key -> the one flyer price seen, waiting for a second source
   for (const [ing, all] of Object.entries(obs)) {
     if (prices[ing] || !ING_BY_ID[baseId(ing)]) continue;
     // Evidence, in order of trust: plain products (not sliced, smoked, frozen…) from the seven
@@ -223,13 +224,21 @@ export function buildBaseline(data, history, shelf = null) {
     // Exception: produce sold by the bunch (parsley, dill, kale…). Its price is per bunch, hard
     // to misread, and the amounts are cents, so one store's bunch price is enough.
     // Produce seen once at one of the seven stores is accepted too (a jalapeño, a fennel bulb).
-    if (kept.length < 2 && !(kept.length === 1 && (BUNCH.has(baseId(ing)) || (rows === main && ING_BY_ID[baseId(ing)].cat === 'produce')))) continue;
+    // A lone produce price is enough when it is the plain product (not "poireaux tranchés") at
+    // one of the seven stores and not a clearance price: anything under $2/kg that is real
+    // (potatoes, onions, cabbage) already has a Statistics Canada price.
+    const loneProduce = rows.every((r) => MAIN.has(r[0]) && r[4]) && ING_BY_ID[baseId(ing)].cat === 'produce' && kept[0] >= 0.002;
+    if (kept.length < 2 && !(kept.length === 1 && (BUNCH.has(baseId(ing)) || loneProduce))) {
+      if (kept.length === 1) singles[ing] = kept[0];
+      continue;
+    }
     prices[ing] = { perG: +median(kept).toFixed(6), kind: 'flyer', n: kept.length, ...(rows === main ? {} : { refStores: 1 }) };
   }
   // Still no price: Walmart's everyday online price (Walmart is one of the seven stores). Read
   // with the same rules as flyer items: a single product per listing, matched by name, a
   // readable package size, a plain form. Each listing counts once; outliers are dropped.
   const shelfObs = {};
+  const shelfAny = {}; // every sized listing, whatever the aisle: a second opinion for a lone flyer price
   for (const p of shelf?.products || []) {
     // The catalogue also sells tape, toys, pet food and clothes ("Duck Brand duct tape").
     if (NOT_GROCERY.test(p.name)) continue;
@@ -247,11 +256,20 @@ export function buildBaseline(data, history, shelf = null) {
     // keep borrowing their usual cut's price.
     // A produce member that is itself dried or canned ("canneberges séchées") is a packaged good.
     const packaged = /sech|dried|conserve|canned|puree/.test(def.members.find((m) => `${def.id}~${m.key}` === h.pk)?.syn.join(' ') || '');
-    if (def.cat === 'meat' || (def.cat === 'produce' && def.id !== 'ginger' && !BUNCH.has(def.id) && !packaged) || (def.fb && h.pk === def.id)) continue;
     const up = unitPrice({ price: p.price, name: p.name, post: '' }, def);
+    if (up && up.basis !== 'each' && !(def.fb && h.pk === def.id)) (shelfAny[h.pk] ||= []).push(up.perG);
+    if (def.cat === 'meat' || (def.cat === 'produce' && def.id !== 'ginger' && !BUNCH.has(def.id) && !packaged) || (def.fb && h.pk === def.id)) continue;
     // Only a stated package size: a price per piece cannot tell one avocado from a bag.
     if (!up || (up.basis === 'each' && !BUNCH.has(def.id))) continue; // a bunch is a bunch
     (shelfObs[h.pk] ||= []).push(up.perG);
+  }
+  // One flyer price and at least one Walmart price that agree (within 2.5x): two independent
+  // stores saying much the same thing is enough evidence ("Gruyère", a fennel bulb).
+  for (const [pk, one] of Object.entries(singles)) {
+    if (prices[pk] || !shelfAny[pk]) continue;
+    const all = [one, ...shelfAny[pk]];
+    if (Math.max(...all) / Math.min(...all) > 2.5) continue;
+    prices[pk] = { perG: +median(all).toFixed(6), kind: 'flyer', n: all.length, mixed: 1 };
   }
   for (const [pk, list] of Object.entries(shelfObs)) {
     if (prices[pk]) continue;
