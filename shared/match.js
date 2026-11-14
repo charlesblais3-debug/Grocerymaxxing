@@ -83,6 +83,16 @@ const NOT_FOR = {
   sugar: /\b(creme|fudge|bonbon|tire)\b/,
   tuna_can: /\b(surgele|frozen|cubes?|steak|frais|fresh)\b/,
   bread: /\b(bao|chapelure|croutons?|pita|naan|tortilla|bagel|muffin)\b/,
+  // Drinkable yogurt, rice pudding, peanut punch, jelly powder, frozen meat lasagna: other products.
+  yogurt: /\b(a boire|boire|drinkable|drink|yop|smoothie|glace|frozen)\b/,
+  yogurt_greek: /\b(a boire|boire|drinkable|drink|smoothie|glace|frozen)\b/,
+  rice: /\b(pouding|pudding|gateaux? de riz|rice cakes?|galettes? de riz|craquelins?|crackers?|boisson|drink|vinaigre|vinegar)\b/,
+  tapioca: /\b(pouding|pudding)\b/,
+  peanuts: /\b(punch|boisson|drink|beurre|butter|bars?|barres?|chocolat|chocolate)\b/,
+  jam: /\b(poudre|powder|jello|dessert)\b/,
+  pasta: /\b(lasagnes? (a la |de |au )?(viande|boeuf|poulet|legumes)|(meat|beef|chicken|vegetable) lasagna|frozen lasagna|lasagnes? surgelees?|lasagne irresistible|irresistible frozen|repas|meals?)\b/,
+  orange_juice: /\b(canneberges?|cranberr\w*|mangue|mango|ananas|pineapple|cocktail|punch|boisson)\b/,
+  flour: /\b(mais|corn|masa)\b/,
 };
 
 /** A generic hit ("bifteck") gives way to a specific member named in the same text ("surlonge"). */
