@@ -275,7 +275,10 @@ export function buildBaseline(data, history, shelf = null) {
     if (prices[pk]) continue;
     const m0 = median(list);
     const kept = list.filter((x) => x >= m0 / 2.5 && x <= m0 * 2.5);
-    prices[pk] = { perG: +median(kept).toFixed(6), kind: 'shelf', n: kept.length, date: shelf.fetchedAt?.slice(0, 10) };
+    // The catalogue lists premium and organic brands next to the everyday one: the lower third
+    // of the listings is what a regular shopper pays (Great Value oats, not Bob's Red Mill).
+    const s = kept.slice().sort((a, b) => a - b);
+    prices[pk] = { perG: +s[Math.floor((s.length - 1) / 3)].toFixed(6), kind: 'shelf', n: kept.length, date: shelf.fetchedAt?.slice(0, 10) };
   }
   // A generic request ("nuts", "white fish") is priced at the median of the group's members.
   for (const ing of Object.values(ING_BY_ID)) {

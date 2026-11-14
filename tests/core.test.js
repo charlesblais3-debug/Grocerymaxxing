@@ -498,6 +498,11 @@ describe('pricing audit regressions', () => {
     expect(P('9 lasagna noodles (about ½ lb.)')[1]).toBeCloseTo(226.8); // no piece weight known: the bracket is the total
     expect(P('4 tablespoons butter for the bread')[0]).toBe('butter');
     expect(P('1 cup water for the rice')[0]).toBe('water');
+    expect(P('6 small corn tortillas ($0.30)')[1]).toBeCloseTo(126); // ~21 g each, not a 50 g wrap
+    expect(P('3 pieces naan bread')[1]).toBe(270); // three naans, not three loaves
+    expect(P('2 medium 1.5 lbs. chicken breasts ($2.99)')[1]).toBeCloseTo(680.4); // 1.5 lb in total
+    expect(P('2 1-lb pork tenderloins')[1]).toBeCloseTo(907.2); // each one is a pound
+    expect(P('1 cup panko breadcrumbs')[1]).toBeCloseTo(58.7);
     expect(P('4 bone-in pork loin chops (1 ¼- to 1 ½-inches thick)')[0]).toBe('pork_chop'); // chops, not a roast
     expect(P('180 - 220 g / 6 -7oz chicken breast')[1]).toBe(180); // a spaced range is not a note
     expect(P('4 large beef short ribs (about 2kg)')[1]).toBe(2000);

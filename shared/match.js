@@ -199,6 +199,8 @@ export function matchFlyerItemFull(name) {
 
 const FRESH_HERBS = new Set(['parsley', 'cilantro', 'basil', 'dill', 'mint', 'chives', 'thyme', 'rosemary']);
 const CITRUS_IDS = new Set(['lemon', 'lime', 'orange', 'grapefruit']);
+// Weight of one piece for members whose sizes differ a lot (grams).
+const PIECE = { 'tortilla~tortilla': 45, 'tortilla~tortilla_de_mais': 30, 'tortilla~pita': 70, 'tortilla~pain_naan': 90, 'tortilla~pain_plat': 60 };
 const FILLER = new Set(tokens('can cans boite boites tin jar pot bag sac paquet package pkg box bottle bouteille container contenant lb lbs pound pounds oz ounce ounces cup cups tasse tasses tbsp tsp ml litre liter gram grams boneless skinless desosse sans peau fresh frais fraiche large small medium gros grosse petit petite whole entier chopped hache diced sliced minced about environ plus extra optional optionnel each chacun tablespoon tablespoons teaspoon teaspoons cubed packed cooked cuit cuite cuits cuites peeled pele shredded grated rape finely roughly thinly coarsely day old leftover reste cut coupe drained egoutte rinsed rince reduced sodium low fat free faible'));
 const FLAVOURS = new Set(['vanilla', 'chocolate', 'cocoa', 'strawberry', 'coconut']);
 const WHOLE = new Set(['tete', 'botte', 'filet']);
@@ -365,8 +367,20 @@ export function parseIngredientLine(raw, lang) {
       if (n > 0 && n <= 12) q = { g: null, ml: null, count: n, countUnit: null };
     }
   }
+  // "2 medium 1.5 lbs. chicken breasts": a pound weight after a count is the total when one
+  // piece that heavy would be absurd (2.5x our usual piece); "2 1-lb pork tenderloins" stays each.
+  const lead = deaccent(outside).match(/^\s*(\d+)\s+(?:(?:small|medium|large|gros|grosses|moyens?|moyennes?|petits?|petites?)\s+)?\d+(?:[.,]\d+)?\s*(?:lbs?|pounds?|livres?|kg)\b/);
+  if (ing && lead && q.g != null && (ing.ru ?? ing.u) && q.g / +lead[1] > 2.5 * (ing.ru ?? ing.u)) q = { ...q, g: q.g / +lead[1] };
+  // Tortillas, pitas and naans by the piece: a small corn tortilla is not a 10-inch wrap.
+  const piece = PIECE[hit?.pk || id];
+  if (piece && q.count != null && q.g == null && q.ml == null && !q.countUnit) {
+    const t = deaccent(raw);
+    q = { g: q.count * piece * (/\b(small|petites?|taco|street|mini|[456][ -]?(inch|in|po|pouces?)|1[05] ?cm)\b/.test(t) ? 0.7 : /\b(large|grandes?|burrito|1[0-2][ -]?(inch|in|po|pouces?)|2[5-9] ?cm|30 ?cm)\b/.test(t) ? 1.4 : 1), ml: null };
+  }
   // A chicken "cuisse" or "leg" is the whole leg (thigh and drumstick), not a drumstick.
   let g = ing ? gramsFor(ing, q) : null;
+  // Panko is about half as dense as fine breadcrumbs: a cup weighs ~55 g, not ~110 g.
+  if (id === 'breadcrumbs' && g != null && q.ml != null && /\bpanko\b/.test(deaccent(raw))) g *= 0.55;
   if (id === 'chicken_drumstick' && q.count != null && q.g == null && !q.countUnit && /\b(cuisses?|legs?|quarters?)\b/.test(deaccent(outside)) && !/\b(pilons?|drumsticks?)\b/.test(deaccent(outside))) g = q.count * 280;
   // Bouillon concentrate, powder or cubes: what costs money is the broth they make. A spoonful
   // (~5 g) or a cube costs about what 65 g / 110 g of carton broth costs.
@@ -440,7 +454,7 @@ export function formsCompatible(ingId, itemForms, lineForms) {
 // Words that name a different, prepared product ("… Cream Cheese Product", "… Breakfast Sandwich").
 // A store listing containing one is only evidence for an ingredient whose own names use it
 // ("soy sauce", "pita chips").
-const PRODUCT_WORDS = new Set(tokens('foam creamer whitener halawa halva variety baguette baguettes pickled granulated popping steamed sip pudding custard product sandwich sandwiches quiche quiches bites bakes pancake pancakes chips crisps crackers cracker croutons pizza burrito burritos meal meals kit kits frittata toast fillets pickle pickles paste powder oil spread dip drink drinks beverage soda tea juice smoothie bar bars cookies cookie cake cakes pie pies candy candies gummies cereal granola soup sauce dressing seasoning alternative flavour flavoured flavored flavor dumplings noodles ramen sausages sausage burger burgers patties nuggets strips wings jerky salad mix blend cream cheese milk yogurt butter ice popsicle wrap wraps bread buns muffins bagels pasta lasagna stew curry entree bowl bowls tray platter snack snacks treat chocolate caramel syrup vinaigrette marinade rub glaze baby food energy macaroni mac dinner perogies pierogies luncheon meat meatballs waffles pastries pastry toaster dish dishwashing liquid refill clean samosa samosas spring roll rolls cocktail concentrate crunchies pockets fries wieners hash crumble crumbles wrapped medley prepared ropes burst blast flour stewed refried leaves cubes tenders popcorn pretzels jam jelly preserves filling frosting icing gum lozenges shot shots kombucha water sparkling lemonade punch nectar cocktail chunky gravy stuffed breaded battered crusted coated glazed roasted smoked infused'));
+const PRODUCT_WORDS = new Set(tokens('instant protein fibre fiber superfood superseeds crunch litre dairy foam creamer whitener halawa halva variety baguette baguettes pickled granulated popping steamed sip pudding custard product sandwich sandwiches quiche quiches bites bakes pancake pancakes chips crisps crackers cracker croutons pizza burrito burritos meal meals kit kits frittata toast fillets pickle pickles paste powder oil spread dip drink drinks beverage soda tea juice smoothie bar bars cookies cookie cake cakes pie pies candy candies gummies cereal granola soup sauce dressing seasoning alternative flavour flavoured flavored flavor dumplings noodles ramen sausages sausage burger burgers patties nuggets strips wings jerky salad mix blend cream cheese milk yogurt butter ice popsicle wrap wraps bread buns muffins bagels pasta lasagna stew curry entree bowl bowls tray platter snack snacks treat chocolate caramel syrup vinaigrette marinade rub glaze baby food energy macaroni mac dinner perogies pierogies luncheon meat meatballs waffles pastries pastry toaster dish dishwashing liquid refill clean samosa samosas spring roll rolls cocktail concentrate crunchies pockets fries wieners hash crumble crumbles wrapped medley prepared ropes burst blast flour stewed refried leaves cubes tenders popcorn pretzels jam jelly preserves filling frosting icing gum lozenges shot shots kombucha water sparkling lemonade punch nectar cocktail chunky gravy stuffed breaded battered crusted coated glazed roasted smoked infused'));
 // Serving ideas in a listing ("Tangy Salad & Pizza Topping"), not what is sold.
 const USE_WORDS = new Set(tokens('salad pizza topping'));
 // Words that may follow the food without changing what it is ("Butter 454 G", "Diced Tomatoes, No Salt Added").
