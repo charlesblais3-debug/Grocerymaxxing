@@ -5,9 +5,10 @@ import { AISLES, ING_BY_ID } from '../shared/ingredients.js';
 import { deaccent } from '../shared/text.js';
 import { bestFor } from '../shared/cost.js';
 import { pkLabel } from '../shared/match.js';
+import { topDeals, DEAL_SECTIONS } from '../shared/deals.js';
 
 export default function Flyers() {
-  const { regionItems, selected, storeName, recipes, t, lang, fmt, flyers, guide, pickStore, favs, toggleFav, offers } = useApp();
+  const { regionItems, selected, storeName, recipes, t, lang, fmt, flyers, guide, pickStore, favs, toggleFav, offers, regionStores, baseline } = useApp();
   const [q, setQ] = useState('');
   const [aisle, setAisle] = useState('');
   const [matched, setMatched] = useState(true);
@@ -45,6 +46,7 @@ export default function Flyers() {
   return (
     <div className="wrap flyers">
       <p className="note">{t('updated')} {new Date(flyers.fetchedAt).toLocaleDateString(lang === 'en' ? 'en-CA' : 'fr-CA', { weekday: 'long', day: 'numeric', month: 'long' })} · {flyers.source}</p>
+      <TopDeals items={regionItems} stores={regionStores} baseline={baseline} uses={uses} />
       <section className="guide" aria-label={t('guideTitle')}>
         <h1>{t('guideTitle')}</h1>
         <p className="note">{t('guideIntro')} {t('scoreIntro')}</p>
@@ -124,3 +126,48 @@ export default function Flyers() {
     </div>
   );
 }
+
+/** Biggest discounts this week, across all stores or the ones picked, by shopping section. */
+function TopDeals({ items, stores, baseline, uses }) {
+  const { t, lang, fmt, storeName } = useApp();
+  const [pick, setPick] = useState([]); // empty = every store
+  const [section, setSection] = useState('');
+  const [shown, setShown] = useState(12);
+  const lk = lang === 'en' ? 2 : 1;
+  const scope = useMemo(() => new Set(pick.length ? pick : stores.map((s) => s.id)), [pick, stores]);
+  const deals = useMemo(() => topDeals(items, { stores: scope, section, baseline }), [items, scope, section, baseline]);
+  const toggle = (id) => { setShown(12); setPick(pick.includes(id) ? pick.filter((x) => x !== id) : [...pick, id]); };
+  const date = (d) => new Date(d + 'T12:00:00').toLocaleDateString(lang === 'en' ? 'en-CA' : 'fr-CA', { day: 'numeric', month: 'short' });
+  return (
+    <section className="topdeals" aria-label={t('topDealsTitle')}>
+      <h1>{t('topDealsTitle')}</h1>
+      <p className="note">{t('topDealsIntro')}</p>
+      <div className="mealbar" role="group" aria-label={t('stores')}>
+        <Chip on={!pick.length} onClick={() => { setPick([]); setShown(12); }}>{t('allStores')}</Chip>
+        {stores.map((s) => <Chip key={s.id} on={pick.includes(s.id)} onClick={() => toggle(s.id)}>{storeName[s.id] || s.id}</Chip>)}
+      </div>
+      <div className="mealbar" role="group" aria-label={t('sections')}>
+        <Chip on={!section} onClick={() => { setSection(''); setShown(12); }}>{t('all')}</Chip>
+        {DEAL_SECTIONS.map((x) => <Chip key={x[0]} on={section === x[0]} onClick={() => { setSection(section === x[0] ? '' : x[0]); setShown(12); }}>{x[lk]}</Chip>)}
+      </div>
+      {deals.length ? (
+        <div className="grid deals">
+          {deals.slice(0, shown).map(({ item: i, pk, ing, off, perG, ref }) => (
+            <div className="card deal" key={`${i.store}|${i.id}`}>
+              <div className="card-img"><Img src={i.img} alt="" /><span className="off-flag">−{Math.round(off * 100)} %</span></div>
+              <div className="card-body">
+                <div className="meta"><Store id={i.store} />{i.to ? ` · ${t('until')} ${date(i.to)}` : ''}</div>
+                <h3>{nice(i.name, lang)}</h3>
+                <div className="card-foot"><span className="cost">{offerText(i, fmt)}</span></div>
+                <div className="meta">{fmt(perG * 1000)}/kg · {t('usually')} {fmt(ref * 1000)}/kg ({pkLabel(pk, lang).toLowerCase()})</div>
+                {uses[ing] ? <a className="link" href={`#/?ing=${ing}&sale=1`}>{uses[ing]} {t('recipesWith')} {ING_BY_ID[ing][lang === 'en' ? 'en' : 'fr'].toLowerCase()} →</a> : null}
+              </div>
+            </div>
+          ))}
+        </div>
+      ) : <p className="note">{t('noTopDeals')}</p>}
+      {shown < deals.length && <div className="morewrap"><button type="button" className="btn" onClick={() => setShown(shown + 12)}>{t('more')}</button></div>}
+    </section>
+  );
+}
+

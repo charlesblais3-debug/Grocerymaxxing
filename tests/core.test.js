@@ -565,3 +565,24 @@ describe('pricing audit regressions', () => {
     expect(costRecipe({ servings: 1, ings: [{ raw: 'x', ing: 'kiwi', g: 100 }] }, offers, {}).lines[0].src).toBeNull();
   });
 });
+
+describe('biggest deals', () => {
+  it('ranks by the real discount against the reference price, by store and section', async () => {
+    const { topDeals, dealSection } = await import('../shared/deals.js');
+    const baseline = { onion: { perG: 0.004, kind: 'statcan' }, chicken_drumstick: { perG: 0.009, kind: 'statcan' }, chips: { perG: 0.015, kind: 'flyer', n: 1 }, almonds: { perG: 0.03, kind: 'shelf' } };
+    const items = [
+      { store: 'superc', name: 'oignons', price: 4, pg: { onion: 0.002 } }, // 50 % under
+      { store: 'superc', name: 'oignons', price: 4, pg: { onion: 0.002 } }, // same product in two flyers: once
+      { store: 'iga', name: 'pilons', price: 2, pg: { chicken_drumstick: 0.0063 } }, // 30 % under
+      { store: 'iga', name: 'chips', price: 2, pg: { chips: 0.005 } }, // one flyer product: no solid reference
+      { store: 'maxi', name: 'amandes', price: 9, pg: { almonds: 0.0029 } }, // 90 % under: a misread size
+      { store: 'maxi', name: 'oignons', price: 4, pg: { onion: 0.0041 } }, // not a deal
+    ];
+    const all = topDeals(items, { stores: new Set(['superc', 'iga', 'maxi']), baseline });
+    expect(all.map((d) => [d.item.store, d.pk, Math.round(d.off * 100)])).toEqual([['superc', 'onion', 50], ['iga', 'chicken_drumstick', 30]]);
+    expect(topDeals(items, { stores: new Set(['iga']), baseline }).map((d) => d.pk)).toEqual(['chicken_drumstick']);
+    expect(topDeals(items, { stores: new Set(['superc', 'iga']), section: 'protein', baseline }).map((d) => d.pk)).toEqual(['chicken_drumstick']);
+    expect([dealSection('egg'), dealSection('chips'), dealSection('onion'), dealSection('lentils'), dealSection('juice')]).toEqual(['protein', 'snacks', 'produce', 'protein', 'drinks']);
+  });
+});
+

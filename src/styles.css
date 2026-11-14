@@ -395,3 +395,8 @@ details.plan-ctl > div { display: flex; gap: 8px 10px; align-items: center; flex
   .sheet-backdrop { display: block; position: fixed; inset: 0; z-index: 40; background: rgba(0, 0, 0, .4); }
   @media (prefers-reduced-motion: reduce) { .filters-body { transition: none; } }
 }
+.topdeals { margin: 8px 0 28px; }
+.topdeals .mealbar { margin: 8px 0; }
+.card-img { position: relative; }
+.off-flag { position: absolute; left: 8px; top: 8px; background: var(--save); color: var(--card); font-weight: 700; font-size: .8rem; padding: 3px 8px; border-radius: 999px; }
+
