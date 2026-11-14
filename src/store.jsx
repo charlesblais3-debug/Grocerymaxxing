@@ -31,6 +31,7 @@ export function AppProvider({ children }) {
   const [checks, setChecks] = usePersisted('checks', {}); // grocery list ticks, by ingredient
   const [pantry, setPantry] = usePersisted('pantry', []); // ingredients already at home
   const [favs, setFavs] = usePersisted('favs', []);
+  const [extras, setExtras] = usePersisted('extras', []); // flyer deals added to the grocery list by hand
   const [left, setLeft] = usePersisted('left', {}); // recipeId -> day its leftovers are eaten
   const [recent, setRecent] = usePersisted('recent', []); // recipes proposed lately, not to repeat
   const [targets, setTargets] = usePersisted('targets', { minp: 0, maxk: 0 }); // ingredients to watch for deals
@@ -81,7 +82,10 @@ export function AppProvider({ children }) {
     return {
       recipes, byId, flyers, meta, regions, regionId, regionStores, selected, regionItems, offers, baseline, costs, storeOffers,
       ideas, guide, multi, theme, setTheme,
-      days, people, setPeople, budget, setBudget, checks, pantry, have, favs, hist: meta.baseline?.hist || {},
+      days, people, setPeople, budget, setBudget, checks, pantry, have, favs, extras, hist: meta.baseline?.hist || {},
+      // A deal is kept with what the list needs to show it, even after the flyer has expired.
+      toggleExtra: (i) => setExtras((x) => (x.some((e) => e.id === i.id) ? x.filter((e) => e.id !== i.id) : [...x, { id: i.id, name: i.name, store: i.store, price: i.price, pre: i.pre, post: i.post, to: i.to }])),
+      clearExtras: () => setExtras([]),
       setDay: (id, d) => setDays((x) => ({ ...x, [id]: d })),
       left, recent, targets, setTargets,
       setLeftDay: (id, d) => setLeft((x) => ({ ...x, [id]: d })),
@@ -106,7 +110,7 @@ export function AppProvider({ children }) {
       plan,
       setBatches: (id, n) => setPlan((p) => { const q = { ...p }; if (n > 0) q[id] = n; else delete q[id]; return q; }),
     };
-  }, [data, lang, region, storeSel, plan, week, multi, theme, days, people, budget, checks, pantry, favs, left, recent, targets]);
+  }, [data, lang, region, storeSel, plan, week, multi, theme, days, people, budget, checks, pantry, favs, extras, left, recent, targets]);
 
   if (error) return <div className="state">⚠️ {error}</div>;
   if (!value) {

@@ -129,7 +129,7 @@ export default function Flyers() {
 
 /** Biggest discounts this week, across all stores or the ones picked, by shopping section. */
 function TopDeals({ items, stores, baseline, uses }) {
-  const { t, lang, fmt, storeName } = useApp();
+  const { t, lang, fmt, storeName, extras, toggleExtra } = useApp();
   const [pick, setPick] = useState([]); // empty = every store
   const [section, setSection] = useState('');
   const [shown, setShown] = useState(12);
@@ -161,6 +161,7 @@ function TopDeals({ items, stores, baseline, uses }) {
                 <div className="card-foot"><span className="cost">{offerText(i, fmt)}</span></div>
                 <div className="meta">{fmt(perG * 1000)}/kg · {t('usually')} {fmt(ref * 1000)}/kg ({pkLabel(pk, lang).toLowerCase()})</div>
                 {uses[ing] ? <a className="link" href={`#/?ing=${ing}&sale=1`}>{uses[ing]} {t('recipesWith')} {ING_BY_ID[ing][lang === 'en' ? 'en' : 'fr'].toLowerCase()} →</a> : null}
+                <button type="button" className={`btn addlist ${extras.some((e) => e.id === i.id) ? 'on' : ''}`} onClick={() => toggleExtra(i)}>{extras.some((e) => e.id === i.id) ? `✓ ${t('inList')}` : `+ ${t('addToList')}`}</button>
               </div>
             </div>
           ))}

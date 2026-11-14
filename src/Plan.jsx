@@ -16,7 +16,7 @@ const DAYS = [['Lundi', 'Monday'], ['Mardi', 'Tuesday'], ['Mercredi', 'Wednesday
 
 export default function Plan() {
   const app = useApp();
-  const { plan, setBatches, byId, costs, recipes, t, lang, fmt, storeName, days, setDay, people, setPeople, budget, setBudget, checks, toggleCheck, clearChecks, pantry, togglePantry, setPlanAll, left, setLeftDay, recent, remember, replaceInPlan, targets, setTargets } = app;
+  const { plan, setBatches, byId, costs, recipes, t, lang, fmt, storeName, days, setDay, people, setPeople, budget, setBudget, checks, toggleCheck, clearChecks, pantry, togglePantry, setPlanAll, left, setLeftDay, recent, remember, replaceInPlan, targets, setTargets, extras, toggleExtra, clearExtras } = app;
   const [mode, setMode] = useState('aisle');
   const [copied, setCopied] = useState(false);
   const li = lang === 'en' ? 1 : 0;
@@ -96,7 +96,8 @@ export default function Plan() {
   const title = (k) => (mode === 'aisle' ? AISLES[k][lk] : k ? storeName[k] || k : t('anyStore'));
   const qty = (a) => (a.g ? (a.g >= 1000 ? `${num((a.g / 1000).toFixed(a.g >= 10000 ? 0 : 1))} kg` : `${Math.round(a.g / 5) * 5 || Math.round(a.g)} g`) : '');
   const text = () => order.filter((k) => groups[k]).map((k) => `${title(k)}\n` + groups[k].map((a) => `${checks[a.ing] ? '✓' : '-'} ${a.def[lk]}${qty(a) ? ` (≈ ${qty(a)})` : ''}${a.offer ? ` — ${storeName[a.offer.store]}: ${offerText(a.offer, fmt)}` : ''}`).join('\n')).join('\n\n')
-    + (others.length ? `\n\n${t('others')}\n` + others.map((o) => '- ' + o).join('\n') : '');
+    + (others.length ? `\n\n${t('others')}\n` + others.map((o) => '- ' + o).join('\n') : '')
+    + (extras.length ? `\n\n${t('addedDeals')}\n` + extras.map((e) => `${checks['x:' + e.id] ? '✓' : '-'} ${nice(e.name, lang)} — ${storeName[e.store] || e.store}: ${offerText(e, fmt)}`).join('\n') : '');
   const copy = async () => { try { await navigator.clipboard.writeText(text()); setCopied(true); setTimeout(() => setCopied(false), 1500); } catch { /* clipboard unavailable */ } };
   const share = async () => { try { if (navigator.share) await navigator.share({ title: t('groceryList'), text: text() }); else await copy(); } catch { /* cancelled */ } };
 
@@ -120,6 +121,7 @@ export default function Plan() {
         <button type="button" className="btn primary" onClick={propose}><Icon name="spark" /> {t('proposePlan')}</button>
       </section>
 
+      {extras.length > 0 && <AddedDeals />}
       {!rows.length ? <div className="state">{t('planEmpty')} <a className="link" href="#/">{t('recipes')} →</a></div> : (
         <>
           <div className="plan-top">
@@ -221,3 +223,33 @@ export default function Plan() {
     </div>
   );
 }
+
+/** Flyer deals added to the list by hand from the Flyers tab. */
+function AddedDeals() {
+  const { extras, toggleExtra, clearExtras, checks, toggleCheck, storeName, fmt, t, lang, today } = useApp();
+  const groups = {};
+  for (const e of extras) (groups[e.store] ||= []).push(e);
+  return (
+    <section className="added-deals">
+      <div className="listhead">
+        <h2>{t('addedDeals')}</h2>
+        <span className="noprint"><a className="link" href="#/circulaires">{t('moreDeals')} →</a> <button type="button" className="link" onClick={() => window.confirm(t('clearAddedConfirm')) && clearExtras()}>{t('clearAdded')}</button></span>
+      </div>
+      <div className="glist">
+        {Object.entries(groups).map(([store, list]) => (
+          <section key={store}>
+            <h3><Store id={store} /></h3>
+            <ul>{list.map((e) => (
+              <li key={e.id} className={checks['x:' + e.id] ? 'done' : ''}>
+                <label><input type="checkbox" checked={!!checks['x:' + e.id]} onChange={() => toggleCheck('x:' + e.id)} /> <b>{nice(e.name, lang)}</b> — {offerText(e, fmt)}</label>
+                {e.to && e.to.slice(0, 10) < today ? <div className="meta">{t('dealExpired')}</div> : null}
+                <div className="row-tools noprint"><button type="button" className="link" onClick={() => toggleExtra(e)}>{t('remove')}</button></div>
+              </li>
+            ))}</ul>
+          </section>
+        ))}
+      </div>
+    </section>
+  );
+}
+
