@@ -142,6 +142,7 @@ const S = {
   topDealsTitle: ['Meilleurs rabais de la semaine', 'Biggest deals this week'],
   topDealsIntro: ['Classés selon l’écart avec le prix habituel de l’ingrédient (le même prix de référence que pour chiffrer les recettes), pas selon le « prix régulier » affiché par l’épicerie.', 'Ranked by how far below the ingredient’s usual price they are (the same reference price used to cost recipes), not by the “regular price” the store prints.'],
   allStores: ['Toutes les épiceries', 'All stores'],
+  atEachStore: ['Cette semaine dans chaque épicerie :', 'This week at each store:'],
   stores: ['Épiceries', 'Stores'],
   sections: ['Rayons', 'Sections'],
   usually: ['habituellement', 'usually'],

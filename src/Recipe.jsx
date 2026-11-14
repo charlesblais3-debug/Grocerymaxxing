@@ -5,10 +5,10 @@ import { MEAL_TYPES, CUISINES } from '../shared/taxonomy.js';
 import { ING_BY_ID } from '../shared/ingredients.js';
 import { L } from './i18n.js';
 import { batchesFor } from '../shared/planner.js';
-import { complete } from '../shared/cost.js';
+import { complete, costRecipe } from '../shared/cost.js';
 
 export default function Recipe({ id }) {
-  const { byId, costs, t, lang, fmt, sourceName, plan, setBatches, meta, baseline, have: pantry, togglePantry, people } = useApp();
+  const { byId, costs, t, lang, fmt, sourceName, plan, setBatches, meta, baseline, have: pantry, togglePantry, people, storeOffers, selected, pickStore } = useApp();
   const [have, setHave] = useState({});
   const [batch, setBatch] = useState(null);
   const r = byId.get(id);
@@ -47,6 +47,7 @@ export default function Recipe({ id }) {
               ? `Counted as ${r.meals} meals (${r.mealBasis === 'kcal' ? 'about 550 kcal each, from the published nutrition' : 'about 350 g of food each'})${r.servings ? ` — the source says ${r.yield || r.servings + ' servings'}` : ''}.`
               : `Compté comme ${String(r.meals).replace('.', ',')} repas (${r.mealBasis === 'kcal' ? 'environ 550 kcal chacun, selon les valeurs publiées' : 'environ 350 g de nourriture chacun'})${r.servings ? ` — la source indique ${r.yield || r.servings + ' portions'}` : ''}.`}</div>}
             {ppd != null && <div className="sub">{ppd.toFixed(1)} {t('proteinPerDollar')}</div>}
+            <ByStore r={r} />
             {c.total != null && (
               <div className="batch">
                 <span className="stepper" aria-label={t('batches')}><button type="button" onClick={() => setBatch(Math.max(0.5, b - 0.5))} aria-label="−">−</button><b>{num(b)}×</b><button type="button" onClick={() => setBatch(b + 0.5)} aria-label="+">+</button></span>
@@ -113,3 +114,24 @@ export default function Recipe({ id }) {
     </article>
   );
 }
+
+/** The same recipe priced at each store this week (only when every store prices it fully). */
+function ByStore({ r }) {
+  const { storeOffers, baseline, have, selected, pickStore, fmt, t } = useApp();
+  const rows = [...storeOffers].map(([id, offers]) => [id, costRecipe(r, offers, baseline, have)]);
+  if (rows.length < 2 || !rows.every(([, c]) => complete(c) && c.per != null)) return null;
+  rows.sort((a, b) => a[1].per - b[1].per);
+  const best = rows[0][1].per;
+  return (
+    <div className="bystore">
+      <span className="lbl">{t('atEachStore')}</span>
+      {rows.map(([id, c]) => (
+        <button key={id} type="button" className={`bystore-chip ${selected.has(id) ? 'on' : ''} ${c.per <= best + 0.005 ? 'best' : ''}`}
+          onClick={() => pickStore(id, true)} title={t('shopHere')}>
+          <Store id={id} /> {fmt(c.per)}
+        </button>
+      ))}
+    </div>
+  );
+}
+

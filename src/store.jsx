@@ -72,12 +72,14 @@ export function AppProvider({ children }) {
     const costs = new Map(recipes.map((r) => [r.id, costRecipe(r, offers, baseline, have)]));
     const ideas = buildIdeas(recipes, costs, offers, baseline);
     const guide = storeGuide(bestOffers(regionItems, new Set(available), ref, baseline), baseline, available);
+    // Each store's own offers, for "this recipe at each store" on the recipe page.
+    const storeOffers = new Map(available.map((id) => [id, bestOffers(regionItems, new Set([id]), ref, baseline)]));
     const byId = new Map(recipes.map((r) => [r.id, r]));
     const storeName = Object.fromEntries((flyers.stores || []).map((s) => [s.id, s.name]));
     const sourceName = Object.fromEntries((meta.sources || []).map((s) => [s.id, s.name]));
     const money = new Intl.NumberFormat(lang === 'en' ? 'en-CA' : 'fr-CA', { style: 'currency', currency: 'CAD' });
     return {
-      recipes, byId, flyers, meta, regions, regionId, regionStores, selected, regionItems, offers, baseline, costs,
+      recipes, byId, flyers, meta, regions, regionId, regionStores, selected, regionItems, offers, baseline, costs, storeOffers,
       ideas, guide, multi, theme, setTheme,
       days, people, setPeople, budget, setBudget, checks, pantry, have, favs, hist: meta.baseline?.hist || {},
       setDay: (id, d) => setDays((x) => ({ ...x, [id]: d })),
