@@ -1,6 +1,6 @@
 {
  "source": "Walmart.ca (catalogue en ligne, via Flipp)",
- "fetchedAt": "2026-11-13T18:53:08.265Z",
+ "fetchedAt": "2026-11-16T17:28:59.900Z",
  "searched": {
   "chicken breast": "2026-11-13",
   "poitrine de poulet": "2026-11-13",
@@ -1101,7 +1101,22 @@
   "rice paper": "2026-11-13",
   "egg roll wrappers": "2026-11-13",
   "phyllo pastry": "2026-11-13",
-  "tortilla wraps": "2026-11-13"
+  "tortilla wraps": "2026-11-13",
+  "scotch bonnet": "2026-11-16",
+  "piment scotch bonnet": "2026-11-16",
+  "farine de mais": "2026-11-16",
+  "corn meal": "2026-11-16",
+  "naan bread": "2026-11-16",
+  "soya sauce": "2026-11-16",
+  "aji mirin": "2026-11-16",
+  "mirin seasoning": "2026-11-16",
+  "pumpkin purée": "2026-11-16",
+  "puree de citrouille": "2026-11-16",
+  "puree de citrouille pure": "2026-11-16",
+  "frozen mixed vegetables": "2026-11-16",
+  "hash browns": "2026-11-16",
+  "cannellini beans": "2026-11-16",
+  "apple juice": "2026-11-16"
  },
  "products": [
   {
@@ -1144,7 +1159,7 @@
    "sku": "0U2CN43DEJEN",
    "name": "24in Orange Pumpkin Stack With C7 Led,halloween Decoration,by Way To Celebrate 24in",
    "price": 49.98,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "10140022",
@@ -1378,7 +1393,7 @@
    "sku": "6000199022712",
    "name": "Abc Sweet Soy Sauce 1 Pack",
    "price": 5.97,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "5S7GMW727BWH",
@@ -3340,7 +3355,7 @@
    "sku": "207367",
    "name": "Baby Gourmet Organic Puree Harvest Pear Pumpkin Banana 128ml 128 Ml",
    "price": 1.97,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "207372",
@@ -4006,7 +4021,7 @@
    "sku": "6000197171763",
    "name": "Beehive Cheese Beehive Golden Corn Syrup 500 Ml",
    "price": 3.97,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "2LUGO7XINTW5",
@@ -4486,7 +4501,7 @@
    "sku": "6000188724640",
    "name": "Bernat® Blanket™ #6 Super Bulky Polyester Yarn,pumpkin Spice 10.5oz/300g, 220 Yards Pumpkin Spice",
    "price": 13.77,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "2890VNUL5J6G",
@@ -5584,7 +5599,7 @@
    "sku": "4YN0116QXM8W",
    "name": "Bob's Red Mill Corn Starch",
    "price": 4.47,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "1FI4348K3HSS",
@@ -5872,7 +5887,7 @@
    "sku": "5OKZO3F3WZ8H",
    "name": "Bouclair Vanilla Bean Soy Wax Jar Candle With Wood Lid, 3.9 In Grey",
    "price": 16.97,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "16QKR9PGJAHC",
@@ -6046,7 +6061,7 @@
    "sku": "6000197663297",
    "name": "Brar's Duran Arepas Flat Corn Cake, 560 G 560 G",
    "price": 8.17,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "6000202152565",
@@ -6520,7 +6535,7 @@
    "sku": "10KIZ8FW54N7",
    "name": "Broughies Popped Grains Corn Wafers",
    "price": 4.48,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "10187281",
@@ -8275,6 +8290,12 @@
    "date": "2026-11-13"
   },
   {
+   "sku": "5TRYRMB5PKI1",
+   "name": "Cavendish Farms Club Pack Classic Hash Brown Patties | Made In Canada | Proud Canadian Company, Cf Hb Patties 2.25 Kg",
+   "price": 10,
+   "date": "2026-11-16"
+  },
+  {
    "sku": "6000197072467",
    "name": "Cavendish Farms Garlic And Rosemary Potato Wedges Value Pack | Made In Canada | Proud Canadian Company, 1.8 Kg 1.8 Kg",
    "price": 10,
@@ -9760,7 +9781,7 @@
    "sku": "10059224",
    "name": "Club House, Pumpkin Pie Spice 35 G",
    "price": 4.37,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "10216450",
@@ -10192,7 +10213,7 @@
    "sku": "6000201977377",
    "name": "Corn On The Cob",
    "price": 0.94,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "1PEX83LCNU1A",
@@ -10312,7 +10333,7 @@
    "sku": "7AHVYV6P530G",
    "name": "Country Harvest Pumpkin Spice Sliced Loaf, Made With Real Pumpkin Seeds, Limited Time Only, 600g",
    "price": 3.58,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "7CA0UL20KGNA",
@@ -10762,7 +10783,7 @@
    "sku": "10278567",
    "name": "Crown Lily White Corn Syrup 500 Ml",
    "price": 3.97,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "6PF4A1ERC5RC",
@@ -11026,7 +11047,7 @@
    "sku": "5X5OY9X9GHFL",
    "name": "Dandies - All Natural Vegan Marshmallows Vanilla, Non-Gmo, No Artifical Colorants, Gelatin Free, No Corn Syrup - 10 Oz. 10.00 Oz.",
    "price": 6.47,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "5F4VQIBP1GS1",
@@ -11245,6 +11266,12 @@
    "date": "2026-11-13"
   },
   {
+   "sku": "6000205241399",
+   "name": "Dash Mini Waffle Maker Machine For Individuals, Paninis, Hash Browns, & Other On The Go Breakfast, Lunch, Or Snacks, With Easy To Clean, Non-Stick Sid",
+   "price": 19.97,
+   "date": "2026-11-16"
+  },
+  {
    "sku": "6000208748695",
    "name": "Dashing Diva - Gel Nail - Hot Pepper Red",
    "price": 14.97,
@@ -11272,7 +11299,7 @@
    "sku": "6000196477948",
    "name": "Datu Puti Soy Sauce 1l Per Bottle 1 L",
    "price": 3.17,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "10303555",
@@ -12250,7 +12277,7 @@
    "sku": "5GK6VW23COLS",
    "name": "Diana's Diana Ginger And Soy Bbq Sauce, 1 Bottle, For Marinating Meats And Easy Grilling, 500 Ml 500ml",
    "price": 3.97,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "6000195495159",
@@ -12322,7 +12349,7 @@
    "sku": "6000207854212",
    "name": "Disney Halloween-Light Up Pumpkin Décor",
    "price": 24.98,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "3QXK6XE6ZBWI",
@@ -12466,7 +12493,7 @@
    "sku": "0Z12ES7XSUI5",
    "name": "Donarepa Yellow Corn Flour 35.3 Oz",
    "price": 4.97,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "6000203945596",
@@ -13174,7 +13201,7 @@
    "sku": "6000204715940",
    "name": "E-Green Giant Green Giant Simply Steam Garlic Parmesan Corn. A Delicious Side Dish!",
    "price": 1.96,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "6000196916439",
@@ -13186,7 +13213,7 @@
    "sku": "6000196916433",
    "name": "E-Green Giant Green Giant Simply Steam* Peaches & Cream Corn With Butter Sauce, 250 G 250 G",
    "price": 1.97,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "6000196916418",
@@ -13264,7 +13291,7 @@
    "sku": "6MR7BYTKMARO",
    "name": "E-Sprague Corn",
    "price": 0.97,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "2RQQEJF8SJMX",
@@ -13288,7 +13315,7 @@
    "sku": "10066660",
    "name": "E.D.Smith E.D. Smith 100% Pure Canned Pumpkin 796 Ml",
    "price": 6.47,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "875601",
@@ -14896,7 +14923,7 @@
    "sku": "10278718",
    "name": "Fleischmann's Flesichmann's Corn Starch [454 G]",
    "price": 4.77,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "10279958",
@@ -15424,19 +15451,19 @@
    "sku": "6000202775178",
    "name": "Fritos Bar-B-Q Flavour Corn Chips 340 G",
    "price": 4.68,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "6000202775519",
    "name": "Fritos Original Corn Chips 340 G",
    "price": 4.68,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "2202651ZE3M9",
    "name": "Fritos Twists Honey Bbq Flavour Corn Chips. 340 G",
    "price": 4.28,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "11LJGOR120US",
@@ -15538,7 +15565,7 @@
    "sku": "23K3TI72J88L",
    "name": "Fruitables Pumpkin Ft Puree",
    "price": 7.47,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "10251687",
@@ -15694,7 +15721,7 @@
    "sku": "6000202051551",
    "name": "Galil Thin Corn Cakes 100g",
    "price": 2.67,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "6000202367593",
@@ -16228,7 +16255,7 @@
    "sku": "6000206583613",
    "name": "Glade Plugins Air Freshener Scented Oil Refill, Golden Pumpkin And Spice, 2 Refills",
    "price": 11.46,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "3QMXJANWKATW",
@@ -16240,7 +16267,7 @@
    "sku": "6000201768184",
    "name": "Glade Scented 3-Wick Candle Air Freshener, Golden Pumpkin And Spice Orange",
    "price": 11.46,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "5LPJ7PAHFLSZ",
@@ -16258,7 +16285,7 @@
    "sku": "6000201768015",
    "name": "Glade® Scented Candle Air Freshener, Golden Pumpkin And Spice™ Orange",
    "price": 6.03,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "10255689",
@@ -16720,7 +16747,7 @@
    "sku": "5BXOW95HWW01",
    "name": "Gonesh Incense Sticks -Pumpkin Spce",
    "price": 5.97,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "2LGY9HQ7S7JA",
@@ -16954,7 +16981,7 @@
    "sku": "6GOLOTY89P8M",
    "name": "Goya Foods Goya Masarica Instant Corn Masa Flour 4 Lbs",
    "price": 7.27,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "6000200320372",
@@ -17032,13 +17059,13 @@
    "sku": "6000197066027",
    "name": "Grace Corn Meal, 2kg Bag 2 Kg",
    "price": 4.72,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "6000188760525",
    "name": "Grace Corned Beef, 340g Can 340g",
    "price": 5.97,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "6000188760413",
@@ -17122,13 +17149,13 @@
    "sku": "6000196478795",
    "name": "Grace Pan Sweet Corn Mix, 500g Package 500 G",
    "price": 3.34,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "1DNV1KUCDX9D",
    "name": "Grace Pan White Corn Meal, 1kg Bag 1kg",
    "price": 4.17,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "4CZB9VLUMETC",
@@ -17272,13 +17299,19 @@
    "sku": "10253111",
    "name": "Great Value 100% Low Acid Pure Apple Juice 1.89l 1.89 L",
    "price": 3.48,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "10252887",
    "name": "Great Value 100% Pure Apple Juice From Concentrate 1l 1 L",
    "price": 1.68,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
+  },
+  {
+   "sku": "10251493",
+   "name": "Great Value 100% Pure Apple Juice From Concentrate With Vitamin C Added 1.75 L",
+   "price": 3.68,
+   "date": "2026-11-16"
   },
   {
    "sku": "6000204467195",
@@ -17374,7 +17407,7 @@
    "sku": "6000199116733",
    "name": "Great Value Apple Juice From Concentrate 200 Ml, Pack Of 8 200 Ml",
    "price": 3.12,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "18M5MH8VH33Y",
@@ -18010,25 +18043,25 @@
    "sku": "5YTIE0XMRRMQ",
    "name": "Great Value Corn Flakes Cereal 340 G",
    "price": 3.47,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "4OP3DMP0JPDC",
    "name": "Great Value Corn Oil 1 L",
    "price": 4.57,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "356L4U6QUD51",
    "name": "Great Value Corn Oil 2.84 L",
    "price": 10.74,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "10317740",
    "name": "Great Value Corn Starch 454 G",
    "price": 3.77,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "10277556",
@@ -18118,7 +18151,7 @@
    "sku": "10275229",
    "name": "Great Value Cream Style Corn 398 Ml",
    "price": 1.37,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "72FCQE5GJ4VB",
@@ -18520,7 +18553,7 @@
    "sku": "6HXPT475184H",
    "name": "Great Value Frosted Corn Flakes Cereal Regular",
    "price": 3.47,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "6000198576013",
@@ -18574,13 +18607,13 @@
    "sku": "6000199913035",
    "name": "Great Value Frozen California Style Mixed Vegetables, 2 Kg 2 Kg",
    "price": 6.97,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "6000198575570",
    "name": "Great Value Frozen California Style Mixed Vegetables, 500 G 500 G",
    "price": 3.37,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "6000202252631",
@@ -18652,7 +18685,7 @@
    "sku": "6000199914458",
    "name": "Great Value Frozen Diced Vegetable Mix, 750 G 750 G",
    "price": 3.37,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "6000200244578",
@@ -18712,13 +18745,13 @@
    "sku": "6000191274027",
    "name": "Great Value Frozen Mixed Vegetables, 750 G 750 G",
    "price": 3.37,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "10275064",
    "name": "Great Value Frozen Mixed Vegetables, Canada A, Value Size, 2 Kg 2 Kg",
    "price": 6.43,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "10297361",
@@ -18790,7 +18823,7 @@
    "sku": "10274978",
    "name": "Great Value Frozen Whole Kernel Corn, Canada A, Value Size, 2 Kg 2 Kg",
    "price": 6.43,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "6000195510014",
@@ -18850,7 +18883,7 @@
    "sku": "2UBNZAZ4XW04",
    "name": "Great Value Fully Cooked Frozen Corn Dogs, Great Value Corn Dogs 18 Corn Dogs",
    "price": 9.98,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "6PQLDSYKL4IV",
@@ -20374,7 +20407,7 @@
    "sku": "10303984",
    "name": "Great Value Peaches & Cream Corn 341 Ml",
    "price": 1.37,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "5DSHJWYBWGAG",
@@ -20644,7 +20677,7 @@
    "sku": "6000201818997",
    "name": "Great Value Popping Corn 850 G",
    "price": 2.17,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "10303231",
@@ -20944,7 +20977,7 @@
    "sku": "6000187053934",
    "name": "Great Value Reduced Sodium Soya Sauce 450 Ml",
    "price": 2.23,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "23BBGNGDPD12",
@@ -21448,7 +21481,7 @@
    "sku": "6000187053931",
    "name": "Great Value Soya Sauce 450 Ml",
    "price": 2.23,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "6000192229856",
@@ -21580,7 +21613,7 @@
    "sku": "6000196254826",
    "name": "Great Value Sweet & Salty Kettle Corn 220 G",
    "price": 4.78,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "6000198359648",
@@ -21616,7 +21649,7 @@
    "sku": "6C3TLMOMK1SY",
    "name": "Great Value Sweet Corn Tuna Salad",
    "price": 2.97,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "6000197702843",
@@ -22024,19 +22057,19 @@
    "sku": "10275085",
    "name": "Great Value Whole Kernel Corn 341 Ml",
    "price": 1.37,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "10275169",
    "name": "Great Value Whole Kernel Corn Peaches & Cream, 750 G 750 G",
    "price": 3.37,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "6000192235348",
    "name": "Great Value Whole Kernel Corn, 750 G 750 G",
    "price": 3.37,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "6000195564038",
@@ -22228,19 +22261,19 @@
    "sku": "6000196898305",
    "name": "Green Giant Canned Green Giant 1/3 Less Salt Niblets, Whole Kernel Corn Niblets 341 Ml (12 Fl Oz)",
    "price": 1.67,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "6000196898296",
    "name": "Green Giant Canned Green Giant Cream Style Corn 398 Ml (14 Fl Oz)",
    "price": 1.67,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "6000196898299",
    "name": "Green Giant Canned Green Giant Cream Style Corn 540ml (19 Fl Oz)",
    "price": 2.47,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "6000196898308",
@@ -22264,25 +22297,25 @@
    "sku": "6000196898293",
    "name": "Green Giant Canned Green Giant Harvest Select Corn, No Added Salt Or Sugar Whole Kernel Corn 341 Ml (12 Fl Oz)",
    "price": 1.67,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "6000196898287",
    "name": "Green Giant Canned Green Giant Niblets* Whole Kernel Corn 341 Ml (12 Fl Oz)",
    "price": 1.67,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "6000196898290",
    "name": "Green Giant Canned Green Giant Niblets* Whole Kernel Corn 540 Ml (19 Fl Oz)",
    "price": 2.72,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "6000196898302",
    "name": "Green Giant Canned Green Giant Peaches & Cream Whole Kernel Corn 341 Ml",
    "price": 1.67,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "6000196898275",
@@ -22306,7 +22339,7 @@
    "sku": "6000196916399",
    "name": "Green Giant Peaches & Cream Super Sweet Whole Kernel Corn, 750 G 750 G",
    "price": 3.47,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "66WHCX9RAL3Q",
@@ -22816,13 +22849,13 @@
    "sku": "6000197816358",
    "name": "Haday Delicious Light Soy Sauce 500ml",
    "price": 2.77,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "6000198065151",
    "name": "Haday Premium Soy Sauce 750 Ml",
    "price": 4.97,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "6XJL3120M5ES",
@@ -22864,7 +22897,7 @@
    "sku": "6000208392764",
    "name": "Hallmark Christmas Ornaments (Better Together Sushi And Soy Sauce Magnetic), Set Of 2 Multi-Coloured",
    "price": 12.99,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "6000199405637",
@@ -24157,6 +24190,12 @@
    "date": "2026-11-13"
   },
   {
+   "sku": "6000201406075",
+   "name": "Honest Kids Apple Juice Boxes 5x200ml 200 Ml",
+   "price": 2.98,
+   "date": "2026-11-16"
+  },
+  {
    "sku": "10193267",
    "name": "Honey Maid Graham Wafer Crumbs 400 G",
    "price": 5.88,
@@ -24352,7 +24391,7 @@
    "sku": "6000191285859",
    "name": "Hungry-Man Frozen Jumbo Popcorn Chicken Croquettes Frozen Dinner, With Potatoes, Bbq Sauce And Corn, 26g Of Protein, Frozen Meal, 397g 397 G",
    "price": 5.97,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "6000200820761",
@@ -24566,9 +24605,9 @@
   },
   {
    "sku": "6000208357467",
-   "name": "Ih Casadécor 24\" Pumpkin Wheel Wall Decor Happy Harvest 106.5 X 61 X 122 Cm/41.93 X 24.02 X 48.03",
+   "name": "Ih Casadécor 24\" Pumpkin Wheel Wall Decor Happy Harvest Multi",
    "price": 45.06,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "6000207729987",
@@ -24598,7 +24637,7 @@
    "sku": "5K44EGSW47IA",
    "name": "Ih Casadécor Halloween Pumpkin Decor Stand Brown",
    "price": 16.32,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "6000206455620",
@@ -24640,7 +24679,7 @@
    "sku": "6000203824403",
    "name": "Ih Casadécor Mushroom Votive (Pumpkin Spice) (12/Display) - Set Of 12 (5.5 X 8.5) In (13.9x21.5 Cm) X (10.5 X 14) In (26.6x35.5 Cm) X 10.5 In (26.6 Cm",
    "price": 19.97,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "635G494ZPMKH",
@@ -24664,7 +24703,7 @@
    "sku": "6T4CGVIO606H",
    "name": "Ih Casadécor Porcelain Pumpkin Trink Jar (Orange) Orange",
    "price": 21.34,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "14ZDMPV3ISHS",
@@ -24676,7 +24715,7 @@
    "sku": "0WLSDISLKFS1",
    "name": "Ih Casadécor Printed Metal Charger Plate (Pumpkin Wreath With Border) (13\") - Set Of 6 Multi",
    "price": 25.58,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "1Z14C75GEEQ2",
@@ -24952,7 +24991,7 @@
    "sku": "6F0OO11DW5HC",
    "name": "International Delight, Cold Foam, Pumpkin Spice, Limited Edition 369g 369g",
    "price": 5.78,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "10186786",
@@ -25276,7 +25315,7 @@
    "sku": "6000196746516",
    "name": "Jack&jill Chippy Barbecue Flavored Corn Chips Party Pack 200g Per Bag 200 G",
    "price": 2.57,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "31Z6QNM429O6",
@@ -25858,7 +25897,7 @@
    "sku": "10281384",
    "name": "Joe's Tasty Travels Chilli & Lemon Picante Toasted Corn 325 G",
    "price": 5,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "6000206520061",
@@ -25960,7 +25999,7 @@
    "sku": "6000195349865",
    "name": "Joe's Tasty Travels Salted Corn Chips With Flax Seeds 300 G",
    "price": 4,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "6000196271184",
@@ -25978,7 +26017,7 @@
    "sku": "10281129",
    "name": "Joe's Tasty Travels Salted Toasted Corn - 350g 350g",
    "price": 5,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "6000196271187",
@@ -26003,6 +26042,12 @@
    "name": "Joe’s Tasty Travels Toasted Praline Peanuts 800g",
    "price": 6,
    "date": "2026-11-13"
+  },
+  {
+   "sku": "6000187910570",
+   "name": "Joe's Tasty Travels Unsalted Toasted Corn 350g",
+   "price": 4,
+   "date": "2026-11-16"
   },
   {
    "sku": "3B2SZJ1BQU8J",
@@ -26380,37 +26425,37 @@
    "sku": "1LO8I3ISTWQ0",
    "name": "Kellogg's Corn Flakes Cereal 600 G 600g",
    "price": 5.47,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "63SB661IRYQX",
    "name": "Kellogg's Corn Flakes Cereal, 340 G 340 G",
    "price": 4.77,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "6ARG0D4WXIOY",
    "name": "Kellogg’s Corn Pops Cereal 300g",
    "price": 4.77,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "10192937",
    "name": "Kellogg’s Corn Pops Cereal 320g 320g",
    "price": 4.97,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "10134084",
    "name": "Kellogg’s Corn Pops Cereal, Family Size, 515g 515 G",
    "price": 5.47,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "10302840",
    "name": "Kellogg’s Corn Pops Cereal, Jumbo Size, 730g 730 G",
    "price": 9.72,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "6RJ1VQWUQLDU",
@@ -26740,13 +26785,19 @@
    "sku": "10234179",
    "name": "Kiju Organic 100% Pure Apple Juice 1l 1 L",
    "price": 3.44,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
+  },
+  {
+   "sku": "10234143",
+   "name": "Kiju Organic 100% Pure Apple Juice Boxes 4 X 200 Ml 200 Ml",
+   "price": 3.68,
+   "date": "2026-11-16"
   },
   {
    "sku": "10234194",
    "name": "Kiju Organic Apple Grape Fruit Juice Boxes 4 X 200 Ml 4x200ml",
    "price": 3.68,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "10234189",
@@ -26764,19 +26815,19 @@
    "sku": "10268205",
    "name": "Kikkoman Brand Kikkoman Gluten Free Soy Sauce 296ml 296 Ml",
    "price": 6.67,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "10268509",
    "name": "Kikkoman Brand Kikkoman Lite Soy Sauce 591ml 591 Ml",
    "price": 8.07,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "6000197095135",
    "name": "Kikkoman Brand Kikkoman Soy Sauce 1.2 L",
    "price": 12.47,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "6000188762754",
@@ -26794,13 +26845,13 @@
    "sku": "6000188762793",
    "name": "Kikkoman Manjo Aji-Mirin Sweet Cooking Rice Wine Seasoning 500ml",
    "price": 5.47,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "2U4Q708C3YSP",
    "name": "Kikkoman Soy Sauce 591ml 591 Ml",
    "price": 6.77,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "364936LLFE84",
@@ -26980,7 +27031,7 @@
    "sku": "6000197096072",
    "name": "Kingsford Corn Starch 454 G",
    "price": 2.57,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "6000188745692",
@@ -28684,7 +28735,7 @@
    "sku": "874972",
    "name": "Lee Kum Kee Char Siu Sauce, Allergens: Barley, Soybeans, Wheat. 320ml",
    "price": 5.97,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "10285918",
@@ -28732,13 +28783,13 @@
    "sku": "10290225",
    "name": "Lee Kum Kee Lkk Premium Soy Sauce 500ml",
    "price": 3.97,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "874990",
    "name": "Lee Kum Kee Lkk Soy Sauce 500ml",
    "price": 2.77,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "874987",
@@ -28750,13 +28801,13 @@
    "sku": "6000197099935",
    "name": "Lee Kum Kee Seasoned Soy Sauce 500ml 500 Ml",
    "price": 3.47,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "10286050",
    "name": "Lee Kum Kee Soy Sauce, Seasoned, 14 Oz 14 Oz",
    "price": 4.57,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "6000191792068",
@@ -28888,7 +28939,7 @@
    "sku": "6000196642634",
    "name": "Len Xiang Frozen Shelled Edamame - Peeled Soy Beans 400g - Contain Soy, Net Wt. 400g 400g",
    "price": 2.77,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "4SMWRCZMZOUV",
@@ -29872,7 +29923,7 @@
    "sku": "6000192773029",
    "name": "Love Child Organics Superblends Bananas, Pumpkin, Pears + Coconut Puree 128ml Pouch 128 Ml",
    "price": 1.97,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "6000201178321",
@@ -30028,7 +30079,7 @@
    "sku": "10295411",
    "name": "M'lord Miniature Corn Cob Whole, 398ml 398 Ml",
    "price": 2.97,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "6000200901903",
@@ -31042,7 +31093,7 @@
    "sku": "10303832",
    "name": "Marca Pina Soy Sauce M",
    "price": 3.27,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "6VXE7N0ACI1Q",
@@ -31258,7 +31309,7 @@
    "sku": "6000197742913",
    "name": "Mario's Corned Beef 340 G - Ready-To-Eat (Canned) 340 G",
    "price": 4.68,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "6000206281710",
@@ -31810,13 +31861,13 @@
    "sku": "6000203664018",
    "name": "Mazola Corn Oil 1.18l 1.18 L",
    "price": 9.97,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "10059814",
    "name": "Mazola Corn Oil 2.84l 2.84 L",
    "price": 15.27,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "6000203663323",
@@ -32662,13 +32713,13 @@
    "sku": "10273214",
    "name": "Minute Maid Apple Juice Carton, 1 Liter 1 L",
    "price": 1.88,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "6000197988715",
    "name": "Minute Maid Apple Juice, 200ml, Pack Of 8 200 Ml",
    "price": 2.98,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "10270392",
@@ -33316,7 +33367,7 @@
    "sku": "3FVDZ374O06Q",
    "name": "Mothers Magic Momos Mix Veg 350g, Mix Veg Momos – 350 g Bag, Frozen, 20 Packs Per Case, Convenient Steam-Ready Snack, Made With Fresh Vegetables And S",
    "price": 7.38,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "62FB0SFFTI7D",
@@ -33592,13 +33643,13 @@
    "sku": "3SBZY9M0JJHV",
    "name": "Mr.Goudas Mg Corn Meal",
    "price": 3.54,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "6QOWUDRXYNRO",
    "name": "Mr.Goudas Mg Halal Corned Beef 12 Oz",
    "price": 5.44,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "6000196780668",
@@ -33964,7 +34015,7 @@
    "sku": "30UZJN8STAFS",
    "name": "Naked & Saucy Low Sodium Coconut Aminos, Soy-Sauce Substitute, 473ml 473ml",
    "price": 8.47,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "3DQ9DXF0ZDBD",
@@ -35026,7 +35077,7 @@
    "sku": "6000188770060",
    "name": "Noel Dona Arepa White Precooked Corn Flour 1 Kg",
    "price": 4.27,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "6000197103181",
@@ -35710,7 +35761,13 @@
    "sku": "10236804",
    "name": "Oasis Apple Juice 960 Ml 960 Ml",
    "price": 1.98,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
+  },
+  {
+   "sku": "10236828",
+   "name": "Oasis Apple Juice Boxes 8 X 200 Ml 200 Ml",
+   "price": 4.48,
+   "date": "2026-11-16"
   },
   {
    "sku": "10213008",
@@ -35735,6 +35792,12 @@
    "name": "Oasis Hydrafruit Strawberry Banana Fruit Juice 8 X 200 Ml 8x200ml",
    "price": 3.94,
    "date": "2026-11-13"
+  },
+  {
+   "sku": "6000196089382",
+   "name": "Oasis Hydrafruit Watermelon Apple Fruit Juice Boxes 8 X 200 Ml 200 Ml",
+   "price": 4.48,
+   "date": "2026-11-16"
   },
   {
    "sku": "6000203046361",
@@ -36754,55 +36817,55 @@
    "sku": "6000205904339",
    "name": "Onn Corning Glass Screen Protector For Ipad (10th Generation) 10.9-Inch, Made With Durable Glass By Corning™ For Ultimate Drop & Scratch Protection, I",
    "price": 18.98,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "6000205877000",
    "name": "Onn Corning Glass Screen Protector For Iphone® 11 / Xr, Made With Durable Glass By Corning™ For Ultimate Drop & Scratch Protection, Includes Advanced ",
    "price": 8.98,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "6000205890495",
    "name": "Onn Corning Glass Screen Protector For Iphone® 12 / 12 Pro, Made With Durable Glass By Corning™ For Ultimate Drop & Scratch Protection, Includes Advan",
    "price": 8.98,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "6000205877347",
    "name": "Onn Corning Glass Screen Protector For Iphone® 14 Plus / 13 Pro Max, Made With Durable Glass By Corning™ For Ultimate Drop & Scratch Protection, Inclu",
    "price": 8.98,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "6000207396767",
    "name": "Onn Corning Glass Screen Protector For Iphone® 16 / 15 / 14 Pro, Made With Durable Glass By Corning™ For Ultimate Drop & Scratch Protection, Includes ",
    "price": 8.98,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "5YM1BHRBG7UX",
    "name": "Onn Corning Glass Screen Protector For Iphone® 17 Pro Max, Made With Durable Glass By Corning™ For Ultimate Drop & Scratch Protection, Includes Advanc",
    "price": 8.98,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "55XBBF11STY0",
    "name": "Onn Corning Glass Screen Protector For Iphone® 17, Made With Durable Glass By Corning™ For Ultimate Drop & Scratch Protection, Includes Advanced Easy ",
    "price": 8.98,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "6000205877129",
    "name": "Onn Corning Glass Screen Protector For Iphone® 17e / 16e / 14 / 13 / 13 Pro, Made With Durable Glass By Corning™ For Ultimate Drop & Scratch Protectio",
    "price": 8.98,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "6000205889899",
    "name": "Onn. Corning Glass Screen Protector For Iphone 6/6s/7/8/Se 2020/Se 2022 Screen Protector, Made With Durable Glass By Corning®, With Advanced Easy Appl",
    "price": 8.98,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "6000201199146",
@@ -36946,7 +37009,7 @@
    "sku": "4BW62OMUXDU8",
    "name": "Orion Turtle Chips Sweet Corn 160g",
    "price": 4.77,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "4FSFAUMCTNPC",
@@ -37474,7 +37537,7 @@
    "sku": "1VJYLI06ZBLZ",
    "name": "P.A.N. Pan Yellow Corn Flour, 1kg Bag 1kg",
    "price": 4.17,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "6J1EHJ9MFTUQ",
@@ -37552,13 +37615,13 @@
    "sku": "6000197100083",
    "name": "Palm Corned Beef With Juices 326 G",
    "price": 6.97,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "6000197101624",
    "name": "Palm Garlic Corned Beef With Juices 326 G",
    "price": 6.97,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "6GD459DHPT1D",
@@ -37924,19 +37987,19 @@
    "sku": "6000197109214",
    "name": "Pearl River Bridge Golden Label Superior Light Soy Sauce 500 Ml",
    "price": 3.97,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "10279400",
    "name": "Pearl River Bridge Light Soy Sauce 500 Ml",
    "price": 2.27,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "10278824",
    "name": "Pearl River Bridge Prb Dark Soy Sauce, 500 Ml 500 Ml",
    "price": 2.97,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "6000197065291",
@@ -39148,19 +39211,19 @@
    "sku": "6000203013531",
    "name": "Popcorners Sea Salt Flavoured Popped-Corn Chips 220g",
    "price": 4.98,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "6000203013525",
    "name": "Popcorners Sweet & Salty Kettle Corn Style Flavoured Popped-Corn Chips 270 G",
    "price": 4.98,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "6000203013522",
    "name": "Popcorners White Cheddar Flavoured Popped-Corn Chips 142 G",
    "price": 4.98,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "6000200896584",
@@ -39862,7 +39925,7 @@
    "sku": "6000188763058",
    "name": "Pti Sweet Corn Flour 1 Kg",
    "price": 3.97,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "6000197584288",
@@ -39934,7 +39997,7 @@
    "sku": "6000196394925",
    "name": "Purefoods Canned Corned Beef 340g",
    "price": 7.97,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "6000206283333",
@@ -40138,7 +40201,7 @@
    "sku": "6000208673928",
    "name": "Purina Fancy Feast Savoury Purée Naturals With Natural Chicken & Pumpkin Wet Cat Treats, 40g",
    "price": 2.64,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "6000208674615",
@@ -41350,7 +41413,7 @@
    "sku": "10303386",
    "name": "Regent Golden Sweet Corn 60 G",
    "price": 1.37,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "61NFUP7ODRHC",
@@ -41596,13 +41659,13 @@
    "sku": "6000197657686",
    "name": "Rio Grande Games Rio Grande Chirilagua Corn Salvadoran Tamale, 1 Kg, 6 Units 907 G",
    "price": 10.47,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "10297885",
    "name": "Rio Mare Insalatissime Corn And Light Tuna Salad Rio Mare Insalatissime Salad With Corn 160g",
    "price": 4.97,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "6000196999487",
@@ -41926,13 +41989,13 @@
    "sku": "10230421",
    "name": "Rougemont 100% Pure Mcintosh Apple Juice 2 L 2 L",
    "price": 3.94,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "10229991",
    "name": "Rougemont No Sugar Added Low Acid Mellow Apple Juice 2 L 2 L",
    "price": 3.58,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "6000196294068",
@@ -43120,7 +43183,7 @@
    "sku": "6000198636306",
    "name": "Sarangani Bay Milkfish In Corn Oil Spicy 215g 215 G",
    "price": 5.97,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "5KYNOI57HGBL",
@@ -43295,6 +43358,12 @@
    "name": "Sb S&b Golden Curry Sauce Mix Hot 3.2 Oz",
    "price": 3.97,
    "date": "2026-11-13"
+  },
+  {
+   "sku": "1P47T3DE1MCW",
+   "name": "Scentsationals Fragrance Oil - Pumpkin Snickerdoodles",
+   "price": 6.97,
+   "date": "2026-11-16"
   },
   {
    "sku": "6000205233448",
@@ -44782,7 +44851,7 @@
    "sku": "6000196346766",
    "name": "Silver Swan Soy Sauce 34 Fl Oz",
    "price": 2.77,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "58K3BYBE1940",
@@ -44800,7 +44869,7 @@
    "sku": "6000198099923",
    "name": "Simply Apple Juice, 1.54 Liters 1.54 L",
    "price": 6.48,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "6000200922612",
@@ -46762,7 +46831,7 @@
    "sku": "6000197072594",
    "name": "Swanson® Swanson Chicken Stir Fry Frozen Entrée, Pasta, Vegetables And White Meat Chicken In A Savoury Soy Sauce, Cook 14 Minutes, 1.19 Kg 1.19 Kg",
    "price": 11.97,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "10308722",
@@ -46780,7 +46849,7 @@
    "sku": "2M80775GENJJ",
    "name": "Swanson® Swanson Oven Roasters Seasoned Red Potato Wedges & Onions: Frozen Mixed Vegetables Seasoned With Salt And Pepper",
    "price": 3.97,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "10308341",
@@ -47230,7 +47299,7 @@
    "sku": "6000208146103",
    "name": "Taylor Farms Mexican Street Corn Chopped Salad Kit",
    "price": 5.77,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "6000208146144",
@@ -47461,6 +47530,12 @@
    "date": "2026-11-13"
   },
   {
+   "sku": "6000198248886",
+   "name": "The Allens Allen's 35% Less Sugar Apple Juice Beverage 1.89 L [1.89 Lt]",
+   "price": 3.43,
+   "date": "2026-11-16"
+  },
+  {
    "sku": "6000201177269",
    "name": "The Allens Allen's Apple Cider Vinegar 4 L",
    "price": 7.47,
@@ -47476,13 +47551,19 @@
    "sku": "10220614",
    "name": "The Allens Allen's Pure Apple Juice Low Acid 1 L 1 L",
    "price": 1.48,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "10220023",
    "name": "The Allens Allen's Pure Apple Juice Low Acid 1.89 L 1.89 L",
    "price": 3.43,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
+  },
+  {
+   "sku": "10219909",
+   "name": "The Allens Allen's Pure Apple Juice Low Acid Juice Boxes 8 X 200 Ml 200 Ml",
+   "price": 3.74,
+   "date": "2026-11-16"
   },
   {
    "sku": "6MYFBBA36OGW",
@@ -48544,7 +48625,7 @@
    "sku": "6000208190776",
    "name": "Tia Rosa Yellow Corn Tortillas, Pack Of 8",
    "price": 2.68,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "6000197103447",
@@ -49036,7 +49117,7 @@
    "sku": "5OJS0S5A8RIA",
    "name": "Tostitos Mexican Street Corn Flavour Tortilla Chips 260g",
    "price": 4.27,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "10312045",
@@ -49498,7 +49579,7 @@
    "sku": "4O93XW8KCA41",
    "name": "Trix Minis Breakfast Cereal, Fruity Corn Puffs With Whole Grains",
    "price": 4.97,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "4JV85VFIB1C7",
@@ -50014,7 +50095,7 @@
    "sku": "5PS1EV96IQED",
    "name": "Vachon® Jos Louis® Pumpkin Spice Cake, 324 G",
    "price": 4.28,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "6000197072352",
@@ -50368,13 +50449,13 @@
    "sku": "6000198762536",
    "name": "Vh Sauces Vh Gluten Free Soy Sauce 380 Ml",
    "price": 3.38,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "6000199159850",
    "name": "Vh Sauces Vh Gluten Free Soya Sauce Lite With 30% Less Sodium 380 Ml",
    "price": 3.38,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "10285430",
@@ -52066,7 +52147,7 @@
    "sku": "6000203155281",
    "name": "Your Fresh Market Cooked Corned Beef",
    "price": 3.57,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "6000203155278",
@@ -52606,7 +52687,7 @@
    "sku": "6000208082658",
    "name": "Your Fresh Market Pumpkin Seed & Cranberry Sourdough Sliced Bread",
    "price": 3.47,
-   "date": "2026-11-13"
+   "date": "2026-11-16"
   },
   {
    "sku": "6000203879906",
