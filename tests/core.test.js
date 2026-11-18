@@ -522,6 +522,11 @@ describe('pricing audit regressions', () => {
     expect(unitPrice({ name: 'OIGNONS VERTS', price: 0.99 }, I.green_onion).perG).toBeCloseTo(0.0099); // a bunch
     expect(unitPrice({ name: 'Fromage 200 g', price: 5, pre: 'À partir de' }, I.cheddar)).toBeNull();
     expect(unitPrice({ name: 'Pâtes 900 g', price: 10, pre: '2/', post: "ou 5,49$ l'unité" }, I.pasta).perG).toBeCloseTo(5.49 / 900);
+    // "2,69 $ ch." with "1 kg" in the description: one mango, not a kilogram of mangoes.
+    expect(unitPrice({ name: 'GROSSE MANGUE ROUGE', price: 2.69, post: 'ch.', desc: 'importée du Brésil, 1 kg 2,99' }, I.mango).basis).toBe('each');
+    expect(unitPrice({ name: 'CONCOMBRE ANGLAIS', price: 2.5, post: "ch.", desc: 'pesant au minimum 520 g' }, I.cucumber).perG).toBeCloseTo(2.5 / 520); // a real one-piece weight
+    expect(unitPrice({ name: 'RIZ MINUTE RICE, 250 G', price: 7.5, pre: '3/', post: 'moins de 3 2,99$ ch.' }, I.rice).perG).toBeCloseTo(2.99 / 250); // the price of one
+    expect(matchFlyerItemFull('MINI CONCOMBRES DÉLICES DU MARCHÉ, 6 UN.').map((h) => h.pk)).toEqual(['mini_cucumber']);
   });
   it('processed or different products never price a raw ingredient', () => {
     const none = ['pommes de terre frites | McCain Fries', 'GRATIN DE POMMES DE TERRE', 'TRIO SUCRE À LA CRÈME ET FUDGE', 'OSSO BUCO DE VEAU DE LAIT | FROZEN MILK-FED VEAL',

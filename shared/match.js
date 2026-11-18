@@ -157,7 +157,10 @@ export function matchFlyerItemFull(name) {
     const segments = part.split(/\s*(?:,|;|\bou\b|\bor\b|\/)\s*/).filter((x) => x.trim());
     for (let i = 0; i < segments.length; i++) {
       const toks = tokens(segments[i]);
-      while (toks.length > 1 && LEADING.has(toks[0])) toks.shift(); // "fresh boneless chicken breasts"
+      // "fresh boneless chicken breasts": leading words go, unless they belong to the product's
+      // own name ("mini concombres" are mini cucumbers, not cucumbers).
+      const keepLead = LEADING.has(toks[0]) && findAll(toks).some((h) => h.pos === 0 && h.len > 1);
+      while (!keepLead && toks.length > 1 && LEADING.has(toks[0])) toks.shift();
       let hit = null;
       // "tomates mélangées ou cerises": a single word after "ou" that, joined to the product
       // just named, is a known variety ("tomates cerises") — that variety, not another product.

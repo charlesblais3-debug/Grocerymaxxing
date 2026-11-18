@@ -87,7 +87,7 @@ export function packCount(text) {
 // Ingredients a flyer may price per piece ("ch.") — produce that is really sold one at a
 // time. Anything else needs a weight or a size: a "6 $" pack of chicken or bag of onions
 // says nothing about how much food it is.
-const EACH_OK = new Set(['leek', 'buns', 'avocado', 'mango', 'cucumber', 'lettuce', 'cauliflower', 'broccoli', 'cabbage', 'melon', 'pineapple', 'squash', 'celery', 'eggplant', 'fennel', 'bell_pepper', 'lemon', 'lime', 'grapefruit', 'chives', 'parsley', 'cilantro', 'dill', 'mint', 'basil', 'green_onion', 'kale', 'bok_choy', 'corn', 'garlic', 'radish', 'asparagus', 'egg', 'zucchini', 'kiwi', 'pomegranate']);
+const EACH_OK = new Set(['mini_cucumber', 'leek', 'buns', 'avocado', 'mango', 'cucumber', 'lettuce', 'cauliflower', 'broccoli', 'cabbage', 'melon', 'pineapple', 'squash', 'celery', 'eggplant', 'fennel', 'bell_pepper', 'lemon', 'lime', 'grapefruit', 'chives', 'parsley', 'cilantro', 'dill', 'mint', 'basil', 'green_onion', 'kale', 'bok_choy', 'corn', 'garlic', 'radish', 'asparagus', 'egg', 'zucchini', 'kiwi', 'pomegranate']);
 // Sold by the bunch or the dozen: a plural name ("oignons verts") is still one unit.
 export const BUNCH = new Set(['egg', 'green_onion', 'radish', 'parsley', 'cilantro', 'dill', 'mint', 'basil', 'asparagus', 'kale', 'chives']);
 const PACKED = /\b(sac|bag|paquet|pack|emballage|caisse|barquette|contenant|boite|filet|lb|lbs|kg|bte|panier|basket|clamshell|format)\b/;
@@ -105,7 +105,8 @@ export function unitPrice(item, ing, segment) {
   if (/partir|starting|from\b/.test(pre + ' ' + post)) return null;
   // Multi-buy: "2/ … ou 3,99 ch." — buying one costs 3,99; otherwise split the bundle.
   const multi = pre.match(/(\d+)\s*(?:\/|pour|for)\s*$/);
-  const single = post.match(/ou\s*(\d+(?:[.,]\d+)?)\s*\$?\s*(?:ch\b|chq|chacun|l'?unite|l unite|each|ea\b)/);
+  // "ou 2,99 $ ch." and "moins de 3 2,99 $ ch." both give the price of buying just one.
+  const single = post.match(/(?:ou|moins de\s*\d+|less than\s*\d+)\s*(\d+(?:[.,]\d+)?)\s*\$?\s*(?:ch\b|chq|chacun|l'?unite|l unite|l.?un\b|each|ea\b)/);
   if (single) p = num(single[1]);
   else if (multi && +multi[1] > 1) p /= +multi[1];
 
@@ -117,9 +118,17 @@ export function unitPrice(item, ing, segment) {
   else if (unit) { perG = p / 453.6; basis = 'weight'; }
   else {
     // The size printed next to this product, else in the whole label.
+    let piece = false; // a single piece despite a weight in the description
     let size = segment ? packageSize(segment) : null;
     if (!size || size.ambiguous) size = packageSize(`${item.name || ''} ${item.desc || ''}`);
     if (size?.ambiguous) return null;
+    // "GROSSE MANGUE ROUGE 2,69 $ ch." with "1 kg" somewhere in the description: one piece of
+    // fruit cannot weigh that much, so the price is per piece, not per kilogram.
+    const each = /\b(ch|chq|chacun|each|ea|l'?unite|unite)\b/.test(post);
+    const headTok = deaccent(segment || item.name || '').trim().split(/[\s,|]+/)[0] || '';
+    const pluralHead = headTok.length > 3 && /[sx]$/.test(headTok);
+    if (size && each && !pluralHead && EACH_OK.has(ing.id) && ing.u && !packageSize(segment || item.name || '')
+      && size.kind === 'g' && size.v > 2.5 * (ing.su ?? ing.u)) { size = null; piece = true; }
     if (size && size.v >= 20) {
       perG = size.kind === 'g' ? p / size.v : ing.d ? p / (size.v * ing.d) : null;
       basis = 'size';
@@ -127,7 +136,7 @@ export function unitPrice(item, ing, segment) {
       if (!EACH_OK.has(ing.id)) return null;
       const label = `${segment || item.name || ''} ${item.desc || ''}`;
       const count = packCount(label);
-      if (!count && PACKED.test(deaccent(label))) return null; // a bag of unknown size
+      if (!count && !piece && PACKED.test(deaccent(label))) return null; // a bag of unknown size
       // "AVOCATS HASS 6 $" is a bag: a plural name needs an explicit per-piece price.
       const head = deaccent(label).trim().split(/[\s,|]+/)[0] || '';
       const perPiece = /\b(ch|chq|chacun|each|ea|l'?unite|unite|un)\b\.?/.test(post);
