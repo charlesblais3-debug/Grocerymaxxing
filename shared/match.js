@@ -47,6 +47,9 @@ const FLYER_VETO = new Set(tokens([
   'frites fries galette galettes gratin rondelle rondelles pilées purée nugget nuggets osso buco tartare bao',
   'précuit précuite precooked prêt fudge trio mccain cavendish stouffer michelina knorr lipton sidekick',
   'boursin matelot caramel spread rillettes garniture garnitures kit bomba bombas',
+  // Ready-made meals that name their main ingredient ("poke bol au saumon fumé").
+  'poke poké bol bols bowl bowls sushi sushis sandwich sandwichs sandwiches plateau plateaux platter tourtière tourtiere quiche',
+  'impériaux imperiaux printemps gyoza gyozas quenelles eggo helper boulettes meatballs',
 ].join(' ')));
 
 const LEADING = new Set(tokens('frais fraîche fresh boneless désossé skinless lean maigre extra mini gros grosse petit petite large small surgelé frozen bio biologique organic vrai real whole entier jeune baby nouveau new'));
@@ -81,8 +84,11 @@ const NOT_FOR = {
   milk: /\b(chocolat|chocolate|fouett|evapore|condense|poudre|powder|lait de coco)\b/,
   cream_35: /\b(glacee|ice|sure|sour|fromage|cheese|brie|double creme)\b/,
   sugar: /\b(creme|fudge|bonbon|tire)\b/,
-  tuna_can: /\b(surgele|frozen|cubes?|steak|frais|fresh)\b/,
-  bread: /\b(bao|chapelure|croutons?|pita|naan|tortilla|bagel|muffin)\b/,
+  tuna_can: /\b(surgele|frozen|cubes?|steak|frais|fresh|salade|salad)\b/,
+  crab: /\b(salade|salad|simili|imitation|goberge)\b/,
+  mozzarella: /\b(batonnets?|sticks?|panes?|breaded|battered)\b/,
+  white_fish: /\b(batonnets?|sticks?|panes?|breaded|battered|croquettes?)\b/,
+  bread: /\b(bao|chapelure|croutons?|pita|naan|tortilla|bagel|muffin|batonnets?|pain dore|french toast)\b/,
   // Drinkable yogurt, rice pudding, peanut punch, jelly powder, frozen meat lasagna: other products.
   yogurt: /\b(a boire|boire|drinkable|drink|yop|smoothie|glace|frozen)\b/,
   yogurt_greek: /\b(a boire|boire|drinkable|drink|smoothie|glace|frozen)\b/,
@@ -90,7 +96,7 @@ const NOT_FOR = {
   tapioca: /\b(pouding|pudding)\b/,
   peanuts: /\b(punch|boisson|drink|beurre|butter|bars?|barres?|chocolat|chocolate)\b/,
   jam: /\b(poudre|powder|jello|dessert)\b/,
-  pasta: /\b(lasagnes? (a la |de |au )?(viande|boeuf|poulet|legumes)|(meat|beef|chicken|vegetable) lasagna|frozen lasagna|lasagnes? surgelees?|lasagne irresistible|irresistible frozen|repas|meals?)\b/,
+  pasta: /\b(plat de pates|prepared|prepare en magasin|lasagnes? (a la |de |au )?(viande|boeuf|poulet|legumes)|(meat|beef|chicken|vegetable) lasagna|frozen lasagna|lasagnes? surgelees?|lasagne irresistible|irresistible frozen|repas|meals?)\b/,
   orange_juice: /\b(canneberges?|cranberr\w*|mangue|mango|ananas|pineapple|cocktail|punch|boisson)\b/,
   flour: /\b(mais|corn|masa)\b/,
 };
@@ -194,8 +200,11 @@ export function matchFlyerItemFull(name) {
     // half named nothing we know.
     if (out.length) break;
   }
-  return out;
+  // "Saumon atlantique fumé": smoked salmon, even when the words are not side by side.
+  const smoked = /\b(fume|fumee|smoked)\b/.test(deaccent(name));
+  return smoked ? out.map((h) => (SMOKED_OF[h.id] ? { ...h, id: SMOKED_OF[h.id], pk: SMOKED_OF[h.id] } : h)) : out;
 }
+const SMOKED_OF = { salmon: 'salmon_smoked' };
 
 const FRESH_HERBS = new Set(['parsley', 'cilantro', 'basil', 'dill', 'mint', 'chives', 'thyme', 'rosemary']);
 const CITRUS_IDS = new Set(['lemon', 'lime', 'orange', 'grapefruit']);

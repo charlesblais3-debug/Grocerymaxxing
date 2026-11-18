@@ -528,10 +528,14 @@ describe('pricing audit regressions', () => {
       'Cubes de bouillon de poulet OXO', 'lait au chocolat Québon', 'ghee légume Aseel', 'SAUCISSES DE CANARD LAC BROME', 'SAUCISSES FUMÉES SANS NOM® | SMOKED SAUSAGES',
       'MÉLANGE DE LAITUES AVEC GARNITURES', 'RILLETTES DE SAUMON FUMÉ', 'BOEUF, PORC ET VEAU HACHÉS MAIGRES', 'TOMATES PASTENE', 'BOMBAS MOZZA ET PESTO PC',
       'TARTINADE AU CARAMEL', 'BOURSIN® GARLIC & FINE HERBS', 'Yogourt à boire Yop', 'Yogourt grec à boire Oîkos Pro', 'Lasagne à la viande surgelée Great Value',
-      'PUNCH AUX ARACHIDES GRACE | PEANUT PUNCH, 240 ML', 'POUDING AU RIZ OU TAPIOCA KOZY SHACK, 4x113 G', 'POUDRE POUR GELÉE FAMILY BRAND™, 85 G', "JUS D'ORANGE DE CANNEBERGES"];
+      'PUNCH AUX ARACHIDES GRACE | PEANUT PUNCH, 240 ML', 'POUDING AU RIZ OU TAPIOCA KOZY SHACK, 4x113 G', 'POUDRE POUR GELÉE FAMILY BRAND™, 85 G', "JUS D'ORANGE DE CANNEBERGES",
+      'poke bol au saumon fumé | smoked salmon poké bowl', 'Pâtés impériaux Selection | Selection egg rolls', 'SALADE DE THON CLOVER LEAF', 'SALADE DE SIMILI CRABE ÉPICÉ À LA SRIRACHA',
+      'GRAND PLAT DE PÂTES PRÉPARÉ EN MAGASIN', 'ensemble pour pâtes Hamburger Helper | Hamburger Helper noodle meal', "BÂTONNETS DE PAIN DORÉ SURGELÉS KELLOGG'S EGGO"];
     for (const n of none) expect(matchFlyerItem(n), n).toEqual([]);
     expect(matchFlyerItemFull('brie double crème | double cream cheese').map((h) => h.pk)).toEqual(['brie']);
     expect(matchFlyerItemFull('FARINE DE MAÏS GRACE | CORN MEAL, 2 KG').map((h) => h.pk)).toEqual(['cornmeal']); // not wheat flour
+    expect(matchFlyerItemFull('SAUMON ATLANTIQUE FUMÉ IRRÉSISTIBLE | IRRÉSISTIBLE COLD SMOKED ATLANTIC SALMON').map((h) => h.pk)).toEqual(['salmon_smoked']); // not fresh salmon
+    expect(matchFlyerItemFull('PÂTES ALIMENTAIRES CATELLI').map((h) => h.pk)).toEqual(['pasta~pate_alimentaire']);
     expect(matchFlyerItemFull('pâtes à lasagne Catelli | Catelli lasagna pasta').map((h) => h.pk)).toEqual(['pasta~pate_alimentaire']);
     expect(matchFlyerItemFull('POIVRONS JAUNES, ROUGES, ORANGE').map((h) => h.pk)).toEqual(['bell_pepper']);
     expect(matchFlyerItemFull('tomates mélangées ou cerises').map((h) => h.pk)).toEqual(['tomato', 'cherry_tomato']);

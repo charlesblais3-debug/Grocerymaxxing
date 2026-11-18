@@ -280,7 +280,7 @@ I('pepper', 'Poivre', 'Pepper', 'spices', 'poivre|black pepper|poivre noir|poivr
 I('rhubarb', 'Rhubarbe', 'Rhubarb', 'produce', 'rhubarbe|rhubarb', { u: 100, d: 0.5 });
 I('passion_fruit', 'Fruit de la passion', 'Passion fruit', 'produce', 'fruit de la passion|passion fruit|passionfruit|maracuja', { u: 35 });
 I('artichoke', "Cœurs d'artichaut", 'Artichoke hearts', 'pantry', "coeur d artichaut|artichoke heart|artichaut|artichoke|artichauts marines|marinated artichoke", { d: 0.7, u: 40 });
-I('crab', 'Crabe', 'Crab', 'fish', 'crabe|crab|chair de crabe|crabmeat|crab meat|crab leg|patte de crabe|goberge imitation|imitation crab|simili crabe', { d: 0.6 });
+I('crab', 'Crabe', 'Crab', 'fish', 'crabe|crab|chair de crabe|crabmeat|crab meat|crab leg|patte de crabe', { d: 0.6 });
 I('clams', 'Palourdes', 'Clams', 'fish', 'palourde|clam|myes|mye', { d: 0.6, u: 30 });
 I('lobster', 'Homard', 'Lobster', 'fish', 'homard|lobster|chair de homard|lobster meat', { u: 600, d: 0.6 });
 I('seafood_mix', 'Mélange de fruits de mer', 'Seafood mix', 'fish', 'fruits de mer|melange de fruits de mer|seafood mix|mixed seafood|frozen seafood', { d: 0.6 });
