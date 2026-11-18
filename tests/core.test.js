@@ -506,6 +506,14 @@ describe('pricing audit regressions', () => {
     expect(P('4 crêpes aux épinards et au basilic', 'fr')[0]).toBe('crepe'); // crêpes, not 1.2 kg of spinach
     expect(P('10 livres de cornichons à marinade (pickle)', 'fr')[0]).toBe('mini_cucumber'); // fresh pickling cucumbers
     expect(P('2.5 lbs corned beef brisket in brine')[0]).toBe('beef'); // raw brisket, not smoked meat
+    // No stand-ins between products with clearly different prices.
+    expect(P('1 cup nutella')[0]).toBe('nutella'); // not peanut butter
+    expect(P('2 tbsp maple sugar')[0]).toBe('maple_sugar'); // not white sugar, not maple syrup
+    expect(P('1/4 cup crème fraîche')[0]).toBe('creme_fraiche'); // not 35 % cream or sour cream
+    expect(P('250 g de mascarpone', 'fr')[0]).toBe('mascarpone'); // not cream cheese
+    expect(P('200 g tempeh')[0]).toBe('tempeh'); // not tofu
+    expect(P('1 sachet de sauce hollandaise', 'fr')[0]).toBeNull(); // not liquid gravy by the gram
+    expect(P('1 pound bison stew meat')[0]).not.toBe('beef_stew');
     expect(P('4 bone-in pork loin chops (1 ¼- to 1 ½-inches thick)')[0]).toBe('pork_chop'); // chops, not a roast
     expect(P('180 - 220 g / 6 -7oz chicken breast')[1]).toBe(180); // a spaced range is not a note
     expect(P('4 large beef short ribs (about 2kg)')[1]).toBe(2000);
@@ -545,6 +553,8 @@ describe('pricing audit regressions', () => {
     expect(matchFlyerItemFull('SAUMON ATLANTIQUE FUMÉ IRRÉSISTIBLE | IRRÉSISTIBLE COLD SMOKED ATLANTIC SALMON').map((h) => h.pk)).toEqual(['salmon_smoked']); // not fresh salmon
     expect(matchFlyerItemFull('PÂTES ALIMENTAIRES CATELLI').map((h) => h.pk)).toEqual(['pasta~pate_alimentaire']);
     expect(matchFlyerItemFull('CROISSANT AUX AMANDES').map((h) => h.pk)).toEqual([]); // pastries do not price buns
+    expect(matchFlyerItemFull('ROQUETTE BIOLOGIQUE').map((h) => h.pk)).toEqual(['spinach~roquette']); // arugula is not spinach
+    expect(matchFlyerItemFull('TARTINADE NUTELLA').map((h) => h.pk)).toEqual(['nutella']);
     expect(matchFlyerItemFull('chocolats Ferrero Rocher | Ferrero Rocher chocolates').map((h) => h.pk)).toEqual([]); // candy does not price baking chocolate
     expect(matchFlyerItemFull('PÂTE À BISCUITS FÉLIX & NORTON').map((h) => h.pk)).toEqual([]);
     expect(matchFlyerItemFull('pâtes à lasagne Catelli | Catelli lasagna pasta').map((h) => h.pk)).toEqual(['pasta~pate_alimentaire']);

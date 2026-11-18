@@ -40,7 +40,7 @@ I('chicken', 'Poulet', 'Chicken', 'meat', 'poulet|chicken|poulet cuit|cooked chi
 I('turkey_ground', 'Dinde hachée', 'Ground turkey', 'meat', 'dinde hachee|dindon hache|ground turkey', { d: 0.9, fb: 'chicken_ground' });
 I('turkey', 'Dinde', 'Turkey', 'meat', 'dinde|dindon|turkey|poitrine de dinde|turkey breast', { d: 0.6, ro: 1, fb: 'chicken_breast', units: { escalope: 110, tranche: 25 } });
 I('beef_ground', 'Bœuf haché', 'Ground beef', 'meat', 'boeuf hache|ground beef|minced beef|beef mince|viande hachee|steak hache', { d: 0.9 });
-I('beef_stew', 'Cubes de bœuf à ragoût', 'Stewing beef', 'meat', 'cube de boeuf|boeuf a ragout|boeuf en cube|stewing beef|stew beef|beef stew meat|boeuf a braiser|bison|bison stew meat|cube de bison;palette de boeuf|beef chuck|chuck roast|rosbif|roti de boeuf|beef roast', { d: 0.6 });
+I('beef_stew', 'Cubes de bœuf à ragoût', 'Stewing beef', 'meat', 'cube de boeuf|boeuf a ragout|boeuf en cube|stewing beef|stew beef|beef stew meat|boeuf a braiser;palette de boeuf|beef chuck|chuck roast|rosbif|roti de boeuf|beef roast', { d: 0.6 });
 I('beef_steak', 'Bifteck', 'Steak', 'meat', '*bifteck|steak;bavette|flank steak;surlonge|sirloin;contre filet|striploin|faux filet;entrecote|ribeye;filet mignon|beef tenderloin|filet de boeuf|tenderloin roast|roti de filet de boeuf', { u: 250 });
 I('beef', 'Bœuf', 'Beef', 'meat', 'boeuf|beef|brisket|poitrine de boeuf|corned beef brisket|short rib|short ribs|cote courte', { d: 0.6, ro: 1, fb: 'beef_stew~cube_de_boeuf' });
 I('pork_ground', 'Porc haché', 'Ground pork', 'meat', 'porc hache|ground pork', { d: 0.9 });
@@ -55,7 +55,7 @@ I('ham', 'Jambon', 'Ham', 'meat', 'jambon|ham', { d: 0.6, units: { tranche: 25 }
 I('sausage', 'Saucisses', 'Sausages', 'meat', '*saucisse|sausage|saucisse italienne|italian sausage|bratwurst|boudin|saucisse fraiche|saucisse de toulouse|kielbasa;chorizo;merguez', { d: 0.6, u: 90 });
 I('duck', 'Canard', 'Duck', 'meat', '*canard|duck;magret|poitrine de canard|duck breast;cuisse de canard|duck leg|canard confit|duck confit', { u: 240 });
 I('lamb', 'Agneau', 'Lamb', 'meat', 'agneau|lamb|gigot|mutton|mouton|epaule d agneau|lamb shoulder', { d: 0.6 });
-I('veal', 'Veau', 'Veal', 'meat', '*veau|veal|escalope de veau|veal cutlet;veau hache|ground veal|veau hache maigre', { d: 0.9, u: 110 });
+I('veal', 'Veau', 'Veal', 'meat', 'veau|veal|escalope de veau|veal cutlet;veau hache|ground veal|veau hache maigre', { d: 0.9, u: 110 });
 I('prosciutto', 'Prosciutto', 'Prosciutto', 'meat', 'prosciutto|pancetta', { d: 0.5, units: { tranche: 15 } });
 I('pepperoni', 'Pepperoni', 'Pepperoni', 'meat', 'pepperoni;salami|saucisson;mortadelle|mortadella;capicollo;smoked meat|pastrami|viande fumee', { d: 0.6, mfb: 1, units: { tranche: 10 } });
 
@@ -74,8 +74,8 @@ I('sardine', 'Sardines', 'Sardines', 'pantry', 'sardine;anchois|anchovy|anchovie
 I('egg', 'Œufs', 'Eggs', 'dairy', 'oeuf|egg|jaune oeuf|egg yolk|blanc oeuf|egg white|oeuf entier|blanc d oeuf|egg whites|liquid egg|oeufs liquides', { u: 55, pk: 12, d: 1.03 });
 I('milk', 'Lait', 'Milk', 'dairy', 'lait|milk|lait 2%|lait entier|whole milk|lait 3,25%|lait ecreme', { d: 1.03, units: { filet: 15 } });
 I('cream_35', 'Crème 35 %', 'Whipping cream', 'dairy', 'creme 35|cream|creme a fouetter|creme a cuisson|whipping cream|heavy cream|cooking cream|creme epaisse|double cream|creme 15|creme champetre|creme', { d: 1 });
-I('cream_10', 'Crème 10 %', 'Half-and-half', 'dairy', 'creme 10|creme a cafe|half half|creme legere|light cream|melange laitier|melange laitier pour cuisson|creme de soya|creme vegetale', { d: 1.01 });
-I('sour_cream', 'Crème sure', 'Sour cream', 'dairy', 'creme sure|sour cream|soured cream|creme fraiche|creme aigre', { d: 1 });
+I('cream_10', 'Crème 10 %', 'Half-and-half', 'dairy', 'creme 10|creme a cafe|half half|creme legere|light cream|melange laitier|melange laitier pour cuisson', { d: 1.01 });
+I('sour_cream', 'Crème sure', 'Sour cream', 'dairy', 'creme sure|sour cream|soured cream|creme aigre', { d: 1 });
 I('butter', 'Beurre', 'Butter', 'dairy', 'beurre|butter|beurre sale|beurre non sale|unsalted butter|salted butter|ghee|beurre clarifie', { d: 0.96, units: { stick: 113 } });
 I('margarine', 'Margarine', 'Margarine', 'dairy', 'margarine', { d: 0.96 });
 I('yogurt', 'Yogourt', 'Yogurt', 'dairy', 'yogourt|yogurt|yaourt|yoghurt|yogourt nature|plain yogurt|whole milk yogurt|whole milk plain yogurt', { d: 1.03 });
@@ -86,7 +86,7 @@ I('mozzarella', 'Mozzarella', 'Mozzarella', 'dairy', 'mozzarella|fromage mozzare
 I('bocconcini', 'Bocconcini / mozzarella fraîche', 'Fresh mozzarella', 'dairy', 'bocconcini|burrata|mozzarella fraiche|fresh mozzarella|mozzarella di bufala|perle de mozzarella', { d: 0.9, u: 200 });
 I('parmesan', 'Parmesan', 'Parmesan', 'dairy', 'parmesan|parmigiano|romano|pecorino|grana padano', { d: 0.42 });
 I('feta', 'Feta', 'Feta', 'dairy', 'feta|fromage feta|cotija|queso fresco|queso cotija|queso blanco', { d: 0.6 });
-I('cream_cheese', 'Fromage à la crème', 'Cream cheese', 'dairy', 'fromage a la creme|cream cheese|mascarpone', { d: 0.96 });
+I('cream_cheese', 'Fromage à la crème', 'Cream cheese', 'dairy', 'fromage a la creme|cream cheese', { d: 0.96 });
 I('ricotta', 'Ricotta', 'Ricotta', 'dairy', 'ricotta|whole milk ricotta|part skim ricotta|ricotta au lait entier;cottage|fromage cottage|cottage cheese', { d: 1.03 });
 I('swiss', 'Fromage suisse', 'Swiss cheese', 'dairy', 'fromage suisse|swiss cheese|emmental|fontina|comte|manchego|asiago;gruyere;gouda;havarti;jarlsberg;raclette;oka', { d: 0.45, units: { tranche: 20 } });
 I('brie', 'Brie / camembert', 'Brie / camembert', 'dairy', 'brie|camembert|fromage a croute fleurie', { d: 0.9, u: 200, units: { tranche: 20 } });
@@ -94,7 +94,7 @@ I('goat_cheese', 'Fromage de chèvre', 'Goat cheese', 'dairy', 'fromage de chevr
 I('blue_cheese', 'Fromage bleu', 'Blue cheese', 'dairy', 'fromage bleu|blue cheese|gorgonzola|roquefort|stilton', { d: 0.55 });
 I('halloumi', 'Halloumi / paneer', 'Halloumi / paneer', 'dairy', 'halloumi|paneer|fromage a griller|grilling cheese', { d: 0.9 });
 I('cheese', 'Fromage', 'Cheese', 'dairy', 'fromage|cheese', { ro: 1, fb: 'cheddar', d: 0.45, units: { tranche: 20 } });
-I('tofu', 'Tofu', 'Tofu', 'dairy', 'tofu|tofu ferme|firm tofu|tempeh', { u: 454, d: 0.95 });
+I('tofu', 'Tofu', 'Tofu', 'dairy', 'tofu|tofu ferme|firm tofu', { u: 454, d: 0.95 });
 I('soy_milk', 'Boisson végétale', 'Plant milk', 'dairy', 'boisson de soya|lait de soya|soy milk;lait amande|almond milk|boisson amande;lait avoine|oat milk|boisson avoine', { d: 1.03 });
 I('coconut_milk', 'Lait de coco', 'Coconut milk', 'pantry', 'lait de coco|lait de noix de coco|coconut milk|creme de coco|coconut cream', { d: 0.97, u: 400 });
 I('condensed_milk', 'Lait condensé', 'Condensed milk', 'pantry', 'lait condense|condensed milk|lait concentre sucre;lait evapore|evaporated milk|lait concentre', { d: 1.2, u: 370 });
@@ -123,7 +123,7 @@ I('cauliflower', 'Chou-fleur', 'Cauliflower', 'produce', 'chou fleur|cauliflower
 I('cabbage', 'Chou', 'Cabbage', 'produce', 'chou|cabbage|chou vert|green cabbage|chou rouge|red cabbage|chou de savoie|chou nappa|napa cabbage|chou chinois', { u: 1000, d: 0.3, units: { feuille: 30 } });
 I('brussels', 'Choux de Bruxelles', 'Brussels sprouts', 'produce', 'chou de bruxelles|brussels sprout', { u: 20, d: 0.4 });
 I('kale', 'Chou frisé (kale)', 'Kale', 'produce', 'kale|chou frise|chou kale|cavolo nero|lacinato|dinosaur kale|collard|collards|collard greens|pissenlit|dandelion greens|chou cavalier;bette a carde|swiss chard;rapini', { su: 250, u: 200, d: 0.07, units: { feuille: 20, poignee: 30 } });
-I('spinach', 'Épinards', 'Spinach', 'produce', '*epinard|spinach|bebe epinard|baby spinach|jeune epinard|epinard frais|fresh spinach;roquette|arugula|rocket;cresson|watercress;microgreen|micropousse', { u: 300, d: 0.13, units: { feuille: 2, poignee: 30 } });
+I('spinach', 'Épinards', 'Spinach', 'produce', 'epinard|spinach|bebe epinard|baby spinach|jeune epinard|epinard frais|fresh spinach;roquette|arugula|rocket;cresson|watercress;microgreen|micropousse', { u: 300, d: 0.13, units: { feuille: 2, poignee: 30 } });
 I('spinach_frozen', 'Épinards surgelés', 'Frozen spinach', 'frozen', 'epinard surgele|frozen spinach|epinard hache|chopped spinach|epinard congele|epinard hache surgele', { d: 0.6, u: 300 });
 I('lettuce', 'Laitue', 'Lettuce', 'produce', 'laitue|lettuce|pomme de laitue|tete de laitue|laitue romaine|romaine|laitue iceberg|iceberg|laitue boston|coeur de romaine|laitue frisee|laitue en feuille|shredded lettuce', { u: 450, d: 0.2, units: { feuille: 15, poignee: 30 } });
 I('salad_mix', 'Mélange de laitues', 'Salad mix', 'produce', 'mesclun|salad mix|spring mix|mixed greens|salad greens|melange printanier|melange de laitue|baby greens|jeune pousse|mixed salad greens|baby lettuce|mache|chicoree|endive|frisee|scarole|radicchio|trevise|greens|leafy greens|verdure', { d: 0.12, u: 142, units: { poignee: 25 } });
@@ -135,7 +135,7 @@ I('green_beans', 'Haricots verts', 'Green beans', 'produce', 'haricot vert|green
 I('asparagus', 'Asperges', 'Asparagus', 'produce', 'asperge|asparagus', { su: 450, u: 20, d: 0.55, units: { branche: 20 } });
 I('squash', 'Courge', 'Squash', 'produce', '*courge|squash|kabocha|courge kabocha|potimarron|delicata|courge delicata;courge musquee|butternut;courge spaghetti|spaghetti squash;citrouille|pumpkin;courge poivree|acorn squash', { u: 1100, d: 0.6 });
 I('beet', 'Betteraves', 'Beets', 'produce', 'betterave|beet|beetroot', { u: 150, d: 0.6 });
-I('turnip', 'Navet / rutabaga', 'Turnip / rutabaga', 'produce', 'navet|turnip|rutabaga|jicama|jicamas;panais|parsnip;celeri rave|celeriac', { u: 400, d: 0.6 });
+I('turnip', 'Navet / rutabaga', 'Turnip / rutabaga', 'produce', 'navet|turnip|rutabaga;panais|parsnip;celeri rave|celeriac', { u: 400, d: 0.6 });
 I('radish', 'Radis', 'Radish', 'produce', 'radis|radish|daikon', { su: 250, u: 15, d: 0.5 });
 I('fennel', 'Fenouil', 'Fennel', 'produce', 'fenouil|fennel|bulbe de fenouil', { u: 250, d: 0.4 });
 I('bok_choy', 'Bok choy', 'Bok choy', 'produce', 'bok choy|pak choi|bok choi', { u: 150, d: 0.3 });
@@ -163,7 +163,7 @@ I('banana', 'Bananes', 'Bananas', 'produce', 'banane|banana', { u: 120, d: 0.9 }
 I('strawberry', 'Fraises', 'Strawberries', 'produce', 'fraise|strawberry', { u: 15, d: 0.6 });
 I('blueberry', 'Bleuets', 'Blueberries', 'produce', 'bleuet|blueberry|myrtille', { d: 0.62 });
 I('raspberry', 'Framboises', 'Raspberries', 'produce', 'framboise|raspberry;mure|blackberry', { d: 0.52 });
-I('frozen_fruit', 'Fruits surgelés', 'Frozen fruit', 'frozen', 'fruit surgele|frozen fruit|petit fruit surgele|frozen berry|fruit congele|baie surgelee|mixed berry|petit fruit|fruit|fruits|fruit frais|fruits frais|fresh fruit|fruits de saison|seasonal fruit|berries|baies|petits fruits frais|mixed fruit|fruits au choix|fruits secs au choix', { d: 0.6 });
+I('frozen_fruit', 'Fruits surgelés', 'Frozen fruit', 'frozen', 'fruit surgele|frozen fruit|petit fruit surgele|frozen berry|fruit congele|baie surgelee|mixed berry|petit fruit|fruit|fruits|fruit frais|fruits frais|fresh fruit|fruits de saison|seasonal fruit|berries|baies|petits fruits frais|mixed fruit|fruits au choix', { d: 0.6 });
 I('cranberry', 'Canneberges', 'Cranberries', 'produce', 'canneberge sechee|dried cranberry|craisins|craisin;canneberge|cranberry|canneberge fraiche|fresh cranberry', { d: 0.45 });
 I('grape', 'Raisins', 'Grapes', 'produce', 'raisin rouge|raisin vert|grape|raisin frais|raisin sans pepin', { d: 0.6, u: 5 });
 I('pear', 'Poires', 'Pears', 'produce', 'poire|pear', { u: 170, d: 0.6 });
@@ -188,7 +188,7 @@ I('bread', 'Pain', 'Bread', 'bakery', 'pain|bread|pain tranche|sliced bread|pain
 I('buns', 'Pains à burger / hot-dog', 'Buns', 'bakery', 'pain a hamburger|pain hamburger|pain a panini|pain panini|panini bread|pain kaiser individuel|pain a sous marin|burger bun|hamburger bun|pain a hot dog|hot dog bun|pain kaiser|brioche bun|petit pain|bun|roll|pain sous marin|pain a burger|pain brioche|pain brioche a burger|kaiser|sub bun|hoagie roll|panini|dinner roll|buns', { u: 60, pk: 8 });
 I('tortilla', 'Tortillas', 'Tortillas', 'bakery', 'tortilla|wrap|flour tortilla|tortilla de ble|tortilla de farine|whole wheat tortilla|tacos souples|taco souple|tacos souple|soft taco|tortilla souple;tortilla de mais|corn tortilla|tortilla au mais|taco shell|coquille a taco;pita|pita bread|pain pita|pita pocket;pain naan|naan|naan bread|pain naan nature;pain plat|flatbread|chapati', { u: 50, pk: 8 });
 I('breadcrumbs', 'Chapelure', 'Breadcrumbs', 'pantry', 'chapelure|breadcrumb|bread crumb|panko', { d: 0.45 });
-I('pie_crust', 'Pâte à tarte / feuilletée', 'Pie / puff pastry', 'frozen', 'pate a tarte|pie crust|pate brisee|croute a tarte|croute a tartelette|tartelette|fond de tarte|pate filo|filo|fillo|feuille de filo;pate feuilletee|puff pastry;pate a pizza|pizza dough;pate phyllo|phyllo', { units: { feuille: 225 }, u: 400 });
+I('pie_crust', 'Pâte à tarte / feuilletée', 'Pie / puff pastry', 'frozen', 'pate a tarte|pie crust|pate brisee|croute a tarte|croute a tartelette|tartelette|fond de tarte;pate feuilletee|puff pastry;pate a pizza|pizza dough;pate phyllo|phyllo', { units: { feuille: 225 }, u: 400 });
 I('crackers', 'Craquelins', 'Crackers', 'pantry', 'craquelin|cracker|biscuit soda;graham|chapelure graham|biscuit graham', { d: 0.4, u: 5 });
 I('yeast', 'Levure', 'Yeast', 'pantry', 'levure|yeast|levure instantanee|instant yeast|levure seche', { d: 0.6, u: 8 });
 I('baking_powder', 'Poudre à pâte', 'Baking powder', 'pantry', 'poudre a pate|baking powder|levure chimique', { d: 0.9 });
@@ -200,7 +200,7 @@ I('black_beans', 'Haricots noirs', 'Black beans', 'pantry', 'haricot noir|black 
 I('kidney_beans', 'Haricots rouges', 'Kidney beans', 'pantry', 'haricot rouge|kidney bean|feve rouge|red kidney|red kidney bean;haricot pinto|pinto bean;haricot romain', { d: 0.72, u: 400 });
 I('white_beans', 'Haricots blancs', 'White beans', 'pantry', 'haricot blanc|white bean|cannellini|navy bean|feve blanche|haricot bean|cannelini|canellini|cannelinni;feve au lard|baked bean;haricot de lima|lima bean|butter bean|feve de lima;legumineuse|mixed bean', { d: 0.72, u: 400 });
 I('lentils', 'Lentilles', 'Lentils', 'pantry', 'lentille|lentil|lentille verte|lentille rouge|red lentil|lentille corail|urad dal|masoor dal|toor dal|chana dal|moong dal|dhal;pois casse|split pea', { d: 0.8 });
-I('peanut_butter', "Beurre d'arachide", 'Peanut butter', 'pantry', '*beurre de noix|nut butter|seed butter|nutella|tartinade aux noisettes|hazelnut spread|tartinade choco noisette|tartinade au chocolat;beurre arachide|peanut butter;beurre amande|almond butter;tahini|tahini beurre de sesame', { d: 1.08 });
+I('peanut_butter', "Beurre d'arachide", 'Peanut butter', 'pantry', '*beurre de noix|nut butter|seed butter;beurre arachide|peanut butter;beurre amande|almond butter;tahini|tahini beurre de sesame', { d: 1.08 });
 I('peanuts', 'Arachides', 'Peanuts', 'pantry', 'arachide|peanut|cacahuete', { d: 0.6 });
 I('almonds', 'Amandes', 'Almonds', 'pantry', 'amande|almond|amande effilee|sliced almond|poudre amande|almond flour', { d: 0.55 });
 I('walnuts', 'Noix', 'Walnuts / nuts', 'pantry', '*noix|nuts;noix de grenoble|walnut;pacane|pecan;noix de cajou|cashew;noisette|hazelnut;pistache|pistachio;noix de pin|pine nut', { d: 0.5 });
@@ -215,15 +215,15 @@ I('sundried_tomato', 'Tomates séchées', 'Sun-dried tomatoes', 'pantry', 'tomat
 I('salsa', 'Salsa', 'Salsa', 'pantry', 'salsa|pico de gallo', { d: 1.05 });
 I('broth_chicken', 'Bouillon de poulet', 'Chicken broth', 'pantry', 'bouillon de poulet|chicken broth|chicken stock|fond de volaille|bouillon de volaille', { pa: 'broth_veg', d: 1, fb: 'broth_veg' });
 I('broth_beef', 'Bouillon de bœuf', 'Beef broth', 'pantry', 'bouillon de boeuf|beef broth|beef stock|fond de veau|fond de boeuf', { pa: 'broth_veg', d: 1, fb: 'broth_veg' });
-I('broth_veg', 'Bouillon de légumes', 'Vegetable broth', 'pantry', 'bouillon de legume|vegetable broth|vegetable stock|bouillon|broth|stock|dashi|fumet de poisson|fumet|glace de viande|fish stock|bouillon de poisson|seafood stock|fond de veau', { d: 1 });
+I('broth_veg', 'Bouillon de légumes', 'Vegetable broth', 'pantry', 'bouillon de legume|vegetable broth|vegetable stock|bouillon|broth|stock|dashi|fumet de poisson|fumet|fish stock|bouillon de poisson|seafood stock|fond de veau', { d: 1 });
 I('olive_oil', "Huile d'olive", 'Olive oil', 'pantry', 'huile olive|olive oil|huile olive extra vierge|extra virgin olive oil', { d: 0.92, units: { filet: 10 } });
 I('veg_oil', 'Huile végétale', 'Vegetable oil', 'pantry', '*huile vegetale|vegetable oil|huile de canola|canola oil|huile de tournesol|sunflower oil|huile de pepin de raisin|huile arachide|huile neutre|neutral oil|huile de mais|huile a friture|huile de cuisson|cooking oil|huile|oil;huile avocat|avocado oil', { d: 0.92 });
 I('sesame_oil', 'Huile de sésame', 'Sesame oil', 'pantry', 'huile de sesame|sesame oil|sesame seed oil|toasted sesame oil|huile de graines de sesame|huile de sesame grille', { d: 0.92 });
 I('coconut_oil', 'Huile de coco', 'Coconut oil', 'pantry', 'huile de coco|huile de noix de coco|coconut oil', { d: 0.92 });
 I('vinegar', 'Vinaigre', 'Vinegar', 'pantry', 'vinaigre|vinegar|vinaigre blanc|white vinegar|distilled vinegar;vinaigre de cidre|cider vinegar|apple cider vinegar|vinaigre de cidre de pomme;vinaigre de vin|wine vinegar|red wine vinegar|white wine vinegar|vinaigre de vin rouge|vinaigre de vin blanc|vinaigre de xeres|sherry vinegar;vinaigre de riz|rice vinegar|rice wine vinegar|seasoned rice vinegar;vinaigre balsamique|balsamic|balsamic vinegar', { d: 1.01 });
-I('soy_sauce', 'Sauce soya', 'Soy sauce', 'pantry', 'sauce soya|soy sauce|soya sauce|coconut aminos|aminos de coco|aminos|sauce soja|tamari|sauce tamari|dark soy|light soy|dark soy sauce|ponzu|sauce ponzu', { d: 1.15 });
+I('soy_sauce', 'Sauce soya', 'Soy sauce', 'pantry', 'sauce soya|soy sauce|soya sauce|sauce soja|tamari|sauce tamari|dark soy|light soy|dark soy sauce|ponzu|sauce ponzu', { d: 1.15 });
 I('fish_sauce', 'Sauce de poisson', 'Fish sauce', 'pantry', 'sauce de poisson|fish sauce;sauce aux huitres|oyster sauce;sauce hoisin|hoisin;sauce teriyaki|teriyaki;mirin|aji mirin|mirin seasoning|sweet cooking rice wine|rice cooking wine', { d: 1.15 });
-I('hot_sauce', 'Sauce piquante', 'Hot sauce', 'pantry', 'sauce piquante|hot sauce|tabasco|hot chilli sauce|buffalo sauce|sauce buffalo|red hot|piri piri|sauce piri piri|chilli sauce|chili sauce|chilli paste|chili paste|chili crisp|chilli crisp|chili crunch|chilli bean sauce|doenjang;sriracha;sambal oelek|sambal|chili garlic sauce|sauce chili ail|sauce chili a l ail;gochujang;harissa;pate de cari|curry paste;sauce chili douce|sweet chili sauce|sweet chilli sauce|sauce aigre douce|sweet and sour sauce|sweet sour sauce', { d: 1.1 });
+I('hot_sauce', 'Sauce piquante', 'Hot sauce', 'pantry', 'sauce piquante|hot sauce|tabasco|hot chilli sauce|buffalo sauce|sauce buffalo|red hot|piri piri|sauce piri piri|chilli sauce|chili sauce|chilli paste|chili paste|chili crisp|chilli crisp|chili crunch|chilli bean sauce|doenjang;sriracha;sambal oelek|sambal|chili garlic sauce|sauce chili ail|sauce chili a l ail;gochujang;harissa;pate de cari|curry paste;sauce chili douce|sweet chili sauce|sweet chilli sauce', { d: 1.1 });
 I('worcestershire', 'Sauce Worcestershire', 'Worcestershire sauce', 'pantry', 'sauce worcestershire|worcestershire;sauce bbq|bbq sauce|barbecue sauce|sauce barbecue;fumee liquide|liquid smoke', { d: 1.1 });
 I('ketchup', 'Ketchup', 'Ketchup', 'pantry', 'ketchup|sauce chili', { d: 1.15 });
 I('mustard', 'Moutarde', 'Mustard', 'pantry', 'moutarde|mustard|moutarde de dijon|dijon|moutarde a l ancienne|moutarde jaune', { d: 1.05 });
@@ -238,13 +238,13 @@ I('olives', 'Olives', 'Olives', 'pantry', '*olive;olive noire|black olive|kalama
 I('capers', 'Câpres', 'Capers', 'pantry', 'capre|caper', { d: 0.6 });
 I('pickles', 'Cornichons', 'Pickles', 'pantry', 'cornichon|pickle|dill pickle|cornichon a l aneth|pickle spear|pepperoncini|peperoncini|piment banane|banana pepper|giardiniera|marinade aux choix|legumes marines|pickled vegetables;relish;oignon marine|pickled onion|silverskin onion|cocktail onion|petit oignon marine', { d: 0.6, u: 30, units: { tranche: 5 } });
 I('jam', 'Confiture', 'Jam', 'pantry', '*confiture|jam;gelee|jelly;marmelade|marmalade', { d: 1.3 });
-I('wine', 'Vin', 'Wine', 'other', 'vin|wine|vin blanc|white wine|vin rouge|red wine|sake|vin de riz|rice wine|shaoxing|vin de cuisson|cooking wine;biere|beer;cidre|cider;xeres|sherry;porto|port wine', { d: 1, u: 341 });
+I('wine', 'Vin', 'Wine', 'other', 'vin|wine|vin blanc|white wine|vin rouge|red wine|sake|vin de riz|rice wine;biere|beer;cidre|cider;xeres|sherry;porto|port wine', { d: 1, u: 341 });
 
 // ---- Sucre & pâtisserie / Baking
 I('sugar', 'Sucre', 'Sugar', 'pantry', 'sucre|sugar|sucre granule|granulated sugar|sucre blanc', { d: 0.85 });
-I('brown_sugar', 'Cassonade', 'Brown sugar', 'pantry', 'cassonade|brown sugar|sucre brun|jaggery|sucre de canne brut|panela|sucre muscovado|muscovado|sucre de coco|coconut sugar', { d: 0.9 });
+I('brown_sugar', 'Cassonade', 'Brown sugar', 'pantry', 'cassonade|brown sugar|sucre brun|jaggery|sucre de canne brut|panela|sucre muscovado|muscovado', { d: 0.9 });
 I('icing_sugar', 'Sucre à glacer', 'Icing sugar', 'pantry', 'sucre a glacer|icing sugar|powdered sugar|sucre en poudre|confectioner sugar', { d: 0.5 });
-I('maple_syrup', "Sirop d'érable", 'Maple syrup', 'pantry', 'sirop erable|maple syrup|tire d erable|flocon d erable|sucre d erable|maple sugar|beurre d erable', { d: 1.32, units: { filet: 15 } });
+I('maple_syrup', "Sirop d'érable", 'Maple syrup', 'pantry', 'sirop erable|maple syrup|tire d erable', { d: 1.32, units: { filet: 15 } });
 I('honey', 'Miel', 'Honey', 'pantry', 'miel|honey;sirop de mais|corn syrup;melasse|molasses|black treacle;sirop agave|agave', { d: 1.4, units: { filet: 15 } });
 I('chocolate', 'Chocolat', 'Chocolate', 'pantry', 'chocolat|chocolate|pepite de chocolat|chocolate chip|chocolat noir|dark chocolate|chocolat mi sucre|semi sweet chocolate|chocolat au lait|chocolat blanc|mini oeuf|mini egg|mini oeufs en chocolat|carre de chocolat|chocolate square', { d: 0.7, units: { carre: 10 } });
 I('cocoa', 'Cacao', 'Cocoa', 'pantry', 'cacao|cocoa|poudre de cacao|cocoa powder', { d: 0.42 });
@@ -263,7 +263,7 @@ I('horseradish', 'Raifort', 'Horseradish', 'pantry', 'raifort|horseradish|horser
 I('guacamole', 'Guacamole', 'Guacamole', 'dairy', 'guacamole', { d: 1 });
 I('refried_beans', 'Haricots frits', 'Refried beans', 'pantry', 'haricot frit|refried bean|feve frite', { d: 1, u: 400 });
 I('alfredo', 'Sauce Alfredo / béchamel', 'Alfredo / béchamel sauce', 'pantry', 'sauce alfredo|alfredo sauce;sauce bechamel|bechamel', { d: 1.03 });
-I('gravy', 'Sauce brune', 'Gravy', 'pantry', 'sauce brune|gravy|sauce a poutine|sauce poutine|sauce hollandaise|hollandaise|sauce bearnaise|bearnaise|sachet de sauce', { d: 1.03 });
+I('gravy', 'Sauce brune', 'Gravy', 'pantry', 'sauce brune|gravy|sauce a poutine|sauce poutine', { d: 1.03 });
 I('granola', 'Granola / céréales', 'Granola / cereal', 'pantry', 'granola;cereale|cereal', { d: 0.45 });
 I('english_muffin', 'Muffins anglais', 'English muffins', 'bakery', 'muffin anglais|english muffin;bagel', { u: 57, pk: 6 });
 I('applesauce', 'Compote de pommes', 'Applesauce', 'pantry', 'compote de pomme|applesauce|apple sauce', { d: 1.05 });
@@ -295,13 +295,18 @@ I('shortening', 'Graisse végétale', 'Shortening', 'pantry', 'graisse vegetale|
 I('baking_mix', 'Préparation pour gâteau / crêpes', 'Cake / pancake mix', 'pantry', 'melange a gateau|cake mix|melange a crepe|melange a crepes et a gaufres|pancake mix|melange a muffin|muffin mix|melange a brownie|brownie mix', { d: 0.5 });
 I('salt_pork', 'Lard salé', 'Salt pork', 'meat', 'lard sale|salt pork|lard sale entrelarde|pancetta fumee', { d: 0.6 });
 I('tapioca', 'Tapioca', 'Tapioca', 'pantry', 'tapioca|perle de tapioca|tapioca minute|fecule de tapioca|tapioca starch', { d: 0.7 });
-I('bran', 'Son de blé / psyllium', 'Bran / psyllium', 'pantry', 'son de ble|wheat bran|son d avoine|oat bran|psyllium|psyllium husk|gomme de xanthane|xanthan gum|xanthane', { d: 0.3 });
+I('bran', 'Son de blé / psyllium', 'Bran / psyllium', 'pantry', 'son de ble|wheat bran|son d avoine|oat bran', { d: 0.3 });
 I('starter', 'Levain', 'Sourdough starter', 'other', 'levain|sourdough starter|sourdough discard|starter|culture mesophile|mesophilic starter|koji kin', { free: 1, ro: 1 });
 I('juice', 'Jus', 'Juice', 'pantry', 'jus de legume|vegetable juice|v8|jus de fruit|fruit juice|jus de pomme|apple juice|jus de raisin|grape juice|jus d ananas|pineapple juice|jus de canneberge|cranberry juice|jus de tomate|tomato juice|jus de mangue|mango juice|jus de clamato|clamato|jus de pamplemousse|grapefruit juice|jus de grenade|pomegranate juice', { d: 1.04 });
 I('soup_mix', 'Mélange à soupe', 'Soup mix', 'pantry', 'enveloppe de soupe|sachet de soupe a l oignon|melange a soupe|onion soup mix|soup mix|dry onion soup|sachet de soupe|lipton', { u: 35, d: 0.5 });
 I('pumpkin_puree', 'Purée de citrouille', 'Pumpkin purée', 'pantry', 'puree de citrouille|puree de citrouille pure|pumpkin puree|pure pumpkin|canned pumpkin|citrouille en conserve|pumpkin pie filling|garniture a tarte a la citrouille', { d: 1.03 });
 I('croissant', 'Croissants', 'Croissants', 'bakery', 'croissant|croissants au beurre|butter croissant|croissant nature', { u: 60 });
 I('crepe', 'Crêpes', 'Crêpes', 'bakery', 'crepe|crepes|crepes du commerce|crepes aux epinards|crepe roll', { u: 50 });
+I('nutella', 'Tartinade choco-noisettes', 'Hazelnut spread', 'pantry', 'nutella|tartinade aux noisettes|hazelnut spread|tartinade choco noisette|tartinade au chocolat|tartinade aux noisettes et au cacao', { d: 1.25 });
+I('maple_sugar', "Sucre d'érable", 'Maple sugar', 'pantry', 'sucre d erable|maple sugar|flocon d erable|maple flakes|beurre d erable|maple butter', { d: 0.8 });
+I('creme_fraiche', 'Crème fraîche', 'Crème fraîche', 'dairy', 'creme fraiche|creme fraiche epaisse|creme fraiche d isigny', { d: 1 });
+I('mascarpone', 'Mascarpone', 'Mascarpone', 'dairy', 'mascarpone|fromage mascarpone', { d: 1 });
+I('tempeh', 'Tempeh', 'Tempeh', 'dairy', 'tempeh', { u: 240 });
 I('spice', 'Épices', 'Spices', 'spices', 'cumin|paprika|cannelle|cinnamon|muscade|nutmeg|curcuma|turmeric|cari|curry|poudre de cari|curry powder|garam masala|poudre de chili|chili powder|assaisonnement au chili|flocon de piment|chili flake|red pepper flake|piment de cayenne|cayenne|origan|oregano|herbe de provence|herbes italiennes|italian seasoning|assaisonnement italien|feuille de laurier|bay leaf|bay leaves|laurier|clou de girofle|ground clove|noix de muscade|coriandre moulue|ground coriander|graine de coriandre|poudre ail|garlic powder|poudre oignon|onion powder|sel ail|sel oignon|paprika fume|smoked paprika|gingembre moulu|ground ginger|cardamome|cardamom|piment de la jamaique|allspice|quatre epices|graine de moutarde|mustard seed|moutarde seche|dry mustard|graine de fenouil|fennel seed|carvi|caraway|sumac|zaatar|epice a steak|steak spice|assaisonnement|seasoning|epice|spice|sauge|sage|estragon|tarragon|marjolaine|basilic seche|dried basil|persil seche|dried parsley|thym seche|aneth seche|anis etoile|star anise|safran|saffron|gochugaru|chilli flake|chili broye|flocon de chili|chipotle powder|marjoram|juniper berry|baie de genievre|ras el hanout|black peppercorn|peppercorn|sichuan peppercorn|grain de poivre|nigella seed|fines herbes|herbes salees|mixed herb|arrowroot|peppermint extract|wasabi|piment d espelette|sel de celeri|graine de celeri|clou de girofle|ground cloves|whole cloves|cardamome|cardamom|cardamon|fenugrec|fenugreek|piment d alep|aleppo pepper|poudre de piment|chili mexicain|furikake|gomasio|herbes sechees|dried herbs|italian herb blend|herb blend|poudre cury|piment broye|piment rouge broye|epice a steak|steak spice|epices italiennes|italian seasoning|assaisonnement italien|cajun|old bay|za atar|zaatar|sumac|epices a tacos|taco seasoning|dried chiles|piment seche|piments seches|chile seche|guajillo|ancho|chile ancho', { d: 0.45, ro: 1 });
 I('water', 'Eau', 'Water', 'other', 'eau|water|eau froide|eau chaude|eau tiede|eau bouillante|glacon|aquafaba|liquide de pois chiches|chickpea brine', { d: 1, free: 1, ro: 1 });
 

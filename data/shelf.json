@@ -1,6 +1,6 @@
 {
  "source": "Walmart.ca (catalogue en ligne, via Flipp)",
- "fetchedAt": "2026-11-16T17:28:59.900Z",
+ "fetchedAt": "2026-11-18T21:28:48.158Z",
  "searched": {
   "chicken breast": "2026-11-13",
   "poitrine de poulet": "2026-11-13",
@@ -206,7 +206,7 @@
   "cotija": "2026-11-13",
   "cream cheese": "2026-11-13",
   "fromage a la creme": "2026-11-13",
-  "mascarpone": "2026-11-13",
+  "mascarpone": "2026-11-18",
   "ricotta": "2026-11-13",
   "whole milk ricotta": "2026-11-13",
   "part skim ricotta": "2026-11-13",
@@ -769,7 +769,7 @@
   "balsamic vinegar": "2026-11-13",
   "soy sauce": "2026-11-13",
   "sauce soya": "2026-11-13",
-  "coconut aminos": "2026-11-13",
+  "coconut aminos": "2026-11-18",
   "fish sauce": "2026-11-13",
   "sauce de poisson": "2026-11-13",
   "sauce aux huitres": "2026-11-13",
@@ -1056,7 +1056,7 @@
   "capsicum": "2026-11-13",
   "cavolo nero": "2026-11-13",
   "bratwurst": "2026-11-13",
-  "nutella": "2026-11-13",
+  "nutella": "2026-11-18",
   "kefir": "2026-11-13",
   "urad dal": "2026-11-13",
   "sake": "2026-11-13",
@@ -1116,7 +1116,17 @@
   "frozen mixed vegetables": "2026-11-16",
   "hash browns": "2026-11-16",
   "cannellini beans": "2026-11-16",
-  "apple juice": "2026-11-16"
+  "apple juice": "2026-11-16",
+  "tempeh": "2026-11-18",
+  "creme fraiche": "2026-11-18",
+  "crème fraîche": "2026-11-18",
+  "maple sugar": "2026-11-18",
+  "maple flakes": "2026-11-18",
+  "bison": "2026-11-18",
+  "jicama": "2026-11-18",
+  "xanthan gum": "2026-11-18",
+  "demi glace": "2026-11-18",
+  "hollandaise sauce mix": "2026-11-18"
  },
  "products": [
   {
@@ -4804,6 +4814,12 @@
    "date": "2026-11-13"
   },
   {
+   "sku": "4SN3N2KBSIQT",
+   "name": "Beyblade X Valor Bison Fb Ux Infinity Starter Pack Top And Launcher Multi",
+   "price": 19.96,
+   "date": "2026-11-18"
+  },
+  {
    "sku": "6000205981366",
    "name": "Beyond In Gravy Variety Pack Turkey, Salmon, Tuna, Cod, Wet Cat Food 12 X 85 G Not Applicable;85g;0-100g",
    "price": 18.88,
@@ -5654,6 +5670,12 @@
    "name": "Bob's Red Mill Wheat Bran",
    "price": 4.47,
    "date": "2026-11-13"
+  },
+  {
+   "sku": "6000199258119",
+   "name": "Bob's Red Mill Xanthan Gum",
+   "price": 21.97,
+   "date": "2026-11-18"
   },
   {
    "sku": "45EWWM9FMQZB",
@@ -8617,7 +8639,7 @@
    "sku": "10221478",
    "name": "Chapman's No Sugar Added/Lactose Free Maple Walnut Ice Cream In A Tub, 1l 1l",
    "price": 6.47,
-   "date": "2026-11-13"
+   "date": "2026-11-18"
   },
   {
    "sku": "10222128",
@@ -14701,19 +14723,19 @@
    "sku": "10066719",
    "name": "Flakes Of Chicken By Maple Leaf 156 G",
    "price": 3.57,
-   "date": "2026-11-13"
+   "date": "2026-11-18"
   },
   {
    "sku": "10178429",
    "name": "Flakes Of Ham By Maple Leaf 156g",
    "price": 3.57,
-   "date": "2026-11-13"
+   "date": "2026-11-18"
   },
   {
    "sku": "6000188760519",
    "name": "Flakes Of Ham Less Salt By Maple Leaf 156 G",
    "price": 3.57,
-   "date": "2026-11-13"
+   "date": "2026-11-18"
   },
   {
    "sku": "78WC9PLWWWZK",
@@ -17324,6 +17346,12 @@
    "name": "Great Value 100% Virgin Coconut Oil 425 Ml",
    "price": 6.28,
    "date": "2026-11-13"
+  },
+  {
+   "sku": "6000208719373",
+   "name": "Great Value 1000p Knorlein Asrt Majestic Bison",
+   "price": 16.96,
+   "date": "2026-11-18"
   },
   {
    "sku": "6000196306141",
@@ -24955,7 +24983,7 @@
    "sku": "6000200236379",
    "name": "Instant Quaker Oats Quaker Maple & Brown Sugar Flavour Instant Oatmeal 344g",
    "price": 3.67,
-   "date": "2026-11-13"
+   "date": "2026-11-18"
   },
   {
    "sku": "6000200244479",
@@ -25790,6 +25818,12 @@
    "name": "Jiangsu Hengshun Vinegar Hengshun Zhenjiang Venigar 500 Ml",
    "price": 2.77,
    "date": "2026-11-13"
+  },
+  {
+   "sku": "6000197189797",
+   "name": "Jicama",
+   "price": 3.9,
+   "date": "2026-11-18"
   },
   {
    "sku": "6000197852528",
@@ -26689,7 +26723,7 @@
    "sku": "5JGU3BKJ955T",
    "name": "Kettle Creek Maple Brown Sugar Bbq Sauce 473ml - Gluten Free 473ml",
    "price": 4.14,
-   "date": "2026-11-13"
+   "date": "2026-11-18"
   },
   {
    "sku": "6000197010570",
@@ -29044,6 +29078,18 @@
    "date": "2026-11-13"
   },
   {
+   "sku": "6000199718748",
+   "name": "Lightlife Organic Plant-Based Smoky Tempeh Bacon Strips",
+   "price": 5.97,
+   "date": "2026-11-18"
+  },
+  {
+   "sku": "6000199714396",
+   "name": "Lightlife Original Organic Plant-Based Tempeh",
+   "price": 5.97,
+   "date": "2026-11-18"
+  },
+  {
    "sku": "2USXOP9GKTHD",
    "name": "Lily Sugar'n Cream Lily Sugar N Cream® Snc Sb™ #4 Worsted (Medium) Cotton Yarn, Blueberry 2.5oz/70.9g 120 Yards Blueberry",
    "price": 3.79,
@@ -29522,6 +29568,12 @@
    "name": "Lion Brand Hometown Yarn Sleepy Hollow Spirit Sleepy Hollow Spirit",
    "price": 5.97,
    "date": "2026-11-13"
+  },
+  {
+   "sku": "1TWEDEFCVZ7W",
+   "name": "Lion Brand Hometown Yarn Sugar Maple Stowe Sugar Maple",
+   "price": 5.97,
+   "date": "2026-11-18"
   },
   {
    "sku": "6000207654352",
@@ -30134,6 +30186,12 @@
    "name": "Maclean's Maple/Bourbon Barrel Bbq Smoking Pellets 1 Ea",
    "price": 24.98,
    "date": "2026-11-13"
+  },
+  {
+   "sku": "6000202406367",
+   "name": "Maclean's Sugar Maple Wood Grilling Planks 2 Pack",
+   "price": 8.99,
+   "date": "2026-11-18"
   },
   {
    "sku": "3V9M5ERTVQUF",
@@ -32134,6 +32192,12 @@
    "date": "2026-11-13"
   },
   {
+   "sku": "6VJOA28YX2XY",
+   "name": "Mccormick Gourmet®, Hollandaise 25% Less Sodium Sauce Mix 47g",
+   "price": 2.67,
+   "date": "2026-11-18"
+  },
+  {
    "sku": "6000196582597",
    "name": "Mckenzie Seeds Pro-Hex Professional Seed Starting Tray",
    "price": 8.47,
@@ -34015,7 +34079,7 @@
    "sku": "30UZJN8STAFS",
    "name": "Naked & Saucy Low Sodium Coconut Aminos, Soy-Sauce Substitute, 473ml 473ml",
    "price": 8.47,
-   "date": "2026-11-16"
+   "date": "2026-11-18"
   },
   {
    "sku": "3DQ9DXF0ZDBD",
@@ -35347,13 +35411,13 @@
    "sku": "6000195930277",
    "name": "Nutella & Go! Hazelnut And Cocoa Spread With Breadsticks, Snack Packs, Perfect Bulk Snacks For Kids 4x52g 208 G",
    "price": 6.98,
-   "date": "2026-11-13"
+   "date": "2026-11-18"
   },
   {
    "sku": "6000197102950",
    "name": "Nutella & Go! Hazelnut And Cocoa Spread With Breadsticks, Snack Packs, Perfect Snacks For Kids",
    "price": 1.87,
-   "date": "2026-11-13"
+   "date": "2026-11-18"
   },
   {
    "sku": "4MNS5AFU7L4K",
@@ -35365,43 +35429,43 @@
    "sku": "6000206729329",
    "name": "Nutella B-Ready, Snack Bars, Crispy Wafer Filled With Delicious Nutella, 22 G",
    "price": 1,
-   "date": "2026-11-13"
+   "date": "2026-11-18"
   },
   {
    "sku": "54GT5KLG31B8",
    "name": "Nutella B-Ready, Snack Bars, Crispy Wafer Filled With Delicious Nutella, 6x22g 22g",
    "price": 4.98,
-   "date": "2026-11-13"
+   "date": "2026-11-18"
   },
   {
    "sku": "48Q94LAK8BHE",
    "name": "Nutella Biscuits, Cookies Filled With Nutella Hazelnut Spread, Perfect Snack To Share, 276g 276g",
    "price": 7.47,
-   "date": "2026-11-13"
+   "date": "2026-11-18"
   },
   {
    "sku": "10304012",
    "name": "Nutella Hazelnut Spread With Cocoa For Breakfast, 375 G 375 G",
    "price": 5.47,
-   "date": "2026-11-13"
+   "date": "2026-11-18"
   },
   {
    "sku": "10303900",
    "name": "Nutella Hazelnut Spread With Cocoa For Breakfast, 725g Jar 725g",
    "price": 8.47,
-   "date": "2026-11-13"
+   "date": "2026-11-18"
   },
   {
    "sku": "1LR76JRBOTCP",
    "name": "Nutella Peanut Spread With Cocoa, Smooth And Creamy Peanut With Cocoa Spread For Afternoon Snacking And Gifting, 375 G 375g",
    "price": 5.47,
-   "date": "2026-11-13"
+   "date": "2026-11-18"
   },
   {
    "sku": "6ZUXPU4KHADK",
    "name": "Nutella Peanut Spread With Cocoa, Smooth And Creamy Peanut With Cocoa Spread For Afternoon Snacking And Gifting, 725 G 725g",
    "price": 8.47,
-   "date": "2026-11-13"
+   "date": "2026-11-18"
   },
   {
    "sku": "6000191791703",
@@ -35450,6 +35514,12 @@
    "name": "Nuts To You Nut Butter Nuts To You Plus Peanut Butter + Pecan And Pistachio Crunch 365g",
    "price": 6.97,
    "date": "2026-11-13"
+  },
+  {
+   "sku": "6000200191488",
+   "name": "Nylabone Power Chew Bison Bone Alternative Dog Chew Toy Bison Flavor Large Brown",
+   "price": 9.97,
+   "date": "2026-11-18"
   },
   {
    "sku": "2UG1BS2LI8WK",
@@ -39544,6 +39614,18 @@
    "date": "2026-11-13"
   },
   {
+   "sku": "6000202569624",
+   "name": "Prime Bones Bison Bone-Shaped Dog Chews, Dog Treats 320g",
+   "price": 9.97,
+   "date": "2026-11-18"
+  },
+  {
+   "sku": "6000202569627",
+   "name": "Prime Bones Bison Bone-Shaped Dog Chews, Dog Treats 641g",
+   "price": 15.97,
+   "date": "2026-11-18"
+  },
+  {
    "sku": "2XJ6F916F08P",
    "name": "Prime Breaded Chicken Burgers, 700 G",
    "price": 13.18,
@@ -40402,6 +40484,18 @@
    "date": "2026-11-13"
   },
   {
+   "sku": "1PMHTSM8ISYA",
+   "name": "Purina One True Instinct Beef & Bison Dry Dog Food, 12.4kg",
+   "price": 52.44,
+   "date": "2026-11-18"
+  },
+  {
+   "sku": "2NVJ9ADYQFS4",
+   "name": "Purina One True Instinct Beef & Bison Dry Dog Food, 6.8kg",
+   "price": 32.48,
+   "date": "2026-11-18"
+  },
+  {
    "sku": "6000202569521",
    "name": "Purina One True Instinct Classic Ground Beef & Wild-Caught Salmon, Wet Dog Food 368 G 368 G",
    "price": 2.47,
@@ -40417,7 +40511,7 @@
    "sku": "6000205981434",
    "name": "Purina One True Instinct Tender Cuts In Gravy With Beef & Bison Wet Dog Food, 368g",
    "price": 2.47,
-   "date": "2026-11-13"
+   "date": "2026-11-18"
   },
   {
    "sku": "13E3R0G1UTED",
@@ -40591,7 +40685,7 @@
    "sku": "6WRNVP045F34",
    "name": "Quaker Maple & Brown Sugar Instant Oatmeal, Family Size, 860",
    "price": 7.97,
-   "date": "2026-11-13"
+   "date": "2026-11-18"
   },
   {
    "sku": "10303977",
@@ -40621,7 +40715,7 @@
    "sku": "4UAGUE541DUH",
    "name": "Quaker Protein+ Maple Brown Sugar Instant Oatmeal 5.23\"X7.87\"X2.76\" 360g In Weight",
    "price": 6.77,
-   "date": "2026-11-13"
+   "date": "2026-11-18"
   },
   {
    "sku": "0WH5XOPMGXR0",
@@ -40639,7 +40733,7 @@
    "sku": "0X1RV2HZHHNI",
    "name": "Quaker® Iqo Low Sugar Maple & Brown Sugar Regular",
    "price": 3.67,
-   "date": "2026-11-13"
+   "date": "2026-11-18"
   },
   {
    "sku": "74RE9DBSHB42",
@@ -45949,7 +46043,7 @@
    "sku": "1T8F0NWNORNQ",
    "name": "Starbucks Maple Pecan Latte Zero Sugar Non-Dairy Coffee Enhancer, Almond & Oat Blend 800ml",
    "price": 7.97,
-   "date": "2026-11-13"
+   "date": "2026-11-18"
   },
   {
    "sku": "4G00B6OM0A7S",
@@ -46135,7 +46229,7 @@
    "sku": "6000204727729",
    "name": "Steeves Maples - 1l Sugar Free Maple Taste Syrup - 0 Calories Per Serving 34 Fl Oz",
    "price": 8.38,
-   "date": "2026-11-13"
+   "date": "2026-11-18"
   },
   {
    "sku": "507HSMAGCYM0",
@@ -46286,6 +46380,12 @@
    "name": "Strawberry Shortcake: Berry Besties Bakeoff Card Game (English Version) - 2-6 Players - A Family Board Game By Maestro Media - 15-25 Minutes Of Gamepl",
    "price": 29.97,
    "date": "2026-11-13"
+  },
+  {
+   "sku": "2JCZZ897417M",
+   "name": "Street Fighter M. Bison 6-Inch Action Figure Multi",
+   "price": 36.93,
+   "date": "2026-11-18"
   },
   {
    "sku": "3Y42BPV4QR84",
@@ -49411,7 +49511,7 @@
    "sku": "6000191270633",
    "name": "Tre Stelle Mascarpone Cheese 475 G",
    "price": 13.98,
-   "date": "2026-11-13"
+   "date": "2026-11-18"
   },
   {
    "sku": "6000198574833",
@@ -51752,6 +51852,12 @@
    "name": "Wujiang Wj Preserved Mustard Tuber Fresh Flavor 320g",
    "price": 2.47,
    "date": "2026-11-13"
+  },
+  {
+   "sku": "5US5LF8QPKXS",
+   "name": "Wwe X Street Fighter The Rock Final Boss Action Figure & Accessories, 6-Inch Collectible M. Bison Mashup Set - Walmart Exclusive Multi",
+   "price": 36.93,
+   "date": "2026-11-18"
   },
   {
    "sku": "6000188764517",

@@ -20,7 +20,7 @@ const EXTRA = ['worcestershire sauce', 'lea perrins', 'jalapeno peppers', 'leeks
   'sweet cherries', 'hemp hearts', 'pizza dough', 'anchovy fillets', 'pure vanilla extract', 'sun dried tomatoes', 'pine nuts', 'agave syrup',
   'medjool dates', 'dried apricots', 'coconut flakes', 'egg roll wrappers', 'phyllo pastry', 'puff pastry', 'pie crust', 'tortilla wraps',
   'poppy seed', 'cardamom', 'ground cloves', 'fenugreek', 'enchilada sauce', 'buffalo sauce', 'chili crisp', 'dark soy sauce', 'ponzu', 'fish stock',
-  'juniper berries', 'taco seasoning', 'italian seasoning', 'onion soup mix', 'frozen mixed vegetables', 'hash browns', 'cannellini beans', 'apple juice'];
+  'juniper berries', 'taco seasoning', 'italian seasoning', 'onion soup mix', 'frozen mixed vegetables', 'hash browns', 'cannellini beans', 'apple juice', 'tempeh', 'creme fraiche', 'maple sugar', 'maple flakes', 'mascarpone', 'nutella', 'bison', 'jicama', 'coconut aminos', 'xanthan gum', 'demi glace'];
 
 /** Search terms: each ingredient's English name and the first names of each member. */
 export function queries() {
