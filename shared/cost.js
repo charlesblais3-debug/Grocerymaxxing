@@ -56,6 +56,9 @@ export function pickOffer(offers, pk, lineForms) {
 export const bestFor = (offers, id) => pickOffer(offers, id, ALL_FORMS);
 const ALL_FORMS = ['sliced', 'smoked', 'dried', 'cooked', 'breaded', 'seasoned', 'stuffed', 'ball', 'curds', 'spread', 'drink', 'canned'];
 
+// Members that cost far more than their group: never priced at the group's median.
+const PREMIUM_MEMBERS = new Set(['white_fish~fletan', 'white_fish~morue']);
+
 function lookup(pk, fm, offers, baseline, seen = 0) {
   const ing = ING_BY_ID[baseId(pk)];
   if (!ing) return null;
@@ -70,12 +73,15 @@ function lookup(pk, fm, offers, baseline, seen = 0) {
   }
   // A kind of white fish with no price of its own ("aiglefin") is priced as white fish,
   // for groups whose members cost about the same (option `mfb`).
-  if (pk !== ing.id && ing.mfb && seen < 2) {
+  if (pk !== ing.id && ing.mfb && !PREMIUM_MEMBERS.has(pk) && seen < 2) {
     const r = lookup(ing.id, fm, offers, baseline, seen + 1);
     if (r) return { ...r, via: ing.id };
   }
   // Only a generic ingredient borrows another one's price ("poulet" -> chicken breast).
   if (ing.fb && pk === ing.id && seen < 2) {
+    // Another animal (turkey priced like chicken breast) borrows the usual price only, never a
+    // chicken deal: the flyer is not selling turkey.
+    if (ing.fbBase) { const b = baseline[ing.fb]; return b ? { perG: b.perG, src: 'base', ref: b, via: baseId(ing.fb) } : null; }
     const r = lookup(ing.fb, fm, offers, baseline, seen + 1);
     if (r) return { ...r, via: baseId(ing.fb) };
   }
@@ -97,6 +103,8 @@ function lookupAlt(l, offers, baseline) {
  *   priced:number, countable:number, deals:number, savings:number, coverage:number, lines:object[] }}
  */
 export function costRecipe(recipe, offers, baseline, have) {
+  // A page of several alternative versions has no single price (see build-index: collection).
+  if (recipe.collection) return { total: null, per: null, perKind: null, priced: 0, countable: 0, deals: 0, savings: 0, lines: recipe.ings.map((l) => ({ ...l, cost: null, src: 'optional' })), missing: [], savingsPct: 0, comparable: 0, coverage: 0, collection: true };
   let total = 0;
   let priced = 0;
   let countable = 0;

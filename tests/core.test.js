@@ -164,7 +164,7 @@ describe('multipacks and alternatives', () => {
 describe('fixes from the first full data run', () => {
   it('hyphenated and spelled-out quantities', () => {
     expect(parseIngredientLine('one 14-ounce can crushed tomatoes').g).toBeCloseTo(396.9, 0);
-    expect(parseIngredientLine('14-ounce can of black beans, drained').g).toBeCloseTo(396.9, 0);
+    expect(parseIngredientLine('14-ounce can of black beans, drained').g).toBeCloseTo(238.1, 0); // drained beans, ~60 % of the can
     expect(parseIngredientLine('6-8 thick slices of sourdough bread').g).toBe(210);
     expect(parseIngredientLine('4 rashers smoked back bacon').g).toBe(80);
     expect(parseIngredientLine('une gousse d\'ail').g).toBe(5);
@@ -508,6 +508,19 @@ describe('pricing audit regressions', () => {
     expect(P('2.5 lbs corned beef brisket in brine')[0]).toBe('beef'); // raw brisket, not smoked meat
     // No stand-ins between products with clearly different prices.
     expect(P('1 cup nutella')[0]).toBe('nutella'); // not peanut butter
+    // Canned beans and tuna in drained grams, on both the recipe and the price side.
+    expect(P('2 x 400g cans chickpeas drained but not rinsed')[1]).toBe(480);
+    expect(P('1 boîte (540 ml) de pois chiches, rincés', 'fr')[1]).toBe(324);
+    expect(P('1 can chickpeas')[1]).toBe(325);
+    expect(P('1 cup chickpeas ((drained))')[1]).toBeCloseTo(161.2);
+    expect(P('200 g/7oz sashimi grade tuna')[0]).toBe('tuna_fresh'); // not canned tuna
+    expect(P('2 (15-ounce cans) chickpeas ( drained with liquid reserved)')[1]).toBeCloseTo(510.3); // two cans, drained
+    expect(P('12 tartelettes salées du commerce', 'fr')[1]).toBe(216); // tartlet shells, not pie crusts
+    expect(P('1 lb. sushi grade ahi or yellowtail tuna')[0]).toBe('tuna_fresh');
+    expect(P('5 piments oiseaux, hachés', 'fr')[1]).toBe(15); // ~3 g each, not 15 g
+    expect(P('1 cup milk of choice')[3]).toBeUndefined(); // "of choice" is required, not optional
+    expect(unitPrice({ name: 'Canned beans and lentils, 540 millilitres', price: 1.77 }, ING_BY_ID.chickpeas).perG).toBeCloseTo(1.77 / 324);
+    expect(unitPrice({ name: 'pois chiches Cedar', desc: '1.8 kg', price: 3.99 }, ING_BY_ID.chickpeas)).toBeNull(); // dried beans
     expect(P('2 tbsp maple sugar')[0]).toBe('maple_sugar'); // not white sugar, not maple syrup
     expect(P('1/4 cup crème fraîche')[0]).toBe('creme_fraiche'); // not 35 % cream or sour cream
     expect(P('250 g de mascarpone', 'fr')[0]).toBe('mascarpone'); // not cream cheese
@@ -569,7 +582,7 @@ describe('pricing audit regressions', () => {
     expect(g('1 pint grape tomatoes')).toBeCloseTo(283.8);
     expect(g('4 cups day-old cooked jasmine rice')).toBeCloseTo(237);
     expect(g('½ 16 oz. box rigatoni')).toBeCloseTo(226.8);
-    expect(g('2 -15 oz cans butter beans')).toBeCloseTo(850.5);
+    expect(g('2 -15 oz cans butter beans')).toBeCloseTo(510.3); // drained
     expect(g('1 bunch green onions')).toBe(100);
     expect(g('1 lime (1 Tbsp juice, $0.50)')).toBe(65);
     expect(g('4 5-6 oz salmon fillets')).toBeCloseTo(567);
@@ -616,6 +629,24 @@ describe('biggest deals', () => {
     expect(topDeals(items, { stores: new Set(['iga']), baseline }).map((d) => d.pk)).toEqual(['chicken_drumstick']);
     expect(topDeals(items, { stores: new Set(['superc', 'iga']), section: 'protein', baseline }).map((d) => d.pk)).toEqual(['chicken_drumstick']);
     expect([dealSection('egg'), dealSection('chips'), dealSection('onion'), dealSection('lentils'), dealSection('juice')]).toEqual(['protein', 'snacks', 'produce', 'protein', 'drinks']);
+  });
+});
+
+describe('pricing round: borrowed prices and collections', () => {
+  it('turkey borrows the usual chicken price, never a chicken deal; premium fish never borrow', () => {
+    const base = { chicken_breast: { perG: 0.0144, kind: 'statcan' }, white_fish: { perG: 0.015, kind: 'flyer', n: 3 } };
+    const offers = new Map([['chicken_breast', [{ store: 'superc', perG: 0.0099, pk: 'chicken_breast', name: 'poitrines de poulet' }]]]);
+    const r = { id: 't', servings: 2, ings: [{ raw: 'turkey', ing: 'turkey', g: 500 }, { raw: 'chicken', ing: 'chicken', g: 500 }, { raw: 'halibut', ing: 'white_fish', pk: 'white_fish~fletan', g: 400 }] };
+    const [turkey, chicken, halibut] = costRecipe(r, offers, base).lines;
+    expect(turkey).toMatchObject({ src: 'base' });
+    expect(turkey.cost).toBeCloseTo(7.2);
+    expect(chicken).toMatchObject({ src: 'flyer' });
+    expect(halibut.src).toBeNull();
+  });
+  it('a page of several alternative versions has no single price', () => {
+    const c = costRecipe({ id: 'm', collection: 1, servings: 4, ings: [{ raw: '1 lb chicken', ing: 'chicken_breast', g: 454 }] }, new Map(), { chicken_breast: { perG: 0.0144 } });
+    expect(c.total).toBeNull();
+    expect(complete(c)).toBe(false);
   });
 });
 

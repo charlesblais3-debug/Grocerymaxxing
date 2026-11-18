@@ -129,6 +129,13 @@ export function unitPrice(item, ing, segment) {
     const pluralHead = headTok.length > 3 && /[sx]$/.test(headTok);
     if (size && each && !pluralHead && EACH_OK.has(ing.id) && ing.u && !packageSize(segment || item.name || '')
       && size.kind === 'g' && size.v > 2.5 * (ing.su ?? ing.u)) { size = null; piece = true; }
+    // Canned beans and tuna are priced per DRAINED gram (what recipes measure): a 540 ml can
+    // holds about 325 g of beans. A big bag with no can wording is dried beans: another product.
+    if (size && ing.drain && !/feve au lard|baked bean/.test(deaccent(item.name || ''))) {
+      const canned = size.kind === 'ml' || /\b(conserves?|boites?|cans?|canned|tins?|en pot|jar)\b/.test(deaccent(`${item.name || ''} ${item.desc || ''}`));
+      if (!canned && size.v >= 700) return null;
+      if (canned) size = { kind: 'g', v: size.v * ing.drain };
+    }
     if (size && size.v >= 20) {
       perG = size.kind === 'g' ? p / size.v : ing.d ? p / (size.v * ing.d) : null;
       basis = 'size';

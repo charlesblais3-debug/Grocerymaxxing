@@ -41,6 +41,7 @@ export default function Recipe({ id }) {
           <div className="costbox">
             <CostTag cost={c} big />
             {c.total != null && <div className="sub">{t('total')} : ≈ {fmt(c.total)} · {c.priced}/{c.countable} {t('coverage')}{validTo ? ` · ${t('flyersUntil')} ${date(validTo)}` : ''} · <a href="#/a-propos">{t('howPriced')}</a></div>}
+            {r.collection && <div className="warnbox">{t('collectionNote')}</div>}
             {c.total != null && !complete(c) && <div className="warnbox">{t('incomplete')} {[...new Set(c.lines.filter((l) => l.src === null).map((l) => (l.ing ? ING_BY_ID[l.ing][lang === 'en' ? 'en' : 'fr'].toLowerCase() : l.raw.replace(/\s*\(.*$/, '').slice(0, 40))))].join(', ')}. {t('incompleteNote')}</div>}
             <SavingBar cost={c} label />
             {adjusted && <div className="sub mealnote">{lang === 'en'

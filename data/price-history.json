@@ -2646,6 +2646,13 @@
     1
    ],
    [
+    "adonis",
+    "mascarpone",
+    0.02398,
+    0,
+    1
+   ],
+   [
     "maxi",
     "mayo",
     0.008791,
@@ -4725,6 +4732,13 @@
     0
    ],
    [
+    "iga",
+    "tempeh",
+    0.016625,
+    0.024954,
+    1
+   ],
+   [
     "adonis",
     "thyme",
     0.01498,
@@ -5112,7 +5126,7 @@
    [
     "adonis",
     "white_beans~legumineuse",
-    0.004604,
+    0.005525,
     0,
     1
    ],
@@ -5126,29 +5140,22 @@
    [
     "bonichoix",
     "white_beans~legumineuse",
-    0.005118,
-    0.007175,
+    0.006142,
+    0.008611,
     1
    ],
    [
     "metro",
     "white_beans~legumineuse",
-    0.005118,
+    0.006142,
     0,
-    1
-   ],
-   [
-    "superc",
-    "white_beans~legumineuse",
-    0.003297,
-    0.003848,
     1
    ],
    [
     "tradition",
     "white_beans~legumineuse",
-    0.005118,
-    0.007175,
+    0.006142,
+    0.008611,
     1
    ],
    [
@@ -5938,6 +5945,13 @@
     0.028094,
     0,
     0
+   ],
+   [
+    "pa",
+    "mascarpone",
+    0.01798,
+    0,
+    1
    ],
    [
     "pa",
@@ -6772,15 +6786,8 @@
    [
     "kimphat",
     "black_beans",
-    0.000999,
-    0.001699,
-    1
-   ],
-   [
-    "kimphat",
-    "black_beans",
-    0.006581,
-    0.009891,
+    0.007897,
+    0.011869,
     1
    ],
    [
@@ -11707,21 +11714,21 @@
    [
     "iga",
     "white_beans~legumineuse",
-    0.005118,
-    0.006664,
+    0.006142,
+    0.007997,
     1
    ],
    [
     "provigo",
     "white_beans~legumineuse",
-    0.003858,
+    0.00463,
     0,
     1
    ],
    [
     "superc",
     "white_beans~legumineuse",
-    0.003421,
+    0.004105,
     0,
     1
    ],
@@ -12712,7 +12719,7 @@
    [
     "pa",
     "white_beans~legumineuse",
-    0.004502,
+    0.005402,
     0,
     1
    ],
@@ -12765,6 +12772,13 @@
     "ice_cream",
     0.004991,
     0.006443,
+    1
+   ],
+   [
+    "mayrand",
+    "mascarpone",
+    0.018926,
+    0.026288,
     1
    ],
    [
@@ -13853,13 +13867,6 @@
     0.013815,
     0.018443,
     0
-   ],
-   [
-    "adonis",
-    "chickpeas",
-    0.002217,
-    0.003634,
-    1
    ],
    [
     "bonichoix",
@@ -15119,6 +15126,20 @@
     "margarine",
     0.011816,
     0.013907,
+    1
+   ],
+   [
+    "adonis",
+    "mascarpone",
+    0.02398,
+    0,
+    1
+   ],
+   [
+    "adonis",
+    "mascarpone",
+    0.029032,
+    0,
     1
    ],
    [
@@ -17595,21 +17616,14 @@
    [
     "adonis",
     "white_beans~legumineuse",
-    0.005118,
+    0.006142,
     0,
     1
    ],
    [
     "maxi",
     "white_beans~legumineuse",
-    0.004347,
-    0,
-    1
-   ],
-   [
-    "metro",
-    "white_beans~legumineuse",
-    0.003322,
+    0.005216,
     0,
     1
    ],

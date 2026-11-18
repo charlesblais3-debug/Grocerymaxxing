@@ -73,6 +73,14 @@ export function buildRecipes(raw) {
       }
     }
 
+    // "7 Best Chicken Marinade Ideas": several alternative versions in one page. Their lines
+    // add up to all versions at once, so there is no single price for the recipe.
+    const keys = ings.map((l) => l.raw.trim().toLowerCase());
+    const counts = {};
+    for (const k of keys) counts[k] = (counts[k] || 0) + 1;
+    const repeated = keys.filter((k) => counts[k] > 1).length / Math.max(1, keys.length);
+    if (/^\s*\d+\s+.*\b(ideas|recipes|marinades?|ways|recettes|idees|idées|façons|facons|variations)\b/i.test(r.name) || (keys.length >= 12 && repeated > 0.4)) rest.collection = 1;
+
     // --- Meals. A "portion" on a recipe site can be a 150-kcal bite; what matters when
     // cooking is the cost of a plate that makes a meal. For meal dishes the published
     // serving is kept when it is meal-sized, otherwise the recipe is re-divided into

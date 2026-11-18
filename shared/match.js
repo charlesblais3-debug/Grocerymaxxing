@@ -219,7 +219,7 @@ const SMOKED_OF = { salmon: 'salmon_smoked' };
 const FRESH_HERBS = new Set(['parsley', 'cilantro', 'basil', 'dill', 'mint', 'chives', 'thyme', 'rosemary']);
 const CITRUS_IDS = new Set(['lemon', 'lime', 'orange', 'grapefruit']);
 // Weight of one piece for members whose sizes differ a lot (grams).
-const PIECE = { 'tortilla~tortilla': 45, 'tortilla~tortilla_de_mais': 30, 'tortilla~pita': 70, 'tortilla~pain_naan': 90, 'tortilla~pain_plat': 60 };
+const PIECE = { 'hot_pepper~piment_thai': 3, 'hot_pepper~serrano': 8, 'hot_pepper~habanero': 10, 'tortilla~tortilla': 45, 'tortilla~tortilla_de_mais': 30, 'tortilla~pita': 70, 'tortilla~pain_naan': 90, 'tortilla~pain_plat': 60 };
 const FILLER = new Set(tokens('can cans boite boites tin jar pot bag sac paquet package pkg box bottle bouteille container contenant lb lbs pound pounds oz ounce ounces cup cups tasse tasses tbsp tsp ml litre liter gram grams boneless skinless desosse sans peau fresh frais fraiche large small medium gros grosse petit petite whole entier chopped hache diced sliced minced about environ plus extra optional optionnel each chacun tablespoon tablespoons teaspoon teaspoons cubed packed cooked cuit cuite cuits cuites peeled pele shredded grated rape finely roughly thinly coarsely day old leftover reste cut coupe drained egoutte rinsed rince reduced sodium low fat free faible'));
 const FLAVOURS = new Set(['vanilla', 'chocolate', 'cocoa', 'strawberry', 'coconut']);
 const WHOLE = new Set(['tete', 'botte', 'filet']);
@@ -254,7 +254,9 @@ export function gramsFor(ing, q) {
 
 const HEADING = /(:\s*$)|^[-–—_*\s]+$|^(rendement|yield|makes|donne|pour (la|le|les|l')\b[^,]*:|for the\b[^,]*:)/;
 const EQUIPMENT = /\b(sacs? (ziplock|refermables?|de congelation)|ziplocks?|pics? a brochettes?|brochettes? de bois|bamboo skewers?|wooden skewers?|skewers?|lollipop sticks?|batonnets?|cure-dents?|toothpicks?|ficelle|kitchen twine|butcher'?s twine|papier (parchemin|sulfurise|d'aluminium|ciré)|parchment paper|wax paper|aluminum foil|mason jars?|pots? masson|bocaux? (en verre|stérilisés?)|styrofoam|pellets|une rape|grater|spiraleur|spiralizer|chaudron|thermometre|thermometer|moule a|cheesecloth|coton a fromage|etamine|glass jars?|quart (mason )?jar)/;
-const OPTIONAL = /\b(optional|optionnel(le)?s?|facultatif|facultative|garnish|garnir|garniture|en garniture|to serve|for serving|pour servir|au service|au gout|to taste|if desired|si desire|au choix|of choice|de votre choix|de ton choix|for decorating|pour decorer|toppings?)\b/;
+// Only words that say the line can be left out. "Of choice" / "au choix" (pick any) and the
+// French "garniture" (a filling) are required ingredients.
+const OPTIONAL = /\b(optional|optionnel(le)?s?|facultatif|facultative|garnish|for garnish|to serve|for serving|pour servir|au service|au gout|to taste|if desired|si desire|for decorating|pour decorer)\b/;
 
 /** Parse one recipe ingredient line -> { raw, ing, g } */
 export function parseIngredientLine(raw, lang) {
@@ -364,9 +366,10 @@ export function parseIngredientLine(raw, lang) {
       if (/\b(or|ou|sub|substitute|remplacer|alternative|yields?|donne|makes?)\b/.test(t) || !/^\(\s*(?:about|approx\.?|approximately|environ|env\.|roughly|around|total|~|≈)?\s*[\d.,/ ~-]+\s*(g|kg|grammes?|grams?|kilos?|oz|ounces?|lbs?|pounds?|livres?|ml|l|litres?|liters?)\b/.test(t.replace(/[½¼¾⅓⅔]/g, '1'))) continue;
       // A weight, or a volume for a liquid ("1 bouteille (750 ml) de vin").
       const bq = parseQuantity(t.slice(1, -1));
-      const w = bq.g ?? (bq.ml != null && ing.d ? bq.ml * ing.d : null);
+      const w = bq.g ?? (bq.ml != null ? (ing.drain ? bq.ml : ing.d ? bq.ml * ing.d : null) : null); // a can's volume is its net contents
       if (!w) continue;
-      const each = /\b(each|chacune?s?|chaque|apiece)\b/.test(t);
+      // "2 (15-ounce cans)": a package size in brackets is the size of each package.
+      const each = /\b(each|chacune?s?|chaque|apiece|cans?|tins?|boites?|conserves?|jars?|bocaux|packages?|paquets?|bags?|sacs?)\b/.test(t);
       const total = /\b(total|in all|en tout)\b/.test(t);
       const avg = (ing.ru ?? ing.u) * q.count;
       const tot = each || (!total && avg > 0 && q.count > 1 && Math.abs(Math.log((w * q.count) / avg)) < Math.abs(Math.log(w / avg)) - 0.5) ? w * q.count : w;
@@ -398,6 +401,13 @@ export function parseIngredientLine(raw, lang) {
   }
   // A chicken "cuisse" or "leg" is the whole leg (thigh and drumstick), not a drumstick.
   let g = ing ? gramsFor(ing, q) : null;
+  // Canned beans and tuna are counted in drained grams: "1 (15-ounce) can", "2 x 400 g tins" and
+  // "1 boîte de 540 ml" give the can's net contents, about 60 % of which is beans.
+  if (ing?.drain && g != null && (q.g != null || q.ml != null) && hit?.pk !== 'white_beans~feve_au_lard'
+    && /\b(cans?|canned|tins?|tinned|boites?|conserves?|cannes?|jars?|jarred|bocal|\d+[ -]?(ounce|oz)\b)/.test(deaccent(raw))
+    && !/\b(drained weight|egoutte de \d)/.test(deaccent(raw))) g = (q.g ?? q.ml) * ing.drain;
+  // "12 tartelettes": tartlet shells weigh ~18 g, not a 250 g pie crust.
+  if (id === 'pie_crust' && q.count != null && q.g == null && q.ml == null && /\b(tartelettes?|tartlets?|tart shells?|croutes? a tartelettes?|mini)\b/.test(deaccent(raw))) g = q.count * 18;
   // Panko is about half as dense as fine breadcrumbs: a cup weighs ~55 g, not ~110 g.
   if (id === 'breadcrumbs' && g != null && q.ml != null && /\bpanko\b/.test(deaccent(raw))) g *= 0.55;
   if (id === 'chicken_drumstick' && q.count != null && q.g == null && !q.countUnit && /\b(cuisses?|legs?|quarters?)\b/.test(deaccent(outside)) && !/\b(pilons?|drumsticks?)\b/.test(deaccent(outside))) g = q.count * 280;
