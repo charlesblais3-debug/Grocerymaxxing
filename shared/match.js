@@ -86,6 +86,11 @@ const NOT_FOR = {
   sugar: /\b(creme|fudge|bonbon|tire)\b/,
   tuna_can: /\b(surgele|frozen|cubes?|steak|frais|fresh|salade|salad)\b/,
   crab: /\b(salade|salad|simili|imitation|goberge)\b/,
+  // Pastries and candy only borrow the name of buns and chocolate.
+  buns: /\b(croissants?|chocolatines?|brioches? a la cannelle|cinnamon|tourbillons?|batonnets?|lingot|pain dore|pillsbury|danoise|glacage)\b/,
+  croissant: /\b(fourres?|amandes?|almond|framboises?|pain dore|lingot|chocolatines?|mini|micro|pillsbury|pate)\b/,
+  chocolate: /\b(ferrero|rocher|merci|kisses|aero|celebrations|terry'?s?|friandises|treats|bouchees|minis|crunch|kinder|calendrier|advent|bonbons?|truffes?|truffles|oeufs?|eggs?|lapin|bunny)\b/,
+  baking_mix: /\b(pate a biscuits?|cookie dough|juju'?s?|felix)\b/,
   // "Herbes fraîches" in a flyer is an assortment of small clamshells, not parsley.
   parsley: /^(?!.*\b(persil|parsley)\b).*\b(herbes?|herbs?)\b/,
   mozzarella: /\b(batonnets?|sticks?|panes?|breaded|battered)\b/,

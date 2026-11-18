@@ -503,6 +503,9 @@ describe('pricing audit regressions', () => {
     expect(P('2 medium 1.5 lbs. chicken breasts ($2.99)')[1]).toBeCloseTo(680.4); // 1.5 lb in total
     expect(P('2 1-lb pork tenderloins')[1]).toBeCloseTo(907.2); // each one is a pound
     expect(P('1 cup panko breadcrumbs')[1]).toBeCloseTo(58.7);
+    expect(P('4 crêpes aux épinards et au basilic', 'fr')[0]).toBe('crepe'); // crêpes, not 1.2 kg of spinach
+    expect(P('10 livres de cornichons à marinade (pickle)', 'fr')[0]).toBe('mini_cucumber'); // fresh pickling cucumbers
+    expect(P('2.5 lbs corned beef brisket in brine')[0]).toBe('beef'); // raw brisket, not smoked meat
     expect(P('4 bone-in pork loin chops (1 ¼- to 1 ½-inches thick)')[0]).toBe('pork_chop'); // chops, not a roast
     expect(P('180 - 220 g / 6 -7oz chicken breast')[1]).toBe(180); // a spaced range is not a note
     expect(P('4 large beef short ribs (about 2kg)')[1]).toBe(2000);
@@ -541,6 +544,9 @@ describe('pricing audit regressions', () => {
     expect(matchFlyerItemFull('FARINE DE MAÏS GRACE | CORN MEAL, 2 KG').map((h) => h.pk)).toEqual(['cornmeal']); // not wheat flour
     expect(matchFlyerItemFull('SAUMON ATLANTIQUE FUMÉ IRRÉSISTIBLE | IRRÉSISTIBLE COLD SMOKED ATLANTIC SALMON').map((h) => h.pk)).toEqual(['salmon_smoked']); // not fresh salmon
     expect(matchFlyerItemFull('PÂTES ALIMENTAIRES CATELLI').map((h) => h.pk)).toEqual(['pasta~pate_alimentaire']);
+    expect(matchFlyerItemFull('CROISSANT AUX AMANDES').map((h) => h.pk)).toEqual([]); // pastries do not price buns
+    expect(matchFlyerItemFull('chocolats Ferrero Rocher | Ferrero Rocher chocolates').map((h) => h.pk)).toEqual([]); // candy does not price baking chocolate
+    expect(matchFlyerItemFull('PÂTE À BISCUITS FÉLIX & NORTON').map((h) => h.pk)).toEqual([]);
     expect(matchFlyerItemFull('pâtes à lasagne Catelli | Catelli lasagna pasta').map((h) => h.pk)).toEqual(['pasta~pate_alimentaire']);
     expect(matchFlyerItemFull('POIVRONS JAUNES, ROUGES, ORANGE').map((h) => h.pk)).toEqual(['bell_pepper']);
     expect(matchFlyerItemFull('tomates mélangées ou cerises').map((h) => h.pk)).toEqual(['tomato', 'cherry_tomato']);
@@ -571,7 +577,7 @@ describe('pricing audit regressions', () => {
     expect(k('25 g de fromage à raclette')).toBe('swiss~raclette');
     expect(k('5 lbs chicken pieces')).toBe('chicken_drumstick');
     expect(parseIngredientLine('1 20 oz. can pineapple chunks').np).toBe(1);
-    expect(parseIngredientLine('500 g de bœuf, porc ou veau haché').alt).toEqual(['beef', 'pork', 'veal']);
+    expect(parseIngredientLine('500 g de bœuf, porc ou veau haché').alt).toEqual(['beef', 'pork', 'veal~veau_hache']); // ground veal is its own price
   });
   it('alternatives are priced at the cheapest; flyers never create a price', () => {
     const base = { pork_loin: { perG: 0.008 }, beef_stew: { perG: 0.02 }, veal: { perG: 0.022 } };
