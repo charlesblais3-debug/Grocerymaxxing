@@ -530,7 +530,7 @@ describe('pricing audit regressions', () => {
       'TARTINADE AU CARAMEL', 'BOURSIN® GARLIC & FINE HERBS', 'Yogourt à boire Yop', 'Yogourt grec à boire Oîkos Pro', 'Lasagne à la viande surgelée Great Value',
       'PUNCH AUX ARACHIDES GRACE | PEANUT PUNCH, 240 ML', 'POUDING AU RIZ OU TAPIOCA KOZY SHACK, 4x113 G', 'POUDRE POUR GELÉE FAMILY BRAND™, 85 G', "JUS D'ORANGE DE CANNEBERGES",
       'poke bol au saumon fumé | smoked salmon poké bowl', 'Pâtés impériaux Selection | Selection egg rolls', 'SALADE DE THON CLOVER LEAF', 'SALADE DE SIMILI CRABE ÉPICÉ À LA SRIRACHA',
-      'GRAND PLAT DE PÂTES PRÉPARÉ EN MAGASIN', 'ensemble pour pâtes Hamburger Helper | Hamburger Helper noodle meal', "BÂTONNETS DE PAIN DORÉ SURGELÉS KELLOGG'S EGGO"];
+      'GRAND PLAT DE PÂTES PRÉPARÉ EN MAGASIN', 'HERBES FRAÎCHES IRRÉSISTIBLE | IRRÉSISTIBLE FRESH HERBS', 'ensemble pour pâtes Hamburger Helper | Hamburger Helper noodle meal', "BÂTONNETS DE PAIN DORÉ SURGELÉS KELLOGG'S EGGO"];
     for (const n of none) expect(matchFlyerItem(n), n).toEqual([]);
     expect(matchFlyerItemFull('brie double crème | double cream cheese').map((h) => h.pk)).toEqual(['brie']);
     expect(matchFlyerItemFull('FARINE DE MAÏS GRACE | CORN MEAL, 2 KG').map((h) => h.pk)).toEqual(['cornmeal']); // not wheat flour

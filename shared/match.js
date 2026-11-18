@@ -86,6 +86,8 @@ const NOT_FOR = {
   sugar: /\b(creme|fudge|bonbon|tire)\b/,
   tuna_can: /\b(surgele|frozen|cubes?|steak|frais|fresh|salade|salad)\b/,
   crab: /\b(salade|salad|simili|imitation|goberge)\b/,
+  // "Herbes fraîches" in a flyer is an assortment of small clamshells, not parsley.
+  parsley: /^(?!.*\b(persil|parsley)\b).*\b(herbes?|herbs?)\b/,
   mozzarella: /\b(batonnets?|sticks?|panes?|breaded|battered)\b/,
   white_fish: /\b(batonnets?|sticks?|panes?|breaded|battered|croquettes?)\b/,
   bread: /\b(bao|chapelure|croutons?|pita|naan|tortilla|bagel|muffin|batonnets?|pain dore|french toast)\b/,
