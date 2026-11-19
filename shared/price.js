@@ -113,6 +113,9 @@ export function unitPrice(item, ing, segment) {
   let perG = null;
   let basis = null;
   const unit = post.replace(/\d+[.,]\d+\s*\$\s*\/\s*kg.*/, '').match(/100\s*g|\bkg\b|\blbs?\b|livre/);
+  // "6,35 /lb - 6,35 $/kg": a flyer stating both must agree; when they do not, it is a misprint.
+  const kgStated = post.match(/(\d+[.,]\d+)\s*\$\s*\/\s*kg/);
+  if (kgStated && unit && /lb|livre/.test(unit[0]) && Math.abs(num(kgStated[1]) - p * 2.2046) / num(kgStated[1]) > 0.15) return null;
   if (unit && /100/.test(unit[0])) { perG = p / 100; basis = 'weight'; }
   else if (unit && unit[0] === 'kg') { perG = p / 1000; basis = 'weight'; }
   else if (unit) { perG = p / 453.6; basis = 'weight'; }

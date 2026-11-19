@@ -186,7 +186,7 @@ const STATCAN = [
  *   1. Statistics Canada average retail price for Québec;
  *   2. otherwise the median of the flyer prices seen in the last 26 weeks.
  */
-const NOT_GROCERY = /\b(bird|birds|birdseed|spray millet|parakeet|budgie|yarn|acrylic|fabric|gerbera|daisy|daisies|flowers?|bouquet|plants?|seedlings?|planter|tape|toy|toys|plush|figure|funko|pants?|shirts?|socks|dog|dogs|cat|cats|pet|pets|puppy|kitten|treats?|shampoo|conditioner|soap|lotion|body wash|hand cream|candles?|detergent|cosmetics?|lipstick|bronzer|baby girls'?|baby boys'?|toddler|costume|ornament|mug|tumbler|book|vinyl|lego|crayons?|markers?|vitamins?|supplements?|capsules|gummies)\b/i;
+const NOT_GROCERY = /\b(monster jam|mints|tic tac|better homes|gardens|kt set|grow kit|seed kit|lures?|crankcase|crankbait|j-rigged|fishing|bookcase|desk|barstool|coasters|blanket|lip liner|lip serum|hair colou?r|monster truck|die-cast|diecast|vehicles?|furniture|chairs?|side table|accent table|petroleum jelly|healing jelly|vaseline|bird|birds|birdseed|spray millet|parakeet|budgie|yarn|acrylic|fabric|gerbera|daisy|daisies|flowers?|bouquet|plants?|seedlings?|planter|tape|toy|toys|plush|figure|funko|pants?|shirts?|socks|dog|dogs|cat|cats|pet|pets|puppy|kitten|treats?|shampoo|conditioner|soap|lotion|body wash|hand cream|candles?|detergent|cosmetics?|lipstick|bronzer|baby girls'?|baby boys'?|toddler|costume|ornament|mug|tumbler|book|vinyl|lego|crayons?|markers?|vitamins?|supplements?|capsules|gummies)\b/i;
 
 export function buildBaseline(data, history, shelf = null) {
   const byIng = {};

@@ -2,7 +2,7 @@
 // says where each store has the best price, so someone who shops at one store can pick it.
 import { ING_BY_ID } from './ingredients.js';
 import { anchorKind } from './synergy.js';
-import { baseId } from './match.js';
+import { baseId, formsCompatible } from './match.js';
 
 // Everyday basics worth comparing even though they are too common to plan a week around.
 const BASICS = new Set(['egg', 'milk', 'butter', 'potato', 'carrot', 'onion', 'tomato', 'bread', 'pasta', 'rice']);
@@ -23,8 +23,9 @@ export function storeGuide(allOffers, baseline, storeIds) {
     const ing = baseId(pk);
     const def = ING_BY_ID[ing];
     const kind = anchorKind(ing) || (BASICS.has(ing) ? 'basic' : null);
-    // Plain products only: a sliced or seasoned version winning on price says nothing useful.
-    const plain = list.filter((o) => !o.fm?.length);
+    // Plain products only (the usual form counts: canned tuna, smoked salmon): a sliced or
+    // seasoned version winning on price says nothing useful.
+    const plain = list.filter((o) => formsCompatible(ing, o.fm, []));
     for (const id of new Set(plain.map((o) => o.store))) if (out.has(id)) out.get(id).deals++;
     if (!def || !kind || !plain.length) continue;
     const best = plain[0];

@@ -650,3 +650,69 @@ describe('pricing round: borrowed prices and collections', () => {
   });
 });
 
+
+describe('new-week flyer review (Nov 19)', () => {
+  it('products that only share a word with an ingredient never price it', () => {
+    const none = ['crème à raser Personnelle | Personnelle shaving cream', 'SUR LES CHOUX OU RUBANS DE VELOURS | VELVET BOWS', 'haché végé Gusta | Gusta veggie ground',
+      'FROMAGE CRACKER BARREL', 'CERISES DE TERRE | GROUND CHERRIES', 'fromage à la crème Kiri ou La Vache qui rit', 'RÔTI DE BŒUF TRANCHÉ MOISHES',
+      'lanières de poitrine de poulet grillée', 'gelée de pétrole Vaseline', 'Lait de poule Québon', 'MACARONI ET FROMAGE KD ORIGINAL, 200 g', "SPAGHETTI MARIO'S, 398 ML",
+      'EAU PÉTILLANTE FRAMBOISE ET HIBISCUS', 'TOURTE AUX FRUITS DE MER SURGELÉE', 'CRAQUELINS DE PAIN PITA', 'BAGUETTE NOIX DE GRENOBLE ET PACANES',
+      'FOIE DE VEAU DE GRAIN FRAIS', 'SAUCISSES VÉGÉTALIENNES | VEGAN SAUSAGES', 'POMELO OU PITAHAYA | POMELO OR DRAGON FRUIT', 'PRODUITS SUCRÉS PILLSBURY 454-496 g'];
+    for (const n of none) expect([n, matchFlyerItemFull(n)]).toEqual([n, []]);
+    const pk = (n) => matchFlyerItemFull(n).map((x) => x.pk);
+    expect(pk('GRAVLAX DE SAUMON')).toEqual(['salmon_smoked']);
+    expect(pk('DARNES DE THON SURGELÉES')).toEqual(['tuna_fresh']);
+    expect(pk('pommes de terre douces violettes | sweet violet potatoes')).toEqual(['sweet_potato']);
+    for (const [n, want] of [['CRÈME LACTANTIA', 'cream_35'], ['CHOU VERT MOYEN', 'cabbage'], ['FROMAGE À LA CRÈME TRE STELLE', 'cream_cheese'], ['LAIT FINEMENT FILTRÉ NATREL', 'milk'],
+      ['thon pâle entier Unico', 'tuna_can'], ['SAUCISSES FRAÎCHES LAFLEUR', 'sausage'], ['POITRINES DE POULET FRAIS DÉSOSSÉES', 'chicken_breast']]) expect(pk(n)).toEqual([want]);
+  });
+  it('a per-lb price that contradicts the per-kg price beside it is not read', () => {
+    expect(unitPrice({ name: 'POULETS ENTIERS FRAIS', price: 6.35, post: '/lb 6,35$/kg' }, ING_BY_ID.chicken_whole)).toBeNull();
+    expect(unitPrice({ name: 'FILETS DE PORC FRAIS', price: 6.49, post: '/lb 14,31$/kg' }, ING_BY_ID.pork_tenderloin).perG * 1000).toBeCloseTo(14.31, 1);
+  });
+});
+
+describe('usual forms and store catalogue names', () => {
+  it("a product's usual form still counts as the plain product in the price history", async () => {
+    const { mergeHistory } = await import('../scripts/history.mjs');
+    const flyers = { flyers: { a: { store: 'metro', from: '2026-11-19', items: [
+      { name: 'FILET DE SAUMON FUMÉ | SMOKED SALMON FILLET', price: 6.49, post: 'le 100 g', d: 1 },
+      { name: 'GRAVLAX DE SAUMON', price: 5.99, post: 'le 100 g', d: 1 },
+    ] } } };
+    const rows = mergeHistory({ weeks: {} }, flyers).weeks['2026-11-19'] || [];
+    const smoked = rows.filter((r) => r[1] === 'salmon_smoked');
+    expect(smoked.length).toBe(2);
+    expect(smoked.every((r) => r[4] === 1)).toBe(true);
+  });
+  it('reads everyday catalogue names: Modena balsamic, Alfredo pasta sauce, crunchy peanut butter, fruit jellies', async () => {
+    const { matchShelfProduct } = await import('../shared/match.js');
+    const id = (n) => matchShelfProduct(n)?.pk ?? null;
+    expect(id('Great Value Balsamic Vinegar Of Modena 500ml')).toBe('vinegar~vinaigre_balsamique');
+    expect(id('Kraft Balsamic Salad Dressing, 425 Ml Bottle 425 Ml')).toBeNull();
+    expect(id('Great Value Alfredo Pasta Sauce, 425 Ml 425 Ml')).toBe('alfredo~sauce_alfredo');
+    expect(id('Classico Four Cheese Alfredo Spaghetti Pasta Sauce 410 Ml')).toBeNull();
+    expect(id('Great Value Crunchy Peanut Butter 1 Kg')).toBe('peanut_butter~beurre_arachide');
+    expect(id('Dora Concord Grape Jelly Traditional 500 Ml')).toBe('jam~gelee');
+    expect(id('Bonne Maman Strawberry Jam 250 Ml')).toBe('jam');
+    expect(id('Jell-O Lime Jelly Powder Mix, 85 G Box 85 G')).toBeNull();
+  });
+});
+
+describe('spices, dried and frozen forms are not their fresh counterpart', () => {
+  it('reads seeds and powders as spices, dried and frozen fruit as their own products', () => {
+    const pk = (l, lang = 'en') => { const p = parseIngredientLine(l, lang); return p.pk || p.ing; };
+    expect(pk('1 tsp coriander seeds')).toBe('spice');
+    expect(pk('1 tsp coriander powder')).toBe('spice');
+    expect(pk('1/4 cup chopped coriander')).toBe('cilantro');
+    expect(pk('1 tsp mustard powder')).toBe('spice');
+    expect(pk('2 tbsp stone-ground mustard')).toBe('mustard');
+    expect(pk('1/4 cup dried cherries')).toBe('raisins~dried_cherries');
+    expect(pk('2 cups Frozen Sour Cherries')).toBe('cherry_frozen');
+    expect(pk('2 c. à soupe de lait en poudre', 'fr')).toBe('milk_powder');
+    expect(pk("les graines d'une grosse pomme grenade", 'fr')).toBe('pomegranate');
+  });
+  it('prepared seafood, pompano and golden bread never price seafood mix or walleye', () => {
+    for (const n of ['coquille aux fruits de mer | seafood shell', 'POMPANO DORÉ', 'BRIOCHES TRANCHÉES OU MINI LA FOURNÉE DORÉE']) expect([n, matchFlyerItemFull(n)]).toEqual([n, []]);
+    expect(matchFlyerItemFull('FILETS DE DORÉ JAUNE | WALLEYE FILLETS').map((x) => x.pk)).toEqual(['white_fish~dore']);
+  });
+});

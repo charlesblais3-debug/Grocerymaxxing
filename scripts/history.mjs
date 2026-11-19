@@ -3,7 +3,7 @@
 // price at a store that has no deal on it this week — otherwise that ingredient would
 // count as free there and stores with fewer deals would look cheaper.
 import { readJson, writeJson } from './lib/http.mjs';
-import { matchFlyerItemFull, forms } from '../shared/match.js';
+import { matchFlyerItemFull, forms, formsCompatible } from '../shared/match.js';
 import { unitPrice, regularRatio } from '../shared/price.js';
 import { ING_BY_ID } from '../shared/ingredients.js';
 import { STORES, REFERENCE_STORES, loadFlyers } from './fetch-flyers.mjs';
@@ -50,7 +50,10 @@ export function mergeHistory(hist, flyers) {
       const p = priceItem(it);
       if (!p.pg) continue;
       for (const [pk, perG] of Object.entries(p.pg)) {
-        rows.set(`${f.store}|${pk}|${perG}`, [f.store, pk, perG, p.rr ? +(perG * p.rr).toFixed(6) : 0, p.fm ? 0 : 1]);
+        // Plain: no form beyond the ingredient's usual one ("fumé" is plain for smoked salmon,
+        // "en conserve" for canned tuna; "tranché" is not plain for a roast).
+        const plain = formsCompatible(pk.split('~')[0], p.fm, []) ? 1 : 0;
+        rows.set(`${f.store}|${pk}|${perG}`, [f.store, pk, perG, p.rr ? +(perG * p.rr).toFixed(6) : 0, plain]);
       }
     }
     out.weeks[week] = [...rows.values()].sort((a, b) => (a[1] + a[0]).localeCompare(b[1] + b[0]) || a[2] - b[2]);

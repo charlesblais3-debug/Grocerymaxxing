@@ -50,6 +50,9 @@ const FLYER_VETO = new Set(tokens([
   // Ready-made meals that name their main ingredient ("poke bol au saumon fumé").
   'poke poké bol bols bowl bowls sushi sushis sandwich sandwichs sandwiches plateau plateaux platter tourtière tourtiere quiche',
   'impériaux imperiaux printemps gyoza gyozas quenelles eggo helper boulettes meatballs',
+  // Not food, or another product that borrows a food word (week of Nov 19 review).
+  'raser shaving baklava rubans velours bows vaseline pétrole petroleum pétillante pétillantes sparkling tourte tourtes foie liver parmigiana moghrabieh',
+  'végé vege végétalien végétalienne végétaliennes végétaliens vegan végane vegane végétarien végétarienne végétariens veggie truefruit frozt acidulés acidulées kiri pitahaya',
 ].join(' ')));
 
 const LEADING = new Set(tokens('frais fraîche fresh boneless désossé skinless lean maigre extra mini gros grosse petit petite large small surgelé frozen bio biologique organic vrai real whole entier jeune baby nouveau new'));
@@ -80,12 +83,23 @@ const NOT_FOR = {
   sausage: /\b(wieners?|hot ?dogs?|fumees?|smoked|cocktail|knackwurst)\b/,
   // Italian canned-tomato brands sold without the word "conserve".
   tomato: /\b(pastene|unico|aylmer|primo|hunt'?s|del monte|san marzano|mutti|conserve|en des|broyees|entieres|etuvees|diced|crushed|canned)\b/,
-  potato: /\b(wedges?|quartiers?|rissolees?|hash|tater|deshydratees?|instantanees?)\b/,
-  milk: /\b(chocolat|chocolate|fouett|evapore|condense|poudre|powder|lait de coco)\b/,
+  potato: /\b(wedges?|quartiers?|rissolees?|hash|tater|deshydratees?|instantanees?|douces?|sweet)\b/,
+  milk: /\b(chocolat|chocolate|fouett|evapore|condense|poudre|powder|lait de coco|lait de poule|eggnog|frappe|milkshake|shake)\b/,
   cream_35: /\b(glacee|ice|sure|sour|fromage|cheese|brie|double creme)\b/,
-  sugar: /\b(creme|fudge|bonbon|tire)\b/,
-  tuna_can: /\b(surgele|frozen|cubes?|steak|frais|fresh|salade|salad)\b/,
+  sugar: /\b(creme|fudge|bonbon|tire|produits sucres|pillsbury)\b/,
+  tuna_can: /\b(surgelee?s?|frozen|cubes?|steaks?|darnes?|frais|fresh|salade|salad)\b/,
   crab: /\b(salade|salad|simili|imitation|goberge)\b/,
+  crackers: /\b(fromage|cheese|barrel)\b/,
+  cherries: /\b(cerises de terre|ground cherr\w*)\b/,
+  cream_cheese: /\b(kiri|vache qui rit|laughing cow)\b/,
+  duck: /\b(effiloche|shredded|rillettes)\b/,
+  beef_stew: /\b(tranche|tranches|sliced|moishes|deli)\b/,
+  chicken_breast: /\b(lanieres?|grillee?s?|grilled|portugais|portuguese|farcies?|stuffed)\b/,
+  tortilla: /\b(craquelins?|crackers?|chips|snack2go)\b/,
+  walnuts: /\b(baguettes?|pain|bread|muffins?|biscuits?)\b/,
+  seafood_mix: /\b(coquilles?|gratin|vol au vent|tourte|lasagnes?|pate|pie|chaudree|soupe)\b/,
+  shrimp: /\b(pates aux crevettes|shrimp pasta|tempura|moghrabieh)\b/,
+  grapefruit: /\b(pitahaya|dragon)\b/,
   // Pastries and candy only borrow the name of buns and chocolate.
   buns: /\b(croissants?|chocolatines?|brioches? a la cannelle|cinnamon|tourbillons?|batonnets?|lingot|pain dore|pillsbury|danoise|glacage)\b/,
   croissant: /\b(fourres?|amandes?|almond|framboises?|pain dore|lingot|chocolatines?|mini|micro|pillsbury|pate)\b/,
@@ -94,16 +108,16 @@ const NOT_FOR = {
   // "Herbes fraîches" in a flyer is an assortment of small clamshells, not parsley.
   parsley: /^(?!.*\b(persil|parsley)\b).*\b(herbes?|herbs?)\b/,
   mozzarella: /\b(batonnets?|sticks?|panes?|breaded|battered)\b/,
-  white_fish: /\b(batonnets?|sticks?|panes?|breaded|battered|croquettes?)\b/,
+  white_fish: /\b(batonnets?|sticks?|panes?|breaded|battered|croquettes?|pompano|fournee|pain dore|brioches?|english style|style anglais)\b/,
   bread: /\b(bao|chapelure|croutons?|pita|naan|tortilla|bagel|muffin|batonnets?|pain dore|french toast)\b/,
   // Drinkable yogurt, rice pudding, peanut punch, jelly powder, frozen meat lasagna: other products.
   yogurt: /\b(a boire|boire|drinkable|drink|yop|smoothie|glace|frozen)\b/,
   yogurt_greek: /\b(a boire|boire|drinkable|drink|smoothie|glace|frozen)\b/,
   rice: /\b(pouding|pudding|gateaux? de riz|rice cakes?|galettes? de riz|craquelins?|crackers?|boisson|drink|vinaigre|vinegar)\b/,
   tapioca: /\b(pouding|pudding)\b/,
-  peanuts: /\b(punch|boisson|drink|beurre|butter|bars?|barres?|chocolat|chocolate)\b/,
-  jam: /\b(poudre|powder|jello|dessert)\b/,
-  pasta: /\b(plat de pates|prepared|prepare en magasin|lasagnes? (a la |de |au )?(viande|boeuf|poulet|legumes)|(meat|beef|chicken|vegetable) lasagna|frozen lasagna|lasagnes? surgelees?|lasagne irresistible|irresistible frozen|repas|meals?)\b/,
+  peanuts: /\b(punch|boisson|drink|beurre|butter|bars?|barres?|chocolat|chocolate|tartinade|spread)\b/,
+  jam: /\b(poudre|powder|jello|dessert|vaseline|petrole|petroleum)\b/,
+  pasta: /\b(macaroni (au|et) fromage|mac and cheese|kraft dinner|kd|annie'?s?|mario'?s?|plat de pates|prepared|prepare en magasin|lasagnes? (a la |de |au )?(viande|boeuf|poulet|legumes)|(meat|beef|chicken|vegetable) lasagna|frozen lasagna|lasagnes? surgelees?|lasagne irresistible|irresistible frozen|repas|meals?)\b/,
   orange_juice: /\b(canneberges?|cranberr\w*|mangue|mango|ananas|pineapple|cocktail|punch|boisson)\b/,
   flour: /\b(mais|corn|masa)\b/,
 };
@@ -211,7 +225,7 @@ export function matchFlyerItemFull(name) {
     if (out.length) break;
   }
   // "Saumon atlantique fumé": smoked salmon, even when the words are not side by side.
-  const smoked = /\b(fume|fumee|smoked)\b/.test(deaccent(name));
+  const smoked = /\b(fume|fumee|smoked|gravlax)\b/.test(deaccent(name)); // gravlax: cured, priced like smoked
   return smoked ? out.map((h) => (SMOKED_OF[h.id] ? { ...h, id: SMOKED_OF[h.id], pk: SMOKED_OF[h.id] } : h)) : out;
 }
 const SMOKED_OF = { salmon: 'salmon_smoked' };
@@ -441,7 +455,7 @@ const FORMS = {
   smoked: /\b(fumee?s?|smoked)\b/,
   dried: /\b(sechee?s?|dried|deshydratee?s?)\b/,
   cooked: /\b(cuite?s?|cooked|rotie?s?|roti|rotisserie|roasted|barbecue|bbq|pret a manger|ready to eat)\b/,
-  breaded: /\b(panee?s?|breaded|croustillante?s?|crispy|tempura)\b/,
+  breaded: /\b(panee?s?|breaded|battered|beer batter|english style|style anglais|enrobee?s? de pate|croustillante?s?|crispy|tempura)\b/,
   seasoned: /\b(assaisonnee?s?|marinee?s?|seasoned|marinated|epicee?s?|tandoori|tikka|shawarma|souvlaki|kebab|teriyaki|bbq|barbecue|cajun|buffalo|honey garlic|aux? (?:fines )?herbes|a l ail|saveur|flavou?r(?:ed)?)\b/,
   stuffed: /\b(farcie?s?|stuffed)\b/,
   ball: /\b(bocconcini|perles?|pearls?|burrata)\b/,
@@ -487,13 +501,14 @@ const PRODUCT_WORDS = new Set(tokens('instant protein fibre fiber superfood supe
 // Serving ideas in a listing ("Tangy Salad & Pizza Topping"), not what is sold.
 const USE_WORDS = new Set(tokens('salad pizza topping'));
 // Words that may follow the food without changing what it is ("Butter 454 G", "Diced Tomatoes, No Salt Added").
-const NEUTRAL_WORDS = new Set(tokens('barrel barril fresh pasta danish french italian greek mexican japanese thai english traditional style authentic fresh organic whole plain original regular classic natural pure unsalted salted lightly no salt added low reduced sodium less fat free light extra virgin lean boneless skinless large small medium jumbo mini baby value size pack family count bag bottle jar can cans canned tin tub box carton pouch shelf stable ready to use iqf frozen diced crushed chopped sliced minced whole ground dried dry raw uncooked unsweetened sweetened sugar red green yellow white black brown golden sweet hot mild spicy grade canada a aa product of imported domestic and with in by the your market each kg g ml l lb oz ct pc pcs pieces piece x premium select selection finest our great'));
+const NEUTRAL_WORDS = new Set(tokens('barrel barril fresh pasta danish french italian greek mexican japanese thai english traditional style authentic fresh organic whole plain original regular classic natural pure unsalted salted lightly no salt added low reduced sodium less fat free light extra virgin lean boneless skinless large small medium jumbo mini baby value size pack family count bag bottle jar can cans canned tin tub box carton pouch shelf stable ready to use iqf frozen diced crushed chopped sliced minced whole ground dried dry raw uncooked unsweetened sweetened sugar red green yellow white black brown golden sweet hot mild spicy grade canada a aa product of imported domestic and with in by the your market each kg g ml l lb oz ct pc pcs pieces piece x premium select selection finest our great modena pgi igp aged crunchy smooth creamy'));
 
 /**
  * Ingredient for a store catalogue listing ("Great Value Soya Sauce 450 Ml"), or null.
  * Stricter than flyer matching: the food must be what the listing sells, not a flavour of it,
  * and nothing after it may name something else.
  */
+const FRUIT_FLAVOURED = new Set(['jam']);
 export function matchShelfProduct(name) {
   const line = parseIngredientLine(name, 'en');
   if (!line.ing || line.alt) return null;
@@ -523,6 +538,8 @@ export function matchShelfProduct(name) {
   // Nothing after the food may name something else ("… Cream Cheese Product")…
   for (const t of part.slice(i)) if (!own.has(t) && !NEUTRAL_WORDS.has(t)) return null;
   // …and no other food may come before it ("Tomato Basil" sauce, "Ginger Beef").
-  if (!filled) for (const t of [...before, ...part.slice(0, i)]) { const other = matchIngredient(t); if (other && other !== line.ing && !own.has(t) && !NEUTRAL_WORDS.has(t)) return null; }
+  // A jam or jelly names its fruit ("Concord Grape Jelly", "Strawberry Jam"): that is its flavour.
+  const flavour = (other) => FRUIT_FLAVOURED.has(line.ing) && ING_BY_ID[other]?.cat === 'produce';
+  if (!filled) for (const t of [...before, ...part.slice(0, i)]) { const other = matchIngredient(t); if (other && other !== line.ing && !own.has(t) && !NEUTRAL_WORDS.has(t) && !flavour(other)) return null; }
   return { id: line.ing, pk: line.pk || line.ing };
 }

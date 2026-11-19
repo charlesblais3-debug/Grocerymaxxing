@@ -1,6 +1,6 @@
 {
  "source": "Walmart.ca (catalogue en ligne, via Flipp)",
- "fetchedAt": "2026-11-18T21:28:48.158Z",
+ "fetchedAt": "2026-11-19T01:54:25.325Z",
  "searched": {
   "chicken breast": "2026-11-13",
   "poitrine de poulet": "2026-11-13",
@@ -130,7 +130,7 @@
   "goberge": "2026-11-13",
   "pollock": "2026-11-13",
   "dore": "2026-11-13",
-  "walleye": "2026-11-13",
+  "walleye": "2026-11-19",
   "fletan": "2026-11-13",
   "halibut": "2026-11-13",
   "sebaste": "2026-11-13",
@@ -846,7 +846,7 @@
   "jam": "2026-11-13",
   "confiture": "2026-11-13",
   "gelee": "2026-11-13",
-  "jelly": "2026-11-13",
+  "jelly": "2026-11-19",
   "marmelade": "2026-11-13",
   "marmalade": "2026-11-13",
   "wine": "2026-11-13",
@@ -990,7 +990,7 @@
   "lobster": "2026-11-13",
   "homard": "2026-11-13",
   "chair de homard": "2026-11-13",
-  "seafood mix": "2026-11-13",
+  "seafood mix": "2026-11-19",
   "fruits de mer": "2026-11-13",
   "melange de fruits de mer": "2026-11-13",
   "wonton wrappers": "2026-11-13",
@@ -1126,7 +1126,28 @@
   "jicama": "2026-11-18",
   "xanthan gum": "2026-11-18",
   "demi glace": "2026-11-18",
-  "hollandaise sauce mix": "2026-11-18"
+  "hollandaise sauce mix": "2026-11-18",
+  "grape jelly": "2026-11-19",
+  "red currant jelly": "2026-11-19",
+  "mint jelly": "2026-11-19",
+  "pepper jelly": "2026-11-19",
+  "mae ploy sweet chili": "2026-11-19",
+  "thai sweet chili sauce": "2026-11-19",
+  "alfredo pasta sauce": "2026-11-19",
+  "balsamic vinegar of modena": "2026-11-19",
+  "frozen cherries": "2026-11-19",
+  "frozen dark sweet cherries": "2026-11-19",
+  "dried cherries": "2026-11-19",
+  "dried tart cherries": "2026-11-19",
+  "dried cherry": "2026-11-19",
+  "frozen seafood mix": "2026-11-19",
+  "seafood medley": "2026-11-19",
+  "walleye fillets": "2026-11-19",
+  "milk powder": "2026-11-19",
+  "skim milk powder": "2026-11-19",
+  "powdered milk": "2026-11-19",
+  "dried apples": "2026-11-19",
+  "dried apple": "2026-11-19"
  },
  "products": [
   {
@@ -1757,7 +1778,7 @@
    "sku": "6000199417840",
    "name": "Al Dayaa Hot Pepper Pickles 1l Jar 1 L",
    "price": 5.77,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "6000199418069",
@@ -1907,7 +1928,7 @@
    "sku": "6BOF7UQH8RQA",
    "name": "All Fit Allfit Konjac Jelly Mango 150ml",
    "price": 1.97,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "6S3DK4D1OCBK",
@@ -2684,6 +2705,12 @@
    "date": "2026-11-13"
   },
   {
+   "sku": "6000208807765",
+   "name": "Asmodee - Wilder Toys - Beanboozled: Taste The Truth - Fun Family Party Game - Jelly Belly - 2 Players Or More - Ages 8 And Up - English Multi",
+   "price": 29.97,
+   "date": "2026-11-19"
+  },
+  {
    "sku": "6000201980075",
    "name": "Asobu By Adnart Asobu \"On The Rocks\" Whiskey Kuzie 10.5oz Set Of 2",
    "price": 56.97,
@@ -3185,7 +3212,7 @@
    "sku": "6000200285204",
    "name": "Aylmer Accents Original Green Pepper, Celery And Onion Petite Cut Stewed Tomatoes 540 Ml",
    "price": 2.98,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "6000200284840",
@@ -3635,7 +3662,7 @@
    "sku": "6000201963705",
    "name": "Banobagi Vita Genic Jelly Mask Pore Tightening (1box) 300g",
    "price": 23.97,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "2KQ38A0UI9KU",
@@ -7604,6 +7631,18 @@
    "date": "2026-11-13"
   },
   {
+   "sku": "248UMQNEJP7M",
+   "name": "Capricare Whole Goat Milk Infant Formula - Stage 2 (6+ Months) – 800g Powder",
+   "price": 47.74,
+   "date": "2026-11-19"
+  },
+  {
+   "sku": "6YT8H4LEFD8O",
+   "name": "Capricare Whole Goat Milk Infant Formula, Stage 1 (0–6 Months) - 800g Powder",
+   "price": 47.74,
+   "date": "2026-11-19"
+  },
+  {
    "sku": "6000197059928",
    "name": "Cara Cara Oranges",
    "price": 7.97,
@@ -8555,7 +8594,7 @@
    "sku": "10218680",
    "name": "Chapman's Frozen Yogurt Black Jack Cherry In A Tub, 2l 2 L",
    "price": 7.47,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "6000196199823",
@@ -9107,7 +9146,7 @@
    "sku": "73ATYVUBPU05",
    "name": "Cholula Green Pepper Hot Sauce 150 Ml",
    "price": 6.47,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "76TKY6HDAE1S",
@@ -9293,7 +9332,7 @@
    "sku": "1EBZ390HNRMC",
    "name": "Chungjungone Chung Jung One Mild Red Pepper Paste, 500g 500g",
    "price": 6.47,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "3EWHI9KE4Y09",
@@ -9383,7 +9422,7 @@
    "sku": "10296142",
    "name": "Classico Alfredo & Roasted Garlic Pasta Sauce 410 Ml",
    "price": 3.47,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "10296574",
@@ -9401,19 +9440,25 @@
    "sku": "10296815",
    "name": "Classico Four Cheese Alfredo Spaghetti Pasta Sauce 410 Ml",
    "price": 3.47,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "6H0BGKZWJQGZ",
    "name": "Classico Italian Sausage, Peppers & Onions Pasta Sauce, 600 Ml Jar 600 Ml",
    "price": 3.47,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "3WPII35KOKC4",
    "name": "Classico Portobello Mushroom Pasta Sauce 600 Ml",
    "price": 3.47,
    "date": "2026-11-13"
+  },
+  {
+   "sku": "2P4SB6XYK9DQ",
+   "name": "Classico Spicy Red Pepper Pasta Sauce 600 Ml",
+   "price": 3.47,
+   "date": "2026-11-19"
   },
   {
    "sku": "6000195552756",
@@ -9689,13 +9734,13 @@
    "sku": "19F2HCN78I0X",
    "name": "Club House, Crushed Jalapeño Pepper 66 G 66g",
    "price": 6.77,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "10059332",
    "name": "Club House, Crushed Red Pepper 70 Gram 70 G",
    "price": 6.77,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "10050691",
@@ -10392,6 +10437,18 @@
    "name": "Covergirl - Clean Fresh Hydrating Concealer, Formulated Without Parabens, Sulfates, Mineral Oil & Talc, Infused With Coconut Milk & Aloe Extracts, 100",
    "price": 9.97,
    "date": "2026-11-13"
+  },
+  {
+   "sku": "6000201206294",
+   "name": "Covergirl Clean Fresh Healthy Look Pressed Powder, Formulated Without Parabens, Sulfates, Mineral Oil & Talc, Infused With Coconut Milk & Aloe Extract",
+   "price": 10.97,
+   "date": "2026-11-19"
+  },
+  {
+   "sku": "6000201204873",
+   "name": "Covergirl Clean Fresh Healthy Look Pressed Powder, Formulated Without Parabens, Sulfates, Mineral Oil & Talc, Infused With Coconut Milk & Aloe Extract",
+   "price": 10.97,
+   "date": "2026-11-19"
   },
   {
    "sku": "6000207919370",
@@ -11195,7 +11252,7 @@
    "sku": "6HRUZF9EJG5G",
    "name": "Dare Candy Co. Dare Scotch Mints 700g 700 G",
    "price": 4.48,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "6GUHWHTFGK9V",
@@ -12539,7 +12596,7 @@
    "sku": "6000203945815",
    "name": "Dora Concord Grape Jelly Traditional 500 Ml",
    "price": 3.97,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "6000198839178",
@@ -12593,7 +12650,7 @@
    "sku": "6000197104011",
    "name": "Dora Traditional Apple Jelly 500 Ml",
    "price": 3.97,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "6000199561464",
@@ -12794,6 +12851,12 @@
    "date": "2026-11-13"
   },
   {
+   "sku": "6000207460402",
+   "name": "Dr. Brown's Formula Dispenser With Snap-On Lid For On-The-Go Feedings, Milk Powder Dispenser For Traveling With Infant, Grey Grey",
+   "price": 7.98,
+   "date": "2026-11-19"
+  },
+  {
    "sku": "6URBMTAXZB0J",
    "name": "Dr. Brown's Infant-To-Toddler Training Soft Toothbrush Set With Pear Apple Fluoride-Free Toothpaste , Blue Elephant, 0-3 Years Blue",
    "price": 12.93,
@@ -12899,25 +12962,25 @@
    "sku": "6000196027142",
    "name": "Dr. Pepper Dr Pepper Soda 2 L, Bottle 2 L",
    "price": 2.47,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "6000197857480",
    "name": "Dr. Pepper Dr Pepper Soda 591 Ml, Bottle 591ml",
    "price": 2.78,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "6000202662145",
    "name": "Dr. Pepper Dr Pepper Soda 6 X 222 Ml, Mini Cans 6 X 222 Ml",
    "price": 3.97,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "2QDFZ6TMUL7X",
    "name": "Dr. Pepper Dr Pepper Zero Sugar Soda 12 X 355 Ml, Cans 12 Fl Oz",
    "price": 7.47,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "2EPMKS4B7VDT",
@@ -13253,7 +13316,7 @@
    "sku": "62WVA7WYS9HH",
    "name": "E-Jelly Belly Jb Sour Gummies",
    "price": 2.97,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "6000188766681",
@@ -13703,7 +13766,7 @@
    "sku": "6000188767540",
    "name": "El Yucateco Exxxtra Habanero Pepper Hot Sauce 113 Ml",
    "price": 3.97,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "6000188767534",
@@ -13764,6 +13827,12 @@
    "name": "Emmi Switzerland Gruyere Cheese 150 G",
    "price": 10.97,
    "date": "2026-11-13"
+  },
+  {
+   "sku": "6000203455910",
+   "name": "Enfagrow A+®, Toddler And Child Nutritional Drink, 26 Nutrients To Support Growth & Development, Milk Flavour Powder, 907g",
+   "price": 39.97,
+   "date": "2026-11-19"
   },
   {
    "sku": "3FKNVTBA1QMT",
@@ -13907,91 +13976,91 @@
    "sku": "6000207186222",
    "name": "Essie Nail Art Studio Jelly Nail Polish, Sheer Jelly Finish, Artic Jelly, White, 13.5 Ml Arctic Jelly",
    "price": 12.97,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "6000207189297",
    "name": "Essie Nail Art Studio Jelly Nail Polish, Sheer Jelly Finish, Artic Jelly, White, 13.5 Ml Astral Aura",
    "price": 12.97,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "6000207189200",
    "name": "Essie Nail Art Studio Jelly Nail Polish, Sheer Jelly Finish, Artic Jelly, White, 13.5 Ml Blush Jelly",
    "price": 12.97,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "6000207187768",
    "name": "Essie Nail Art Studio Jelly Nail Polish, Sheer Jelly Finish, Artic Jelly, White, 13.5 Ml Cactus Jelly",
    "price": 12.97,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "6000207188949",
    "name": "Essie Nail Art Studio Jelly Nail Polish, Sheer Jelly Finish, Artic Jelly, White, 13.5 Ml Cheeky Jelly",
    "price": 12.97,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "6000207189473",
    "name": "Essie Nail Art Studio Jelly Nail Polish, Sheer Jelly Finish, Artic Jelly, White, 13.5 Ml Cosmic Chrome",
    "price": 12.97,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "6000207188775",
    "name": "Essie Nail Art Studio Jelly Nail Polish, Sheer Jelly Finish, Artic Jelly, White, 13.5 Ml Divine Dimension",
    "price": 12.97,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "6000207186800",
    "name": "Essie Nail Art Studio Jelly Nail Polish, Sheer Jelly Finish, Artic Jelly, White, 13.5 Ml Ethereal Escape",
    "price": 12.97,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "6000207186724",
    "name": "Essie Nail Art Studio Jelly Nail Polish, Sheer Jelly Finish, Artic Jelly, White, 13.5 Ml Frosted Fantasy",
    "price": 12.97,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "6000207188081",
    "name": "Essie Nail Art Studio Jelly Nail Polish, Sheer Jelly Finish, Artic Jelly, White, 13.5 Ml Gilded Galaxy",
    "price": 12.97,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "6000207186921",
    "name": "Essie Nail Art Studio Jelly Nail Polish, Sheer Jelly Finish, Artic Jelly, White, 13.5 Ml Ink Jelly",
    "price": 12.97,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "6000207189319",
    "name": "Essie Nail Art Studio Jelly Nail Polish, Sheer Jelly Finish, Artic Jelly, White, 13.5 Ml Mystic Marine",
    "price": 12.97,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "6000207188770",
    "name": "Essie Nail Art Studio Jelly Nail Polish, Sheer Jelly Finish, Artic Jelly, White, 13.5 Ml Orchid Jelly",
    "price": 12.97,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "6000207189215",
    "name": "Essie Nail Art Studio Jelly Nail Polish, Sheer Jelly Finish, Artic Jelly, White, 13.5 Ml Separated Starlight",
    "price": 12.97,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "6000207188004",
    "name": "Essie Nail Art Studio Jelly Nail Polish, Sheer Jelly Finish, Artic Jelly, White, 13.5 Ml Sky Jelly",
    "price": 12.97,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "6000193497465",
@@ -14003,7 +14072,7 @@
    "sku": "10249029",
    "name": "Essie Nail Polish, Glossy Shine Finish, Salon Quality Formula, Vegan, Mint Candy Apple, 13.5 Ml Mint Candy Apple",
    "price": 10.96,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "6000207189485",
@@ -14105,7 +14174,7 @@
    "sku": "3URA12IQOX52",
    "name": "Evive Smoothie Bites Blueberry, Cherry, Açaï, 144g, Vegan, Non-Gmo, Frozen Bites, Blend (Banana, Cauliflower, Berries Etc.), Evive Smoothie Bites Blue",
    "price": 7.42,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "486FQC6STWON",
@@ -14375,13 +14444,13 @@
    "sku": "6000188742645",
    "name": "Ferma Pickled Hot Banana Peppers 750 Ml",
    "price": 5.24,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "6000188742648",
    "name": "Ferma Pickled Sweet Banana Peppers 750 Ml",
    "price": 5.24,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "6000188742681",
@@ -15209,7 +15278,7 @@
    "sku": "10064804",
    "name": "Frank's Redhot Original Cayenne Pepper Sauce 354 Ml",
    "price": 5.27,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "10064811",
@@ -16796,6 +16865,12 @@
    "date": "2026-11-13"
   },
   {
+   "sku": "6000207823588",
+   "name": "Good Grow Stage 3, With 2'-Fl, Kosher , Powder Nutritional Toddler Drink, 12+ Months, Milk Flavour 850 G Cannister",
+   "price": 34.97,
+   "date": "2026-11-19"
+  },
+  {
    "sku": "6000198478710",
    "name": "Good Thins, Sea Salt, Gluten Free Corn Crackers 100 G",
    "price": 3.98,
@@ -17063,7 +17138,7 @@
    "sku": "6000188762772",
    "name": "Grace Coconut Milk Powder, 300g Box 300g",
    "price": 6.84,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "6000188760747",
@@ -17117,19 +17192,19 @@
    "sku": "6000188760778",
    "name": "Grace Hot Habanero Pepper Sauce,155 Ml Bottle 155 Ml",
    "price": 2.76,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "6000188760384",
    "name": "Grace Hot Pepper Sauce, 355ml Bottle 355 Ml",
    "price": 4.94,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "6000188760775",
    "name": "Grace Hot Pepper Sauce, 88ml Bottle 88 Ml",
    "price": 1.28,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "6000188761138",
@@ -17159,7 +17234,7 @@
    "sku": "62XAL4I7DS5D",
    "name": "Grace La Morena Pickled Jalapeno Peppers 13.13 Oz",
    "price": 3.27,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "6YV9OOWIBIU8",
@@ -17411,7 +17486,7 @@
    "sku": "2W7HAU328ZJK",
    "name": "Great Value Alfredo Pasta Sauce, 425 Ml 425 Ml",
    "price": 2.97,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "6000202619444",
@@ -17519,7 +17594,7 @@
    "sku": "3IP3NM6QNQDE",
    "name": "Great Value Balsamic Vinegar Of Modena 500ml",
    "price": 4.97,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "6000201484573",
@@ -17591,7 +17666,7 @@
    "sku": "4NP5PWQG4UOH",
    "name": "Great Value Berries Plus Cherries Dried Fruit 400g",
    "price": 7.97,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "7C3ZOZRR30IU",
@@ -17627,7 +17702,7 @@
    "sku": "6MMCLPP6M1NQ",
    "name": "Great Value Black Pepper & Truffle Flavoured Sauce 245 Ml",
    "price": 2.47,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "10275057",
@@ -18827,7 +18902,7 @@
    "sku": "6000199912167",
    "name": "Great Value Frozen Sliced 3 Pepper Blend, 500 G 500 G",
    "price": 3.37,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "51I6EEF27EHL",
@@ -19097,13 +19172,13 @@
    "sku": "61RHUUR69Z7Q",
    "name": "Great Value Ground Black Pepper 520 Gr",
    "price": 11.97,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "10302291",
    "name": "Great Value Ground Black Pepper 85 G",
    "price": 2.47,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "6VI775GEA889",
@@ -19302,6 +19377,12 @@
    "name": "Great Value Ice Cream Waffle Cones 199 G",
    "price": 3.97,
    "date": "2026-11-13"
+  },
+  {
+   "sku": "10301225",
+   "name": "Great Value Instant Skim Milk Powder 1 Kg",
+   "price": 11.58,
+   "date": "2026-11-19"
   },
   {
    "sku": "3RBQ0N672RPT",
@@ -20501,7 +20582,7 @@
    "sku": "5AE520H6VZFS",
    "name": "Great Value Pickled Sliced Hot Pepper Rings 750ml",
    "price": 3.48,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "4TIDFI5VLZR6",
@@ -21125,13 +21206,13 @@
    "sku": "6000196715584",
    "name": "Great Value Roasted Garlic Alfredo Pasta Sauce 410 Ml",
    "price": 2.97,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "5STLBFM98NQF",
    "name": "Great Value Roasted Garlic Alfredo Pasta Sauce, 425 Ml 425 Ml",
    "price": 2.97,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "6000198573746",
@@ -22061,7 +22142,7 @@
    "sku": "10301924",
    "name": "Great Value Whole Black Pepper 290 G",
    "price": 10.28,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "6K0OY49DRN6Q",
@@ -22565,7 +22646,7 @@
    "sku": "2HLLRFOYOLY8",
    "name": "Gui Gui Single Pack Jelli Multicoloured",
    "price": 14.97,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "1E4YM61KVP6G",
@@ -22595,43 +22676,43 @@
    "sku": "6000200452940",
    "name": "H-Natural Kobe Salt & Pepper 6'x7' Cowhide Rug Salt & Pepper Black/White",
    "price": 457.97,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "6000200450631",
    "name": "H-Natural Kobe Salt & Pepper 6'x7' Cowhide Rug Salt & Pepper Brown/White",
    "price": 594.98,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "6000200453275",
    "name": "H-Natural Kobe Salt & Pepper 6'x7' Cowhide Rug Salt & Pepper Chocolate/White",
    "price": 594.98,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "6000200450614",
    "name": "H-Natural Kobe Salt & Pepper 6'x7' Cowhide Rug Salt & Pepper Taupe /White",
    "price": 647.98,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "6000200452144",
    "name": "H-Natural Kobe Salt & Pepper Cowhide Rug 5' X 7' Salt & Pepper Black/White",
    "price": 410.98,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "6000200450197",
    "name": "H-Natural Kobe Salt & Pepper Cowhide Rug 5' X 7' Salt & Pepper Chocolate/White",
    "price": 410.98,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "6000200449826",
    "name": "H-Natural Kobe Salt & Pepper Cowhide Rug 5' X 7' Salt& Pepper Brown/White",
    "price": 410.98,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "6000200452578",
@@ -23003,7 +23084,7 @@
    "sku": "4MJQFXEYFST5",
    "name": "Hard Candy Lip Butter Glowy Balm Mint Cream",
    "price": 9.98,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "2K9FY8G3C3XR",
@@ -23171,7 +23252,7 @@
    "sku": "6PQFPZ0UTKT4",
    "name": "Healthy Choice Frozen Dinner Gourmet Steamers Chicken Fettuccini Alfredo With Chicken Breast, Fettuccini Pasta, Broccoli And Alfredo Sauce, No Artific",
    "price": 4.97,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "6000203692147",
@@ -23195,7 +23276,7 @@
    "sku": "206983",
    "name": "Healthy Choice Gourmet Steamers Grilled Chicken Red Pepper Alfredo Frozen Dinner With Chicken Breast, Pasta, Broccoli And Red Pepper Alfredo Sauce, No",
    "price": 4.97,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "6000197876199",
@@ -23603,7 +23684,7 @@
    "sku": "5NDTYWNJRQ1Y",
    "name": "Hellmann's Hellmann’s Mild Chipotle Mayonnaise Dressing, Made With Real Chipotle Peppers, Squeeze Bottle, 340 Ml 340 Ml",
    "price": 5.47,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "10285522",
@@ -23657,7 +23738,7 @@
    "sku": "3NSWS1KJCC3T",
    "name": "Hellokittyfriends Hello Kitty® And Friends 2 Figure Pack - Perfect Pairing Picnic: Kuromi Jelly Toast, Cinnamoroll Peanut Butter Toast Multi",
    "price": 11.96,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "10186589",
@@ -23693,7 +23774,7 @@
    "sku": "3TSFAQIFO420",
    "name": "Hershey's Chocolate Mint Flavoured Candy Canes, 149g 149 G",
    "price": 5.77,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "6000205305839",
@@ -24017,7 +24098,7 @@
    "sku": "4XNCNE860X6H",
    "name": "Holiday Time Cranberry Spice Kids Collection Santa & Tree Salt And Pepper Shaker Pepper:2.625\"L X 2.375\"W X 3\"H Salt：2.06\"L X 2.06\"W X 3.125\"H",
    "price": 5.97,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "11O5W0TTW7IL",
@@ -24287,13 +24368,13 @@
    "sku": "6000197535773",
    "name": "Hot Pepper, Long Green",
    "price": 4.34,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "6000207537951",
    "name": "Hot Peppers, Scorpion, Your Fresh Market",
    "price": 4.97,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "2XPPAKV5VGN4",
@@ -25049,13 +25130,19 @@
    "sku": "3RZE1ZRSIXX4",
    "name": "Iogo Cherry Swirl Frozen Yogurt, Vanilla With Fruit Ripple, Real Dairy, 946 Ml 946 Ml",
    "price": 7.97,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "345W2U0FUYQU",
    "name": "Iogo Frozen Yogurt Bars, Blueberry Swirl, Real Fruit & Dairy, 100 Calories Per Bar, 4 X 80 Ml 80 Ml",
    "price": 7.97,
    "date": "2026-11-13"
+  },
+  {
+   "sku": "7LAH06VW6DTZ",
+   "name": "Iogo Frozen Yogurt Bars, Cherry Swirl, Real Fruit & Dairy, 100 Calories Per Bar, 4 X 80 Ml 80 Ml",
+   "price": 7.97,
+   "date": "2026-11-19"
   },
   {
    "sku": "4IUO74CNXSEG",
@@ -25211,7 +25298,7 @@
    "sku": "1SREYYGKP77H",
    "name": "J-Rigged Tackle Supply Hook Assortment - Walleye",
    "price": 14.98,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "64SCXOPILGU8",
@@ -25709,13 +25796,13 @@
    "sku": "10306020",
    "name": "Jell-O Lime Jelly Powder Mix, 85 G Box 85 G",
    "price": 1.57,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "10306572",
    "name": "Jell-O Orange Jelly Powder Mix, 85 G Box 85 G",
    "price": 1.57,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "10306441",
@@ -25727,13 +25814,13 @@
    "sku": "10306536",
    "name": "Jell-O Raspberry Jelly Powder Mix, 85 G Box 85 G",
    "price": 1.57,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "10306294",
    "name": "Jell-O Strawberry Jelly Powder Mix, 85 G Box 85 G",
    "price": 1.57,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "10306574",
@@ -25751,49 +25838,49 @@
    "sku": "6000188760154",
    "name": "Jell-O Zero Sugar Orange Jelly Powder Mix, 10.2 G Box 10.2 G",
    "price": 1.57,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "6000188760145",
    "name": "Jell-O Zero Sugar Strawberry Jelly Powder Mix, 10.1 G Box 10.1 G",
    "price": 1.57,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "6000205459761",
    "name": "Jelly Belly 2 Pack Vent Clip Berry Blue 1",
    "price": 7.97,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "6000198868679",
    "name": "Jelly Belly 3d Hanging Air Freshener - Very Cherry One Size",
    "price": 4.97,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "7ANQQY8G40TH",
    "name": "Jelly Belly Beanboozled Jelly Beans Candy 100g 100 G",
    "price": 8.17,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "57KDJY5JKKA9",
    "name": "Jelly Belly Beanboozled Naughty Or Nice Spinner 100g 100g",
    "price": 9.07,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "6000204053696",
    "name": "Jelly Belly Vegan Assorted Gummies",
    "price": 2.17,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "61USQFE1U77Q",
    "name": "Jelly Blox Vrroom! Truck Kit Multicolour",
    "price": 34.98,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "3VGYYBSHH6GK",
@@ -26165,7 +26252,7 @@
    "sku": "462AX3MIUT5U",
    "name": "Jolly Rancher Jelly Hearts 250g, 12pk 250g",
    "price": 4.78,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "66XKJ2PN2GG1",
@@ -26270,6 +26357,12 @@
    "date": "2026-11-13"
   },
   {
+   "sku": "2N2MX5QZGCGE",
+   "name": "Kamenstein Gravity Pepper Mill, Black Black",
+   "price": 16.97,
+   "date": "2026-11-19"
+  },
+  {
    "sku": "10299129",
    "name": "Kandoo Flushable Magic Melon Toddler Wipes Refill 250ct Purple Other",
    "price": 12.47,
@@ -26363,7 +26456,7 @@
    "sku": "10284245",
    "name": "Kaytee Ko & C Shj Coconut Jelly 280 G",
    "price": 2.18,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "874613",
@@ -26624,16 +26717,22 @@
    "date": "2026-11-13"
   },
   {
+   "sku": "6000208556906",
+   "name": "Kendamil Goat Toddler Drink Powder With Whole A2 Milk, 800g",
+   "price": 44.97,
+   "date": "2026-11-19"
+  },
+  {
    "sku": "6000207867431",
    "name": "Kendamil Organic Whole Milk Baby Formula Powder, European With Hmos, Prebiotics, No Palm Oil Or Soy, With Dha, 800g, 0-12 Months",
    "price": 49.97,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "6000207868640",
    "name": "Kendamil Whole Milk Powder Baby Formula, 800g, European With Hmos, Prebiotics, No Palm Oil Or Soy, With Dha, 0-12 Months",
    "price": 44.97,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "2NEP007EAKOG",
@@ -26741,7 +26840,7 @@
    "sku": "0W9COLFED86G",
    "name": "Keycraft Jelli Squishi Pets Sensory Toy – Jelly Animal Fidget Toy, Soft Stretchy Stress Relief Squishy, Assorted Animals, Ages 3+",
    "price": 1,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "6000196823352",
@@ -27083,19 +27182,19 @@
    "sku": "6000205730952",
    "name": "Kiss Products Inc Kiss Gel Fantasy - Fake Nails, Long Jelly Gelee",
    "price": 17.97,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "6000205731170",
    "name": "Kiss Products Inc Kiss Gel Fantasy - Fake Nails, Long Quince Jelly",
    "price": 17.97,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "6000205731855",
    "name": "Kiss Products Inc Kiss Gel Fantasy - Fake Nails, Long Sweet Jelly",
    "price": 17.97,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "6000196213996",
@@ -28001,7 +28100,7 @@
    "sku": "6000188769924",
    "name": "La Costeña La Costena Chipotle Peppers 319ml",
    "price": 6.94,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "6000188763969",
@@ -28013,7 +28112,7 @@
    "sku": "6000188765363",
    "name": "La Costeña La Costena Green Pickled Sliced Jalapeno Peppers 330ml",
    "price": 3.87,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "6000188763966",
@@ -29045,31 +29144,31 @@
    "sku": "3MLQ1K3OYO3B",
    "name": "Life Savers, Pep O Mint Candy Mints, Bag, 368g. 368g",
    "price": 7.17,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "6000202573855",
    "name": "Life Savers, Pep O Mint Candy, Sharing Bag, 411g 411g",
    "price": 6.97,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "10278561",
    "name": "Life Savers, Wint O Green Candy Mints, Bag, 150g 150g",
    "price": 3.28,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "62672QSJ18HW",
    "name": "Life Savers, Wint O Green Candy Mints, Bag, 368g. 368g",
    "price": 7.17,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "6000202573409",
    "name": "Life Savers, Wint O Green Candy Mints, Sharing Bag, 411g 411g",
    "price": 6.58,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "1TLWVMET071T",
@@ -30155,7 +30254,7 @@
    "sku": "5N09DX0ISFMP",
    "name": "M&m's, Christmas Mint Milk Chocolate Red & Green Candies, 165 G 165g",
    "price": 4.78,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "6000207338943",
@@ -30251,7 +30350,7 @@
    "sku": "6000200387720",
    "name": "Maggi® Coconut Milk Powder Mix 300 G",
    "price": 5.97,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "1H00TTSFVGZC",
@@ -31301,7 +31400,7 @@
    "sku": "4YMYG74DC7YC",
    "name": "Marie Callender's Marie Callender’s Grilled Chicken Alfredo Bowl - Chicken Breast With Pasta And Vegetables In A Creamy Cheesy Alfredo Sauce - 24 G Of",
    "price": 5.48,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "4XJYXULKUHHE",
@@ -31679,7 +31778,7 @@
    "sku": "6000199217099",
    "name": "Matouks Hot Pepper Sauce",
    "price": 6.27,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "6000199229947",
@@ -31841,7 +31940,7 @@
    "sku": "4X3GG8EJMRA9",
    "name": "Maybelline New York Poreless Jelly Blur Primer Clear",
    "price": 13.96,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "4PEDY9427J8H",
@@ -32294,6 +32393,12 @@
    "date": "2026-11-13"
   },
   {
+   "sku": "6GL6INNANAJL",
+   "name": "Melinda's Ghost Pepper Wing Sauce 355ml",
+   "price": 7.98,
+   "date": "2026-11-19"
+  },
+  {
    "sku": "5ERDL3U8OGAP",
    "name": "Melinda's Ranch - Jalapeno 355ml",
    "price": 7.98,
@@ -32363,7 +32468,7 @@
    "sku": "6000208948741",
    "name": "Mepps 4-K5-Asst 4-Pack Walleye Kit Assorted",
    "price": 27.98,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "7GSV89DMW1WO",
@@ -32735,7 +32840,7 @@
    "sku": "6000201331032",
    "name": "Mini Peppers , Organic",
    "price": 6.97,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "51CYLD8K82RO",
@@ -35621,55 +35726,55 @@
    "sku": "6IO25OC7W7EP",
    "name": "Nyx Professional Makeup Lip Gloss, Jelly Job Full-Bodied Shine Gloss, Lip-Smoothing Shine Cherry Jelly",
    "price": 16.96,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "2CQ80A2P5XAX",
    "name": "Nyx Professional Makeup Lip Gloss, Jelly Job Full-Bodied Shine Gloss, Lip-Smoothing Shine Honey It's Jelly",
    "price": 16.96,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "1FEP5N44XDU9",
    "name": "Nyx Professional Makeup Lip Gloss, Jelly Job Full-Bodied Shine Gloss, Lip-Smoothing Shine Jelly Blushin'",
    "price": 16.96,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "16P2KR0RDPCX",
    "name": "Nyx Professional Makeup Lip Gloss, Jelly Job Full-Bodied Shine Gloss, Lip-Smoothing Shine Jelly Icing",
    "price": 16.96,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "3IV3OFE2B82O",
    "name": "Nyx Professional Makeup Lip Gloss, Jelly Job Full-Bodied Shine Gloss, Lip-Smoothing Shine Jelly Jammin'",
    "price": 16.96,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "4ZTTWR1DT1B5",
    "name": "Nyx Professional Makeup Lip Gloss, Jelly Job Full-Bodied Shine Gloss, Lip-Smoothing Shine Jelly Kiss'd",
    "price": 16.96,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "1MCGZH4XYLDE",
    "name": "Nyx Professional Makeup Lip Gloss, Jelly Job Full-Bodied Shine Gloss, Lip-Smoothing Shine Jelly Squeeze",
    "price": 16.96,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "6RVJHYOAYMTI",
    "name": "Nyx Professional Makeup Lip Gloss, Jelly Job Full-Bodied Shine Gloss, Lip-Smoothing Shine Jellybean",
    "price": 16.96,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "3OI70ZWQEOYB",
    "name": "Nyx Professional Makeup Lip Gloss, Jelly Job Full-Bodied Shine Gloss, Lip-Smoothing Shine Just Jelly",
    "price": 16.96,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "2UD2HSZLMRPW",
@@ -36137,7 +36242,7 @@
    "sku": "6000187587886",
    "name": "Ocean Spray® Jellied Cranberry Sauce 348ml 348 Ml",
    "price": 2.77,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "879946",
@@ -37604,6 +37709,12 @@
    "date": "2026-11-13"
   },
   {
+   "sku": "20WMYT5ZSCRA",
+   "name": "Oxo Tot - Formula Dispenser - For Feedings On-The-Go - Portable Travel Milk Powder Formula Container - Baby Feeding Accessories - Teal White",
+   "price": 9.99,
+   "date": "2026-11-19"
+  },
+  {
    "sku": "1VJYLI06ZBLZ",
    "name": "P.A.N. Pan Yellow Corn Flour, 1kg Bag 1kg",
    "price": 4.17,
@@ -37814,6 +37925,12 @@
    "date": "2026-11-13"
   },
   {
+   "sku": "0X1MZ60K2051",
+   "name": "Parent's Choice Parent’s Choice Milk-Based Infant Formula Powder, 0-12 Months, 700g",
+   "price": 26.94,
+   "date": "2026-11-19"
+  },
+  {
    "sku": "6000192504364",
    "name": "Parent's Choice Parent’s Choice Organic Apple & Butternut Squash Baby Food Purée 4 Oz",
    "price": 1,
@@ -37878,6 +37995,12 @@
    "name": "Parent's Choice Parent’s Choice Organic Pear, Kale, Green Peas, Acerola & Quinoa Baby Food Purée",
    "price": 1,
    "date": "2026-11-13"
+  },
+  {
+   "sku": "36WVIAI9OI9G",
+   "name": "Parent's Choice Parent’s Choice Toddler Milk-Based Nutritional Powder, 12-36 Months, 900g",
+   "price": 26.94,
+   "date": "2026-11-19"
   },
   {
    "sku": "10283492",
@@ -38213,13 +38336,13 @@
    "sku": "3NHWA6D3E682",
    "name": "Pepper North Habanero Hot Sauce – Sweet Garlic, Canadian Made, 148ml 148 Ml",
    "price": 6.97,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "6000191287775",
    "name": "Pepper, Green Bell",
    "price": 1.26,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "6000203907685",
@@ -38231,25 +38354,25 @@
    "sku": "6000207537825",
    "name": "Peppers, Finger Hot, Your Fresh Market",
    "price": 4.97,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "6000207538828",
    "name": "Peppers, Fresno, Your Fresh Market",
    "price": 5.97,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "6000207538537",
    "name": "Peppers, Jalapeño, Your Fresh Market",
    "price": 6.97,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "6000196099112",
    "name": "Peppers, Organic",
    "price": 5.97,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "2YIYHUWVVY5W",
@@ -38843,13 +38966,13 @@
    "sku": "6FSHHNRWE0P1",
    "name": "Pintys Lemon & Pepper Chicken Wings, Seasoned, Cut-Up, Fully Cooked, Pintys Lemon & Pepper Chicken Wings Weight / Box: 700 G (600 G Chicken Wings + 10",
    "price": 13.98,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "62O05LWZ8L9D",
    "name": "Pintys Salt & Cracked Black Pepper Glazed Chicken Wings, Seasoned, Cut-Up, Fully Cooked, Pintys Salt & Cracked Black Pepper Glazed Chicken Wings Weigh",
    "price": 13.98,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "66HXZMVNHYP3",
@@ -39929,7 +40052,7 @@
    "sku": "6000197583682",
    "name": "Pti Black Pepper Whole 200g",
    "price": 3.97,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "6000188764660",
@@ -40104,6 +40227,12 @@
    "name": "Pureplate Creations Garlic Seasoning Paste",
    "price": 3.97,
    "date": "2026-11-13"
+  },
+  {
+   "sku": "706X0KCNJJIA",
+   "name": "Puresnacks, Air Dried Chicken & Apple Jerky Dog Treats, 539g",
+   "price": 24.98,
+   "date": "2026-11-19"
   },
   {
    "sku": "10067855",
@@ -40817,7 +40946,7 @@
    "sku": "6000191284684",
    "name": "Rainbow Bell Xl Peppers",
    "price": 3.98,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "5DDR0B53KDFR",
@@ -41630,6 +41759,12 @@
    "date": "2026-11-13"
   },
   {
+   "sku": "6000208785698",
+   "name": "Revlon Dual Ended Jelly Makeup Blender Black",
+   "price": 15.47,
+   "date": "2026-11-19"
+  },
+  {
    "sku": "7F93LB8TURYI",
    "name": "Revlon Glimmer Lip Treat Balm + Mask For Dry Lips, Overnight, 002 Marshmallow Dreams, 0.4 Fl Oz Marshmallow Dreams",
    "price": 13.47,
@@ -42095,7 +42230,7 @@
    "sku": "6000196294068",
    "name": "Rowntree's Rowntree Jelly Tots Pouch",
    "price": 4.94,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "6000206802060",
@@ -43064,6 +43199,12 @@
    "date": "2026-11-13"
   },
   {
+   "sku": "6000197632454",
+   "name": "Sally Hansen Insta-Dri® Nail Polish, 3-In-1 Formula With Built-In Base And Top Coat, Dries In 60 Seconds Nail Polish Lacquer Asap Apple - 382",
+   "price": 8.98,
+   "date": "2026-11-19"
+  },
+  {
    "sku": "6000205653689",
    "name": "Sally Hansen Insta-Dri® Nail Polish, 3-In-1 Formula With Built-In Base And Top Coat. 1 Stroke, 1 Coat. Done. Dries In 60 Seconds Catch Me If You Clam ",
    "price": 8.98,
@@ -43283,7 +43424,7 @@
    "sku": "5KYNOI57HGBL",
    "name": "Sardo Deli Market Antipasto Gourmet Fire Roasted Sweet Peppers",
    "price": 3.97,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "6000191270306",
@@ -44261,7 +44402,7 @@
    "sku": "6000196393514",
    "name": "Sempio Hot Pepper Paste 500g 500g",
    "price": 6.77,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "5TVX8UJ8J0UD",
@@ -44339,13 +44480,13 @@
    "sku": "6000198070833",
    "name": "Shakespeare Catch More Fish Walleye 6'6\" 2pc Medium Action Spinning Combo Other",
    "price": 44.98,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "6000208713150",
    "name": "Shakespeare Catch More Fish Walleye Spinning Combo",
    "price": 48.96,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "6000198071303",
@@ -44447,13 +44588,13 @@
    "sku": "53IN18R9LU2F",
    "name": "Shan Jelly Crystal Mango, 80g 80g",
    "price": 0.97,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "7KVZ44H89IEH",
    "name": "Shan Jelly Crystal Orange, 80g 80g",
    "price": 0.97,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "6000197065890",
@@ -44948,6 +45089,24 @@
    "date": "2026-11-16"
   },
   {
+   "sku": "6000204710971",
+   "name": "Similac Go & Grow Step 3 Toddler Drink With 2'-Fl. Immune Support Innovation: 2'-Fl, Powder, 12-36 Months, Milk Flavour, 850 Grams",
+   "price": 32.97,
+   "date": "2026-11-19"
+  },
+  {
+   "sku": "6000205851206",
+   "name": "Similac Total Comfort, Baby Formula, Tummy-Friendly, Easy To Digest, Now With Breast Milk-Inspired Innovation 2’-Fl, 0+ Months, Powder, 570 G",
+   "price": 46.98,
+   "date": "2026-11-19"
+  },
+  {
+   "sku": "6000205851236",
+   "name": "Similac Total Comfort, Baby Formula, Tummy-Friendly, Easy To Digest, Now With Breast Milk-Inspired Innovation 2’-Fl, 0+ Months, Powder, 837 G",
+   "price": 56.98,
+   "date": "2026-11-19"
+  },
+  {
    "sku": "58K3BYBE1940",
    "name": "Simon & Schuster New And Trending: Once Upon A Trainwreck By Christy Carlson Romano",
    "price": 30.74,
@@ -45377,7 +45536,7 @@
    "sku": "10292488",
    "name": "Smucker's Grape Jelly 500ml 500 Ml",
    "price": 6.47,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "205816",
@@ -46235,7 +46394,7 @@
    "sku": "507HSMAGCYM0",
    "name": "Stefano Faita Creamy Alfredo Pasta Sauce, 405ml 405 Ml",
    "price": 7.74,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "51G3DBJTXJ0N",
@@ -46361,7 +46520,7 @@
    "sku": "2VN5WBU1V8XW",
    "name": "Storm Original Hot N Tot 07 Walleye Wizard",
    "price": 11.48,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "6000196666813",
@@ -46817,13 +46976,13 @@
    "sku": "6000204568450",
    "name": "Sunset One Sweet Mini Peppers",
    "price": 4.94,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "6000191286439",
    "name": "Sunset Red Bell Pepper",
    "price": 1.17,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "6000200355387",
@@ -46841,7 +47000,7 @@
    "sku": "6000208216813",
    "name": "Sunset Wannabeez™ Peppers 2.5lb",
    "price": 5.94,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "6000197060014",
@@ -46859,7 +47018,7 @@
    "sku": "6000197059668",
    "name": "Sunset Yellow Pepper",
    "price": 1.17,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "6000197326007",
@@ -46871,7 +47030,7 @@
    "sku": "6000202692142",
    "name": "Sunsets Sunset® Wild Wonder® Sweet Peppers 12oz",
    "price": 3.97,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "6000200794158",
@@ -46901,13 +47060,13 @@
    "sku": "2EJ2N2LI6300",
    "name": "Swanson Fettuccini Alfredo With Broccoli & Chicken Frozen Dinner, Pasta & White Meat Chicken In A Creamy Alfredo Sauce With Broccoli 255 G",
    "price": 4.97,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "10311239",
    "name": "Swanson® Swanson Alfredo Chicken Frozen Meal, Pasta With Vegetables And Grilled Seasoned White Meat Chicken In An Alfredo Cheese Sauce, 1.19 Kg, 1.19 ",
    "price": 12.13,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "10308104",
@@ -46979,7 +47138,7 @@
    "sku": "0TTOF7O7QMQ0",
    "name": "Sweet Green Pepper",
    "price": 7.94,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "6000191272310",
@@ -47183,13 +47342,13 @@
    "sku": "10190643",
    "name": "Tabasco® Original Pepper Sauce, 142ml 142 Ml",
    "price": 7.27,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "10190987",
    "name": "Tabasco® Original Pepper Sauce, 57ml 57 Ml",
    "price": 3.42,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "24EZGE4D3TCW",
@@ -47447,7 +47606,13 @@
    "sku": "5PGX9I7OPPNT",
    "name": "Temptations Creamy Puree Adult Lickable Cat Treats, Seafood Medley, Salmon & Shrimp, 4 Pouches, 48g",
    "price": 2.98,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
+  },
+  {
+   "sku": "6FDJN3BZMYSJ",
+   "name": "Temptations Creamy Puree Adult Lickable Cat Treats, Seafood Variety Pack, Seafood Medley, Salmon, And Tuna Flavours, 24 Pouches, 288g",
+   "price": 14.98,
+   "date": "2026-11-19"
   },
   {
    "sku": "6000196216085",
@@ -47460,6 +47625,24 @@
    "name": "Temptations Mixups Tuna, Shrimp & Salmon Flavour Soft & Crunchy Adult Cat Treats",
    "price": 12.97,
    "date": "2026-11-13"
+  },
+  {
+   "sku": "10036326",
+   "name": "Temptations Seafood Medley Flavour Soft & Crunchy Adult Cat Treats",
+   "price": 2.98,
+   "date": "2026-11-19"
+  },
+  {
+   "sku": "6000191650636",
+   "name": "Temptations Seafood Medley Flavour Soft & Crunchy Adult Cat Treats",
+   "price": 5.47,
+   "date": "2026-11-19"
+  },
+  {
+   "sku": "6000195562957",
+   "name": "Temptations Seafood Medley Flavour Soft & Crunchy Adult Cat Treats",
+   "price": 6.98,
+   "date": "2026-11-19"
   },
   {
    "sku": "67049XKUQL42",
@@ -47597,7 +47780,7 @@
    "sku": "6000207538035",
    "name": "Thai Green Chili Peppers, Your Fresh Market",
    "price": 3.97,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "10225663",
@@ -47801,7 +47984,7 @@
    "sku": "6000207778946",
    "name": "Think Patio All-Weather 6-Piece Patio Dining Set - Pepper Stem Pepper Stem Large",
    "price": 298,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "6000201536350",
@@ -48731,37 +48914,37 @@
    "sku": "6000197103447",
    "name": "Tic Tac Mints, Fresh Mint, Mint Candy, 200 Pills, 98 G 200 Count",
    "price": 4.98,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "6000196834193",
    "name": "Tic Tac Mints, Fresh Mint, Mint Candy, 60 Pills, 29 G",
    "price": 2.18,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "6000197097721",
    "name": "Tic Tac Mints, Fruit Adventure, Mint Candy, 200 Pills, 98 G",
    "price": 4.98,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "6000196834202",
    "name": "Tic Tac Mints, Fruit Adventure, Mint Candy, 60 Pills, 29 G",
    "price": 2.18,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "6000202490251",
    "name": "Tic Tac Mints, Orange, Mint Candy, 200 Pills, 98 G",
    "price": 4.98,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "6000196834196",
    "name": "Tic Tac Mints, Orange, Mint Candy, 60 Pills, 29 G",
    "price": 2.18,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "6000205322302",
@@ -48773,13 +48956,13 @@
    "sku": "6000196834199",
    "name": "Tic Tac Mints, Wintergreen, Mint Candy 60 Pills, 29 G",
    "price": 2.18,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "470S474U5D86",
    "name": "Tic Tac® Mints, Tropical Adventure, Mint Candy",
    "price": 1.98,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "17MU0IGMM1A0",
@@ -49433,13 +49616,13 @@
    "sku": "6M7JMT2UASVA",
    "name": "Tracklements Fresh Mint Jelly 220g",
    "price": 7.78,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "6IOJGWSW45RB",
    "name": "Tracklements Rich Redcurrant Jelly 220g",
    "price": 7.78,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "2BEGC6LEQM0K",
@@ -49578,6 +49761,12 @@
    "name": "Trends International Sugar Cubs - Ramen Wall Poster, 22.375\" X 34\"",
    "price": 10.47,
    "date": "2026-11-13"
+  },
+  {
+   "sku": "6000202936549",
+   "name": "Trensité Whole Milk Powder (500g) 500g",
+   "price": 12.97,
+   "date": "2026-11-19"
   },
   {
    "sku": "2DHCZBCIZKRS",
@@ -49763,19 +49952,19 @@
    "sku": "6M3202OE0HK7",
    "name": "Trudeau Salt & Pepper Grinders Ostrava 7\" - Pre-Filled With Pepper & Pink Himalayan Salt, Corrosion-Resistant Ceramic Grinders, 2 Mills Black",
    "price": 19.97,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "6000208621027",
    "name": "Trudeau Seville 10-Inch Pepper Grinder, Pepper Mill, Comes Filled With Peppercorns Black",
    "price": 24.97,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "5ZTJ3J2KKX2H",
    "name": "Trudeau Stak Filled Pepper Mill, Pre-Filled With 75 G Of Pepper, Bamboo Lid Black & Clear",
    "price": 9.97,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "28P4L87BXW6A",
@@ -49788,6 +49977,12 @@
    "name": "Trudeau Stak™ Rotating Spice Rack & Seasoning Station, 12 Glass Spice Bottles, Includes 12 Essential Spices, Kitchen Countertop & Pantry Organizer Bla",
    "price": 49.97,
    "date": "2026-11-13"
+  },
+  {
+   "sku": "7ION7WELACD7",
+   "name": "Trudeau Wink Salt Or Pepper Shaker - 1 Piece – Black Or Red (Assorted) Black, Clear",
+   "price": 1.97,
+   "date": "2026-11-19"
   },
   {
    "sku": "6000199020567",
@@ -49847,13 +50042,13 @@
    "sku": "6000203068999",
    "name": "Tuscanini Vinegar Balsamic Of Modena",
    "price": 11.97,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "26VLEUGN82XD",
    "name": "Tutto Calabria Crushed Hot Peppers 280ml 280ml",
    "price": 7.97,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "6000195949673",
@@ -49967,7 +50162,7 @@
    "sku": "3N1CWQMBF0OP",
    "name": "Ugly Stik Ugly Stick Walleye Ice Fishing Combo",
    "price": 54.64,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "6000199959680",
@@ -50027,7 +50222,7 @@
    "sku": "10284578",
    "name": "Unico Balsamic Vinegar Of Modena Pgi 500 Ml",
    "price": 5.27,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "10287211",
@@ -50387,25 +50582,25 @@
    "sku": "6000202210412",
    "name": "Vaseline All Over Body Balm Healing Jelly Stick Cocoa Shimmer, 40 G",
    "price": 9.96,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "6000200925597",
    "name": "Vaseline All Over Body Balm Healing Jelly Stick Fragrance Free, 40 G",
    "price": 9.96,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "10281911",
    "name": "Vaseline Healing Jelly Original, 50 G",
    "price": 4.97,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "10281973",
    "name": "Vaseline Petroleum Jelly Original White Petrolatum Ointment, 100 G",
    "price": 3.98,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "4M1BPO1WLWYE",
@@ -50567,7 +50762,7 @@
    "sku": "206245",
    "name": "Vh Sauces Vh Gluten Free Sweet Thai Chili Dipping Sauce With Mild Spice 341 Ml",
    "price": 3.38,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "10285359",
@@ -50981,7 +51176,7 @@
    "sku": "5CBU4NSJ5Y8M",
    "name": "We Cool Wecool Jelly Bands, 200 Beads Pink",
    "price": 14.98,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "6000191005896",
@@ -52025,13 +52220,13 @@
    "sku": "3LLT4AJTMXZ4",
    "name": "Youjia Black Pepper Sauce 240g 240 G",
    "price": 6.97,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "5YZSL6XXH38D",
    "name": "Youjia Black Pepper Sauce For Beef 100g",
    "price": 3.97,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "17PWGNDSBIG1",
@@ -52055,7 +52250,7 @@
    "sku": "42EWB2FDQLFM",
    "name": "Youjia Sichuan Pepper 20 G",
    "price": 3.47,
-   "date": "2026-11-13"
+   "date": "2026-11-19"
   },
   {
    "sku": "4YN5UTWI9OIU",
