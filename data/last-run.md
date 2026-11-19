@@ -1,12 +1,12 @@
-# Last data run — 2026-11-18 18:52 UTC (schedule)
+# Last data run — 2026-11-19 18:59 UTC (schedule)
     flyer listing keys: id,flyer_run_id,flyer_type_id,valid_from,valid_to,available_from,available_to,premium,width,height,priority,analytics_payload,name,merchant,merchant_id,path,categories,resolutions,postal_code,locale,language,relationship,resolutions_csv,categories_csv,thumbnail_url,thumbnail_hashed_key,updated_at,web_indexed,seed,featured_items,is_store_select,merchant_logo,timezone
-    flyer item sample: {"id":1053901658,"flyer_id":8227105,"name":"Litière agglomérante Special Kitty","display_type":1,"brand":"Special Kitty","left":9020.07,"bottom":-3705.48,"right":9301.07,"top":-3420.97,"cutout_image_url":"http://f.wishabi.net/page_items/440421178/1794462310/extra_large.jpg","valid_from":"2026-11-19T00:00:00-05:00","valid_to":"2026-11-25T23:59:59-05:00","page_destination":null,"discount":null,"available_to":"2026-11-25T23:59:59-05:00","video_url":null,"price":"12.97","print_id":"4HZ5OS1CKXVR","short_name":null,"text_areas":[{"id":125369099,"left":9017.2861328125,"bottom":-3872.389892578125,"right":9544.40625,"top":-3704.949951171875}]}
-    item detail sample: {"id":1053899077,"flyer_id":8227105,"name":"Raisins rouges sans pépins","display_type":1,"brand":null,"left":81.46,"bottom":-1574.18,"right":299.9,"top":-1359.43,"cutout_image_url":"http://f.wishabi.net/page_items/440423345/1794462264/extra_large.jpg","valid_from":"2026-11-19T00:00:00-05:00","valid_to":"2026-11-25T23:59:59-05:00","description":"Produits des États-Unis, du Brésil ou du Pérou. Categorie n°1.\nN° 30428331. 8,77$/kg","pre_price_text":null,"price_text":"lb","sale_story":null,"in_store_only":false,"disclaimer_text":null,"sku":"6000195440985","review_count":0,"category":"","current_price_range":null,"original_price_range":null,"timezone":-300,"related_items":[],"shipping_info_title":"","dollars_off":null,"percent_off":null,"show_details":true,"ttm_url":"https://www.walmart.ca/fr/ip/6000195440985?cmpid=DF_CA_79523_37XXM2RLL1&utm_id=DF_CA_79523_37XXM2RLL1&utm_medium=digital_flyer&utm_source=distribution&utm_campaign=grocery","ttm_label":"Achetez maintenant","merchant":"Walmart","merchant_id":234,"image_url":"http://f.wishabi.net/page_pdf_images/24490727/f90ae258-de49-11f1-a13f-9afd873837e2/x_large","merchant_logo":"http://images.wishabi.net/merchants/a7eb5594-2720-498c-adb7-2a8be6747444/mini_magick20240912-1-epcxmu.png","current_price":"3.98","original_price":null,"flyer_disclaimer_text":"","flyer_valid_from":"2026-11-19T00:00:00-05:00","flyer_valid_to":"2026-11-25T23:5
-    item detail sample: {"id":1054454657,"flyer_id":8227105,"name":"Café instantané Maxwell House de torréfaction originale","display_type":1,"brand":"Maxwell House","left":15080.3,"bottom":-3510.69,"right":15359.8,"top":-2956,"cutout_image_url":"http://f.wishabi.net/page_items/440608468/1794890923/extra_large.jpg","valid_from":"2026-11-19T00:00:00-05:00","valid_to":"2026-11-25T23:59:59-05:00","description":"Chac. 150 g. N° 30579498.","pre_price_text":null,"price_text":null,"sale_story":null,"in_store_only":false,"disclaimer_text":null,"sku":"6000197175647","review_count":0,"category":"","current_price_range":null,"original_price_range":null,"timezone":-300,"related_items":[],"shipping_info_title":"","dollars_off":null,"percent_off":null,"show_details":true,"ttm_url":"https://www.walmart.ca/fr/ip/6000197175647?cmpid=DF_CA_79523_37XXM2RLL1&utm_id=DF_CA_79523_37XXM2RLL1&utm_medium=digital_flyer&utm_source=distribution&utm_campaign=grocery","ttm_label":"Achetez maintenant","merchant":"Walmart","merchant_id":234,"image_url":"http://f.wishabi.net/page_items/440608468/1794890923/extra_large.jpg","merchant_logo":"http://images.wishabi.net/merchants/a7eb5594-2720-498c-adb7-2a8be6747444/mini_magick20240912-1-epcxmu.png","current_price":"5.97","original_price":null,"flyer_disclaimer_text":"","flyer_valid_from":"2026-11-19T00:00:00-05:00","flyer_valid_to":"2026-11-25T23:59:59-05:00","review_average_rating":null,
-    item detail sample: {"id":1053901328,"flyer_id":8227105,"name":"Légumes, légumes en riz ou à-côtés comme au restaurant Géant Vert","display_type":1,"brand":"Géant Vert","left":8129.79,"bottom":-2250.71,"right":8563.3,"top":-2108.54,"cutout_image_url":"http://f.wishabi.net/page_items/440424129/1794462289/extra_large.jpg","valid_from":"2026-11-19T00:00:00-05:00","valid_to":"2026-11-25T23:59:59-05:00","description":"Chac. Surgelés. Variétés sélectionnées.\n280 - 750 g.\nN°30360716","pre_price_text":null,"price_text":null,"sale_story":null,"in_store_only":false,"disclaimer_text":null,"sku":"6000196916399","review_count":0,"category":"","current_price_range":null,"original_price_range":null,"timezone":-300,"related_items":[],"shipping_info_title":"","dollars_off":null,"percent_off":null,"show_details":true,"ttm_url":"https://www.walmart.ca/fr/ip/6000196916399?cmpid=DF_CA_79523_37XXM2RLL1&utm_id=DF_CA_79523_37XXM2RLL1&utm_medium=digital_flyer&utm_source=distribution&utm_campaign=grocery","ttm_label":"Achetez maintenant","merchant":"Walmart","merchant_id":234,"image_url":"http://f.wishabi.net/page_pdf_images/24490759/1941555c-de4a-11f1-8b98-867e4b25c211/x_large","merchant_logo":"http://images.wishabi.net/merchants/a7eb5594-2720-498c-adb7-2a8be6747444/mini_magick20240912-1-epcxmu.png","current_price":"3.47","original_price":null,"flyer_disclaimer_text":"","flyer_valid_from":"2026-11-19T00:00:00-05:00","fl
+    flyer item sample: {"id":1054257001,"flyer_id":8228493,"name":"TZATZIKI STYLE GREC DELPHI","display_type":1,"brand":"DELPHI","left":1163.94,"bottom":-451.11,"right":1532.98,"top":-164.04,"cutout_image_url":"http://f.wishabi.net/page_items/440562890/1794617104/extra_large.jpg","valid_from":"2026-11-19T00:00:00-05:00","valid_to":"2026-11-25T23:59:59-05:00","page_destination":null,"discount":18,"available_to":"2026-11-25T23:59:59-05:00","video_url":null,"price":"13.9","print_id":null,"short_name":null,"text_areas":[]}
+    item detail sample: {"id":1052725829,"flyer_id":8220909,"name":"ASSORTED HONEY PASTRY","display_type":1,"brand":null,"left":15843.7,"bottom":-2022.54,"right":17511.9,"top":-1483.41,"cutout_image_url":"http://f.wishabi.net/page_items/439817197/1793963920/extra_large.jpg","valid_from":"2026-11-12T00:00:00-05:00","valid_to":"2026-12-24T23:59:59-05:00","description":null,"pre_price_text":null,"price_text":"/lb","sale_story":null,"in_store_only":true,"disclaimer_text":null,"sku":null,"review_count":0,"category":"","current_price_range":null,"original_price_range":null,"timezone":-300,"related_items":[],"shipping_info_title":"","dollars_off":null,"percent_off":null,"show_details":true,"ttm_url":"http://groupeadonis.ca/contact/nous-trouver.php","ttm_label":"Trouver un Magasin","merchant":"Adonis","merchant_id":3384,"image_url":"http://f.wishabi.net/page_items/439817197/1793963920/extra_large.jpg","merchant_logo":"http://images.wishabi.net/merchants/b12bcd67-7670-4f92-8ec4-4d79379076f1/mini_magick20260820-1-azhv2y.png","current_price":"8.99","original_price":null,"flyer_disclaimer_text":"","flyer_valid_from":"2026-11-12T00:00:00-05:00","flyer_valid_to":"2026-12-24T23:59:59-05:00","review_average_rating":null,"shipping_info":{"tag_line":"","details_url":""},"return_info":{"tag_line":"","details_url":""},"review_samples":[],"reviews_most_recent":[],"specs":[],"features":[],"media":[]}
+    item detail sample: {"id":1052725819,"flyer_id":8220909,"name":"GRILLED SALMON","display_type":1,"brand":null,"left":12331.2,"bottom":-2466.98,"right":14031.9,"top":-50.11,"cutout_image_url":"http://f.wishabi.net/page_items/439817187/1793963915/extra_large.jpg","valid_from":"2026-11-12T00:00:00-05:00","valid_to":"2026-12-24T23:59:59-05:00","description":"SERVED WITH GRILLED VEGETABLES\n12 CHEESE ROLL, 24 SFIHA BAALBAKIYEH HALAL MEAT AND CHEESE, 12 MINI MEAT KEBBES, 1 KG SALAD OR YOUR CHOICE, 1 KG OF HUMMUS DIP, SALMON SERVED WITH GRILLED VEGETABLES, AND A YULETIME LOG.\n10 person","pre_price_text":null,"price_text":null,"sale_story":null,"in_store_only":true,"disclaimer_text":null,"sku":null,"review_count":0,"category":"","current_price_range":null,"original_price_range":null,"timezone":-300,"related_items":[],"shipping_info_title":"","dollars_off":null,"percent_off":null,"show_details":true,"ttm_url":"http://groupeadonis.ca/contact/nous-trouver.php","ttm_label":"Trouver un Magasin","merchant":"Adonis","merchant_id":3384,"image_url":"http://f.wishabi.net/page_items/439817187/1793963915/extra_large.jpg","merchant_logo":"http://images.wishabi.net/merchants/b12bcd67-7670-4f92-8ec4-4d79379076f1/mini_magick20260820-1-azhv2y.png","current_price":"185.0","original_price":null,"flyer_disclaimer_text":"","flyer_valid_from":"2026-11-12T00:00:00-05:00","flyer_valid_to":"2026-12-24T23:59:59-05:00","review_ave
+    item detail sample: {"id":1052725783,"flyer_id":8220909,"name":"GREEN OLIVES STUFFED WITH RED PEPPERS","display_type":1,"brand":null,"left":1795.09,"bottom":-985.17,"right":2212.01,"top":-381.5,"cutout_image_url":"http://f.wishabi.net/page_items/439817163/1793963912/extra_large.jpg","valid_from":"2026-11-12T00:00:00-05:00","valid_to":"2026-12-24T23:59:59-05:00","description":null,"pre_price_text":null,"price_text":"/100g","sale_story":null,"in_store_only":true,"disclaimer_text":null,"sku":null,"review_count":0,"category":"","current_price_range":null,"original_price_range":null,"timezone":-300,"related_items":[],"shipping_info_title":"","dollars_off":null,"percent_off":null,"show_details":true,"ttm_url":"http://groupeadonis.ca/contact/nous-trouver.php","ttm_label":"Trouver un Magasin","merchant":"Adonis","merchant_id":3384,"image_url":"http://f.wishabi.net/page_items/439817163/1793963912/extra_large.jpg","merchant_logo":"http://images.wishabi.net/merchants/b12bcd67-7670-4f92-8ec4-4d79379076f1/mini_magick20260820-1-azhv2y.png","current_price":"1.99","original_price":null,"flyer_disclaimer_text":"","flyer_valid_from":"2026-11-12T00:00:00-05:00","flyer_valid_to":"2026-12-24T23:59:59-05:00","review_average_rating":null,"shipping_info":{"tag_line":"","details_url":""},"return_info":{"tag_line":"","details_url":""},"review_samples":[],"reviews_most_recent":[],"specs":[],"features":[],"media":[]}
 ## Flyers
 
-56 flyers, 9936 priced items, 8/8 regions. Item details: 73 fetched, 0 failed, 0 left for next run.
+33 flyers, 4437 priced items, 8/8 regions. Item details: 90 fetched, 0 failed, 0 left for next run.
 
 | store | valid | items |
 |---|---|---|
@@ -14,39 +14,14 @@
 | Walmart | 2026-10-29 → 2026-11-25 | 5 |
 | Walmart | 2026-10-29 → 2026-11-25 | 4 |
 | Walmart | 2026-11-12 → 2026-12-09 | 17 |
-| Costco | 2026-10-26 → 2026-11-22 | 20 |
-| Marché Richelieu | 2026-11-12 → 2026-11-18 | 65 |
-| Marché Bonichoix | 2026-11-12 → 2026-11-18 | 46 |
-| Walmart | 2026-11-12 → 2026-11-18 | 2 |
-| Walmart | 2026-11-12 → 2026-11-18 | 75 |
-| Super C | 2026-11-12 → 2026-11-18 | 201 |
-| Super C | 2026-11-12 → 2026-11-18 | 219 |
-| Super C | 2026-11-12 → 2026-11-18 | 201 |
-| Metro | 2026-11-12 → 2026-11-18 | 332 |
-| Metro | 2026-11-12 → 2026-11-18 | 338 |
-| Metro | 2026-11-12 → 2026-11-18 | 337 |
-| Super C | 2026-11-12 → 2026-11-18 | 86 |
+| Costco | 2026-10-26 → 2026-11-22 | 17 |
+| Adonis | 2026-11-12 → 2026-12-24 | 34 |
 | Adonis | 2026-11-12 → 2026-12-24 | 62 |
-| Adonis | 2026-11-12 → 2026-11-18 | 198 |
-| Les Marchés Tradition | 2026-11-12 → 2026-11-18 | 57 |
-| Provigo | 2026-11-12 → 2026-11-18 | 201 |
-| Maxi | 2026-11-12 → 2026-11-18 | 226 |
-| Maxi | 2026-11-12 → 2026-11-18 | 243 |
-| Maxi | 2026-11-12 → 2026-11-18 | 277 |
-| Maxi | 2026-11-12 → 2026-11-18 | 241 |
-| Metro | 2026-11-12 → 2026-11-18 | 19 |
-| IGA | 2026-11-12 → 2026-11-18 | 350 |
-| IGA | 2026-11-12 → 2026-11-18 | 350 |
-| IGA | 2026-11-12 → 2026-11-18 | 363 |
-| IGA | 2026-11-12 → 2026-11-18 | 378 |
-| IGA | 2026-11-12 → 2026-11-18 | 365 |
-| IGA | 2026-11-12 → 2026-11-18 | 378 |
-| Marché Bonichoix | 2026-11-19 → 2026-11-25 | 38 |
-| Kim Phat | 2026-11-12 → 2026-11-18 | 92 |
-| Supermarche PA | 2026-11-16 → 2026-11-22 | 65 |
+| Marché Bonichoix | 2026-11-19 → 2026-11-25 | 37 |
+| Supermarche PA | 2026-11-16 → 2026-11-22 | 64 |
 | Walmart | 2026-11-18 → 2026-11-25 | 13 |
-| Marché Richelieu | 2026-11-19 → 2026-11-25 | 62 |
-| Walmart | 2026-11-19 → 2026-11-25 | 64 |
+| Marché Richelieu | 2026-11-19 → 2026-11-25 | 60 |
+| Walmart | 2026-11-19 → 2026-11-25 | 61 |
 | T&T Supermarket | 2026-11-13 → 2026-11-19 | 30 |
 | Super C | 2026-11-19 → 2026-11-25 | 222 |
 | Super C | 2026-11-19 → 2026-11-25 | 240 |
@@ -56,7 +31,7 @@
 | Maxi | 2026-11-19 → 2026-11-25 | 302 |
 | Maxi | 2026-11-19 → 2026-11-25 | 327 |
 | Maxi | 2026-11-19 → 2026-11-25 | 311 |
-| Les Marchés Tradition | 2026-11-19 → 2026-11-25 | 52 |
+| Les Marchés Tradition | 2026-11-19 → 2026-11-25 | 51 |
 | Provigo | 2026-11-19 → 2026-11-25 | 172 |
 | Adonis | 2026-11-19 → 2026-11-25 | 210 |
 | Metro | 2026-11-19 → 2026-11-25 | 336 |
@@ -65,6 +40,8 @@
 | IGA | 2026-11-19 → 2026-11-25 | 336 |
 | IGA | 2026-11-19 → 2026-11-25 | 322 |
 | IGA | 2026-11-19 → 2026-11-25 | 336 |
-| Costco | 2026-11-16 → 2026-11-22 | 14 |
+| Costco | 2026-11-16 → 2026-11-22 | 13 |
+| Kim Phat | 2026-11-19 → 2026-11-25 | 85 |
+| IGA | 2026-11-19 → 2026-12-30 | 34 |
 
 
