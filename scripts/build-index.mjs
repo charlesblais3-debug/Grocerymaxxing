@@ -49,6 +49,9 @@ export function buildRecipes(raw) {
     if (rest.servings === 1 && grams > 900) rest.servings = null;
     // "585 ml", "900 g": a volume or weight, not a number of servings.
     if (rest.unitYield && (rest.servings > 48 || /^\s*[\d.,/ ]+\s*(ml|l|g|kg|oz|lb|litres?|tasses?|cups?)\b/.test(y))) rest.servings = null;
+    // "450" servings of a 150 g marinade (a weight or volume printed without its unit): under
+    // 5 g of food a serving is not a serving count.
+    if (rest.servings > 24 && grams > 0 && grams / rest.servings < 5) rest.servings = null;
 
     // "Le jus de 1 orange" and "le zeste de ½ orange" come from the same fruit: the zest line
     // costs nothing more when the recipe already buys that fruit for its juice or flesh.

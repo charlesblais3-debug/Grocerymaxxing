@@ -98,6 +98,8 @@ function lookupAlt(l, offers, baseline) {
   return best;
 }
 
+const LEFTOVER = /\b(leftovers?|restes?|bones?|os|carcass\w*|carcasse)\b/i;
+
 /**
  * @returns {{ total:number|null, per:number|null, perKind:'meal'|'serving'|'unit'|null,
  *   priced:number, countable:number, deals:number, savings:number, coverage:number, lines:object[] }}
@@ -121,7 +123,11 @@ export function costRecipe(recipe, offers, baseline, have) {
     const p = ing && l.g != null && !l.np ? lookupAlt(l, offers, baseline) : null;
     // Seasonings and "to taste" lines cost pennies and have no quantity to price:
     // they are shown as pantry items instead of dragging the coverage figure down.
-    if (!p && ing && (ing.cat === 'spices' || l.nq)) return { ...l, cost: null, src: 'pantry' };
+    // Not an unmeasured meat or fish, though: that is the main cost of the dish ("Onglet de
+    // bœuf mariné", "whole lamb leg"), so the price is incomplete without it. Leftovers and
+    // bones for a stock cost nothing extra.
+    const unmeasuredProtein = l.nq && (ing?.cat === 'meat' || ing?.cat === 'fish') && !LEFTOVER.test(l.raw || '');
+    if (!p && ing && (ing.cat === 'spices' || (l.nq && !unmeasuredProtein))) return { ...l, cost: null, src: 'pantry' };
     // An optional extra, or an unmeasured "fresh herbs, to taste", that we cannot price is
     // left out rather than counted as missing: the recipe is complete without it.
     if (!p && (l.opt || (!ing && l.nq))) return { ...l, cost: null, src: 'optional' };

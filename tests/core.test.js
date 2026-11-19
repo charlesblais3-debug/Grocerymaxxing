@@ -716,3 +716,16 @@ describe('spices, dried and frozen forms are not their fresh counterpart', () =>
     expect(matchFlyerItemFull('FILETS DE DORÉ JAUNE | WALLEYE FILLETS').map((x) => x.pk)).toEqual(['white_fish~dore']);
   });
 });
+
+describe('unmeasured lines', () => {
+  it('an unmeasured garnish is a pantry item, an unmeasured main protein leaves the price incomplete', () => {
+    const base = { beef_steak: { perG: 0.028 }, potato: { perG: 0.003 }, parmesan: { perG: 0.03 } };
+    const r = (raw, ing) => ({ id: 'u', servings: 4, ings: [{ raw: '1 kg potatoes', ing: 'potato', g: 1000 }, { raw, ing, nq: 1, g: null }] });
+    const garnish = costRecipe(r('Parmesan, pour garnir', 'parmesan'), new Map(), base);
+    expect(garnish.lines[1].src).toBe('pantry');
+    expect(complete(garnish)).toBe(true);
+    const steak = costRecipe(r('Onglet de bœuf mariné', 'beef'), new Map(), base);
+    expect(complete(steak)).toBe(false);
+    expect(costRecipe(r('leftover ham bone', 'ham'), new Map(), base).lines[1].src).toBe('pantry');
+  });
+});
