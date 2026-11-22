@@ -1,4 +1,4 @@
-# Last data run — 2026-11-21 17:35 UTC (schedule)
+# Last data run — 2026-11-22 17:50 UTC (schedule)
     flyer listing keys: id,flyer_run_id,flyer_type_id,valid_from,valid_to,available_from,available_to,premium,width,height,priority,analytics_payload,name,merchant,merchant_id,path,categories,resolutions,postal_code,locale,language,relationship,resolutions_csv,categories_csv,thumbnail_url,thumbnail_hashed_key,updated_at,web_indexed,seed,featured_items,is_store_select,merchant_logo,timezone
     flyer item sample: {"id":1048369526,"flyer_id":8188988,"name":"Paq. de 8 ornements","display_type":1,"brand":null,"left":11473.7,"bottom":-3107.59,"right":11942.5,"top":-2154.72,"cutout_image_url":"http://f.wishabi.net/page_items/437628886/1792361362/extra_large.jpg","valid_from":"2026-10-29T00:00:00-04:00","valid_to":"2026-11-25T23:59:59-05:00","page_destination":null,"discount":null,"available_to":"2026-11-25T23:59:59-05:00","video_url":null,"price":"19.98","print_id":"4M1K1BHF61DV","short_name":null,"text_areas":[]}
 ## Flyers
