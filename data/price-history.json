@@ -11215,13 +11215,6 @@
     1
    ],
    [
-    "adonis",
-    "walnuts",
-    0.0329,
-    0,
-    1
-   ],
-   [
     "maxi",
     "whipped_cream",
     0.013333,
@@ -17905,6 +17898,27 @@
     1
    ],
    [
+    "costco",
+    "coffee_ground",
+    0.02799,
+    0,
+    1
+   ],
+   [
+    "costco",
+    "coffee_ground",
+    0.032611,
+    0,
+    1
+   ],
+   [
+    "costco",
+    "crackers~craquelin",
+    0.00804,
+    0,
+    1
+   ],
+   [
     "pa",
     "crackers~craquelin",
     0.011225,
@@ -17929,6 +17943,13 @@
     "pa",
     "feta",
     0.01299,
+    0,
+    1
+   ],
+   [
+    "costco",
+    "granola~cereale",
+    0.009082,
     0,
     1
    ],
@@ -17971,6 +17992,13 @@
     "pa",
     "jam",
     0.022053,
+    0,
+    1
+   ],
+   [
+    "costco",
+    "juice",
+    0.008889,
     0,
     1
    ],
@@ -18143,6 +18171,13 @@
     1
    ],
    [
+    "costco",
+    "salmon",
+    0.044051,
+    0,
+    1
+   ],
+   [
     "pa",
     "sardine~sardine",
     0.016583,
@@ -18211,6 +18246,13 @@
     0.023267,
     0,
     0
+   ],
+   [
+    "costco",
+    "walnuts~noix_de_cajou",
+    0.01599,
+    0,
+    1
    ],
    [
     "pa",
