@@ -18306,10 +18306,199 @@
   ],
   "2026-11-25": [
    [
+    "mayrand",
+    "avocado",
+    0.003912,
+    0.005872,
+    1
+   ],
+   [
+    "mayrand",
+    "blueberry",
+    0.017588,
+    0.029354,
+    1
+   ],
+   [
+    "mayrand",
+    "bread",
+    0.006129,
+    0.007557,
+    1
+   ],
+   [
+    "mayrand",
+    "broccoli",
+    0.007129,
+    0.009988,
+    1
+   ],
+   [
+    "mayrand",
+    "butter",
+    0.010991,
+    0.015398,
+    1
+   ],
+   [
+    "mayrand",
+    "chicken_drumstick",
+    0.004387,
+    0.006357,
+    1
+   ],
+   [
+    "mayrand",
+    "cucumber",
+    0.004967,
+    0.0083,
+    1
+   ],
+   [
+    "mayrand",
+    "kiwi",
+    0.00665,
+    0.009982,
+    1
+   ],
+   [
+    "mayrand",
+    "lemon",
+    0.003297,
+    0.005503,
+    1
+   ],
+   [
+    "mayrand",
+    "lettuce",
+    0.008816,
+    0.01102,
+    1
+   ],
+   [
+    "mayrand",
+    "mozzarella",
+    0.014796,
+    0.015994,
+    1
+   ],
+   [
+    "mayrand",
+    "mozzarella",
+    0.01499,
+    0.020986,
+    1
+   ],
+   [
+    "mayrand",
+    "pasta~pate_alimentaire",
+    0.004065,
+    0,
+    1
+   ],
+   [
+    "mayrand",
+    "pepperoni~smoked_meat",
+    0.03198,
+    0.037992,
+    1
+   ],
+   [
+    "mayrand",
+    "pork_ground",
+    0.004387,
+    0.008954,
+    1
+   ],
+   [
+    "mayrand",
+    "potato",
+    0.000749,
+    0.000793,
+    1
+   ],
+   [
+    "mayrand",
+    "potato",
+    0.001278,
+    0.001454,
+    1
+   ],
+   [
+    "mayrand",
+    "raisins~raisin_sec",
+    0.02049,
+    0.022498,
+    1
+   ],
+   [
+    "mayrand",
+    "rice_noodle",
+    0.059185,
+    0.070312,
+    1
+   ],
+   [
+    "mayrand",
+    "ricotta~ricotta",
+    0.010505,
+    0.013667,
+    1
+   ],
+   [
+    "mayrand",
+    "salmon_smoked",
+    0.0436,
+    0.069062,
+    1
+   ],
+   [
+    "mayrand",
+    "salmon",
+    0.021803,
+    0.034601,
+    1
+   ],
+   [
+    "mayrand",
+    "shrimp",
+    0.020914,
+    0.025327,
+    1
+   ],
+   [
+    "mayrand",
+    "swiss~raclette",
+    0.03495,
+    0.049944,
+    1
+   ],
+   [
+    "mayrand",
+    "tomato_sauce",
+    0.007975,
+    0.010535,
+    1
+   ],
+   [
+    "mayrand",
+    "tuna_can",
+    0.010101,
+    0,
+    1
+   ],
+   [
     "walmart",
     "veg_oil",
     0.008017,
     0.01019,
+    1
+   ],
+   [
+    "mayrand",
+    "white_fish~aiglefin",
+    0.033047,
+    0.041309,
     1
    ]
   ],
@@ -18455,6 +18644,13 @@
     1
    ],
    [
+    "walmart",
+    "bacon",
+    0.010587,
+    0,
+    1
+   ],
+   [
     "maxi",
     "baking_mix",
     0.005879,
@@ -18564,6 +18760,13 @@
     "beef_steak~filet_mignon",
     0.037456,
     0.057607,
+    1
+   ],
+   [
+    "pa",
+    "beef_steak~filet_mignon",
+    0.04407,
+    0,
     1
    ],
    [
@@ -18854,6 +19057,13 @@
     1
    ],
    [
+    "walmart",
+    "bread",
+    0.0071,
+    0,
+    1
+   ],
+   [
     "bonichoix",
     "brie",
     0.039971,
@@ -19085,6 +19295,13 @@
     1
    ],
    [
+    "walmart",
+    "butter",
+    0.010947,
+    0,
+    1
+   ],
+   [
     "adonis",
     "cabbage",
     0.002183,
@@ -19204,6 +19421,13 @@
     1
    ],
    [
+    "walmart",
+    "celery",
+    0.00488,
+    0,
+    1
+   ],
+   [
     "adonis",
     "cheddar",
     0.01599,
@@ -19222,6 +19446,13 @@
     "cheddar",
     0.015594,
     0.018089,
+    1
+   ],
+   [
+    "walmart",
+    "cheddar",
+    0.015563,
+    0,
     1
    ],
    [
@@ -19274,6 +19505,13 @@
     0
    ],
    [
+    "walmart",
+    "chicken_breast",
+    0.013027,
+    0,
+    0
+   ],
+   [
     "bonichoix",
     "chicken_drumstick",
     0.009,
@@ -19309,6 +19547,13 @@
     1
    ],
    [
+    "walmart",
+    "chicken_drumstick",
+    0.007981,
+    0,
+    1
+   ],
+   [
     "adonis",
     "chicken_thigh",
     0.01541,
@@ -19326,6 +19571,13 @@
     "metro",
     "chicken_thigh",
     0.019819,
+    0,
+    1
+   ],
+   [
+    "walmart",
+    "chicken_thigh",
+    0.007981,
     0,
     1
    ],
@@ -19421,6 +19673,13 @@
     1
    ],
    [
+    "walmart",
+    "chips",
+    0.013153,
+    0.019453,
+    1
+   ],
+   [
     "iga",
     "chocolate",
     0.024967,
@@ -19502,6 +19761,13 @@
     "chocolate",
     0.073267,
     0.079934,
+    1
+   ],
+   [
+    "walmart",
+    "chocolate",
+    0.017733,
+    0,
     1
    ],
    [
@@ -19589,9 +19855,23 @@
     0
    ],
    [
+    "metro",
+    "coffee_ground",
+    0.021611,
+    0.028094,
+    1
+   ],
+   [
     "maxi",
     "condensed_milk~lait_condense",
     0.007639,
+    0,
+    1
+   ],
+   [
+    "walmart",
+    "condensed_milk~lait_evapore",
+    0.004096,
     0,
     1
    ],
@@ -19659,11 +19939,39 @@
     1
    ],
    [
+    "walmart",
+    "crackers~craquelin",
+    0.013655,
+    0,
+    1
+   ],
+   [
+    "walmart",
+    "crackers~craquelin",
+    0.013702,
+    0,
+    1
+   ],
+   [
+    "walmart",
+    "crackers~craquelin",
+    0.0149,
+    0,
+    1
+   ],
+   [
     "tradition",
     "cranberry~canneberge_sechee",
     0.015973,
     0.019966,
     0
+   ],
+   [
+    "walmart",
+    "cream_10",
+    0.002941,
+    0,
+    1
    ],
    [
     "adonis",
@@ -19701,6 +20009,13 @@
     1
    ],
    [
+    "walmart",
+    "cream_cheese",
+    0.014378,
+    0,
+    1
+   ],
+   [
     "bonichoix",
     "croutons",
     0.017172,
@@ -19726,6 +20041,13 @@
     "croutons",
     0.017172,
     0.022684,
+    1
+   ],
+   [
+    "walmart",
+    "dressing",
+    0.007624,
+    0,
     1
    ],
    [
@@ -19789,6 +20111,13 @@
     "egg",
     0.004227,
     0.006501,
+    1
+   ],
+   [
+    "walmart",
+    "egg",
+    0.010212,
+    0,
     1
    ],
    [
@@ -19869,6 +20198,13 @@
     1
    ],
    [
+    "walmart",
+    "flour",
+    0.001197,
+    0.001888,
+    1
+   ],
+   [
     "iga",
     "frozen_fruit",
     0.013317,
@@ -19939,6 +20275,13 @@
     1
    ],
    [
+    "walmart",
+    "frozen_veg",
+    0.012756,
+    0,
+    1
+   ],
+   [
     "superc",
     "garlic",
     0.00598,
@@ -20005,6 +20348,13 @@
     "superc",
     "grape",
     0.008796,
+    0,
+    1
+   ],
+   [
+    "walmart",
+    "grape",
+    0.008774,
     0,
     1
    ],
@@ -20233,6 +20583,13 @@
     1
    ],
    [
+    "metro",
+    "ice_cream",
+    0.006594,
+    0.008473,
+    1
+   ],
+   [
     "provigo",
     "ice_cream",
     0.014509,
@@ -20306,6 +20663,13 @@
     "iga",
     "juice",
     0.006088,
+    0,
+    1
+   ],
+   [
+    "walmart",
+    "juice",
+    0.002212,
     0,
     1
    ],
@@ -20744,6 +21108,13 @@
     1
    ],
    [
+    "pa",
+    "mushroom",
+    0.008796,
+    0,
+    1
+   ],
+   [
     "superc",
     "mushroom",
     0.008767,
@@ -20811,6 +21182,13 @@
     "olive_oil",
     0.028239,
     0,
+    1
+   ],
+   [
+    "walmart",
+    "olive_oil",
+    0.009174,
+    0.01388,
     1
    ],
    [
@@ -20933,6 +21311,13 @@
     1
    ],
    [
+    "walmart",
+    "orange_juice",
+    0.002914,
+    0,
+    1
+   ],
+   [
     "adonis",
     "orange~clementine",
     0.005137,
@@ -21003,6 +21388,13 @@
     1
    ],
    [
+    "walmart",
+    "orange~clementine",
+    0.004388,
+    0,
+    1
+   ],
+   [
     "adonis",
     "orange~orange",
     0.003667,
@@ -21034,6 +21426,13 @@
     "metro",
     "parmesan",
     0.06495,
+    0,
+    1
+   ],
+   [
+    "pa",
+    "parmesan",
+    0.01699,
     0,
     1
    ],
@@ -21070,6 +21469,20 @@
     "pasta~pate_alimentaire",
     0.006608,
     0.007685,
+    1
+   ],
+   [
+    "pa",
+    "pasta~pate_alimentaire",
+    0.00798,
+    0,
+    1
+   ],
+   [
+    "pa",
+    "pasta~pate_alimentaire",
+    0.01198,
+    0,
     1
    ],
    [
@@ -21218,6 +21631,13 @@
     0.00799,
     0,
     0
+   ],
+   [
+    "walmart",
+    "peanuts",
+    0.008744,
+    0,
+    1
    ],
    [
     "adonis",
@@ -21605,6 +22025,13 @@
     1
    ],
    [
+    "walmart",
+    "pork_ribs",
+    0.01692,
+    0,
+    0
+   ],
+   [
     "adonis",
     "pork_shoulder",
     0.007694,
@@ -21626,9 +22053,23 @@
     0
    ],
    [
+    "walmart",
+    "pork_shoulder",
+    0.01375,
+    0,
+    1
+   ],
+   [
     "metro",
     "pork_tenderloin",
     0.024228,
+    0,
+    1
+   ],
+   [
+    "walmart",
+    "pork_tenderloin",
+    0.008774,
     0,
     1
    ],
@@ -21759,10 +22200,24 @@
     1
    ],
    [
+    "walmart",
+    "potato",
+    0.000868,
+    0,
+    1
+   ],
+   [
     "metro",
     "prosciutto",
     0.05995,
     0.062468,
+    1
+   ],
+   [
+    "metro",
+    "prosciutto",
+    0.07,
+    0,
     1
    ],
    [
@@ -21853,6 +22308,13 @@
     "metro",
     "raspberry~framboise",
     0.029353,
+    0,
+    1
+   ],
+   [
+    "metro",
+    "raspberry~framboise",
+    0.038948,
     0,
     1
    ],
@@ -22263,6 +22725,13 @@
     0
    ],
    [
+    "walmart",
+    "sausage",
+    0.010326,
+    0,
+    1
+   ],
+   [
     "adonis",
     "scallop",
     0.066116,
@@ -22408,6 +22877,13 @@
     0.038206,
     0,
     1
+   ],
+   [
+    "pa",
+    "shrimp",
+    0.022024,
+    0,
+    0
    ],
    [
     "provigo",
@@ -22700,6 +23176,13 @@
     "superc",
     "sweet_potato",
     0.004387,
+    0,
+    1
+   ],
+   [
+    "walmart",
+    "sweet_potato",
+    0.003175,
     0,
     1
    ],
@@ -23138,6 +23621,13 @@
     1
    ],
    [
+    "walmart",
+    "walnuts~noix_de_cajou",
+    0.027379,
+    0,
+    1
+   ],
+   [
     "adonis",
     "walnuts~noix_de_grenoble",
     0.02132,
@@ -23211,6 +23701,13 @@
     "provigo",
     "whipped_cream",
     0.02,
+    0,
+    1
+   ],
+   [
+    "walmart",
+    "whipped_cream",
+    0.01188,
     0,
     1
    ],
