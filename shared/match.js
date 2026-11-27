@@ -330,6 +330,17 @@ export function parseIngredientLine(raw, lang) {
   else all.sort((a, b) => a.pos - b.pos || b.len - a.len);
   // "4 chipotle peppers", "2 serrano peppers": "pepper" after a pepper variety is that variety.
   if (lang === 'en' && all[0]?.id === 'pepper') { const v = all.find((h) => ING_BY_ID[h.id].cat === 'produce' || h.id === 'green_chiles'); if (v) all = [v, ...all.filter((h) => h !== v)]; }
+  // "salmon steaks", "steaks de saumon", "cauliflower steaks", "pork steaks": "steak" is the cut
+  // of the food named next to it, not beef. A fish without an entry of its own ("swordfish
+  // steaks") is not beef either: no ingredient.
+  let steakCut = false;
+  if (all[0]?.pk === 'beef_steak') {
+    const s0 = all[0];
+    const next = all.find((h) => h !== s0 && h.id !== 'beef_steak' && h.id !== 'beef' && (h.pos + h.len === s0.pos || h.pos === s0.pos + s0.len) && (['meat', 'fish', 'produce'].includes(ING_BY_ID[h.id].cat) || h.id === 'tofu'));
+    if (next) { all = [next, ...all.filter((h) => h.id !== 'beef_steak')]; steakCut = true; }
+    // "steak sauce", "sauce à steak": a condiment, not the meat.
+    else if (/\b(swordfish|espadon|mahi|marlin|shark|requin|sturgeon|esturgeon|fish|poisson)\b|steak sauce|sauce (a|pour) steak/.test(deaccent(src))) all = [];
+  }
   // "1 cup vanilla protein shake": a flavour word in front of an unknown product is not the product.
   if (all[0] && FLAVOURS.has(all[0].id) && /\b(shakes?|protein|ice cream|creme glacee|pudding|wafers?|cake mix|frosting|cookies?|biscuits?|bars?)\b/.test(deaccent(outside)) && all[0].id !== 'milk') all = all.slice(1);
   // "1 tsp cornstarch + 2 tsp water": water is never the ingredient when there is another one.
@@ -338,7 +349,7 @@ export function parseIngredientLine(raw, lang) {
   // "fromage à raclette", "poitrines de poulet": a vague word ("fromage", "poulet") gives way
   // to a precise ingredient of the same aisle named in the same line.
   if (hit && ING_BY_ID[hit.id].ro) {
-    const better = all.find((h) => h.id !== hit.id && !ING_BY_ID[h.id].ro && ING_BY_ID[h.id].cat === ING_BY_ID[hit.id].cat);
+    const better = !steakCut && all.find((h) => h.id !== hit.id && !ING_BY_ID[h.id].ro && ING_BY_ID[h.id].cat === ING_BY_ID[hit.id].cat);
     if (better) hit = specific(better, all);
   }
   // "2 boîtes de 398 ml de tomates": tomatoes in a can are canned tomatoes.
@@ -408,7 +419,9 @@ export function parseIngredientLine(raw, lang) {
   const lead = deaccent(outside).match(/^\s*(\d+)\s+(?:(?:small|medium|large|gros|grosses|moyens?|moyennes?|petits?|petites?)\s+)?\d+(?:[.,]\d+)?\s*(?:lbs?|pounds?|livres?|kg)\b/);
   if (ing && lead && q.g != null && (ing.ru ?? ing.u) && q.g / +lead[1] > 2.5 * (ing.ru ?? ing.u)) q = { ...q, g: q.g / +lead[1] };
   // Tortillas, pitas and naans by the piece: a small corn tortilla is not a 10-inch wrap.
-  const piece = PIECE[hit?.pk || id];
+  // A steak cut of another food ("pork steaks", "tofu steaks") weighs about a beef steak; fish
+  // steaks keep the fish's own portion, a tofu steak is a quarter block.
+  const piece = PIECE[hit?.pk || id] ?? (steakCut ? (id === 'tofu' ? 113 : Math.min(ing?.u ?? 250, 250)) : undefined);
   if (piece && q.count != null && q.g == null && q.ml == null && !q.countUnit) {
     const t = deaccent(raw);
     q = { g: q.count * piece * (/\b(small|petites?|taco|street|mini|[456][ -]?(inch|in|po|pouces?)|1[05] ?cm)\b/.test(t) ? 0.7 : /\b(large|grandes?|burrito|1[0-2][ -]?(inch|in|po|pouces?)|2[5-9] ?cm|30 ?cm)\b/.test(t) ? 1.4 : 1), ml: null };

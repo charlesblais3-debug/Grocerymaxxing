@@ -95,7 +95,8 @@ main { min-height: 60vh; padding: 26px 0 64px; }
 .hero-photo .img { position: absolute; inset: 0; object-fit: contain; padding: 10px; }
 .hero-photo .store { position: absolute; left: 10px; top: 10px; }
 .hero-price { position: absolute; left: 0; bottom: 10px; background: var(--deal); color: var(--deal-ink); font-weight: 800; font-variant-numeric: tabular-nums; padding: 4px 12px 4px 10px; border-radius: 0 999px 999px 0; box-shadow: 0 2px 6px rgba(0, 0, 0, .18); }
-.hero-price em { font-style: normal; font-size: .78rem; margin-left: 6px; color: var(--save); }
+/* The hero price always sits on the yellow deal colour: a fixed dark red reads in both themes. */
+.hero-price em { font-style: normal; font-size: .78rem; margin-left: 6px; color: #9a1b14; }
 .hero-info { padding: 10px 12px 12px; display: grid; gap: 2px; border-top: 1px solid var(--line); }
 .hero-info b { font-family: var(--display); font-size: 1.2rem; font-weight: 600; }
 .hero-info small { color: var(--muted); font-size: .76rem; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
@@ -285,7 +286,7 @@ a.card:hover { transform: translateY(-2px); box-shadow: 0 2px 4px rgba(40, 30, 1
 .batch { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; font-size: .9rem; }
 .batch .stepper b { min-width: 34px; text-align: center; }
 .calc { font-family: system-ui, sans-serif; font-size: .7rem; font-weight: 600; color: var(--muted); border: 1px solid var(--line); border-radius: 5px; padding: 1px 5px; vertical-align: 2px; letter-spacing: 0; }
-.dealbadge { display: inline-block; font-size: .68rem; font-weight: 700; border-radius: 5px; padding: 1px 6px; white-space: nowrap; background: var(--save); color: #fff; }
+.dealbadge { display: inline-block; font-size: .68rem; font-weight: 700; border-radius: 5px; padding: 1px 6px; white-space: nowrap; background: var(--save); color: var(--card); }
 .dealbadge.new { background: var(--soft); color: var(--brand); border: 1px solid var(--brand); }
 .favline { display: flex; gap: 6px 14px; flex-wrap: wrap; align-items: center; font-size: .88rem; margin: 14px 0 0; }
 .favline a { color: var(--ink); text-decoration: none; }

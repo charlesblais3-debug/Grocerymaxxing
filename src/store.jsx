@@ -3,6 +3,7 @@ import { bestOffers, costRecipe } from '../shared/cost.js';
 import { t as mkT } from './i18n.js';
 import { buildIdeas } from '../shared/synergy.js';
 import { storeGuide } from '../shared/stores.js';
+import { localDate } from '../shared/text.js';
 
 // Most people shop at one store: the app starts on a single store and switches when another
 // is picked. Comparing several stores at once is an explicit option.
@@ -54,12 +55,13 @@ export function AppProvider({ children }) {
     const regionId = regions[region] ? region : Object.keys(regions)[0] || null;
     const reg = regionId ? regions[regionId] : { flyers: [], stores: [] };
     const flyerSet = new Set(reg.flyers);
-    const today = new Date().toISOString().slice(0, 10);
+    const today = localDate();
     const live = flyers.items.filter((i) => i.flyers.some((f) => flyerSet.has(f)) && (!i.to || i.to >= today));
-    // Next flyer week = the most common upcoming start date (Thursday for most banners).
+    // Next flyer week = the most common upcoming start date (Thursday for most banners), and
+    // only once a real flyer is out: one stray Sunday promo is not a next week.
     const starts = {};
-    for (const i of live) if (i.from > today) starts[i.from] = (starts[i.from] || 0) + 1;
-    const nextStart = Object.keys(starts).sort((a, b) => starts[b] - starts[a])[0] || null;
+    for (const i of live) if (i.from > today && i.ing) starts[i.from] = (starts[i.from] || 0) + 1;
+    const nextStart = Object.keys(starts).filter((d) => starts[d] >= 20).sort((a, b) => starts[b] - starts[a])[0] || null;
     const ref = week === 'next' && nextStart ? nextStart : today;
     const regionItems = live.filter((i) => (!i.from || i.from <= ref) && (!i.to || i.to >= ref));
     const regionStores = (flyers.stores || []).filter((s) => reg.stores.includes(s.id));

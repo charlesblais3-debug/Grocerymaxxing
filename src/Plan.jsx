@@ -3,6 +3,7 @@ import { useApp } from './store.jsx';
 import { Img, Store, Icon, IngredientPicker, offerText, nice, mealScale, offerName } from './ui.jsx';
 import { AISLES, ING_BY_ID } from '../shared/ingredients.js';
 import { suggestPlan, batchesFor } from '../shared/planner.js';
+import { localDate } from '../shared/text.js';
 
 function download(name, text, type) {
   const a = document.createElement('a');
@@ -66,12 +67,18 @@ export default function Plan() {
     replaceInPlan(r.id, next);
   };
   const ics = () => {
-    const stamp = (d) => d.toISOString().slice(0, 10).replace(/-/g, '');
-    const today = new Date();
+    // Dates are Québec calendar days (not UTC); each event's UID carries its date so next
+    // week's export adds events instead of overwriting this week's. Text is escaped per RFC 5545
+    // and the recipe link also goes in DESCRIPTION, since Google Calendar ignores URL.
+    const day = (d) => localDate(d).replace(/-/g, '');
+    const esc = (x) => String(x).replace(/\\/g, '\\\\').replace(/;/g, '\\;').replace(/,/g, '\\,').replace(/\r?\n/g, '\\n');
+    const now = new Date();
+    const dtstamp = now.toISOString().replace(/[-:]/g, '').replace(/\.\d+Z$/, 'Z');
+    const today = new Date(localDate(now) + 'T12:00:00');
     const ev = byDay.slice(0, 7).flatMap((d, i) => d.items.map(({ r, isLeft }) => {
       const date = new Date(today); date.setDate(today.getDate() + ((i + 1 - today.getDay() + 7) % 7));
       const end = new Date(date); end.setDate(date.getDate() + 1);
-      return `BEGIN:VEVENT\r\nUID:${r.id}-${i}@grocerymaxxing\r\nDTSTAMP:${stamp(today)}T000000Z\r\nDTSTART;VALUE=DATE:${stamp(date)}\r\nDTEND;VALUE=DATE:${stamp(end)}\r\nSUMMARY:${(isLeft ? t('leftovers') + ' — ' : '') + r.name.replace(/[,;]/g, ' ')}\r\nURL:${r.url}\r\nEND:VEVENT`;
+      return `BEGIN:VEVENT\r\nUID:${r.id}-${day(date)}-${i}@grocerymaxxing\r\nDTSTAMP:${dtstamp}\r\nDTSTART;VALUE=DATE:${day(date)}\r\nDTEND;VALUE=DATE:${day(end)}\r\nSUMMARY:${esc((isLeft ? t('leftovers') + ' — ' : '') + r.name)}\r\nDESCRIPTION:${esc(r.url)}\r\nURL:${r.url}\r\nEND:VEVENT`;
     }));
     download('semaine.ics', `BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//Grocerymaxxing//FR\r\n${ev.join('\r\n')}\r\nEND:VCALENDAR\r\n`, 'text/calendar');
   };

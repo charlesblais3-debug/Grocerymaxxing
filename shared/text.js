@@ -178,3 +178,14 @@ export function parseQuantity(raw) {
   }
   return out;
 }
+
+/**
+ * Today's date (YYYY-MM-DD) in Québec, not UTC: after 7 pm Eastern the UTC date is already
+ * tomorrow, which would expire the current flyers before the stores close.
+ */
+export function localDate(d = new Date()) {
+  try { return new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Toronto', year: 'numeric', month: '2-digit', day: '2-digit' }).format(d); } catch {
+    const p = (n) => String(n).padStart(2, '0');
+    return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}`;
+  }
+}

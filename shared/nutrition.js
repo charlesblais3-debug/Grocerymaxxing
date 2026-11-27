@@ -77,6 +77,17 @@ export const NUTRITION = {
   spirits: [231, 0, 0, 0, 0], coleslaw_mix: [27, 1.2, 6.2, 0.1, 2.4], green_chiles: [21, 0.7, 4.6, 0.3, 1.7],
   // Seasonings contribute next to nothing at recipe quantities.
   salt: [0, 0, 0, 0, 0], pepper: [251, 10.4, 64, 3.3, 25.3], spice: [280, 11, 55, 9, 28], thyme: [101, 5.6, 24.5, 1.7, 14], rosemary: [131, 3.3, 20.7, 5.9, 14.1], water: [0, 0, 0, 0, 0],
+  // Added with the newer ingredients (typical values per 100 g as sold).
+  milk_powder: [358, 35, 52, 0.7, 0], cherry_frozen: [55, 1, 13, 0.4, 1.6], broth_fish: [8, 1.5, 0.2, 0.2, 0],
+  rhubarb: [21, 0.9, 4.5, 0.2, 1.8], passion_fruit: [97, 2.2, 23, 0.7, 10.4], artichoke: [42, 2.5, 8, 0.3, 4],
+  crab: [83, 18, 0, 0.6, 0], clams: [86, 14.7, 3.6, 1, 0], lobster: [89, 19, 0, 0.9, 0], seafood_mix: [70, 14, 1.5, 1, 0],
+  tuna_fresh: [109, 24.4, 0, 0.5, 0], salt_pork: [748, 5, 0, 81, 0],
+  wonton: [291, 9.8, 58, 1.5, 1.8], marshmallow: [318, 1.8, 81, 0.2, 0.1], sweetener: [0, 0, 0, 0, 0],
+  coffee_ground: [2, 0.1, 0, 0, 0], coffee: [2, 0.1, 0, 0, 0], // brewed; a spoonful of grounds in a rub is negligible
+  shortening: [884, 0, 0, 100, 0], baking_mix: [430, 8, 66, 15, 2], tapioca: [358, 0.2, 89, 0, 0.9], bran: [216, 15.6, 65, 4.3, 42.8],
+  juice: [46, 0.5, 11, 0.1, 0.2], soup_mix: [293, 7.5, 58, 1.2, 3.8], pumpkin_puree: [34, 1.1, 8.1, 0.3, 2.9],
+  croissant: [406, 8.2, 45.8, 21, 2.6], crepe: [224, 6.5, 28, 9.5, 0.8], nutella: [539, 6.3, 57.5, 30.9, 3.4], maple_sugar: [354, 0.1, 91, 0.2, 0],
+  creme_fraiche: [345, 2.4, 2.8, 36, 0], mascarpone: [429, 4.6, 3.6, 44, 0], tempeh: [192, 20.3, 7.6, 10.8, 0],
 };
 
 /**

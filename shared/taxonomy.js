@@ -3,6 +3,8 @@
 // with cost bands on top (Budget Bytes). Tags are derived from the source's own
 // category / keywords / title — they classify a recipe, they never alter it.
 import { deaccent } from './text.js';
+import { ING_BY_ID } from './ingredients.js';
+import { matchIngredient } from './match.js';
 
 export const MEAL_TYPES = [
   ['main', 'Plats principaux', 'Mains'],
@@ -86,20 +88,60 @@ export const PROTEINS = [
 ];
 
 const PROTEIN_OF = {
-  chicken_breast: 'chicken', chicken_thigh: 'chicken', chicken_drumstick: 'chicken', chicken_whole: 'chicken', chicken_wing: 'chicken', chicken_ground: 'chicken', chicken: 'chicken', turkey: 'chicken', turkey_ground: 'chicken',
+  chicken_breast: 'chicken', chicken_thigh: 'chicken', chicken_drumstick: 'chicken', chicken_whole: 'chicken', chicken_wing: 'chicken', chicken_ground: 'chicken', chicken: 'chicken', turkey: 'chicken', turkey_ground: 'chicken', duck: 'chicken',
   beef_ground: 'beef', beef_stew: 'beef', beef_steak: 'beef', beef: 'beef', veal: 'beef', lamb: 'beef',
-  pork_ground: 'pork', pork_chop: 'pork', pork_tenderloin: 'pork', pork_loin: 'pork', pork_shoulder: 'pork', pork_ribs: 'pork', pork: 'pork', bacon: 'pork', ham: 'pork', sausage: 'pork', prosciutto: 'pork', pepperoni: 'pork',
-  salmon: 'fish', salmon_smoked: 'fish', white_fish: 'fish', shrimp: 'fish', tuna_can: 'fish', scallop: 'fish', mussels: 'fish', sardine: 'fish',
-  tofu: 'plant', chickpeas: 'plant', black_beans: 'plant', kidney_beans: 'plant', white_beans: 'plant', lentils: 'plant',
+  pork_ground: 'pork', pork_chop: 'pork', pork_tenderloin: 'pork', pork_loin: 'pork', pork_shoulder: 'pork', pork_ribs: 'pork', pork: 'pork', bacon: 'pork', ham: 'pork', sausage: 'pork', prosciutto: 'pork', pepperoni: 'pork', salt_pork: 'pork',
+  salmon: 'fish', salmon_smoked: 'fish', white_fish: 'fish', shrimp: 'fish', tuna_can: 'fish', tuna_fresh: 'fish', trout: 'fish', scallop: 'fish', mussels: 'fish', sardine: 'fish', crab: 'fish', clams: 'fish', lobster: 'fish', seafood_mix: 'fish',
+  tofu: 'plant', tempeh: 'plant', chickpeas: 'plant', black_beans: 'plant', kidney_beans: 'plant', white_beans: 'plant', lentils: 'plant',
   egg: 'egg',
 };
 const ANIMAL = new Set(['chicken', 'beef', 'pork', 'fish']);
-const NON_VEGAN = new Set(['egg', 'milk', 'cream_35', 'cream_10', 'sour_cream', 'butter', 'yogurt', 'yogurt_greek', 'cheddar', 'mozzarella', 'parmesan', 'feta', 'cream_cheese', 'ricotta', 'swiss', 'cheese', 'condensed_milk', 'honey', 'gelatin', 'fish_sauce', 'worcestershire', 'mayo', 'broth_chicken', 'broth_beef']);
-const GLUTEN = new Set(['flour', 'pasta', 'bread', 'buns', 'tortilla', 'breadcrumbs', 'crackers', 'croutons', 'pie_crust', 'soy_sauce', 'quinoa', 'rice_noodle', 'oats', 'wine', 'fish_sauce', 'worcestershire', 'broth_chicken', 'broth_beef', 'broth_veg', 'sausage', 'yeast', 'cornmeal', 'miso', 'dressing', 'hot_sauce']);
-const DAIRY = new Set(['milk', 'cream_35', 'cream_10', 'sour_cream', 'butter', 'yogurt', 'yogurt_greek', 'cheddar', 'cheese_curds', 'mozzarella', 'bocconcini', 'parmesan', 'feta', 'cream_cheese', 'ricotta', 'swiss', 'brie', 'goat_cheese', 'blue_cheese', 'halloumi', 'cheese', 'condensed_milk', 'chocolate', 'pesto', 'margarine', 'dressing']);
-const NUTS = new Set(['peanuts', 'peanut_butter', 'almonds', 'walnuts', 'pesto', 'seeds', 'chocolate', 'coconut']);
+// Diet facts are derived from each ingredient's aisle so that a newly added meat, fish or
+// cheese can never be missing from them; the explicit lists only cover what an aisle does not
+// say (honey, gelatin, butter in a pesto, wheat in a soup mix). Keys are ingredient ids or,
+// where a group mixes both kinds, "id~member" price keys.
+const PLANT_DAIRY_AISLE = new Set(['tofu', 'tempeh', 'soy_milk', 'orange_juice', 'hummus', 'guacamole']);
+const isMeatOrFish = (id) => ['meat', 'fish'].includes(ING_BY_ID[id]?.cat);
+const isDairyAisle = (id) => ING_BY_ID[id]?.cat === 'dairy' && !PLANT_DAIRY_AISLE.has(id) && id !== 'egg';
+// Animal products that are not meat themselves: a recipe with them is not vegetarian.
+const HIDDEN_MEAT = new Set(['broth_chicken', 'broth_beef', 'broth_fish', 'fish_sauce~sauce_de_poisson', 'fish_sauce~sauce_aux_huitres', 'worcestershire~sauce_worcestershire', 'marshmallow', 'gravy', 'sardine~anchois']);
+const MORE_DAIRY = new Set(['condensed_milk', 'chocolate', 'pesto', 'dressing', 'alfredo', 'ice_cream', 'whipped_cream', 'nutella', 'canned_soup', 'croissant', 'crepe', 'baking_mix']);
+const MORE_NON_VEGAN = new Set(['egg', 'honey~miel', 'mayo', 'gelatin']);
+const GLUTEN = new Set(['flour', 'pasta', 'bread', 'buns', 'tortilla~tortilla', 'tortilla~pita', 'tortilla~pain_naan', 'tortilla~pain_plat', 'croutons', 'english_muffin', 'croissant', 'crepe',
+  'breadcrumbs', 'crackers', 'pie_crust', 'soy_sauce', 'quinoa~couscous', 'quinoa~boulgour', 'quinoa~orge', 'quinoa~farro', 'rice_noodle~nouille', 'rice_noodle~nouille_ramen', 'rice_noodle~nouille_soba', 'rice_noodle~nouille_udon',
+  'oats', 'wine~biere', 'fish_sauce~sauce_aux_huitres', 'fish_sauce~sauce_hoisin', 'fish_sauce~sauce_teriyaki', 'worcestershire~sauce_worcestershire', 'broth_chicken', 'broth_beef', 'broth_veg', 'broth_fish',
+  'sausage', 'miso', 'dressing', 'hot_sauce~gochujang', 'wonton', 'baking_mix', 'bran', 'canned_soup', 'gravy', 'soup_mix', 'granola', 'alfredo~sauce_bechamel', 'seitan']);
+const NUTS = new Set(['peanuts', 'peanut_butter', 'almonds', 'walnuts', 'pesto', 'chocolate', 'coconut', 'nutella', 'soy_milk~lait_amande', 'granola~granola']);
+// A line may say it is the plant version ("vegan butter", "veggie ground", "gluten-free pasta").
+const PLANT_LINE = /\b(vegan\w*|vegane?s?|vegetalien\w*|vegetarien\w*|vegetarian|plant[- ]based|a base de plantes|veggie|vege|meatless|sans viande|beyond|impossible|soy|soya|tofu)\b/;
+const NO_DAIRY_LINE = /\b(vegan\w*|vegane?s?|vegetalien\w*|plant[- ]based|a base de plantes|dairy[- ]free|non[- ]dairy|sans produits? laitiers?|coconut|coco|soy|soya|oat|avoine|almond|amande|cashew|cajou)\b/;
+const NO_GLUTEN_LINE = /\b(sans gluten|gluten[- ]free|gf|tamari|riz|rice|corn|mais|quinoa|buckwheat|sarrasin|coconut|coco|almond|amande|chickpea|pois chiches?|tapioca|arrowroot|marante|potato|pomme de terre|sorghum|teff|cassava|manioc)\b/;
+const NO_NUT_LINE = /\b(nut[- ]free|sans noix|sans arachides?)\b/;
+const SWAP = /\b(or|ou|sub\w*|replace\w*|remplac\w*|instead|au lieu|alternative|swap|use|utilise\w*)\b/;
+/** Facts about one recipe line: does it rule out a diet? */
+function lineFacts(l) {
+  const key = l.pk || l.ing;
+  const raw = deaccent(l.raw || '');
+  // Only the line's own ingredient counts, not the alternatives offered in brackets or after
+  // "or": "butter (or vegan butter)" is butter, "half-and-half (or coconut milk)" is dairy.
+  // A bracket that only describes the product ("oats (certified gluten-free)") still counts.
+  // The line's ingredient is its first option naming a food ("water or chicken broth": the broth).
+  const opts = raw.replace(/\(([^)]*)\)?/g, (m, inner) => (SWAP.test(inner) ? ' ' : ` ${inner} `)).split(/\s(?:or|ou)\s|\s\/\s/);
+  const main = opts.find((o) => { const m = matchIngredient(o); return m && m !== 'water'; }) ?? opts[0];
+  const id = l.ing;
+  const plant = PLANT_LINE.test(main);
+  // Pectin shares an entry with gelatin; only gelatin is animal.
+  const gelatin = id === 'gelatin' && /\bgelatin|gelatine\b/.test(main);
+  const meat = !!id && (isMeatOrFish(id) || HIDDEN_MEAT.has(key) || HIDDEN_MEAT.has(id) || gelatin || (['canned_soup', 'broth_veg'].includes(id) && /\b(chicken|poulet|beef|boeuf|volaille|veau|veal|fish|poisson|bone|os)\b/.test(main))) && !plant;
+  const dairy = !!id && (isDairyAisle(id) || MORE_DAIRY.has(id) || MORE_DAIRY.has(key)) && !NO_DAIRY_LINE.test(main) && !(id === 'chocolate' && /\b(dark|noir|cacao|cocoa)\b/.test(main));
+  const nonVegan = meat || dairy || (!!id && (MORE_NON_VEGAN.has(id) || MORE_NON_VEGAN.has(key)) && !(id === 'gelatin' && !gelatin) && !NO_DAIRY_LINE.test(main) && !/\b(flax|lin|chia) eggs?\b|oeufs? de lin/.test(main));
+  const gluten = !!id && (GLUTEN.has(key) || (GLUTEN.has(id) && !ING_BY_ID[id].members.some((m) => GLUTEN.has(`${id}~${m.key}`)))) && !NO_GLUTEN_LINE.test(main);
+  const nut = !!id && (NUTS.has(key) || NUTS.has(id)) && key !== 'peanut_butter~tahini' && !NO_NUT_LINE.test(main);
+  return { meat, dairy, nonVegan, gluten, nut };
+}
+/** Exposed for the invariant tests. */
+export const DIET_FACTS = { PROTEIN_OF, isMeatOrFish, isDairyAisle, lineFacts };
 const PREP_SOURCES = new Set(['workweeklunch', 'mealpreponfleek', 'sweetpeasandsaffron']);
-const HIDDEN_MEAT = new Set(['broth_chicken', 'broth_beef', 'fish_sauce', 'gelatin', 'worcestershire']);
 
 /**
  * @param {object} r raw recipe (name, category[], cuisine[], keywords[])
@@ -143,24 +185,25 @@ export function classify(r, ings) {
     if (declared || (!cuisineMeta && (CUISINE_ADJ[id].test(title) || CUISINE_DISH[id].test(title) || CUISINE_ADJ[id].test(meta)))) cuisines.push(id);
   }
 
-  // Diet tags are only asserted when every ingredient line was recognised.
-  const allKnown = ings.length > 0 && ings.every((l) => l.ing);
+  // Diet tags: asserted when every ingredient line was recognised and none rules the diet out.
+  // A source that calls itself vegetarian or vegan may vouch for lines we could not read, but
+  // never for a line we did read as meat, fish, dairy or egg ("French onion soup vegan" with
+  // butter, Gruyère and beef stock is none of those) — unless that line itself says it is the
+  // plant version ("vegan butter").
+  const allKnown = ings.length > 0 && ings.every((l) => l.ing || l.x);
+  const facts = ings.filter((l) => l.ing).map(lineFacts);
+  const any = (k) => facts.some((f) => f[k]);
   const diets = [];
   const saysVeg = /\b(vegetarien\w*|vegetarian|vege)\b/.test(meta);
   const saysVegan = /\b(vegan\w*|vegetalien\w*|plant[- ]based)\b/.test(meta);
-  const hasHidden = ings.some((l) => HIDDEN_MEAT.has(l.ing));
-  if (!animal.length && ((allKnown && !hasHidden) || saysVeg || saysVegan)) diets.push('vegetarian');
-  if (!animal.length && ((allKnown && !ings.some((l) => NON_VEGAN.has(l.ing))) || saysVegan)) {
-    if (!diets.includes('vegetarian')) diets.push('vegetarian');
-    diets.push('vegan');
-  }
-  // Ingredient-based tags: only asserted when every line is recognised. They describe the
-  // ingredient list, not cross-contamination — never a guarantee for an allergy.
-  const has = (set) => ings.some((l) => set.has(l.ing));
   const says = (re) => re.test(meta) || re.test(title);
-  if ((allKnown && !has(GLUTEN)) || says(/\b(sans gluten|gluten[- ]free)\b/)) diets.push('glutenfree');
-  if ((allKnown && !has(DAIRY)) || says(/\b(sans (?:produits? laitiers?|lactose)|dairy[- ]free)\b/) || diets.includes('vegan')) diets.push('dairyfree');
-  if (allKnown && !has(NUTS)) diets.push('nutfree');
+  if (!animal.length && !any('meat') && (allKnown || saysVeg || saysVegan)) diets.push('vegetarian');
+  if (diets.includes('vegetarian') && !any('nonVegan') && (allKnown || saysVegan)) diets.push('vegan');
+  // Ingredient-based tags describe the ingredient list, not cross-contamination — never a
+  // guarantee for an allergy.
+  if (!any('gluten') && (allKnown || says(/\b(sans gluten|gluten[- ]free)\b/))) diets.push('glutenfree');
+  if (!any('dairy') && (allKnown || says(/\b(sans (?:produits? laitiers?)|dairy[- ]free)\b/) || diets.includes('vegan'))) diets.push('dairyfree');
+  if (allKnown && !any('nut')) diets.push('nutfree');
   // Meal prep: only when the source says so (its own words, or a site devoted to it).
   const prep = PREP_SOURCES.has(r.source) || says(/\b(meal[- ]?prep|make[- ]ahead|freezer|freezes well|batch cooking|se congele|a congeler|congelation|boite a lunch|lunch ?box|lunchs?)\b/);
   return { meals, cuisines, protein, diets, prep: prep || undefined };

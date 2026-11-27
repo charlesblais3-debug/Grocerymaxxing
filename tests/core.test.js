@@ -729,3 +729,62 @@ describe('unmeasured lines', () => {
     expect(costRecipe(r('leftover ham bone', 'ham'), new Map(), base).lines[1].src).toBe('pantry');
   });
 });
+
+describe('steak is a cut', () => {
+  it('salmon, halibut, pork or tofu steaks are that food; beef steaks and steak spice stay as they are', () => {
+    const p = (l, lang = 'en') => { const x = parseIngredientLine(l, lang); return [x.pk || x.ing, x.g]; };
+    expect(p('2 salmon steaks')).toEqual(['salmon', 300]);
+    expect(p('4 steaks de saumon', 'fr')).toEqual(['salmon', 600]);
+    expect(p('2 halibut steaks')[0]).toBe('white_fish~fletan');
+    expect(p('2 pork steaks')).toEqual(['pork', 500]);
+    expect(p('4 tofu steaks')).toEqual(['tofu', 452]);
+    expect(p('4 swordfish steaks')[0] ?? null).toBeNull();
+    expect(p('2 tbsp steak sauce')[0] ?? null).toBeNull();
+    expect(p('2 beef steaks')).toEqual(['beef_steak', 500]);
+    expect(p("1 c. à thé d'épices à steak", 'fr')[0]).toBe('spice');
+    expect(matchFlyerItemFull('STEAKS DE SAUMON ATLANTIQUE').map((x) => x.pk)).toEqual(['salmon']);
+  });
+});
+
+describe('ingredient table invariants', () => {
+  it('every ingredient is defined once, with clean names and a nutrition row', async () => {
+    const { INGREDIENTS } = await import('../shared/ingredients.js');
+    const { NUTRITION } = await import('../shared/nutrition.js');
+    const ids = INGREDIENTS.map((i) => i.id);
+    expect(ids.filter((x, k) => ids.indexOf(x) !== k)).toEqual([]);
+    expect(INGREDIENTS.filter((i) => /[|;]/.test(i.fr) || /[|;]/.test(i.en)).map((i) => i.id)).toEqual([]);
+    expect(INGREDIENTS.filter((i) => !i.free && !NUTRITION[i.id]).map((i) => i.id)).toEqual([]);
+  });
+  it('every meat and fish has a protein group; every dairy ingredient rules out vegan and dairy-free', async () => {
+    const { INGREDIENTS } = await import('../shared/ingredients.js');
+    const { DIET_FACTS } = await import('../shared/taxonomy.js');
+    expect(INGREDIENTS.filter((i) => ['meat', 'fish'].includes(i.cat) && !DIET_FACTS.PROTEIN_OF[i.id]).map((i) => i.id)).toEqual([]);
+    for (const i of INGREDIENTS.filter((x) => ['meat', 'fish'].includes(x.cat))) expect([i.id, DIET_FACTS.lineFacts({ raw: i.en, ing: i.id }).meat]).toEqual([i.id, true]);
+    for (const i of INGREDIENTS.filter((x) => DIET_FACTS.isDairyAisle(x.id))) {
+      const f = DIET_FACTS.lineFacts({ raw: i.en, ing: i.id });
+      expect([i.id, f.dairy, f.nonVegan]).toEqual([i.id, true, true]);
+    }
+  });
+});
+
+describe('diet tags never contradict an ingredient', () => {
+  const tag = (name, lines, meta = {}) => {
+    const ings = lines.map((raw) => parseIngredientLine(raw, 'en'));
+    return classify({ name, ...meta }, ings).diets;
+  };
+  it('meat, fish, dairy, wheat and nuts rule out their tags even when the source says otherwise', () => {
+    expect(tag('Ahi Tuna Poke Bowl', ['1 lb ahi tuna', '2 cups rice'], { keywords: ['vegan'] })).not.toContain('vegetarian');
+    expect(tag('French Onion Soup', ['2 tbsp butter (or sub olive oil)', '6 cups beef stock or veggie broth', '6 oz Gruyere'], { keywords: ['vegan'] })).not.toContain('vegetarian');
+    expect(tag('Soup', ['1 cup water or low sodium chicken broth', '2 carrots'])).not.toContain('vegetarian');
+    expect(tag('Pasta', ['8 oz pasta', '4 oz goat cheese'], { keywords: ['dairy free'] })).not.toContain('dairyfree');
+    expect(tag('Oats', ['1 cup rolled oats', '1 cup almond milk'])).not.toContain('nutfree');
+    expect(tag('Bagel chips', ['2 bagels', '2 tbsp olive oil'], { keywords: ['gluten-free'] })).not.toContain('glutenfree');
+  });
+  it('a line that names the plant version, or describes a gluten-free product, is not held against the recipe', () => {
+    expect(tag('Sandwich', ['3 Tbsp vegan Nutella', '1 banana'])).toContain('vegan');
+    expect(tag('Cookies', ['1/2 cup dairy-free semisweet chocolate chips', '1 cup almond flour'])).toContain('dairyfree');
+    expect(tag('Oatmeal', ['1 cup rolled oats (certified gluten-free)', '1 banana'])).toContain('glutenfree');
+    expect(tag('Toast', ['2 tbsp butter (or vegan butter)', '1 banana'])).not.toContain('dairyfree');
+    expect(tag('Salad', ['2 tbsp tahini', '1 cucumber'])).toContain('nutfree');
+  });
+});

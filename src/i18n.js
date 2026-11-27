@@ -178,6 +178,7 @@ const S = {
   steps: ['étapes', 'steps'],
   addPlan: ['Ajouter au plan', 'Add to plan'],
   inPlan: ['Dans le plan', 'In plan'],
+  updatePlan: ['Mettre à jour le plan', 'Update plan'],
   remove: ['Retirer', 'Remove'],
   back: ['← Retour', '← Back'],
   planEmpty: ['Votre plan est vide. Ajoutez des recettes, ou demandez une proposition selon votre budget.', 'Your plan is empty. Add recipes, or ask for a suggestion that fits your budget.'],

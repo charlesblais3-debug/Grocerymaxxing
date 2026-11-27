@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useApp } from './store.jsx';
 import { Img, CostTag, SavingBar, MacroRing, Store, Icon, DealBadge, offerText, nice, mealScale, offerName } from './ui.jsx';
 import { MEAL_TYPES, CUISINES } from '../shared/taxonomy.js';
@@ -11,6 +11,8 @@ export default function Recipe({ id }) {
   const { byId, costs, t, lang, fmt, sourceName, plan, setBatches, meta, baseline, have: pantry, togglePantry, people, storeOffers, selected, pickStore } = useApp();
   const [have, setHave] = useState({});
   const [batch, setBatch] = useState(null);
+  // Ticks and the batch stepper belong to one recipe: start fresh on another.
+  useEffect(() => { setHave({}); setBatch(null); }, [id]);
   const r = byId.get(id);
   if (!r) return <div className="state">404</div>;
   const c = costs.get(id);
@@ -57,7 +59,9 @@ export default function Recipe({ id }) {
             )}
             <div className="actions">
               <a className="btn primary" href={r.url} target="_blank" rel="noopener noreferrer"><Icon name="book" /> {t('method')} {src} ↗</a>
-              <button type="button" className="btn" onClick={() => setBatches(id, plan[id] ? 0 : b)}>{plan[id] ? `✓ ${t('inPlan')} (${num(plan[id])}×)` : `+ ${t('addPlan')}`}</button>
+              {plan[id] && batch != null && batch !== plan[id]
+                ? <button type="button" className="btn" onClick={() => { setBatches(id, b); setBatch(null); }}>{t('updatePlan')} ({num(b)}×)</button>
+                : <button type="button" className="btn" onClick={() => setBatches(id, plan[id] ? 0 : b)}>{plan[id] ? `✓ ${t('inPlan')} (${num(plan[id])}×)` : `+ ${t('addPlan')}`}</button>}
             </div>
             <p className="note">{t('methodNote')}</p>
           </div>
@@ -72,7 +76,7 @@ export default function Recipe({ id }) {
             {c.lines.map((l, i) => (
               <li key={i} className={`${l.src === 'flyer' ? 'sale' : ''} ${have[i] || l.src === 'have' ? 'have' : ''}`}>
                 <label title={t('haveIt')}>
-                  <input type="checkbox" checked={l.ing ? pantry.has(l.ing) : !!have[i]} onChange={(e) => (l.ing && !ING_BY_ID[l.ing].free ? togglePantry(l.ing) : setHave({ ...have, [i]: e.target.checked }))} />
+                  <input type="checkbox" checked={l.ing && !ING_BY_ID[l.ing].free ? pantry.has(l.ing) : !!have[i]} onChange={(e) => (l.ing && !ING_BY_ID[l.ing].free ? togglePantry(l.ing) : setHave({ ...have, [i]: e.target.checked }))} />
                   <span className="raw">{l.raw}</span>
                 </label>
                 <span className="num">{l.cost ? fmt(l.cost) : ['free', 'pantry', 'have', 'optional'].includes(l.src) ? '' : '—'}</span>
