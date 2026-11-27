@@ -276,7 +276,11 @@ const EQUIPMENT = /\b(sacs? (ziplock|refermables?|de congelation)|ziplocks?|pics
 const OPTIONAL = /\b(optional|optionnel(le)?s?|facultatif|facultative|garnish|for garnish|to serve|for serving|pour servir|au service|au gout|to taste|if desired|si desire|for decorating|pour decorer)\b/;
 
 /** Parse one recipe ingredient line -> { raw, ing, g } */
-export function parseIngredientLine(raw, lang) {
+// "4-4 ounce pieces salmon", "2 -3 oz bricks ramen": a count, then the size of each piece (as
+// "4 (4 ounce) pieces"); "10-12 ounces pasta", with no piece word after it, stays a range.
+const COUNT_SIZE = /^(\s*)([1-9])\s*-\s*(\d+(?:[.,]\d+)?)\s*-?\s*(ounces?|oz|lbs?|pounds?|g|grams?)\.?(\s+)(?=(?:[\p{L}'-]+\s+){0,3}?(?:pieces?|fillets?|filets?|steaks?|portions?|bricks?|blocks?|breasts?|links?|patties|packages?|packs?)\b)/iu;
+export function parseIngredientLine(original, lang) {
+  const raw = original.replace(COUNT_SIZE, '$1$2 ($3 $4 each)$5');
   // Brackets hold notes, sizes and tips ("(I cooked my quinoa with curry powder)", "(salt-free)"):
   // the ingredient is named outside them. An unclosed bracket runs to the end of the line.
   // Text after a dash or semicolon is a note too ("cherry tomatoes – smaller tomatoes are better").
@@ -459,7 +463,7 @@ export function parseIngredientLine(raw, lang) {
   const x = HEADING.test(deaccent(raw).trim()) || (!id && EQUIPMENT.test(deaccent(raw))) ? 1 : undefined;
   // Optional or to-serve extras: they count when we can price them, never against the recipe.
   const opt = OPTIONAL.test(deaccent(raw)) ? 1 : undefined;
-  return { raw, ing: x ? null : id, x, opt, alt, pk: hit && hit.pk !== id ? hit.pk : undefined, g: g != null ? Math.round(g * 10) / 10 : null, nq: q.none ? 1 : undefined, fm: fm.length ? fm : undefined, np: canned || ready ? 1 : undefined };
+  return { raw: original, ing: x ? null : id, x, opt, alt, pk: hit && hit.pk !== id ? hit.pk : undefined, g: g != null ? Math.round(g * 10) / 10 : null, nq: q.none ? 1 : undefined, fm: fm.length ? fm : undefined, np: canned || ready ? 1 : undefined };
 }
 
 // ---- Product forms ---------------------------------------------------------------------

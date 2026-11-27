@@ -827,3 +827,47 @@ describe('shareable plan link', () => {
     expect(decodePlan('<script>_1~zz_2~abcdef123456_-1')).toEqual([]);
   });
 });
+
+describe('calculated and published nutrition stay plausible per meal', () => {
+  const raw = (o) => ({ id: o.name, url: 'x', source: 'test', lang: 'en', category: [], cuisine: [], keywords: [], ...o });
+  const perMeal = (r, key) => r.macros[key] * (r.meals && r.servings && !r.unitYield ? r.servings / r.meals : 1);
+  it('a yield that names its servings is read as such; per-meal values stay sane', async () => {
+    const { buildRecipes } = await import('../scripts/build-index.mjs');
+    const [r] = buildRecipes([raw({
+      name: '30 Minute Vegetarian Meatballs', yield: '50+ meatballs (so, like, 10 or more servings)', servings: 50,
+      ingredients: ['a 10-12 oz bag of cauliflower rice', '1 1/2 cups cooked quinoa', '1 cup panko breadcrumbs', '2 eggs', '1 teaspoon salt'],
+      nutrition: { calories: '149 kcal', proteinContent: '4.6 g', carbohydrateContent: '15.7 g', fatContent: '7.9 g' },
+    })]);
+    expect(r.servings).toBe(10);
+    expect(perMeal(r, 'protein')).toBeLessThan(40);
+  });
+  it('published protein far above what the ingredients hold is replaced by the calculation', async () => {
+    const { buildRecipes } = await import('../scripts/build-index.mjs');
+    const [r] = buildRecipes([raw({
+      name: 'Balsamic Chicken Thighs', yield: '4', servings: 4,
+      ingredients: ['4 boneless skinless chicken thighs', '2 tbsp balsamic vinegar', '1 tbsp honey', '2 cloves garlic', '1 tbsp olive oil'],
+      nutrition: { calories: '431 kcal', proteinContent: '61.8 g', carbohydrateContent: '10 g', fatContent: '20 g' },
+    })]);
+    expect(r.macros.calc).toBe(1);
+    expect(r.macros.protein).toBeLessThan(30);
+  });
+  it('a page of several versions gets no nutrition; whole lobsters count their meat only', async () => {
+    const { buildRecipes } = await import('../scripts/build-index.mjs');
+    const { computeNutrition } = await import('../shared/nutrition.js');
+    const [c] = buildRecipes([raw({ name: '7 Best Chicken Marinade Ideas', yield: '4', servings: 4, ingredients: Array.from({ length: 14 }, (_, i) => (i % 2 ? '1 lb boneless skinless chicken breast' : '2 tbsp olive oil')) })]);
+    expect(c.macros).toBeNull();
+    const pad = [{ raw: 'rice', ing: 'rice', g: 185 }, { raw: 'onion', ing: 'onion', g: 150 }, { raw: 'carrot', ing: 'carrot', g: 60 }];
+    const with_ = (raw, g) => computeNutrition([...pad, { raw, ing: 'lobster', g }], () => false).protein - computeNutrition(pad, () => false).protein;
+    expect(with_('2 homards de 1 1/4 lb cuits, la chair retirée', 1134)).toBeLessThan(80);
+    expect(with_('300 g de chair de homard', 300)).toBeCloseTo(57, 0);
+  });
+});
+
+describe('count and size of pieces', () => {
+  it('"4-4 ounce pieces" is four 4-oz pieces; "10-12 ounces" is a range', () => {
+    expect(parseIngredientLine('4-4 ounce pieces wild caught sockeye salmon', 'en').g).toBeCloseTo(453.6, 0);
+    expect(parseIngredientLine('2 -3 oz bricks ramen noodles', 'en').g).toBeCloseTo(170.1, 0);
+    expect(parseIngredientLine('10-12 ounces dry pasta', 'en').g).toBeCloseTo(283.5, 0);
+    expect(parseIngredientLine('4-4 ounce pieces wild caught sockeye salmon', 'en').raw).toBe('4-4 ounce pieces wild caught sockeye salmon');
+  });
+});

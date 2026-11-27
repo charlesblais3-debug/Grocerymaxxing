@@ -49,9 +49,15 @@ export function buildRecipes(raw) {
     const y = (r.yield || '').toLowerCase();
     const servingLike = !y || /^\d+$/.test(y.trim()) || /serv|portion|personne|people|person|meal|repas|bowl|bol|^\s*\d+\s*(à|to|-)\s*\d+\s*$|^\d+ \d+$/.test(y);
     if (!servingLike) rest.unitYield = 1;
+    // "50+ meatballs (so, like, 10 or more servings)": when the yield names its servings, that
+    // number is the serving count, not the first number in the text.
+    const named = y.match(/(\d+)\s*(?:\+|or more|ou plus|à \d+|to \d+|-\s*\d+)?\s*(?:servings?|portions?|personnes?|people|persons?)\b/);
+    if (named && +named[1] > 0 && +named[1] !== rest.servings) rest.servings = +named[1];
     // A source default of "1 portion" on a recipe that weighs kilos is not a real serving count.
     const grams = ings.reduce((n, l) => n + (l.g || 0), 0);
     if (rest.servings === 1 && grams > 900) rest.servings = null;
+    // Same for "1 portion" on a plate of over 1,500 kcal (a 500 g burger recipe is not one serving).
+    if (rest.servings === 1) { const all = computeNutrition(ings, isProteinIng); if (all && all.kcal > 1500) rest.servings = null; }
     // "585 ml", "900 g": a volume or weight, not a number of servings.
     if (rest.unitYield && (rest.servings > 48 || /^\s*[\d.,/ ]+\s*(ml|l|g|kg|oz|lb|litres?|tasses?|cups?)\b/.test(y))) rest.servings = null;
     // "450" servings of a 150 g marinade (a weight or volume printed without its unit): under
@@ -124,8 +130,10 @@ export function buildRecipes(raw) {
     // --- Macros. Published values win. Otherwise they are calculated from the ingredient
     // weights and the nutrient table, per serving (or per meal when the source gives no
     // serving count), and flagged `calc` so the app can say so.
-    let outMacros = macros && macros.kcal != null ? macros : null;
-    const calc = computeNutrition(ings, isProteinIng);
+    // A page of several alternative versions has no single recipe to add up (its published
+    // values describe one version at best).
+    let outMacros = macros && macros.kcal != null && !rest.collection ? macros : null;
+    const calc = rest.collection ? null : computeNutrition(ings, isProteinIng);
     // A yield that counts things ("1 gratin", "12 muffins") is not a serving: calculated macros
     // are then per meal, matching the price shown per meal.
     const div = rest.unitYield ? meals || rest.servings : rest.servings || meals;
@@ -135,7 +143,21 @@ export function buildRecipes(raw) {
         // A source that publishes calories but "0 g" of protein for a chicken dish has a broken
         // nutrition block: the calculation is the better answer there too.
         // So does "1 kcal" next to 42 g of protein (a typo: protein alone gives 4 kcal a gram).
-        const broken = outMacros && ((!outMacros.protein && per.protein >= 8) || (outMacros.kcal < 30 && per.kcal > 100) || (outMacros.protein && outMacros.kcal < outMacros.protein * 3));
+        // Published values that cannot be the stated servings' share of this recipe are not used
+        // either: per-serving calories that add up to over 2.5x what the ingredients hold (the
+        // serving count is wrong, and scaling to meals would multiply the error), or a protein
+        // dish published with under a quarter of its protein (a sauce-only nutrition block).
+        // Compared as whole-recipe totals (published per serving x servings), since published
+        // values are per the source's serving, which may be a pancake when ours is a meal.
+        const n = rest.servings;
+        const pubKcal = outMacros && n ? outMacros.kcal * n : null;
+        const pubProt = outMacros && n && outMacros.protein != null ? outMacros.protein * n : null;
+        const tooMuch = pubKcal != null && pubKcal > 2.5 * calc.kcal;
+        const meatOrFish = ['chicken', 'beef', 'pork', 'fish'].includes(tax.protein);
+        const tooLittleProtein = meatOrFish && pubProt != null && calc.protein / n >= 10 && pubProt < calc.protein / 4;
+        // …or more than 2.5x the protein the ingredients hold (61.8 g a serving from four thighs).
+        const tooMuchProtein = pubProt != null && calc.protein / n >= 10 && pubProt > 2.5 * calc.protein;
+        const broken = outMacros && ((!outMacros.protein && per.protein >= 8) || (outMacros.kcal < 30 && per.kcal > 100) || (outMacros.protein && outMacros.kcal < outMacros.protein * 3) || tooMuch || tooLittleProtein || tooMuchProtein);
         if (!outMacros || broken) outMacros = { ...per, sugar: null, sodium: null, satFat: null, serving: null, calc: 1 };
         else rest.calcCheck = per.kcal; // kept only for the audit: calculated vs published
       }

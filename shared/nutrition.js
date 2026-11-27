@@ -95,12 +95,29 @@ export const NUTRITION = {
  * A recipe qualifies only if every protein and at least 85 % of its quantified lines
  * are recognised, weighed and present in the table.
  */
+// Shellfish bought whole: a "1 1/4 lb lobster" holds about 30 % meat, crab legs about half.
+// Lines that weigh the meat itself ("450 g de chair de crabe", "lobster meat") count in full.
+const MEAT_LINE = /\b(chair|meat|crabmeat|queues?|tails?)\b/;
+const WHOLE = { lobster: [/\b(homards?|lobsters?)\b/, 0.3], crab: [/\b(legs?|pattes?|clusters?|king crab|crabes? entiers?|whole crabs?)\b/, 0.5] };
+function edible(l) {
+  const w = WHOLE[l.ing];
+  if (!w) return 1;
+  const raw = deaccentLite(l.raw || '');
+  // "La chair de 2 homards de 1,5 lb": the weight is still the whole lobsters'.
+  const wholeWeight = /\b(homards?|lobsters?)\s+(de|d.environ|of|about)?\s*[\d,./ ]+\s*(lb|lbs|livres?|kg|g)\b|\b\d+\s*(lb|lbs|pounds?)\b.*\blobsters?\b/.test(raw);
+  if (l.ing === 'lobster') return wholeWeight || !MEAT_LINE.test(raw) ? w[1] : 1;
+  return w[0].test(raw) && !MEAT_LINE.test(raw) ? w[1] : 1;
+}
+const deaccentLite = (x) => x.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+
 export function computeNutrition(ings, isProtein) {
   let known = 0;
   let relevant = 0;
   const t = [0, 0, 0, 0, 0];
   for (const l of ings) {
-    if (l.nq) continue; // "salt to taste", "oil for the pan": no quantity to count
+    // "salt to taste", "oil for the pan": no quantity to count. An unmeasured meat or fish
+    // ("whole lamb leg") is the main part of the dish: without it there is nothing to calculate.
+    if (l.nq) { if (isProtein(l.ing) && !l.opt && !/\b(optionnel|optional|facultati\w*)\b/i.test(l.raw || '')) return null; continue; }
     const n = l.ing && NUTRITION[l.ing];
     const light = l.ing === 'salt' || l.ing === 'water' || l.ing === 'spice' || l.ing === 'pepper';
     if (!n || l.g == null) {
@@ -109,7 +126,8 @@ export function computeNutrition(ings, isProtein) {
       continue;
     }
     if (!light) { relevant++; known++; }
-    for (let i = 0; i < 5; i++) t[i] += (l.g * n[i]) / 100;
+    const g = l.g * edible(l);
+    for (let i = 0; i < 5; i++) t[i] += (g * n[i]) / 100;
   }
   if (relevant < 3 || known / relevant < 0.85) return null;
   return { kcal: t[0], protein: t[1], carbs: t[2], fat: t[3], fiber: t[4] };
