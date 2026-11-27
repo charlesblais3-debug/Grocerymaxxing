@@ -788,3 +788,13 @@ describe('diet tags never contradict an ingredient', () => {
     expect(tag('Salad', ['2 tbsp tahini', '1 cucumber'])).toContain('nutfree');
   });
 });
+
+describe('grocery list names', () => {
+  it('names each member of a group, in French and English', async () => {
+    const { memberLabel } = await import('../shared/ingredients.js');
+    expect([memberLabel('vinegar~vinaigre_balsamique', 'fr'), memberLabel('vinegar~vinaigre_de_riz', 'en')]).toEqual(['Vinaigre balsamique', 'Rice vinegar']);
+    expect([memberLabel('tortilla~pain_naan', 'en'), memberLabel('tortilla~tortilla_de_mais', 'fr')]).toEqual(['Naan', 'Tortilla de maïs']);
+    expect([memberLabel('fish_sauce~sauce_teriyaki', 'en'), memberLabel('soy_milk~lait_amande', 'fr')]).toEqual(['Teriyaki sauce', "Lait d'amande"]);
+    expect(memberLabel('onion', 'fr')).toBe('Oignon');
+  });
+});

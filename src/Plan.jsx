@@ -1,8 +1,10 @@
 import React, { useMemo, useState } from 'react';
 import { useApp } from './store.jsx';
 import { Img, Store, Icon, IngredientPicker, offerText, nice, mealScale, offerName } from './ui.jsx';
-import { AISLES, ING_BY_ID } from '../shared/ingredients.js';
+import { AISLES, ING_BY_ID, memberLabel } from '../shared/ingredients.js';
+import { BUNCH } from '../shared/price.js';
 import { suggestPlan, batchesFor } from '../shared/planner.js';
+import { DIETS } from '../shared/taxonomy.js';
 import { localDate } from '../shared/text.js';
 
 function download(name, text, type) {
@@ -12,6 +14,9 @@ function download(name, text, type) {
   a.click();
   setTimeout(() => URL.revokeObjectURL(a.href), 1000);
 }
+
+// Liquids are bought by volume: their list quantity is shown in ml or litres.
+const LIQUID = new Set(['milk', 'cream_35', 'cream_10', 'soy_milk', 'coconut_milk', 'orange_juice', 'juice', 'tomato_sauce', 'broth_chicken', 'broth_beef', 'broth_veg', 'broth_fish', 'olive_oil', 'veg_oil', 'sesame_oil', 'vinegar', 'soy_sauce', 'fish_sauce', 'hot_sauce', 'wine', 'maple_syrup', 'honey', 'buttermilk', 'water']);
 
 const DAYS = [['Lundi', 'Monday'], ['Mardi', 'Tuesday'], ['Mercredi', 'Wednesday'], ['Jeudi', 'Thursday'], ['Vendredi', 'Friday'], ['Samedi', 'Saturday'], ['Dimanche', 'Sunday']];
 
@@ -36,24 +41,29 @@ export default function Plan() {
       for (const l of c.lines) {
         if (l.src === 'free' || l.src === 'have') continue;
         if (!l.ing) { others.push(`${l.raw}${n !== 1 ? ` (×${num(n)})` : ''}`); continue; }
-        const a = (agg[l.ing] ||= { ing: l.ing, g: 0, cost: 0, lines: [], offer: null });
+        // One line per product: balsamic and rice vinegar, naan and corn tortillas are
+        // different things to buy even though they share an aisle and an ingredient group.
+        const key = l.pk || l.ing;
+        const a = (agg[key] ||= { key, ing: l.ing, g: 0, cost: 0, lines: [], offer: null, pantryOnly: true });
         if (l.offer && !a.offer) a.offer = l.offer;
         if (l.g != null) a.g += l.g * n;
         a.cost += (l.cost || 0) * n;
-        a.lines.push(l.raw);
+        if (l.src !== 'pantry') a.pantryOnly = false;
+        a.lines.push({ raw: l.raw, recipe: r.name, n });
       }
     }
-    const list = Object.values(agg).map((a) => ({ ...a, def: ING_BY_ID[a.ing], store: a.offer?.store || '' }));
+    const list = Object.values(agg).map((a) => ({ ...a, def: ING_BY_ID[a.ing], name: memberLabel(a.key, lang), store: a.offer?.store || '' }));
     return { total, meals, list, others, saved };
-  }, [rows.map((x) => x.r.id + x.n).join(), costs]);
+  }, [rows.map((x) => x.r.id + x.n).join(), costs, lang]);
 
-  const goals = { minProtein: targets.minp || 0, maxKcal: targets.maxk || 0 };
+  const goals = { minProtein: targets.minp || 0, maxKcal: targets.maxk || 0, diet: targets.diet || null, lang: targets.lang || null, maxTime: targets.maxt || 0 };
+  const dinners = targets.n || 5;
   const propose = () => {
     if (rows.length && !window.confirm(t('replacePlan'))) return;
     // Not the same dinners as last time: what was just planned or proposed is set aside.
     const avoid = new Set([...recent, ...rows.map((x) => x.r.id)]);
-    let list = suggestPlan(recipes, costs, { budget: budget || null, people, avoid, ...goals });
-    if (list.length < 3) list = suggestPlan(recipes, costs, { budget: budget || null, people, ...goals });
+    let list = suggestPlan(recipes, costs, { budget: budget || null, people, avoid, dinners, ...goals });
+    if (list.length < Math.min(3, dinners)) list = suggestPlan(recipes, costs, { budget: budget || null, people, dinners, ...goals });
     remember(rows.map((x) => x.r.id));
     setPlanAll(list);
   };
@@ -97,13 +107,29 @@ export default function Plan() {
     } catch { window.alert(t('badBackup')); }
   };
 
+  // Seasonings and unmeasured staples ("salt", "oil for the pan") go to a separate
+  // "check your pantry" section, out of the way of what must be bought.
   const groups = {};
-  for (const a of list) (groups[mode === 'aisle' ? a.def.cat : a.store] ||= []).push(a);
+  const pantryCheck = list.filter((a) => a.pantryOnly).sort((a, b) => a.name.localeCompare(b.name));
+  for (const a of list) if (!a.pantryOnly) (groups[mode === 'aisle' ? a.def.cat : a.store] ||= []).push(a);
   const order = mode === 'aisle' ? Object.keys(AISLES) : Object.keys(groups).sort((a, b) => (a === '' ? 1 : b === '' ? -1 : groups[b].length - groups[a].length));
   const title = (k) => (mode === 'aisle' ? AISLES[k][lk] : k ? storeName[k] || k : t('anyStore'));
-  const qty = (a) => (a.g ? (a.g >= 1000 ? `${num((a.g / 1000).toFixed(a.g >= 10000 ? 0 : 1))} kg` : `${Math.round(a.g / 5) * 5 || Math.round(a.g)} g`) : '');
-  const text = () => order.filter((k) => groups[k]).map((k) => `${title(k)}\n` + groups[k].map((a) => `${checks[a.ing] ? '✓' : '-'} ${a.def[lk]}${qty(a) ? ` (≈ ${qty(a)})` : ''}${a.offer ? ` — ${storeName[a.offer.store]}: ${offerText(a.offer, fmt)}` : ''}`).join('\n')).join('\n\n')
+  const weight = (g) => (g >= 1000 ? `${num((g / 1000).toFixed(g >= 10000 ? 0 : 1))} kg` : `${Math.round(g / 5) * 5 || Math.round(g)} g`);
+  // In shopping units: eggs and onions by the piece, milk and broth by volume, the rest by weight.
+  const qty = (a) => {
+    if (!a.g) return '';
+    const d = a.def;
+    if (LIQUID.has(a.ing)) { const ml = a.g / (d.d || 1); return ml >= 1000 ? `${num((ml / 1000).toFixed(1))} L` : `${Math.max(5, Math.round(ml / 5) * 5)} ml`; }
+    if (d.u && (a.ing === 'egg' || (d.cat === 'produce' && d.u >= 40 && !BUNCH.has(a.ing)))) {
+      const n = Math.max(1, Math.ceil(a.g / d.u - 0.2));
+      return a.ing === 'egg' ? `${n}` : `${n} (${weight(a.g)})`;
+    }
+    return weight(a.g);
+  };
+  const sorted = (k) => [...groups[k]].sort((a, b) => a.name.localeCompare(b.name));
+  const text = () => order.filter((k) => groups[k]).map((k) => `${title(k)}\n` + sorted(k).map((a) => `${checks[a.key] ? '✓' : '-'} ${a.name}${qty(a) ? ` (≈ ${qty(a)})` : ''}${a.offer ? ` — ${storeName[a.offer.store]}: ${offerText(a.offer, fmt)}` : ''}`).join('\n')).join('\n\n')
     + (others.length ? `\n\n${t('others')}\n` + others.map((o) => '- ' + o).join('\n') : '')
+    + (pantryCheck.length ? `\n\n${t('checkPantry')}\n` + pantryCheck.map((a) => `- ${a.name}`).join('\n') : '')
     + (extras.length ? `\n\n${t('addedDeals')}\n` + extras.map((e) => `${checks['x:' + e.id] ? '✓' : '-'} ${nice(e.name, lang)} — ${storeName[e.store] || e.store}: ${offerText(e, fmt)}`).join('\n') : '');
   const copy = async () => { try { await navigator.clipboard.writeText(text()); setCopied(true); setTimeout(() => setCopied(false), 1500); } catch { /* clipboard unavailable */ } };
   const share = async () => { try { if (navigator.share) await navigator.share({ title: t('groceryList'), text: text() }); else await copy(); } catch { /* cancelled */ } };
@@ -120,8 +146,12 @@ export default function Plan() {
         <label><span>{t('weeklyBudget')}</span>
           <input type="number" min="0" step="5" inputMode="decimal" value={budget ?? ''} placeholder="—" onChange={(e) => setBudget(e.target.value ? Math.max(0, +e.target.value) : null)} /> $
         </label>
+        <label><span>{t('dinnersCount')}</span><select value={dinners} onChange={(e) => setTargets({ ...targets, n: +e.target.value })}>{[3, 4, 5, 6, 7].map((n) => <option key={n} value={n}>{n}</option>)}</select></label>
         <details className="goals">
-          <summary>{t('goals')}{targets.minp || targets.maxk ? ' ✓' : ''}</summary>
+          <summary>{t('goals')}{targets.minp || targets.maxk || targets.diet || targets.lang || targets.maxt ? ' ✓' : ''}</summary>
+          <label><span>{t('dietPref')}</span><select value={targets.diet || ''} onChange={(e) => setTargets({ ...targets, diet: e.target.value || null })}><option value="">—</option>{DIETS.map(([id, fr, en]) => <option key={id} value={id}>{(lang === 'en' ? en : fr).replace(/ \(.*\)$/, '')}</option>)}</select></label>
+          <label><span>{t('recipeLang')}</span><select value={targets.lang || ''} onChange={(e) => setTargets({ ...targets, lang: e.target.value || null })}><option value="">{t('bothLangs')}</option><option value="fr">Français</option><option value="en">English</option></select></label>
+          <label><span>{t('maxTime')}</span><select value={targets.maxt || ''} onChange={(e) => setTargets({ ...targets, maxt: +e.target.value || 0 })}><option value="">—</option>{[20, 30, 45, 60].map((n) => <option key={n} value={n}>≤ {n} min</option>)}</select></label>
           <label><span>{t('minProtein')}</span><select value={targets.minp || ''} onChange={(e) => setTargets({ ...targets, minp: +e.target.value || 0 })}><option value="">—</option>{[20, 30, 40, 50].map((n) => <option key={n} value={n}>≥ {n} g</option>)}</select></label>
           <label><span>{t('maxKcal')}</span><select value={targets.maxk || ''} onChange={(e) => setTargets({ ...targets, maxk: +e.target.value || 0 })}><option value="">—</option>{[400, 500, 600, 800].map((n) => <option key={n} value={n}>≤ {n} kcal</option>)}</select></label>
         </details>
@@ -200,16 +230,31 @@ export default function Plan() {
             {order.filter((k) => groups[k]).map((k) => (
               <section key={k || 'none'}>
                 <h3>{title(k)}</h3>
-                <ul>{groups[k].sort((a, b) => a.def[lk].localeCompare(b.def[lk])).map((a) => (
-                  <li key={a.ing} className={checks[a.ing] ? 'done' : ''}>
-                    <label><input type="checkbox" checked={!!checks[a.ing]} onChange={() => toggleCheck(a.ing)} /> <b>{a.def[lk]}</b>{qty(a) ? <span className="meta"> ≈ {qty(a)}</span> : null}</label>
+                <ul>{sorted(k).map((a) => (
+                  <li key={a.key} className={checks[a.key] ? 'done' : ''}>
+                    <label><input type="checkbox" checked={!!checks[a.key]} onChange={() => toggleCheck(a.key)} /> <b>{a.name}</b>{qty(a) ? <span className="meta"> ≈ {qty(a)}</span> : null}</label>
                     {a.offer ? <div className="offer"><Store id={a.offer.store} /> {offerName(a.offer, lang)} — <b>{offerText(a.offer, fmt)}</b></div> : null}
+                    <details className="src-lines">
+                      <summary>{a.lines.length === 1 ? a.lines[0].recipe : `${a.lines.length} ${t('recipeLines')}`}</summary>
+                      <ul>{a.lines.map((x, i) => <li key={i}>{x.raw}{x.n !== 1 ? ` (×${num(x.n)})` : ''} — <i>{x.recipe}</i></li>)}</ul>
+                    </details>
                     <div className="row-tools noprint"><button type="button" className="link" onClick={() => togglePantry(a.ing)}>{t('haveIt')}</button></div>
                   </li>
                 ))}</ul>
               </section>
             ))}
             {others.length > 0 && <section><h3>{t('others')}</h3><ul>{others.map((o, i) => <li key={i}>{o}</li>)}</ul></section>}
+            {pantryCheck.length > 0 && (
+              <details className="pantry-check">
+                <summary>{t('checkPantry')} ({pantryCheck.length})</summary>
+                <ul>{pantryCheck.map((a) => (
+                  <li key={a.key} className={checks[a.key] ? 'done' : ''}>
+                    <label><input type="checkbox" checked={!!checks[a.key]} onChange={() => toggleCheck(a.key)} /> {a.name}</label>
+                    <span className="meta"> — {[...new Set(a.lines.map((x) => x.recipe))].join(', ')}</span>
+                  </li>
+                ))}</ul>
+              </details>
+            )}
           </div>
         </>
       )}

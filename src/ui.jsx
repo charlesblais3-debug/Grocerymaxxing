@@ -6,6 +6,7 @@ import { INGREDIENTS, ING_BY_ID } from '../shared/ingredients.js';
 import { deaccent } from '../shared/text.js';
 import { dealScore } from '../shared/score.js';
 import { complete } from '../shared/cost.js';
+import { isMemberPrice } from '../shared/deals.js';
 
 export function Img({ src, alt = '', className }) {
   const [bad, setBad] = useState(false);
@@ -63,6 +64,23 @@ export function nice(name, lang) {
 export function offerName(o, lang) {
   const seg = o.seg?.[o.pk];
   return nice(seg || o.name, seg ? 'fr' : lang);
+}
+
+/**
+ * Unit price as Québec shoppers read it: per kilogram everywhere, and per pound too for meat,
+ * fish and produce, which flyers price by the pound. A price per piece is marked as approximate.
+ */
+export function unitText(perG, fmt, ing, basis) {
+  if (perG == null) return '';
+  const cat = ING_BY_ID[ing]?.cat;
+  const lb = ['meat', 'fish', 'produce'].includes(cat) && basis !== 'each' ? ` · ${fmt(perG * 453.592)}/lb` : '';
+  return `${basis === 'each' ? '≈ ' : ''}${fmt(perG * 1000)}/kg${lb}`;
+}
+
+/** A loyalty-card or app-only price ("prix membre", "Scène+"). */
+export function MemberBadge({ item }) {
+  const { t } = useApp();
+  return isMemberPrice(item) ? <span className="memberbadge" title={t('memberPriceTitle')}>{t('memberPrice')}</span> : null;
 }
 
 export function offerText(o, fmt) {

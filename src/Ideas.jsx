@@ -1,13 +1,14 @@
 import React, { useEffect } from 'react';
 import { useApp } from './store.jsx';
-import { RecipeCard, Store, offerText, nice, offerName } from './ui.jsx';
+import { batchesFor } from '../shared/planner.js';
+import { RecipeCard, Store, offerText, nice, offerName, unitText } from './ui.jsx';
 import { ING_BY_ID } from '../shared/ingredients.js';
 
 const LINK_COLORS = ['#15803d', '#e0a100', '#c75b39', '#2f6fd0', '#8b5cf6'];
 const kg = (g) => (g >= 1000 ? `${(g / 1000).toFixed(1).replace('.0', '')} kg` : `${Math.round(g / 10) * 10} g`);
 
 export default function Ideas() {
-  const { recipes, ideas, costs, t, lang, fmt, storeName, plan, setBatches, selected } = useApp();
+  const { recipes, ideas, costs, t, lang, fmt, storeName, plan, setBatches, selected, people } = useApp();
   const { anchors, bundles } = ideas;
   useEffect(() => {
     const a = new URLSearchParams(window.location.hash.split('?')[1] || '').get('a');
@@ -26,7 +27,7 @@ export default function Ideas() {
           {anchors.slice(0, 14).map((a) => (
             <a key={a.id} className="anchor" href={`#/?ing=${a.id}&sale=1`}>
               <b>{name(a.id)}</b>
-              <span>{fmt(a.offer.perG * 1000)}/kg · {storeName[a.offer.store]}</span>
+              <span>{unitText(a.offer.perG, fmt, a.offer.ing, a.offer.basis)} · {storeName[a.offer.store]}</span>
               {a.off ? <em>−{Math.round(a.off * 100)} %</em> : null}
             </a>
           ))}
@@ -44,7 +45,7 @@ export default function Ideas() {
               <div className="bundle-stats">
                 <div><small>{t('planTotal')}</small><b>≈ {fmt(b.total)}</b></div>
                 {b.meals > 0 && <div><small>{String(b.meals).replace('.', lang === 'en' ? '.' : ',')} {t('mealsWord')}</small><b>≈ {fmt(b.total / b.meals)} {t('perMeal')}</b></div>}
-                <button type="button" className={`btn ${all ? '' : 'primary'}`} onClick={() => b.recipes.forEach((r) => setBatches(r.id, all ? 0 : plan[r.id] || 1))}>{all ? `✓ ${t('inPlan')}` : `+ ${t('addAll')}`}</button>
+                <button type="button" className={`btn ${all ? '' : 'primary'}`} onClick={() => b.recipes.forEach((r) => setBatches(r.id, all ? 0 : plan[r.id] || batchesFor(r, people)))}>{all ? `✓ ${t('inPlan')}` : `+ ${t('addAll')}`}</button>
               </div>
             </div>
             <div className="bundle-scroll">

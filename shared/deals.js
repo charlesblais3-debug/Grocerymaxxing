@@ -61,3 +61,10 @@ export function topDeals(items, { stores, section = '', baseline }) {
   }
   return out.sort((a, b) => b.off - a.off || a.perG - b.perG);
 }
+
+// "Prix membre", "Les membres économisent 1 $", "PC Optimum Prix membre", "Avec carte Scène+":
+// a price only loyalty-card or app members get. Bonus points ("Obtenez 250 pts") are not:
+// everyone pays that price.
+const MEMBER_RE = /prix (?:de )?membres?|membres? [ée]conomisent|members? (?:price|save|pricing)|avec (?:la )?carte sc[eè]ne|exclusivit[ée] (?:membres?|appli)|prix appli/i;
+/** Is this flyer price only for members of a loyalty program or app? */
+export const isMemberPrice = (i) => MEMBER_RE.test([i.name, i.desc, i.story, i.pre, i.post].filter(Boolean).join(' | '));

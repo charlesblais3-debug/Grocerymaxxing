@@ -327,3 +327,45 @@ export const AISLES = {
   spices: { fr: 'Épices', en: 'Spices' },
   other: { fr: 'Autres', en: 'Other' },
 };
+
+// Display names of group members ("Vinaigre balsamique" / "Balsamic vinegar"). Synonyms are
+// stored without accents, so common French words get theirs back; the English name is the
+// member's first synonym that reads as English, preferring one that ends with the group's
+// own English noun ("rice vinegar" over "rice wine vinegar").
+const ACCENTS = { pate: 'pâte', pates: 'pâtes', huitres: 'huîtres', creme: 'crème', epice: 'épice', epices: 'épices', ble: 'blé', mais: 'maïs', cafe: 'café', the: 'thé', peche: 'pêche', epinard: 'épinard', epinards: 'épinards', celeri: 'céleri', legume: 'légume', legumes: 'légumes', fume: 'fumé', fumee: 'fumée', seche: 'séché', sechee: 'séchée', sechees: 'séchées', seches: 'séchés', rape: 'râpé', cote: 'côte', boeuf: 'bœuf', oeuf: 'œuf', fraiche: 'fraîche', xeres: 'xérès', feve: 'fève', feves: 'fèves', mure: 'mûre', fletan: 'flétan', dore: 'doré', sebaste: 'sébaste', feuilletee: 'feuilletée', brisee: 'brisée', entrecote: 'entrecôte', hache: 'haché', melasse: 'mélasse', cereale: 'céréale', ecrasee: 'écrasée', glacee: 'glacée', fouettee: 'fouettée', condense: 'condensé', evapore: 'évaporé', soya: 'soya', bechamel: 'béchamel', gruyere: 'gruyère', erable: 'érable', cotes: 'côtes', levee: 'levée', levees: 'levées', nouille: 'nouilles', sesame: 'sésame', coree: 'corée' };
+const FR_WORDS = /\b(de|du|des|a|au|aux|la|le|les|en|pate|vinaigre|huile|farine|sucre|lait|boisson|graine|nouille|pain|fromage|cerise|pomme|poivron|piment|haricot|feve|pois|noix|riz|creme|bouillon|jus)\b/;
+// Names the rules above get wrong.
+const MEMBER_NAMES = {
+  'ricotta~ricotta': ['Ricotta', 'Ricotta'], 'condensed_milk~lait_evapore': ['Lait évaporé', 'Evaporated milk'], 'kale~kale': ['Chou frisé (kale)', 'Kale'],
+  'spinach~microgreen': ['Micropousses', 'Microgreens'], 'white_fish~sole': ['Sole', 'Sole'], 'pepperoni~salami': ['Salami', 'Salami'],
+  'orange~clementine': ['Clémentine', 'Clementine'], 'melon~cantaloup': ['Cantaloup', 'Cantaloupe'], 'melon~melon_eau': ["Melon d'eau", 'Watermelon'],
+  'raisins~raisin_sec': ['Raisins secs', 'Raisins'], 'raisins~datte': ['Dattes', 'Dates'], 'raisins~pruneau': ['Pruneaux', 'Prunes'],
+  'pasta~gnocchi': ['Gnocchis', 'Gnocchi'], 'pie_crust~pate_a_tarte': ['Pâte à tarte', 'Pie crust'], 'pie_crust~pate_a_pizza': ['Pâte à pizza', 'Pizza dough'],
+  'crackers~graham': ['Biscuits Graham', 'Graham crackers'], 'kidney_beans~haricot_romain': ['Haricots romains', 'Romano beans'], 'white_beans~legumineuse': ['Légumineuses', 'Mixed beans'],
+  'lentils~pois_casse': ['Pois cassés', 'Split peas'], 'peanut_butter~tahini': ['Tahini', 'Tahini'], 'hot_sauce~sambal_oelek': ["Sauce chili à l'ail", 'Chili garlic sauce'],
+  'kimchi~choucroute': ['Choucroute', 'Sauerkraut'], 'pickles~cornichon': ["Cornichons à l'aneth", 'Dill pickles'], 'pickles~oignon_marine': ['Oignons marinés', 'Pickled onions'],
+  'jam~gelee': ['Gelée', 'Jelly'], 'wine~vin': ['Vin', 'Wine'], 'wine~biere': ['Bière', 'Beer'], 'fish_sauce~mirin': ['Mirin', 'Mirin'],
+  'fish_sauce~sauce_hoisin': ['Sauce hoisin', 'Hoisin sauce'], 'fish_sauce~sauce_teriyaki': ['Sauce teriyaki', 'Teriyaki sauce'],
+  'worcestershire~sauce_worcestershire': ['Sauce Worcestershire', 'Worcestershire sauce'], 'worcestershire~sauce_bbq': ['Sauce BBQ', 'BBQ sauce'],
+  'granola~cereale': ['Céréales', 'Cereal'], 'hot_pepper~jalapeno': ['Jalapeño', 'Jalapeño'], 'hot_pepper~piment_thai': ['Piment thaï', 'Thai chili'],
+  'kale~bette_a_carde': ['Bette à carde', 'Swiss chard'], 'squash~courge_musquee': ['Courge musquée', 'Butternut squash'], 'squash~courge_poivree': ['Courge poivrée', 'Acorn squash'],
+  'pepperoni~smoked_meat': ['Smoked meat', 'Smoked meat'], 'veal~veau': ['Veau', 'Veal'],
+};
+export function memberLabel(pk, lang) {
+  const id = pk.split('~')[0];
+  const def = ING_BY_ID[id];
+  if (!def) return pk;
+  const m = pk.includes('~') && def.members.length > 1 ? def.members.find((x) => `${id}~${x.key}` === pk) : null;
+  if (!m || m.generic) return def[lang === 'en' ? 'en' : 'fr'];
+  if (MEMBER_NAMES[pk]) return MEMBER_NAMES[pk][lang === 'en' ? 1 : 0];
+  const cap = (x) => x.charAt(0).toUpperCase() + x.slice(1);
+  if (lang !== 'en') {
+    // The first name is French unless the member is named in English ("dried cherries").
+    const fr = (/^(dried|frozen|fresh|smoked|ground|whole)\b/.test(m.syn[0]) && m.syn.find((x) => FR_WORDS.test(x))) || m.syn[0];
+    return cap(fr.split(' ').map((w) => ACCENTS[w] || w).join(' ').replace(/\b(lait|sirop|beurre|huile|flocons?|farine|graine|jus) ([aeiouhéè])/, "$1 d'$2"));
+  }
+  // A member whose key is English ("dried cherries") starts with its English name.
+  const english = (/^(dried|frozen|fresh|smoked|ground|whole)\b/.test(m.syn[0]) ? m.syn : m.syn.slice(1)).filter((x) => !FR_WORDS.test(x));
+  const noun = def.en.toLowerCase().split(/[\s/]+/).filter(Boolean).pop().replace(/s$/, '');
+  return cap(english.find((x) => x.endsWith(noun)) || english[0] || m.syn[0]);
+}

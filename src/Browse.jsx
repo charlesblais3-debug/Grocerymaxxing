@@ -1,6 +1,6 @@
 import React, { useMemo, useState, useEffect } from 'react';
 import { useApp } from './store.jsx';
-import { RecipeCard, Img, Store, Icon, IngredientPicker, DealBadge, offerName, mealScale } from './ui.jsx';
+import { RecipeCard, Img, Store, Icon, IngredientPicker, DealBadge, offerName, mealScale, unitText } from './ui.jsx';
 import { MEAL_TYPES, CUISINES, PROTEINS, DIETS } from '../shared/taxonomy.js';
 import { ING_BY_ID } from '../shared/ingredients.js';
 import { deaccent } from '../shared/text.js';
@@ -10,11 +10,16 @@ import { L } from './i18n.js';
 const PAGE = 48;
 const MEAL_ICON = { main: '🍲', soup: '🥣', salad: '🥗', sandwich: '🥪', pasta: '🍝', side: '🥔', breakfast: '🍳', appetizer: '🧆', preserve: '🫙', sauce: '🥫', bread: '🍞', dessert: '🍰', drink: '🥤' };
 
-function setQuery(query, patch) {
+// Filters live in the URL. Typing in the search box replaces the current history entry
+// instead of adding one per pause, so "Back" leaves the page instead of undoing letters.
+function setQuery(query, patch, replace = false) {
   const q = new URLSearchParams(query);
   for (const [k, v] of Object.entries(patch)) { if (v == null || v === '' || v === false) q.delete(k); else q.set(k, v); }
   const s = q.toString();
-  window.location.hash = '#/' + (s ? '?' + s : '');
+  const hash = '#/' + (s ? '?' + s : '');
+  if (!replace) { window.location.hash = hash; return; }
+  window.history.replaceState(null, '', hash);
+  window.dispatchEvent(new HashChangeEvent('hashchange'));
 }
 
 export default function Browse({ query }) {
@@ -25,11 +30,24 @@ export default function Browse({ query }) {
   const f = {
     q: query.get('q') || '', meal: query.get('meal'), cuisine: query.get('cuisine'), protein: query.get('protein'),
     diet: query.get('diet'), source: query.get('source'), time: +query.get('time') || 0, cost: +query.get('cost') || 0,
-    macros: query.get('macros') === '1', prep: query.get('prep') === '1', mine: query.get('mine') === '1', minp: +query.get('minp') || 0, maxk: +query.get('maxk') || 0, sale: query.get('sale') === '1', ing: query.get('ing'), sort: query.get('sort') || 'deals',
+    macros: query.get('macros') === '1', prep: query.get('prep') === '1', mine: query.get('mine') === '1', minp: +query.get('minp') || 0, maxk: +query.get('maxk') || 0, sale: query.get('sale') === '1', ing: query.get('ing'), lang: query.get('lang'),
+    // "Cook with what I have" sorts by pantry match unless another order was picked.
+    sort: query.get('sort') || (query.get('mine') === '1' ? 'pantry' : 'deals'),
   };
   const [text, setText] = useState(f.q);
   useEffect(() => { setText(f.q); }, [f.q]);
-  useEffect(() => { const id = setTimeout(() => { if (text !== f.q) setQuery(query, { q: text }); }, 250); return () => clearTimeout(id); }, [text]);
+  // Re-armed when the URL changes too, so a filter clicked while typing is never overwritten
+  // by a stale copy of the query.
+  useEffect(() => { const id = setTimeout(() => { if (text !== f.q) setQuery(query, { q: text }, true); }, 250); return () => clearTimeout(id); }, [text, query.toString()]); // eslint-disable-line react-hooks/exhaustive-deps
+  // The mobile filter sheet is a modal dialog: Escape closes it and the page behind does not scroll.
+  useEffect(() => {
+    if (!open) return undefined;
+    const onKey = (e) => { if (e.key === 'Escape') setOpen(false); };
+    document.addEventListener('keydown', onKey);
+    const prev = document.body.style.overflow;
+    if (window.matchMedia('(max-width: 860px)').matches) document.body.style.overflow = 'hidden';
+    return () => { document.removeEventListener('keydown', onKey); document.body.style.overflow = prev; };
+  }, [open]);
   useEffect(() => { setShown(PAGE); }, [query.toString()]);
   const set = (patch) => setQuery(query, patch);
 
@@ -42,6 +60,7 @@ export default function Browse({ query }) {
       if (f.protein && r.tax.protein !== f.protein) return false;
       if (f.diet && !r.tax.diets.includes(f.diet)) return false;
       if (f.source && r.source !== f.source) return false;
+      if (f.lang && r.lang !== f.lang) return false;
       if (f.time && !(r.time && r.time <= f.time)) return false;
       if (f.cost && !(isReliable(c) && c.per <= f.cost)) return false;
       if (f.macros && !r.macros) return false;
@@ -76,20 +95,21 @@ export default function Browse({ query }) {
       protein: (a, b) => ppd(b, c(b)) - ppd(a, c(a)),
       time: (a, b) => (a.time || 1e9) - (b.time || 1e9),
       rating: (a, b) => score(b) - score(a),
+      // Most pantry ingredients first ("cook with what I have").
+      pantry: (a, b) => pantryHits(b) - pantryHits(a) || reliable(a) - reliable(b),
     };
-    // "Cook with what I have": most pantry ingredients first.
-    if (f.mine) { const n = (r) => new Set(r.ings.map((l) => l.ing).filter((g) => app.have.has(g))).size; return rows.sort((a, b) => (isComplete(c(a)) ? 0 : 1) - (isComplete(c(b)) ? 0 : 1) || n(b) - n(a) || sorters.cost(a, b)); }
+    const pantryHits = (r) => new Set(r.ings.map((l) => l.ing).filter((g) => app.have.has(g))).size;
     // Fully priced recipes always come first, whatever the sort: a partial price is never on top.
     const done = (r) => (isComplete(c(r)) ? 0 : 1);
     const pick = sorters[f.sort] || sorters.deals;
     return rows.sort((a, b) => done(a) - done(b) || pick(a, b));
-  }, [base, f.meal, f.sort, costs]);
+  }, [base, f.meal, f.sort, costs, app.have]);
 
   if (!recipes.length) return <div className="state">{t('noData')}</div>;
   const sources = [...new Set(recipes.map((r) => r.source))];
-  const nActive = ['cuisine', 'protein', 'diet', 'source', 'time', 'cost', 'macros', 'sale', 'ing', 'q', 'prep', 'mine', 'minp', 'maxk'].filter((k) => query.get(k)).length;
+  const nActive = ['cuisine', 'protein', 'diet', 'source', 'time', 'cost', 'macros', 'sale', 'ing', 'q', 'prep', 'mine', 'minp', 'maxk', 'lang'].filter((k) => query.get(k)).length;
   const favDeals = app.favs.map((id) => bestFor(app.offers, id)).filter(Boolean);
-  const active = ['prep', 'mine', 'minp', 'maxk', 'meal', 'cuisine', 'protein', 'diet', 'source', 'time', 'cost', 'macros', 'sale', 'ing', 'q'].some((k) => query.get(k));
+  const active = ['prep', 'mine', 'minp', 'maxk', 'meal', 'cuisine', 'protein', 'diet', 'source', 'time', 'cost', 'macros', 'sale', 'ing', 'q', 'lang'].some((k) => query.get(k));
 
   return (
     <div className="wrap browse">
@@ -119,7 +139,7 @@ export default function Browse({ query }) {
         </section>
       )}
       {!active && favDeals.length > 0 && (
-        <p className="favline">★ {t('favsOnSale')} : {favDeals.map((o) => <a key={o.ing} href={`#/?ing=${o.ing}&sale=1`}><b>{ING_BY_ID[o.ing][lang === 'en' ? 'en' : 'fr']}</b> {app.fmt(o.perG * 1000)}/kg <Store id={o.store} /> <DealBadge offer={o} /></a>)}</p>
+        <p className="favline">★ {t('favsOnSale')} : {favDeals.map((o) => <a key={o.ing} href={`#/?ing=${o.ing}&sale=1`}><b>{ING_BY_ID[o.ing][lang === 'en' ? 'en' : 'fr']}</b> {unitText(o.perG, app.fmt, o.ing, o.basis)} <Store id={o.store} /> <DealBadge offer={o} /></a>)}</p>
       )}
       <div className="tiles" role="group" aria-label={t('mealType')}>
         <button type="button" className={`tile ${!f.meal ? 'on' : ''}`} aria-pressed={!f.meal} onClick={() => set({ meal: null })}><span className="em" aria-hidden="true">🍽️</span><span>{t('all')}</span><b>{base.length}</b></button>
@@ -133,12 +153,13 @@ export default function Browse({ query }) {
         <aside className={`filters ${open ? 'open' : ''}`}>
           <button type="button" className="filters-toggle" onClick={() => setOpen(true)} aria-expanded={open}><Icon name="sliders" /> {t('filters')}{nActive ? ` (${nActive})` : ''}</button>
           {open && <div className="sheet-backdrop" onClick={() => setOpen(false)} />}
-          <div className="filters-body">
+          <div className="filters-body" role={open ? 'dialog' : undefined} aria-modal={open ? 'true' : undefined} aria-label={t('filters')}>
             <div className="sheet-head"><b>{t('filters')}</b><button type="button" className="btn primary" onClick={() => setOpen(false)}>{t('showResults')} ({list.length})</button></div>
             <input type="search" value={text} onChange={(e) => setText(e.target.value)} placeholder={t('search')} aria-label={t('search')} />
             {f.ing && ING_BY_ID[f.ing] && <div className="ingpill">{t('ingredientFilter')} : <b>{ING_BY_ID[f.ing][lang === 'en' ? 'en' : 'fr']}</b> <button type="button" onClick={() => set({ ing: null })} aria-label={t('remove')}>×</button></div>}
             <label className="check"><input type="checkbox" checked={f.sale} onChange={(e) => set({ sale: e.target.checked ? '1' : null })} /> {t('onSale')}</label>
             <label className="check"><input type="checkbox" checked={f.prep} onChange={(e) => set({ prep: e.target.checked ? '1' : null })} /> {t('prepFilter')}</label>
+            <Select label={t('recipeLang')} value={f.lang} onChange={(v) => set({ lang: v })} any={t('bothLangs')} options={[['fr', 'Français'], ['en', 'English']]} />
             <Select label={t('cuisine')} value={f.cuisine} onChange={(v) => set({ cuisine: v })} any={t('any')} options={CUISINES.map((c) => [c[0], L(lang, c)])} />
             <Select label={t('protein')} value={f.protein} onChange={(v) => set({ protein: v })} any={t('any')} options={PROTEINS.map((c) => [c[0], L(lang, c)])} />
             <Select label={t('maxCost')} value={f.cost || ''} onChange={(v) => set({ cost: v })} any={t('any')} options={[2, 3, 4, 5, 7, 10].map((n) => [n, `≤ ${app.fmt(n)}`])} />
@@ -168,8 +189,8 @@ export default function Browse({ query }) {
             <span className="pricechips" role="group" aria-label={t('maxCost')}>
               {[2, 3, 5].map((n) => <button type="button" key={n} className={`chip ${f.cost === n ? 'on' : ''}`} aria-pressed={f.cost === n} onClick={() => set({ cost: f.cost === n ? null : n })}>≤ {app.fmt(n).replace(/[,.]00/, '')} {t('perMeal')}</button>)}
             </span>
-            <label>{t('sort')} <select value={f.sort} onChange={(e) => set({ sort: e.target.value === 'deals' ? null : e.target.value })}>
-              {[['deals', 'sortDeals'], ['cost', 'sortCost'], ['protein', 'sortProtein'], ['time', 'sortTime'], ['rating', 'sortRating']].map(([v, k]) => <option key={v} value={v}>{t(k)}</option>)}
+            <label>{t('sort')} <select value={f.sort} onChange={(e) => set({ sort: e.target.value === (f.mine ? 'pantry' : 'deals') ? null : e.target.value })}>
+              {[['deals', 'sortDeals'], ['cost', 'sortCost'], ['protein', 'sortProtein'], ['time', 'sortTime'], ['rating', 'sortRating'], ...(f.mine ? [['pantry', 'sortPantry']] : [])].map(([v, k]) => <option key={v} value={v}>{t(k)}</option>)}
             </select></label>
           </div>
           <div className="grid">{list.slice(0, shown).map((r) => <RecipeCard key={r.id} r={r} />)}</div>

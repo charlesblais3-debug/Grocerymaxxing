@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { useApp } from './store.jsx';
-import { Img, Chip, Store, IngredientPicker, DealBadge, Score, offerText, nice } from './ui.jsx';
+import { Img, Chip, Store, IngredientPicker, DealBadge, Score, offerText, nice, unitText, MemberBadge } from './ui.jsx';
 import { AISLES, ING_BY_ID } from '../shared/ingredients.js';
 import { deaccent } from '../shared/text.js';
 import { bestFor } from '../shared/cost.js';
@@ -8,7 +8,7 @@ import { pkLabel } from '../shared/match.js';
 import { topDeals, DEAL_SECTIONS } from '../shared/deals.js';
 
 export default function Flyers() {
-  const { regionItems, selected, storeName, recipes, t, lang, fmt, flyers, guide, pickStore, favs, toggleFav, offers, regionStores, baseline } = useApp();
+  const { regionItems, selected, storeName, recipes, t, lang, fmt, flyers, guide, pickStore, favs, toggleFav, offers, regionStores, baseline, extras, toggleExtra, noMember, setNoMember } = useApp();
   const [q, setQ] = useState('');
   const [aisle, setAisle] = useState('');
   const [matched, setMatched] = useState(true);
@@ -62,7 +62,7 @@ export default function Flyers() {
                 <ul>
                   {s.wins.slice(0, 4).map((w) => (
                     <li key={w.pk}>
-                      <b>{pkLabel(w.pk, lang)}</b> <Score offer={w.offer} /> <span className="p">{fmt(w.offer.perG * 1000)}/kg</span>
+                      <b>{pkLabel(w.pk, lang)}</b> <Score offer={w.offer} /> <span className="p">{unitText(w.offer.perG, fmt, w.offer.ing, w.offer.basis)}</span>
                       <small>{w.only ? t('onlyFlyer') : `${Math.round(w.margin * 100)} % ${t('cheaperThanNext')}`}{w.off ? ` · −${Math.round(w.off * 100)} % ${t('vsRegular')}` : ''}</small>
                     </li>
                   ))}
@@ -86,7 +86,7 @@ export default function Flyers() {
             return ING_BY_ID[id] && (
               <li key={id} className={o ? 'on' : ''}>
                 <b>{ING_BY_ID[id][lk]}</b>
-                {o ? <span><Store id={o.store} /> {fmt(o.perG * 1000)}/kg <DealBadge offer={o} /> <a className="link" href={`#/?ing=${id}&sale=1`}>{t('recipes')} →</a></span> : <span className="meta">{t('notOnSale')}</span>}
+                {o ? <span><Store id={o.store} /> {unitText(o.perG, fmt, o.ing, o.basis)} <DealBadge offer={o} /> <a className="link" href={`#/?ing=${id}&sale=1`}>{t('recipes')} →</a></span> : <span className="meta">{t('notOnSale')}</span>}
                 <button type="button" className="link" onClick={() => toggleFav(id)} aria-label={t('remove')}>×</button>
               </li>
             );
@@ -96,6 +96,7 @@ export default function Flyers() {
       <div className="flybar">
         <input type="search" value={q} onChange={(e) => { setQ(e.target.value); setShown(120); }} placeholder={t('flyerSearch')} aria-label={t('flyerSearch')} />
         <label className="check"><input type="checkbox" checked={matched} onChange={(e) => setMatched(e.target.checked)} /> {t('matchedOnly')}</label>
+        <label className="check" title={t('memberPriceTitle')}><input type="checkbox" checked={noMember} onChange={(e) => setNoMember(e.target.checked)} /> {t('excludeMember')}</label>
       </div>
       <div className="mealbar">
         <Chip on={!aisle} onClick={() => setAisle('')}>{t('all')}</Chip>
@@ -109,15 +110,16 @@ export default function Flyers() {
             <div className="card-body">
               <div className="meta"><Store id={i.store} />{i.to ? ` · ${t('until')} ${new Date(i.to + 'T12:00:00').toLocaleDateString(lang === 'en' ? 'en-CA' : 'fr-CA', { day: 'numeric', month: 'short' })}` : ''}</div>
               <h3>{nice(i.name, lang)}</h3>
-              {i.pg ? <DealBadge offer={{ ...i, perG: i.perG }} /> : null}
+              {i.pg ? <DealBadge offer={{ ...i, perG: i.perG }} /> : null} <MemberBadge item={i} />
               <div className="card-foot">
                 <span className="cost">{offerText(i, fmt)}</span>
-                {i.perG ? <span className="macro">{fmt(i.perG * 100)}/100 g{i.basis === 'each' ? ' ≈' : ''}</span> : null}
+                {i.perG ? <span className="macro">{unitText(i.perG, fmt, i.ing, i.basis)}</span> : null}
                 {i.pg ? <Score offer={i} /> : null}
               </div>
               {i.story ? <div className="meta">{i.story}</div> : null}
               {i.ing && !favs.includes(i.ing) ? <button type="button" className="link" onClick={() => toggleFav(i.ing)}>☆ {t('watch')} {ING_BY_ID[i.ing][lk].toLowerCase()}</button> : null}
               {(i.ings || (i.ing ? [i.ing] : [])).filter((g) => uses[g]).map((g) => <a key={g} className="link" href={`#/?ing=${g}`}>{uses[g]} {t('recipesWith')} {ING_BY_ID[g][lk].toLowerCase()} →</a>)}
+              <button type="button" className={`btn addlist ${extras.some((e) => e.id === i.id) ? 'on' : ''}`} onClick={() => toggleExtra(i)}>{extras.some((e) => e.id === i.id) ? `✓ ${t('inList')}` : `+ ${t('addToList')}`}</button>
             </div>
           </div>
         ))}
@@ -129,22 +131,26 @@ export default function Flyers() {
 
 /** Biggest discounts this week, across all stores or the ones picked, by shopping section. */
 function TopDeals({ items, stores, baseline, uses }) {
-  const { t, lang, fmt, storeName, extras, toggleExtra } = useApp();
-  const [pick, setPick] = useState([]); // empty = every store
+  const { t, lang, fmt, storeName, extras, toggleExtra, selected } = useApp();
+  // 'mine' follows the stores picked in the store bar; 'all' is every store of the region;
+  // otherwise the stores picked here.
+  const [mode, setMode] = useState('mine');
+  const [pick, setPick] = useState([]);
   const [section, setSection] = useState('');
   const [shown, setShown] = useState(12);
   const lk = lang === 'en' ? 2 : 1;
-  const scope = useMemo(() => new Set(pick.length ? pick : stores.map((s) => s.id)), [pick, stores]);
+  const scope = useMemo(() => (mode === 'mine' ? selected : mode === 'all' || !pick.length ? new Set(stores.map((s) => s.id)) : new Set(pick)), [mode, pick, stores, selected]);
   const deals = useMemo(() => topDeals(items, { stores: scope, section, baseline }), [items, scope, section, baseline]);
-  const toggle = (id) => { setShown(12); setPick(pick.includes(id) ? pick.filter((x) => x !== id) : [...pick, id]); };
+  const toggle = (id) => { setShown(12); setMode('pick'); const base = mode === 'pick' ? pick : []; setPick(base.includes(id) ? base.filter((x) => x !== id) : [...base, id]); };
   const date = (d) => new Date(d + 'T12:00:00').toLocaleDateString(lang === 'en' ? 'en-CA' : 'fr-CA', { day: 'numeric', month: 'short' });
   return (
     <section className="topdeals" aria-label={t('topDealsTitle')}>
       <h1>{t('topDealsTitle')}</h1>
       <p className="note">{t('topDealsIntro')}</p>
       <div className="mealbar" role="group" aria-label={t('stores')}>
-        <Chip on={!pick.length} onClick={() => { setPick([]); setShown(12); }}>{t('allStores')}</Chip>
-        {stores.map((s) => <Chip key={s.id} on={pick.includes(s.id)} onClick={() => toggle(s.id)}>{storeName[s.id] || s.id}</Chip>)}
+        <Chip on={mode === 'mine'} onClick={() => { setMode('mine'); setShown(12); }}>{t('myStores')}</Chip>
+        <Chip on={mode === 'all'} onClick={() => { setMode('all'); setShown(12); }}>{t('allStores')}</Chip>
+        {stores.map((s) => <Chip key={s.id} on={mode === 'pick' && pick.includes(s.id)} onClick={() => toggle(s.id)}>{storeName[s.id] || s.id}</Chip>)}
       </div>
       <div className="mealbar" role="group" aria-label={t('sections')}>
         <Chip on={!section} onClick={() => { setSection(''); setShown(12); }}>{t('all')}</Chip>
@@ -156,10 +162,10 @@ function TopDeals({ items, stores, baseline, uses }) {
             <div className="card deal" key={`${i.store}|${i.id}`}>
               <div className="card-img"><Img src={i.img} alt="" /><span className="off-flag">−{Math.round(off * 100)} %</span></div>
               <div className="card-body">
-                <div className="meta"><Store id={i.store} />{i.to ? ` · ${t('until')} ${date(i.to)}` : ''}</div>
+                <div className="meta"><Store id={i.store} />{i.to ? ` · ${t('until')} ${date(i.to)}` : ''} <MemberBadge item={i} /></div>
                 <h3>{nice(i.name, lang)}</h3>
                 <div className="card-foot"><span className="cost">{offerText(i, fmt)}</span></div>
-                <div className="meta">{fmt(perG * 1000)}/kg · {t('usually')} {fmt(ref * 1000)}/kg ({pkLabel(pk, lang).toLowerCase()})</div>
+                <div className="meta">{unitText(perG, fmt, ing, i.basis)} · {t('usually')} {fmt(ref * 1000)}/kg ({pkLabel(pk, lang).toLowerCase()})</div>
                 {uses[ing] ? <a className="link" href={`#/?ing=${ing}&sale=1`}>{uses[ing]} {t('recipesWith')} {ING_BY_ID[ing][lang === 'en' ? 'en' : 'fr'].toLowerCase()} →</a> : null}
                 <button type="button" className={`btn addlist ${extras.some((e) => e.id === i.id) ? 'on' : ''}`} onClick={() => toggleExtra(i)}>{extras.some((e) => e.id === i.id) ? `✓ ${t('inList')}` : `+ ${t('addToList')}`}</button>
               </div>
