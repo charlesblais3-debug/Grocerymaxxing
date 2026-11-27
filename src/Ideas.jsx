@@ -4,7 +4,8 @@ import { batchesFor } from '../shared/planner.js';
 import { RecipeCard, Store, Icon, offerText, offerName, unitText } from './ui.jsx';
 import { ING_BY_ID } from '../shared/ingredients.js';
 
-const LINK_COLORS = ['#0e5a43', '#c98a0b', '#c0392b', '#2f6fd0', '#8b5cf6'];
+// Theme colours with their ink (see --link-n in styles.css): legible in light and dark.
+const LINK_COLORS = [1, 2, 3, 4, 5].map((n) => [`var(--link-${n})`, `var(--link-${n}-ink)`]);
 const kg = (g) => (g >= 1000 ? `${(g / 1000).toFixed(1).replace('.0', '')} kg` : `${Math.round(g / 10) * 10} g`);
 
 export default function Ideas() {
@@ -66,7 +67,7 @@ function BundleCard({ b, storeName }) {
         </div>
         <div className="bundle-stats">
           <div><small>{t('planTotal')}</small><b>≈ {fmt(b.total)}</b></div>
-          {b.meals > 0 && <div><small>{String(b.meals).replace('.', lang === 'en' ? '.' : ',')} {t('mealsWord')}</small><b>≈ {fmt(b.total / b.meals)}</b></div>}
+          {b.meals > 0 && <div><small>{String(b.meals).replace('.', lang === 'en' ? '.' : ',')} {t('mealsWord')}</small><b>≈ {fmt(b.total / b.meals)}<small> {t('perMeal')}</small></b></div>}
           <button type="button" className={`btn ${all ? 'on' : 'primary'}`} onClick={() => b.recipes.forEach((r) => setBatches(r.id, all ? 0 : plan[r.id] || batchesFor(r, people)))}>{all ? `✓ ${t('inPlan')}` : <><Icon name="plus" size={15} /> {t('addAll')}</>}</button>
         </div>
       </div>
@@ -75,10 +76,11 @@ function BundleCard({ b, storeName }) {
           {b.recipes.map((r) => <RecipeCard key={r.id} r={r} className={focusIng ? (uses(r, focusIng) ? 'synergy-hi' : 'synergy-dim') : ''} />)}
           {shared.map((sh, row) => {
             const used = b.recipes.map((r) => uses(r, sh.id));
+            const [c, ci] = LINK_COLORS[row % LINK_COLORS.length];
             const first = used.indexOf(true);
             const last = used.lastIndexOf(true);
             return used.map((u, col) => (
-              <div key={sh.id + col} style={{ '--c': LINK_COLORS[row % LINK_COLORS.length] }}
+              <div key={sh.id + col} style={{ '--c': c, '--ci': ci }}
                 className={`link-cell ${col < first || col > last ? 'none' : ''} ${col === first ? 'first' : ''} ${col === last ? 'last' : ''} ${!u ? 'gap' : ''}`}>
                 <button type="button" className={`dot ${focusIng === sh.id ? 'on' : ''}`} title={`${name(sh.id)} · ${storeName[sh.offer.store]}`} {...focusProps(sh.id)}>{name(sh.id)}</button>
               </div>

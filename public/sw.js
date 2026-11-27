@@ -42,9 +42,14 @@ const cacheFirst = async (req) => {
   const cache = await caches.open(CACHE);
   const hit = await cache.match(req);
   if (hit) return hit;
-  const res = await fetch(req);
-  if (res.ok) cache.put(req, res.clone());
-  return res;
+  // Offline and never fetched (a page's code not opened yet): a clean network error.
+  try {
+    const res = await fetch(req);
+    if (res.ok) cache.put(req, res.clone());
+    return res;
+  } catch {
+    return Response.error();
+  }
 };
 
 self.addEventListener('fetch', (e) => {

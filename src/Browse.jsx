@@ -167,7 +167,7 @@ export default function Browse({ query }) {
       {shown < list.length && <div className="morewrap"><button type="button" className="btn" onClick={() => setShown(shown + PAGE)}>{t('more')}</button></div>}
 
       <div className={`drawer-backdrop ${open ? 'open' : ''}`} onClick={() => setOpen(false)} />
-      <aside className={`drawer ${open ? 'open' : ''}`} role="dialog" aria-modal="true" aria-label={t('filters')} aria-hidden={!open}>
+      <aside className={`drawer ${open ? 'open' : ''}`} role={open ? 'dialog' : undefined} aria-modal={open ? 'true' : undefined} aria-label={t('filters')} aria-hidden={!open}>
         <div className="drawer-head"><h2>{t('filters')}</h2><button type="button" className="btn primary" onClick={() => setOpen(false)}>{t('showResults')} ({nf.format(list.length)})</button></div>
         {open && (
           <div className="drawer-body">
@@ -236,7 +236,8 @@ function Bento({ list }) {
   return (
     <section className="bento" aria-label={t('heroTitle')}>
       <article className="spot">
-        <Img src={spot.image} alt="" />
+        <a className="card-hit" href={`#/r/${spot.id}`} aria-label={spot.name} />
+        <Img src={spot.image} alt="" eager />
         <div className="spot-scrim" />
         <div className="spot-kick">
           <span className="kick"><Icon name="star" size={13} /> {t('spotlight')}{store ? ` · ${storeName[store]}` : ''}</span>

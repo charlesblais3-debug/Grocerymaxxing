@@ -33,7 +33,7 @@ export default function Recipe({ id }) {
     <article className="wrap recipe">
       <a className="link back" href="#/" onClick={(e) => { if (window.history.length > 1) { e.preventDefault(); window.history.back(); } }}><Icon name="back" size={15} /> {t('back').replace(/^←\s*/, '')}</a>
       <header className="rhead">
-        <Img src={r.image} alt="" className="hero" />
+        <Img src={r.image} alt="" className="hero" eager />
         <div className="rhead-text">
           <div className="kicker">{src}{r.author ? ` · ${r.author}` : ''}{r.rating ? <span>· <Icon name="star" size={13} /> {r.rating.value.toFixed(1)}{r.rating.count ? ` (${r.rating.count})` : ''}</span> : null}</div>
           <h1>{r.name}</h1>

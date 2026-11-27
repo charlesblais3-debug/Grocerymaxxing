@@ -147,8 +147,9 @@ function TopDeals({ uses }) {
                 <div className="kicker"><Store id={i.store} />{i.to ? <span>{t('until')} {date(i.to)}</span> : null}<MemberBadge item={i} /></div>
                 <h3>{nice(i.name, lang)}</h3>
                 <div className="deal-price"><span className="cost">{offerText(i, fmt)}</span><Sparkline pk={pk} now={perG} /></div>
-                <div className="u">{unitText(perG, fmt, ing, i.basis)} · {t('usually')} {fmt(ref * 1000)}/kg ({pkLabel(pk, lang).toLowerCase()})</div>
-                {uses[ing] ? <a className="link" href={`#/?ing=${ing}&sale=1`}>{uses[ing]} {t('recipesWith')} {ING_BY_ID[ing][lang === 'en' ? 'en' : 'fr'].toLowerCase()} →</a> : null}
+                <div className="u">{unitText(perG, fmt, ing, i.basis)} · {t('usually')} {unitText(ref, fmt, ing)} ({pkLabel(pk, lang).toLowerCase()})</div>
+                {/* "On sale" only when that store is one of the visitor's: otherwise the list would be empty. */}
+                {uses[ing] ? <a className="link" href={`#/?ing=${ing}${selected.has(i.store) ? '&sale=1' : ''}`}>{uses[ing]} {t('recipesWith')} {ING_BY_ID[ing][lang === 'en' ? 'en' : 'fr'].toLowerCase()} →</a> : null}
                 <AddToList item={i} />
               </div>
             </article>

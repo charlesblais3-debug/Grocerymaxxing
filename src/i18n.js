@@ -262,6 +262,7 @@ const S = {
   dealsShort: ['rabais recettes', 'recipe deals'],
   quickSale: ['En rabais', 'On sale'],
   swapShort: ['Changer', 'Swap'],
+  close: ['Fermer', 'Close'],
 };
 export const t = (lang) => (k) => (S[k] ? S[k][lang === 'en' ? 1 : 0] : k);
 export const L = (lang, row) => row[lang === 'en' ? 2 : 1];

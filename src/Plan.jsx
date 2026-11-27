@@ -135,10 +135,10 @@ export default function Plan() {
     return weight(a.g);
   };
   const sorted = (k) => [...groups[k]].sort((a, b) => a.name.localeCompare(b.name));
-  const text = () => order.filter((k) => groups[k]).map((k) => `${title(k)}\n` + sorted(k).map((a) => `${checks[a.key] ? '✓' : '-'} ${a.name}${qty(a) ? ` (≈ ${qty(a)})` : ''}${a.offer ? ` — ${storeName[a.offer.store]}: ${offerText(a.offer, fmt)}` : ''}`).join('\n')).join('\n\n')
+  const text = () => (order.filter((k) => groups[k]).map((k) => `${title(k)}\n` + sorted(k).map((a) => `${checks[a.key] ? '✓' : '-'} ${a.name}${qty(a) ? ` (≈ ${qty(a)})` : ''}${a.offer ? ` — ${storeName[a.offer.store]}: ${offerText(a.offer, fmt)}` : ''}`).join('\n')).join('\n\n')
     + (others.length ? `\n\n${t('others')}\n` + others.map((o) => '- ' + o).join('\n') : '')
     + (pantryCheck.length ? `\n\n${t('checkPantry')}\n` + pantryCheck.map((a) => `- ${a.name}`).join('\n') : '')
-    + (extras.length ? `\n\n${t('addedDeals')}\n` + extras.map((e) => `${checks['x:' + e.id] ? '✓' : '-'} ${nice(e.name, lang)} — ${storeName[e.store] || e.store}: ${offerText(e, fmt)}`).join('\n') : '');
+    + (extras.length ? `\n\n${t('addedDeals')}\n` + extras.map((e) => `${checks['x:' + e.id] ? '✓' : '-'} ${nice(e.name, lang)} — ${storeName[e.store] || e.store}: ${offerText(e, fmt)}`).join('\n') : '')).trim();
   const copy = async () => { try { await navigator.clipboard.writeText(text()); setCopied(true); setTimeout(() => setCopied(false), 1500); } catch { /* clipboard unavailable */ } };
   const share = async () => { try { if (navigator.share) await navigator.share({ title: t('groceryList'), text: text() }); else await copy(); } catch { /* cancelled */ } };
 
@@ -275,7 +275,7 @@ export default function Plan() {
           <span><button type="button" className="btn primary sm" onClick={importShared}>{t('importPlan')}</button> <a className="link" href="#/plan">{t('ignore')}</a></span>
         </div>
       )}
-      {extras.length > 0 && <AddedDeals />}
+      {extras.length > 0 && <AddedDeals onShare={!rows.length ? share : null} copied={copied} />}
       {!rows.length ? <div className="state">{t('planEmpty')} <a className="link" href="#/">{t('recipes')} →</a></div> : (
         <>
           {switchTip && (
@@ -380,7 +380,7 @@ function BudgetRing({ total, budget }) {
 }
 
 /** Flyer deals added to the list by hand from the Flyers tab. */
-function AddedDeals() {
+function AddedDeals({ onShare, copied }) {
   const { extras, toggleExtra, clearExtras, checks, toggleCheck, storeName, fmt, t, lang, today } = useApp();
   const groups = {};
   for (const e of extras) (groups[e.store] ||= []).push(e);
@@ -388,7 +388,16 @@ function AddedDeals() {
     <section className="added-deals">
       <div className="listhead">
         <h2>{t('addedDeals')}</h2>
-        <span className="listtools noprint"><a className="link" href="#/circulaires">{t('moreDeals')} →</a> <button type="button" className="link" onClick={() => window.confirm(t('clearAddedConfirm')) && clearExtras()}>{t('clearAdded')}</button></span>
+        <span className="listtools noprint">
+          {/* With no recipes planned, this is the whole list: it can be shared and printed here. */}
+          {onShare && (
+            <>
+              <button type="button" className="btn sm" onClick={onShare}><Icon name="share" size={14} /> {copied ? t('copied') : t('share')}</button>
+              <button type="button" className="btn sm" onClick={() => window.print()}><Icon name="printer" size={14} /> {t('print')}</button>
+            </>
+          )}
+          <a className="link" href="#/circulaires">{t('moreDeals')} →</a> <button type="button" className="link" onClick={() => window.confirm(t('clearAddedConfirm')) && clearExtras()}>{t('clearAdded')}</button>
+        </span>
       </div>
       <div className="glist">
         {Object.entries(groups).map(([store, list]) => (

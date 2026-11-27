@@ -8,10 +8,11 @@ import { complete } from '../shared/cost.js';
 import { isMemberPrice } from '../shared/deals.js';
 import { batchesFor } from '../shared/planner.js';
 
-export function Img({ src, alt = '', className }) {
+/** A photo, lazy by default; above-the-fold heroes pass `eager`. */
+export function Img({ src, alt = '', className, eager = false }) {
   const [bad, setBad] = useState(false);
   if (!src || bad) return <div className={`img ph ${className || ''}`} aria-hidden="true"><Icon name="plate" size={36} /></div>;
-  return <img className={`img ${className || ''}`} src={src} alt={alt} loading="lazy" referrerPolicy="no-referrer" onError={() => setBad(true)} />;
+  return <img className={`img ${className || ''}`} src={src} alt={alt} loading={eager ? 'eager' : 'lazy'} fetchPriority={eager ? 'high' : undefined} referrerPolicy="no-referrer" onError={() => setBad(true)} />;
 }
 
 /** Stroke icons drawn for this site (inline SVG: they follow the text colour and need no network). */
@@ -237,13 +238,19 @@ export function MacroRing({ m, k = 1 }) {
     <div className="ring">
       <svg viewBox="0 0 140 140" width="150" height="150" role="img" aria-label={`${Math.round(m.kcal * k)} kcal`}>
         <circle cx="70" cy="70" r={R} fill="none" stroke="var(--surface)" strokeWidth="14" />
-        {sum > 0 && parts.map(([key, v, color]) => {
-          const len = (v / sum) * C;
-          // Rounded caps overlap the next arc by about a stroke width: leave that much gap.
-          const el = len > 16 ? <circle key={key} cx="70" cy="70" r={R} fill="none" stroke={color} strokeWidth="14" strokeLinecap="round" strokeDasharray={`${Math.max(len - 16, 0.1)} ${C}`} strokeDashoffset={-(acc + 8)} transform="rotate(-90 70 70)" /> : null;
-          acc += len;
-          return el;
-        })}
+        {sum > 0 && (() => {
+          // Rounded caps overlap the next arc by about a stroke width: each arc is shortened by
+          // that much and centred in its share. A small share still shows, as a dot.
+          const nonZero = parts.filter(([, v]) => v > 0).length;
+          return parts.map(([key, v, color]) => {
+            if (!(v > 0)) return null;
+            const len = (v / sum) * C;
+            const dash = nonZero === 1 ? C : Math.max(0.5, len - 16);
+            const offset = nonZero === 1 ? 0 : -(acc + (len - dash) / 2);
+            acc += len;
+            return <circle key={key} cx="70" cy="70" r={R} fill="none" stroke={color} strokeWidth="14" strokeLinecap="round" strokeDasharray={`${dash} ${C}`} strokeDashoffset={offset} transform="rotate(-90 70 70)" />;
+          });
+        })()}
         <text x="70" y="68" textAnchor="middle" className="ring-kcal">{Math.round(m.kcal * k)}</text>
         <text x="70" y="86" textAnchor="middle" className="ring-unit">kcal</text>
       </svg>
@@ -302,7 +309,12 @@ export function StoreMenu() {
       {open && createPortal(<div className="pop-backdrop" onClick={() => setOpen(false)} />, document.body)}
       {open && createPortal(
         <div className="popover" role="dialog" aria-modal="true" aria-label={t('storeMenuTitle')} tabIndex={-1} ref={panel} style={pos ? { '--pop-top': `${pos.top}px`, '--pop-right': `${pos.right}px` } : undefined}>
-          <h3>{t('storeMenuTitle')}</h3>
+          <div className="pop-head">
+            <h3>{t('storeMenuTitle')}</h3>
+            <button type="button" className="pop-close" onClick={() => { setOpen(false); box.current?.querySelector('button')?.focus(); }} aria-label={t('close')}>
+              <Icon name="x" size={16} />
+            </button>
+          </div>
           <label className="pop-row"><span>{t('region')}</span>
             <select value={regionId || ''} onChange={(e) => setRegion(e.target.value)}>
               {Object.entries(regions).map(([id, r]) => <option key={id} value={id}>{r.label}</option>)}
