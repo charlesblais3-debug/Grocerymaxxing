@@ -50,12 +50,18 @@ const num = (x) => parseFloat(String(x).replace(',', '.'));
 
 /** @returns {{kind:'g'|'ml', v:number}|{ambiguous:true}|null} */
 export function packageSize(text) {
-  const t = deaccent(text).replace(/(\d)\s*%/g, ' ');
+  // "750 ML / 1 L", "500 g - 1 kg": one range written with two units.
+  const t = deaccent(text).replace(/(\d)\s*%/g, ' ')
+    .replace(/(\d+(?:[.,]\d+)?)\s*ml\s*(?:\/|-|–|a|ou)\s*(\d+(?:[.,]\d+)?)\s*(?:l|litres?)(?![a-z])/g, (m, a, b) => `${a}-${num(b) * 1000} ml`)
+    .replace(/(\d+(?:[.,]\d+)?)\s*g\s*(?:\/|-|–|a|ou)\s*(\d+(?:[.,]\d+)?)\s*kg(?![a-z])/g, (m, a, b) => `${a}-${num(b) * 1000} g`);
   const found = [];
-  const multi = [...t.matchAll(new RegExp(String.raw`(\d+)\s*x\s*` + NUM + String.raw`\s*` + UNIT, 'g'))];
+  // "12x355 mL", and "12X341/355 ML" (a multipack of either can size).
+  const multi = [...t.matchAll(new RegExp(String.raw`(\d+)\s*x\s*` + NUM + String.raw`(?:\s*\/\s*` + NUM + String.raw`)?\s*` + UNIT, 'g'))];
   for (const m of multi) {
-    const [kind, f] = SZ[m[3]];
-    found.push({ kind, lo: +m[1] * num(m[2]) * f, hi: +m[1] * num(m[2]) * f, multi: true, at: m.index, end: m.index + m[0].length });
+    const [kind, f] = SZ[m[4]];
+    const a = +m[1] * num(m[2]) * f;
+    const b = m[3] ? +m[1] * num(m[3]) * f : a;
+    found.push({ kind, lo: Math.min(a, b), hi: Math.max(a, b), multi: true, at: m.index, end: m.index + m[0].length });
   }
   const re = new RegExp(NUM + String.raw`(?:\s*(?:-|–|/|a|to|ou)\s*` + NUM + String.raw`)?\s*` + UNIT, 'g');
   for (const m of t.matchAll(re)) {
@@ -87,7 +93,7 @@ export function packCount(text) {
 // Ingredients a flyer may price per piece ("ch.") — produce that is really sold one at a
 // time. Anything else needs a weight or a size: a "6 $" pack of chicken or bag of onions
 // says nothing about how much food it is.
-const EACH_OK = new Set(['mini_cucumber', 'leek', 'buns', 'avocado', 'mango', 'cucumber', 'lettuce', 'cauliflower', 'broccoli', 'cabbage', 'melon', 'pineapple', 'squash', 'celery', 'eggplant', 'fennel', 'bell_pepper', 'lemon', 'lime', 'grapefruit', 'chives', 'parsley', 'cilantro', 'dill', 'mint', 'basil', 'green_onion', 'kale', 'bok_choy', 'corn', 'garlic', 'radish', 'asparagus', 'egg', 'zucchini', 'kiwi', 'pomegranate']);
+const EACH_OK = new Set(['mini_cucumber', 'leek', 'buns', 'english_muffin', 'avocado', 'mango', 'cucumber', 'lettuce', 'cauliflower', 'broccoli', 'cabbage', 'melon', 'pineapple', 'squash', 'celery', 'eggplant', 'fennel', 'bell_pepper', 'lemon', 'lime', 'grapefruit', 'chives', 'parsley', 'cilantro', 'dill', 'mint', 'basil', 'green_onion', 'kale', 'bok_choy', 'corn', 'garlic', 'radish', 'asparagus', 'egg', 'zucchini', 'kiwi', 'pomegranate']);
 // Sold by the bunch or the dozen: a plural name ("oignons verts") is still one unit.
 export const BUNCH = new Set(['egg', 'green_onion', 'radish', 'parsley', 'cilantro', 'dill', 'mint', 'basil', 'asparagus', 'kale', 'chives']);
 const PACKED = /\b(sac|bag|paquet|pack|emballage|caisse|barquette|contenant|boite|filet|lb|lbs|kg|bte|panier|basket|clamshell|format)\b/;
@@ -100,7 +106,8 @@ export function unitPrice(item, ing, segment) {
   let p = Number(item.price);
   if (!isFinite(p) || p <= 0 || !ing) return null;
   const pre = deaccent(item.pre || '');
-  const post = deaccent(item.post || '');
+  // Provigo and Maxi print "… , CH." at the end of the name instead of in the price wording.
+  const post = `${deaccent(item.post || '')}${/,\s*(?:ch|chacun|each|ea)\.?\s*$/.test(deaccent(item.name || '')) ? ' ch.' : ''}`.trim();
   // "À partir de 4,99": the cheapest of several products — not a price for this one.
   if (/partir|starting|from\b/.test(pre + ' ' + post)) return null;
   // Multi-buy: "2/ … ou 3,99 ch." — buying one costs 3,99; otherwise split the bundle.

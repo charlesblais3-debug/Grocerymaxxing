@@ -119,6 +119,13 @@
   "2026-10-29": [],
   "2026-11-05": [
    [
+    "adonis",
+    "almonds",
+    0.017286,
+    0.024857,
+    1
+   ],
+   [
     "metro",
     "almonds",
     0.029073,
@@ -1304,22 +1311,8 @@
    [
     "iga",
     "chocolate",
-    0.036633,
-    0,
-    1
-   ],
-   [
-    "iga",
-    "chocolate",
     0.036737,
     0.047281,
-    1
-   ],
-   [
-    "maxi",
-    "chocolate",
-    0.011741,
-    0,
     1
    ],
    [
@@ -1341,13 +1334,6 @@
     "chocolate",
     0.0399,
     0,
-    1
-   ],
-   [
-    "metro",
-    "chocolate",
-    0.017588,
-    0.019751,
     1
    ],
    [
@@ -1375,13 +1361,6 @@
     "provigo",
     "chocolate",
     0.025,
-    0,
-    1
-   ],
-   [
-    "superc",
-    "chocolate",
-    0.01298,
     0,
     1
    ],
@@ -2282,9 +2261,23 @@
     1
    ],
    [
+    "bonichoix",
+    "ketchup",
+    0.003965,
+    0,
+    1
+   ],
+   [
     "superc",
     "ketchup",
     0.004041,
+    0,
+    1
+   ],
+   [
+    "tradition",
+    "ketchup",
+    0.004263,
     0,
     1
    ],
@@ -2963,6 +2956,13 @@
    [
     "metro",
     "olive_oil",
+    0.01241,
+    0.023591,
+    1
+   ],
+   [
+    "metro",
+    "olive_oil",
     0.026065,
     0.028228,
     1
@@ -3283,10 +3283,31 @@
     1
    ],
    [
+    "maxi",
+    "peanut_butter~beurre_arachide",
+    0.006823,
+    0,
+    1
+   ],
+   [
+    "richelieu",
+    "peanut_butter~beurre_arachide",
+    0.00568,
+    0,
+    1
+   ],
+   [
     "superc",
     "peanut_butter~beurre_arachide",
     0.00998,
     0,
+    1
+   ],
+   [
+    "tradition",
+    "peanut_butter~beurre_arachide",
+    0.007989,
+    0.008564,
     1
    ],
    [
@@ -4440,7 +4461,7 @@
    [
     "iga",
     "soy_milk~lait_avoine",
-    0.005634,
+    0.005478,
     0,
     1
    ],
@@ -4998,6 +5019,13 @@
     1
    ],
    [
+    "adonis",
+    "walnuts~pistache",
+    0.017286,
+    0.024857,
+    1
+   ],
+   [
     "metro",
     "whipped_cream",
     0.019956,
@@ -5127,6 +5155,27 @@
     "maxi",
     "wine~biere",
     0.005162,
+    0,
+    1
+   ],
+   [
+    "provigo",
+    "wine~biere",
+    0.004549,
+    0,
+    1
+   ],
+   [
+    "provigo",
+    "wine~biere",
+    0.004865,
+    0,
+    1
+   ],
+   [
+    "provigo",
+    "wine~biere",
+    0.005134,
     0,
     1
    ],
@@ -7820,6 +7869,13 @@
     0
    ],
    [
+    "maxi",
+    "english_muffin~bagel",
+    0.008626,
+    0,
+    1
+   ],
+   [
     "provigo",
     "english_muffin~bagel",
     0.006556,
@@ -7830,6 +7886,13 @@
     "superc",
     "english_muffin~bagel",
     0.005022,
+    0,
+    1
+   ],
+   [
+    "maxi",
+    "english_muffin~muffin_anglais",
+    0.006579,
     0,
     1
    ],
@@ -8473,9 +8536,23 @@
    [
     "iga",
     "ketchup",
+    0.004939,
+    0,
+    1
+   ],
+   [
+    "iga",
+    "ketchup",
     0.005762,
     0,
     0
+   ],
+   [
+    "provigo",
+    "ketchup",
+    0.004969,
+    0,
+    1
    ],
    [
     "superc",
@@ -9024,6 +9101,13 @@
     1
    ],
    [
+    "maxi",
+    "olive_oil",
+    0.009652,
+    0,
+    1
+   ],
+   [
     "tradition",
     "olive_oil",
     0.01738,
@@ -9399,6 +9483,13 @@
     "peanut_butter~beurre_arachide",
     0.00698,
     0.008983,
+    1
+   ],
+   [
+    "provigo",
+    "peanut_butter~beurre_arachide",
+    0.007429,
+    0,
     1
    ],
    [
@@ -10690,17 +10781,17 @@
     1
    ],
    [
-    "superc",
-    "spinach_frozen",
-    0.00372,
-    0.00532,
-    1
-   ],
-   [
     "iga",
     "spinach~epinard",
     0.035141,
     0.042169,
+    1
+   ],
+   [
+    "superc",
+    "spinach~epinard",
+    0.00372,
+    0.00532,
     1
    ],
    [
@@ -11392,7 +11483,21 @@
    [
     "maxi",
     "wine~biere",
+    0.004399,
+    0,
+    1
+   ],
+   [
+    "maxi",
+    "wine~biere",
     0.004692,
+    0,
+    1
+   ],
+   [
+    "maxi",
+    "wine~biere",
+    0.005352,
     0,
     1
    ],
@@ -11400,6 +11505,20 @@
     "provigo",
     "wine~biere",
     0.004692,
+    0,
+    1
+   ],
+   [
+    "provigo",
+    "wine~biere",
+    0.005505,
+    0,
+    1
+   ],
+   [
+    "provigo",
+    "wine~biere",
+    0.005837,
     0,
     1
    ],
@@ -12254,6 +12373,20 @@
     "chicken_whole",
     0.006592,
     0.009156,
+    1
+   ],
+   [
+    "mayrand",
+    "english_muffin~bagel",
+    0.018991,
+    0.021916,
+    1
+   ],
+   [
+    "mayrand",
+    "english_muffin~bagel",
+    0.021901,
+    0.026281,
     1
    ],
    [
@@ -13722,6 +13855,13 @@
     1
    ],
    [
+    "iga",
+    "english_muffin~muffin_anglais",
+    0.010205,
+    0,
+    1
+   ],
+   [
     "provigo",
     "english_muffin~muffin_anglais",
     0.008772,
@@ -13732,6 +13872,13 @@
     "superc",
     "english_muffin~muffin_anglais",
     0.007295,
+    0,
+    1
+   ],
+   [
+    "superc",
+    "english_muffin~muffin_anglais",
+    0.008713,
     0,
     1
    ],
@@ -14858,7 +15005,7 @@
    [
     "maxi",
     "oats",
-    0.003333,
+    0.003158,
     0,
     1
    ],
@@ -14894,6 +15041,13 @@
     "iga",
     "olive_oil",
     0.028971,
+    0,
+    1
+   ],
+   [
+    "maxi",
+    "olive_oil",
+    0.009652,
     0,
     1
    ],
@@ -15248,10 +15402,24 @@
     1
    ],
    [
+    "iga",
+    "peanut_butter~beurre_arachide",
+    0.006823,
+    0.00799,
+    1
+   ],
+   [
     "kimphat",
     "peanut_butter~beurre_arachide",
     0.00898,
     0.012976,
+    1
+   ],
+   [
+    "metro",
+    "peanut_butter~beurre_arachide",
+    0.007989,
+    0.01005,
     1
    ],
    [
@@ -16403,17 +16571,17 @@
     1
    ],
    [
-    "kimphat",
-    "spinach_frozen",
-    0.002472,
-    0,
-    1
-   ],
-   [
     "iga",
     "spinach~epinard",
     0.020915,
     0.035137,
+    1
+   ],
+   [
+    "kimphat",
+    "spinach~epinard",
+    0.002472,
+    0,
     1
    ],
    [
@@ -16837,6 +17005,13 @@
     1
    ],
    [
+    "maxi",
+    "tuna_can",
+    0.026529,
+    0,
+    1
+   ],
+   [
     "richelieu",
     "tuna_can",
     0.016941,
@@ -17072,6 +17247,20 @@
     "wine~biere",
     0.005629,
     0.007509,
+    1
+   ],
+   [
+    "maxi",
+    "wine~biere",
+    0.004745,
+    0,
+    1
+   ],
+   [
+    "provigo",
+    "wine~biere",
+    0.00608,
+    0,
     1
    ],
    [
@@ -18891,6 +19080,20 @@
    [
     "provigo",
     "broccoli",
+    0.004286,
+    0,
+    1
+   ],
+   [
+    "provigo",
+    "broccoli",
+    0.005714,
+    0,
+    1
+   ],
+   [
+    "provigo",
+    "broccoli",
     0.011429,
     0,
     1
@@ -19486,13 +19689,6 @@
    [
     "iga",
     "chocolate",
-    0.024967,
-    0,
-    1
-   ],
-   [
-    "iga",
-    "chocolate",
     0.02995,
     0,
     1
@@ -19943,6 +20139,13 @@
     "egg",
     0.010212,
     0,
+    1
+   ],
+   [
+    "provigo",
+    "english_muffin~bagel",
+    0.011696,
+    0.01462,
     1
    ],
    [
@@ -21017,13 +21220,6 @@
     1
    ],
    [
-    "maxi",
-    "mozzarella",
-    0.017621,
-    0,
-    1
-   ],
-   [
     "adonis",
     "mushroom",
     0.011013,
@@ -21117,7 +21313,7 @@
    [
     "superc",
     "oats",
-    0.003878,
+    0.003674,
     0,
     1
    ],
@@ -21132,6 +21328,13 @@
     "iga",
     "olive_oil",
     0.028239,
+    0,
+    1
+   ],
+   [
+    "maxi",
+    "olive_oil",
+    0.009652,
     0,
     1
    ],
@@ -23945,6 +24148,13 @@
    [
     "maxi",
     "wine~biere",
+    0.004399,
+    0,
+    1
+   ],
+   [
+    "maxi",
+    "wine~biere",
     0.004692,
     0,
     1
@@ -23953,6 +24163,20 @@
     "provigo",
     "wine~biere",
     0.004692,
+    0,
+    1
+   ],
+   [
+    "provigo",
+    "wine~biere",
+    0.004743,
+    0,
+    1
+   ],
+   [
+    "provigo",
+    "wine~biere",
+    0.004787,
     0,
     1
    ],
@@ -23988,6 +24212,13 @@
     "provigo",
     "wine~vin",
     0.0115,
+    0,
+    1
+   ],
+   [
+    "provigo",
+    "wine~vin",
+    0.014274,
     0,
     1
    ],

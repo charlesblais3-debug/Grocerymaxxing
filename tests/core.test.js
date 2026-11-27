@@ -798,3 +798,23 @@ describe('grocery list names', () => {
     expect(memberLabel('onion', 'fr')).toBe('Oignon');
   });
 });
+
+describe('review: flyer reading and leaks', () => {
+  it('reads ", CH." in the name, bagel packs and mixed-unit ranges', async () => {
+    const { packageSize } = await import('../shared/price.js');
+    expect(packageSize('750 ML / 1 L')).toEqual({ kind: 'ml', v: 875 });
+    expect(packageSize('12X341/355 ML').v).toBeCloseTo(4176, 0);
+    expect(unitPrice({ name: 'COURONNES DE BROCOLI | BROCCOLI CROWNS , CH.', price: 1.99 }, ING_BY_ID.broccoli)).not.toBeNull();
+    expect(unitPrice({ name: 'BAGELS DE CHOIX, 6 UN.', price: 4.99 }, ING_BY_ID.english_muffin)).not.toBeNull();
+  });
+  it('non-food and prepared products never match an ingredient', () => {
+    for (const n of ['APPLE AIRPODS 5', 'PAPIER EMBALLAGE DE NOËL | CHRISTMAS WRAP', 'Cuiseur à riz Micom', 'Huile nettoyante SKIN1004', 'BOUCHÉES AU FROMAGE MOZZARELLA PC, 454 G',
+      'Œuf à faire éclore Mégalodon', "Crème d'oxyde de zinc", 'Casse-noisette Bouclair', 'Mélange pour chocolat chaud', 'PARTY FRUIT TRAY']) expect([n, matchFlyerItemFull(n)]).toEqual([n, []]);
+    expect(matchFlyerItemFull('POITRINES DE POULET, EMBALLAGE FAMILIAL').map((x) => x.pk)).toEqual(['chicken_breast']);
+  });
+  it('fresh chopped spinach is not frozen; coconut aminos is a soy sauce', () => {
+    expect(parseIngredientLine('2 cups chopped spinach', 'en').ing).toBe('spinach');
+    expect(parseIngredientLine('1 package frozen chopped spinach', 'en').ing).toBe('spinach_frozen');
+    expect(parseIngredientLine('2 tbsp coconut aminos', 'en').ing).toBe('soy_sauce');
+  });
+});

@@ -162,11 +162,15 @@ export function classify(r, ings) {
   const first = words[0] || '';
   const edges = `${first} | ${words.slice(-2).join(' ')}`; // French names lead with the dish, English ones end with it
   const notBread = /\bpains? (?:de|a la) viande|meat ?loaf|pain dore|pain perdu\b/.test(title);
+  // English names end with the dish: "Creamy Dill Sauce" is a sauce, "Chicken with Peanut
+  // Sauce" is not.
+  const enSauce = r.lang === 'en' && /\b(sauce|gravy|dressing|vinaigrette|aioli|salsa|pesto)$/.test(title.trim())
+    && !/\b(with|and|chicken|beef|pork|fish|salmon|shrimp|pasta|noodles?|tofu|meatballs?|steak|lamb|turkey|wings|ribs|eggs?|bowls?|tacos?|rice|potatoes|vegetables)\b/.test(title);
   const meals = [];
   for (const [id] of MEAL_TYPES) {
     const re = MEAL_RULES[id];
     if (id === 'bread' && notBread) continue;
-    if (re.test(cat) || re.test(!HEAD_ONLY.has(id) ? title : id === 'sauce' ? first : edges)) meals.push(id);
+    if (re.test(cat) || re.test(!HEAD_ONLY.has(id) ? title : id === 'sauce' ? first : edges) || (id === 'sauce' && enSauce)) meals.push(id);
   }
   if (!meals.length) for (const [id] of MEAL_TYPES) if (!HEAD_ONLY.has(id) && MEAL_RULES[id].test(meta)) meals.push(id);
 
