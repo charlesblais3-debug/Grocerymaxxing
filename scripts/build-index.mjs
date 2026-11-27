@@ -36,7 +36,8 @@ export function buildRecipes(raw) {
     const r = { ...r0, ingredients: r0.ingredients.filter((x) => /[\p{L}\d]/u.test(x)), servings: r0.servings > 0 ? r0.servings : null, image: cleanImage(r0.image) };
     const ings = r.ingredients.map((x) => parseIngredientLine(x, r.lang));
     const n = r.nutrition || {};
-    // Published nutrition only (per serving, as stated by the source). Never computed.
+    // Published nutrition (per serving, as stated by the source). When there is none, macros
+    // are calculated further down from the ingredient weights and flagged `calc`.
     const macros = r.nutrition ? {
       kcal: numOf(n.calories), protein: numOf(n.proteinContent), carbs: numOf(n.carbohydrateContent),
       fat: numOf(n.fatContent), fiber: numOf(n.fiberContent), sugar: numOf(n.sugarContent),

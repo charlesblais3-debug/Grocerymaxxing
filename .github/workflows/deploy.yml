@@ -20,6 +20,8 @@ concurrency:
 
 jobs:
   test:
+    # After a data run, deploy only if that run succeeded (a failed one changed nothing).
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

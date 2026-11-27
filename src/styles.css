@@ -73,9 +73,6 @@ h2 { font-size: 1.3rem; margin: 1.5rem 0 .6rem; font-weight: 600; }
 .region { display: flex; align-items: center; gap: 6px; font-size: .85rem; color: var(--muted); }
 .stores, .weeks { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
 .storebar .stores { padding-top: 8px; }
-/* legacy */ .storesum { display: flex; gap: 8px; align-items: center; font: inherit; font-size: .85rem; background: var(--card); color: var(--ink); border: 1px solid var(--line); border-radius: 999px; padding: 4px 12px; cursor: pointer; min-width: 0; max-width: 100%; }
-.storesum .lbl { font-weight: 600; white-space: nowrap; }
-.storesum .names { display: flex; gap: 4px; align-items: center; overflow: hidden; white-space: nowrap; }
 select, input[type='search'] { font: inherit; color: var(--ink); background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 7px 9px; max-width: 100%; }
 .chip { font: inherit; font-size: .85rem; border: 1px solid var(--line); background: var(--card); color: var(--ink); border-radius: 999px; padding: 4px 11px; cursor: pointer; white-space: nowrap; }
 .chip.on { background: var(--soft); border-color: var(--brand); color: var(--brand); font-weight: 600; }
@@ -236,9 +233,6 @@ a.card:hover { transform: translateY(-2px); box-shadow: 0 2px 4px rgba(40, 30, 1
 .stat { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 10px 14px; box-shadow: var(--shadow); }
 .stat small { display: block; color: var(--muted); font-size: .78rem; }
 .stat b { font-family: var(--display); font-size: 1.4rem; font-variant-numeric: tabular-nums; }
-.plan-list { list-style: none; padding: 0; margin: 0 0 24px; display: grid; gap: 8px; }
-.plan-list li { display: flex; gap: 12px; align-items: center; background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 8px; }
-.plan-list .img { width: 64px; height: 64px; border-radius: 8px; flex: none; }
 .grow { flex: 1; min-width: 0; }
 .stepper { display: flex; align-items: center; gap: 6px; }
 .stepper button { width: 32px; height: 32px; border-radius: 8px; border: 1px solid var(--line); background: var(--bg); color: var(--ink); font-size: 1.1rem; cursor: pointer; }
@@ -340,9 +334,6 @@ details.plan-ctl > div { display: flex; gap: 8px 10px; align-items: center; flex
 .bundle-stats { display: flex; gap: 18px; align-items: center; flex-wrap: wrap; }
 .bundle-stats small { display: block; color: var(--muted); font-size: .75rem; }
 .bundle-stats b { font-variant-numeric: tabular-nums; }
-.shared { list-style: none; display: flex; flex-wrap: wrap; gap: 6px 8px; padding: 0; margin: 12px 0 14px; font-size: .85rem; }
-.shared li { background: var(--soft); border-radius: 8px; padding: 4px 10px; }
-.shared .lbl { background: none; padding-left: 0; color: var(--muted); }
 .mealnote { margin-top: 2px; }
 .warnbox { background: color-mix(in srgb, var(--save) 10%, transparent); color: var(--save); border-radius: 8px; padding: 6px 10px; font-size: .85rem; font-weight: 600; }
 

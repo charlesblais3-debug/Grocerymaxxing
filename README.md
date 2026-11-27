@@ -43,7 +43,9 @@ published, and all costing happens in the browser for the stores the visitor sel
 
 `scripts/fetch-recipes.mjs` only copies fields that the publisher exposes in its own
 structured data: title, ingredient lines, yield, times, categories, rating and nutrition.
-A field the source does not publish stays empty — nutrition is **never computed**.
+A field the source does not publish stays empty. Nutrition is copied as published; when a
+source publishes none, the app **calculates** macros from the parsed ingredient weights
+(`shared/nutrition.js`, typical values per 100 g) and always labels them as calculated.
 The scraper honours `robots.txt`, rate-limits itself, and skips sites that refuse crawlers
 (HTTP 402/403). Preparation steps are **not** copied: each recipe links to the original
 page for the method.
