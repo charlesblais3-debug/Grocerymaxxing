@@ -206,7 +206,7 @@ export default function Browse({ query }) {
 // priced to trust go last, and the share of ingredients in the flyer breaks ties.
 // Sauces, snacks and other non-meal recipes rank a notch lower so dinners lead the list.
 const dealScore = (c) => (c.coverage >= 0.6 ? Math.round(c.savingsPct * 100) + c.deals / Math.max(c.countable, 6) - (c.perKind === 'meal' ? 0 : 15) : -1);
-const ppd = (r, c) => (r.macros?.protein != null && r.servings && c.total && c.coverage >= 0.75 ? (r.macros.protein * r.servings) / c.total : -1);
+const ppd = (r, c) => (r.macros?.protein != null && (r.servings || r.meals) && c.total && c.coverage >= 0.75 ? (r.macros.protein * (r.servings || r.meals)) / c.total : -1);
 const score = (r) => (r.rating ? r.rating.value * Math.log10((r.rating.count || 1) + 9) : 0);
 
 function Select({ label, value, onChange, options, any }) {

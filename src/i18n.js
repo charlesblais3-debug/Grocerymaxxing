@@ -52,6 +52,8 @@ const S = {
   memberPriceTitle: ['Prix réservé aux membres d’un programme de fidélité ou d’une appli', 'Price for loyalty-card or app members only'],
   excludeMember: ['Exclure les prix membres', 'Exclude member prices'],
   sortPantry: ['Correspondance au garde-manger', 'Pantry match'],
+  mainNav: ['Navigation principale', 'Main navigation'],
+  mobileNav: ['Navigation mobile', 'Mobile navigation'],
   maxCost: ['Coût max. / repas', 'Max cost / meal'],
   any: ['Tous', 'Any'],
   withMacros: ['Avec valeurs nutritives', 'With nutrition facts'],

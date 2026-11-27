@@ -2,6 +2,8 @@
 // Run after `npm run index`:  node scripts/audit.mjs [region] [store,store]
 import { readFile } from 'node:fs/promises';
 import { bestOffers, costRecipe, reliable } from '../shared/cost.js';
+import { computeNutrition } from '../shared/nutrition.js';
+import { isProteinIng } from '../shared/taxonomy.js';
 
 const load = async (f) => JSON.parse(await readFile(`public/data/${f}.json`, 'utf8'));
 const [recipes, flyers, meta] = await Promise.all([load('recipes'), load('flyers'), load('meta')]);
@@ -28,6 +30,8 @@ console.log('\nCheapest and dearest reliable recipes:');
 for (const x of [...ok.sort((a, b) => a.c.per - b.c.per).slice(0, 6), ...ok.slice(-6)]) console.log(`  ${x.c.per.toFixed(2)} /${x.c.perKind} · ${x.r.name.slice(0, 44)} · yield ${x.r.yield} · meals ${x.r.meals} (${x.r.mealBasis}) · kcal ${x.r.macros?.kcal ?? '-'} · ${x.c.priced}/${x.c.countable}`);
 
 // Calculated macros checked against the sources that publish theirs.
+// Calculated calories next to published ones (per serving), to spot broken nutrition blocks.
+for (const r of recipes) { const c = r.macros && !r.macros.calc && r.servings ? computeNutrition(r.ings, isProteinIng) : null; if (c) r.calcCheck = c.kcal / r.servings; }
 const both = recipes.filter((r) => r.calcCheck && r.macros && !r.macros.calc && r.macros.kcal > 50);
 const ratios = both.map((r) => r.calcCheck / r.macros.kcal).sort((a, b) => a - b);
 if (ratios.length) {

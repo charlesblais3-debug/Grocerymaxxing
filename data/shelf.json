@@ -1,6 +1,6 @@
 {
  "source": "Walmart.ca (catalogue en ligne, via Flipp)",
- "fetchedAt": "2026-11-23T19:35:12.729Z",
+ "fetchedAt": "2026-11-27T15:54:09.936Z",
  "searched": {
   "chicken breast": "2026-11-23",
   "poitrine de poulet": "2026-11-23",
@@ -359,9 +359,9 @@
   "lettuce": "2026-11-23",
   "laitue": "2026-11-23",
   "pomme de laitue": "2026-11-23",
-  "salad mix": "2026-11-23",
+  "salad mix": "2026-11-27",
   "mesclun": "2026-11-23",
-  "spring mix": "2026-11-23",
+  "spring mix": "2026-11-27",
   "mushrooms": "2026-11-23",
   "champignon": "2026-11-23",
   "mushroom": "2026-11-23",
@@ -778,7 +778,7 @@
   "hoisin": "2026-11-23",
   "sauce teriyaki": "2026-11-23",
   "teriyaki": "2026-11-23",
-  "mirin": "2026-11-23",
+  "mirin": "2026-11-27",
   "hot sauce": "2026-11-23",
   "sauce piquante": "2026-11-23",
   "tabasco": "2026-11-23",
@@ -947,7 +947,7 @@
   "bourbon": "2026-11-23",
   "whisky": "2026-11-23",
   "whiskey": "2026-11-23",
-  "coleslaw mix": "2026-11-23",
+  "coleslaw mix": "2026-11-27",
   "melange de salade de chou": "2026-11-23",
   "salade de chou": "2026-11-23",
   "canned green chiles": "2026-11-23",
@@ -1066,7 +1066,7 @@
   "taco seasoning": "2026-11-23",
   "italian seasoning": "2026-11-23",
   "onion soup mix": "2026-11-23",
-  "lea perrins": "2026-11-23",
+  "lea perrins": "2026-11-27",
   "jalapeno peppers": "2026-11-23",
   "leeks": "2026-11-23",
   "dried cranberries": "2026-11-23",
@@ -1078,7 +1078,7 @@
   "white miso": "2026-11-23",
   "unflavoured gelatin": "2026-11-23",
   "knox gelatin": "2026-11-13",
-  "coleslaw": "2026-11-13",
+  "coleslaw": "2026-11-27",
   "hamburger buns": "2026-11-23",
   "hot dog buns": "2026-11-23",
   "crab meat": "2026-11-23",
@@ -1108,7 +1108,7 @@
   "corn meal": "2026-11-23",
   "naan bread": "2026-11-23",
   "soya sauce": "2026-11-23",
-  "aji mirin": "2026-11-23",
+  "aji mirin": "2026-11-27",
   "mirin seasoning": "2026-11-23",
   "pumpkin purée": "2026-11-23",
   "puree de citrouille": "2026-11-23",
@@ -1181,7 +1181,10 @@
   "fresh tuna": "2026-11-23",
   "thon frais": "2026-11-23",
   "darne de thon": "2026-11-23",
-  "darnes de thon": "2026-11-23"
+  "darnes de thon": "2026-11-23",
+  "lea perrins worchestershire": "2026-11-27",
+  "frenchs worcestershire": "2026-11-27",
+  "kikkoman mirin": "2026-11-27"
  },
  "products": [
   {
@@ -10098,7 +10101,7 @@
    "sku": "10224702",
    "name": "Club House Ranch Style Dressing And Dip Mix 28 G",
    "price": 1.27,
-   "date": "2026-11-23"
+   "date": "2026-11-27"
   },
   {
    "sku": "206860",
@@ -14136,13 +14139,13 @@
    "sku": "1XAMRX9R573X",
    "name": "Earthbound Farm Organic Spring Mix",
    "price": 4.97,
-   "date": "2026-11-23"
+   "date": "2026-11-27"
   },
   {
    "sku": "0YZ5A70Y07FZ",
    "name": "Earthbound Farm Organic Spring Mix",
    "price": 6.47,
-   "date": "2026-11-23"
+   "date": "2026-11-27"
   },
   {
    "sku": "10209167",
@@ -14958,7 +14961,7 @@
    "sku": "2GU7IBQIBPCO",
    "name": "Febreze Plug In Air Freshener, Odour-Fighting Scented Oil Refill, Spring Scent Mix, 3 Refills",
    "price": 16.98,
-   "date": "2026-11-23"
+   "date": "2026-11-27"
   },
   {
    "sku": "6000196087988",
@@ -16008,25 +16011,25 @@
    "sku": "2357SV1A3BFA",
    "name": "Fresh Attitude - Greek Mix - Family Salad Kit With Toppings 454g",
    "price": 6.97,
-   "date": "2026-11-23"
+   "date": "2026-11-27"
   },
   {
    "sku": "6000199938231",
    "name": "Fresh Attitude - Greek Mix - Ready-To-Eat Salad Kit 185g",
    "price": 3.97,
-   "date": "2026-11-23"
+   "date": "2026-11-27"
   },
   {
    "sku": "47ZFJE557IMT",
    "name": "Fresh Attitude - Spring Mix Salad Ready-To-Eat Salad Kit 143g",
    "price": 3.97,
-   "date": "2026-11-23"
+   "date": "2026-11-27"
   },
   {
    "sku": "5Q2I9VTVI8W3",
    "name": "Fresh Attitude Family Salad Kit Spring Mix With Toppings, 318g",
    "price": 6.97,
-   "date": "2026-11-23"
+   "date": "2026-11-27"
   },
   {
    "sku": "6000207633451",
@@ -16050,7 +16053,7 @@
    "sku": "6000208113460",
    "name": "Fresh Express 3 Colour Deli Coleslaw, 680 G",
    "price": 4.47,
-   "date": "2026-11-13"
+   "date": "2026-11-27"
   },
   {
    "sku": "6000202692495",
@@ -18918,7 +18921,7 @@
    "sku": "10313424",
    "name": "Great Value Coleslaw Dressing 475 Ml",
    "price": 2.47,
-   "date": "2026-11-23"
+   "date": "2026-11-27"
   },
   {
    "sku": "6000196383010",
@@ -28014,7 +28017,7 @@
    "sku": "6000188762793",
    "name": "Kikkoman Manjo Aji-Mirin Sweet Cooking Rice Wine Seasoning 500ml",
    "price": 5.47,
-   "date": "2026-11-23"
+   "date": "2026-11-27"
   },
   {
    "sku": "2U4Q708C3YSP",
@@ -28734,7 +28737,7 @@
    "sku": "5LA3QZX8Z0FC",
    "name": "Kraft Coleslaw Dressing, 425 Ml Bottle 425 Ml",
    "price": 3.24,
-   "date": "2026-11-23"
+   "date": "2026-11-27"
   },
   {
    "sku": "4YJ9MSYT1REP",
@@ -29982,13 +29985,13 @@
    "sku": "10301372",
    "name": "Lea & Perrins Worchestershire Sauce 142 Ml",
    "price": 2.97,
-   "date": "2026-11-23"
+   "date": "2026-11-27"
   },
   {
    "sku": "10298565",
    "name": "Lea & Perrins Worchestershire Sauce 284 Ml",
    "price": 5.27,
-   "date": "2026-11-23"
+   "date": "2026-11-27"
   },
   {
    "sku": "2SGN55N4DH40",
@@ -30966,7 +30969,7 @@
    "sku": "6000197835255",
    "name": "Litehouse Coleslaw Dressing",
    "price": 4.97,
-   "date": "2026-11-23"
+   "date": "2026-11-27"
   },
   {
    "sku": "6000205033279",
@@ -32094,7 +32097,7 @@
    "sku": "6000196078314",
    "name": "Mann's Broccoli Cole Slaw",
    "price": 3.24,
-   "date": "2026-11-13"
+   "date": "2026-11-27"
   },
   {
    "sku": "6000196078311",
@@ -43398,7 +43401,7 @@
    "sku": "6000197315855",
    "name": "Reser's Fine Foods Crunchy Cole Slaw",
    "price": 4.78,
-   "date": "2026-11-13"
+   "date": "2026-11-27"
   },
   {
    "sku": "6000201241304",
@@ -48222,7 +48225,7 @@
    "sku": "61GTMJALJ200",
    "name": "Starfrit Salad Spinner, 5l Capacity, Retractable Handle, Quick-Action Brake, Non-Slip Feet, Bowl For Mixing And Serving, Dishwasher Safe Green",
    "price": 19.97,
-   "date": "2026-11-23"
+   "date": "2026-11-27"
   },
   {
    "sku": "6000208125087",
@@ -54636,7 +54639,7 @@
    "sku": "608VVA2Y9BNT",
    "name": "Your Fresh Market Crunchy Coleslaw",
    "price": 3.27,
-   "date": "2026-11-13"
+   "date": "2026-11-27"
   },
   {
    "sku": "6000208582180",
@@ -54756,7 +54759,7 @@
    "sku": "6000206420960",
    "name": "Your Fresh Market Green Blend Salad Mix",
    "price": 2.97,
-   "date": "2026-11-23"
+   "date": "2026-11-27"
   },
   {
    "sku": "6000191270342",
@@ -55236,7 +55239,7 @@
    "sku": "6000206417720",
    "name": "Your Fresh Market Salad Coleslaw Salad",
    "price": 2.97,
-   "date": "2026-11-13"
+   "date": "2026-11-27"
   },
   {
    "sku": "6000207166695",

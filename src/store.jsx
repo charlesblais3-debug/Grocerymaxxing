@@ -42,13 +42,21 @@ export function AppProvider({ children }) {
   const [week, setWeek] = useState('now'); // 'now' | 'next' (flyers are published a few days ahead)
   const [attempt, setAttempt] = useState(0); // bumped by "Retry" after a failed download
 
+  // Recipes, reference prices and the flyer index first; then the flyer items of the visitor's
+  // region only (one file per region), fetched again when the region changes.
+  const [items, setItems] = useState({}); // regionId -> flyer items
+  const get = (f) => fetch(`./data/${f}.json`).then((r) => { if (!r.ok) throw new Error(f + ' ' + r.status); return r.json(); });
   useEffect(() => {
     setError(null);
-    const get = (f) => fetch(`./data/${f}.json`).then((r) => { if (!r.ok) throw new Error(f + ' ' + r.status); return r.json(); });
-    Promise.all([get('recipes'), get('flyers'), get('meta')])
+    Promise.all([get('recipes'), get('flyers-index'), get('meta')])
       .then(([recipes, flyers, meta]) => setData({ recipes, flyers, meta }))
       .catch((e) => setError(String(e.message || e)));
   }, [attempt]);
+  const regionId = data ? (data.flyers.regions?.[region] ? region : Object.keys(data.flyers.regions || {})[0] || null) : null;
+  useEffect(() => {
+    if (!regionId || items[regionId]) return;
+    get(`flyers-${regionId}`).then((d) => setItems((x) => ({ ...x, [regionId]: d.items }))).catch((e) => setError(String(e.message || e)));
+  }, [regionId, attempt]); // eslint-disable-line react-hooks/exhaustive-deps
   useEffect(() => { document.documentElement.lang = lang === 'en' ? 'en-CA' : 'fr-CA'; }, [lang]);
   useEffect(() => { document.documentElement.dataset.theme = theme; }, [theme]);
 
@@ -56,8 +64,9 @@ export function AppProvider({ children }) {
   // change: ticking the grocery list, typing a budget or switching the theme no longer re-costs
   // 1,380 recipes. Costing depends on the region, week, chosen stores and pantry only.
   const base = useMemo(() => {
-    if (!data) return null;
-    const { recipes, flyers, meta } = data;
+    if (!data || !items[regionId]) return null;
+    const { recipes, meta } = data;
+    const flyers = { ...data.flyers, items: items[regionId] };
     return {
       recipes, flyers, meta,
       byId: new Map(recipes.map((r) => [r.id, r])),
@@ -67,12 +76,11 @@ export function AppProvider({ children }) {
       storeName: Object.fromEntries((flyers.stores || []).map((s) => [s.id, s.name])),
       sourceName: Object.fromEntries((meta.sources || []).map((s) => [s.id, s.name])),
     };
-  }, [data]);
+  }, [data, items, regionId]);
 
   const area = useMemo(() => {
     if (!base) return null;
     const { flyers, regions } = base;
-    const regionId = regions[region] ? region : Object.keys(regions)[0] || null;
     const reg = regionId ? regions[regionId] : { flyers: [], stores: [] };
     const flyerSet = new Set(reg.flyers);
     const today = localDate();
@@ -86,7 +94,7 @@ export function AppProvider({ children }) {
     const regionItems = live.filter((i) => (!i.from || i.from <= ref) && (!i.to || i.to >= ref) && !(noMember && isMemberPrice(i)));
     const regionStores = (flyers.stores || []).filter((s) => reg.stores.includes(s.id));
     return { regionId, today, nextStart, ref, regionItems, regionStores, available: regionStores.map((s) => s.id) };
-  }, [base, region, week, noMember]);
+  }, [base, regionId, week, noMember]);
 
   // Per-store offers and the store guide: only when the region or week changes.
   const perStore = useMemo(() => {

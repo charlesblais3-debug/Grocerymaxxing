@@ -18,7 +18,8 @@ export default function Recipe({ id }) {
   const c = costs.get(id);
   const m = r.macros;
   const tags = [...r.tax.meals.map((x) => MEAL_TYPES.find((y) => y[0] === x)), ...r.tax.cuisines.map((x) => CUISINES.find((y) => y[0] === x))].filter(Boolean);
-  const ppd = m?.protein != null && r.servings && c.total && c.coverage >= 0.75 ? (m.protein * r.servings) / c.total : null;
+  // Macros are per serving, or per meal when the source gives no serving count.
+  const ppd = m?.protein != null && (r.servings || r.meals) && c.total && c.coverage >= 0.75 ? (m.protein * (r.servings || r.meals)) / c.total : null;
   const k = mealScale(r);
   const adjusted = r.meals && r.mealBasis !== 'source';
   const b = batch ?? plan[id] ?? batchesFor(r, people);

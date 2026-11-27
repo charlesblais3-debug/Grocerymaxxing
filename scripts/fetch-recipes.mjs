@@ -39,12 +39,34 @@ function isoMinutes(v) {
   return (+m[1] || 0) * 1440 + (+m[2] || 0) * 60 + (+m[3] || 0);
 }
 
-function image(v) {
+/**
+ * The recipe's largest image. Sites list several sizes (Pinch of Yum's second one is a 195 px
+ * square thumbnail): the size comes from width/height or from the URL ("?fit=195,195",
+ * "-300x200.jpg"); an image of unknown size counts as the full-size original.
+ */
+export function image(v) {
   if (!v) return null;
-  if (typeof v === 'string') return v;
-  if (Array.isArray(v)) return image(v[v.length > 1 ? 1 : 0]) || image(v[0]);
-  return v.url || v.contentUrl || null;
+  const list = (Array.isArray(v) ? v : [v]).map((x) => (typeof x === 'string' ? { url: x } : { url: x.url || x.contentUrl, w: +x.width || 0, h: +x.height || 0 })).filter((x) => x.url);
+  const size = (x) => {
+    if (x.w) return x.w * (x.h || x.w);
+    const m = decodeURIComponent(x.url).match(/[?&](?:fit|resize)=(\d+),(\d+)|-(\d{2,4})x(\d{2,4})\.\w+(?:$|\?)/);
+    return m ? +(m[1] || m[3]) * +(m[2] || m[4]) : 1e9;
+  };
+  const best = list.sort((a, b) => size(b) - size(a))[0];
+  return best ? cleanImage(best.url) : null;
 }
+
+/** https, and a WordPress/Tachyon thumbnail ("?fit=195,195") asked for at a readable size. */
+export function cleanImage(url) {
+  if (!url) return url;
+  let u = String(url).replace(/^http:\/\//, 'https://');
+  u = u.replace(/([?&])(fit|resize)=(\d+)(%2C|,)(\d+)/i, (m, sep, k, w, comma, h) => (Math.max(+w, +h) < 480 ? `${sep}${k}=720${comma}720` : m));
+  return u;
+}
+
+// News pieces and storage tips published as "recipes" ("Alzheimer: un neurochirurgien
+// dévoile une recette…", "Conserver les courgettes au congélateur").
+export const NOT_A_RECIPE = /\b(devoile|neurochirurgien|medecin|nutritionniste|selon (?:un|une|des|les)|voici pourquoi|chercheurs?|scientists?|study finds)\b|^(?:comment )?(?:conserver|congeler)\b|^how to (?:store|freeze|keep)\b/;
 
 /** Extract the first schema.org Recipe object from a page. */
 export function extractRecipe(html) {
@@ -171,7 +193,7 @@ export function toRecord(ld, url, source) {
     image: image(ld.image),
     author: author || null,
     yield: yieldRaw || null,
-    servings: yieldNum ? +yieldNum[0] : null,
+    servings: yieldNum && +yieldNum[0] > 0 ? +yieldNum[0] : null,
     prepMin: isoMinutes(ld.prepTime),
     cookMin: isoMinutes(ld.cookTime),
     totalMin: isoMinutes(ld.totalTime),

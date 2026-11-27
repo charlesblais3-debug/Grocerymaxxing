@@ -17,6 +17,7 @@ import { classify, isMealDish, isProteinIng } from '../shared/taxonomy.js';
 import { computeNutrition } from '../shared/nutrition.js';
 import { ING_BY_ID } from '../shared/ingredients.js';
 import { SOURCES } from './sources.mjs';
+import { cleanImage, NOT_A_RECIPE } from './fetch-recipes.mjs';
 import { STORES, loadFlyers } from './fetch-flyers.mjs';
 const MAIN = new Set(STORES.map((x) => x.id));
 // Grams of food in a meal when a recipe has to be divided by weight (a main without its sides).
@@ -29,7 +30,10 @@ const numOf = (v) => {
 };
 
 export function buildRecipes(raw) {
-  return raw.map((r) => {
+  return raw.filter((r) => !NOT_A_RECIPE.test(deaccent(r.name || ''))).map((r0) => {
+    // Separator lines ("——") are not ingredients; a "0 servings" yield is no yield; thumbnails
+    // and http:// images are upgraded (recipes gathered before the scraper was fixed).
+    const r = { ...r0, ingredients: r0.ingredients.filter((x) => /[\p{L}\d]/u.test(x)), servings: r0.servings > 0 ? r0.servings : null, image: cleanImage(r0.image) };
     const ings = r.ingredients.map((x) => parseIngredientLine(x, r.lang));
     const n = r.nutrition || {};
     // Published nutrition only (per serving, as stated by the source). Never computed.
@@ -121,13 +125,16 @@ export function buildRecipes(raw) {
     // serving count), and flagged `calc` so the app can say so.
     let outMacros = macros && macros.kcal != null ? macros : null;
     const calc = computeNutrition(ings, isProteinIng);
-    const div = rest.servings || meals;
+    // A yield that counts things ("1 gratin", "12 muffins") is not a serving: calculated macros
+    // are then per meal, matching the price shown per meal.
+    const div = rest.unitYield ? meals || rest.servings : rest.servings || meals;
     if (calc && div) {
       const per = Object.fromEntries(Object.entries(calc).map(([k, v]) => [k, +(v / div).toFixed(1)]));
       if (per.kcal >= 20 && per.kcal <= 2500) {
         // A source that publishes calories but "0 g" of protein for a chicken dish has a broken
         // nutrition block: the calculation is the better answer there too.
-        const broken = outMacros && !outMacros.protein && per.protein >= 8;
+        // So does "1 kcal" next to 42 g of protein (a typo: protein alone gives 4 kcal a gram).
+        const broken = outMacros && ((!outMacros.protein && per.protein >= 8) || (outMacros.kcal < 30 && per.kcal > 100) || (outMacros.protein && outMacros.kcal < outMacros.protein * 3));
         if (!outMacros || broken) outMacros = { ...per, sugar: null, sodium: null, satFat: null, serving: null, calc: 1 };
         else rest.calcCheck = per.kcal; // kept only for the audit: calculated vs published
       }
@@ -189,6 +196,7 @@ const STATCAN = [
  *   1. Statistics Canada average retail price for Québec;
  *   2. otherwise the median of the flyer prices seen in the last 26 weeks.
  */
+const PACKAGED_PRODUCE = new Set(['ginger', 'coleslaw_mix', 'salad_mix']);
 const NOT_GROCERY = /\b(monster jam|mints|tic tac|better homes|gardens|kt set|grow kit|seed kit|lures?|crankcase|crankbait|j-rigged|fishing|bookcase|desk|barstool|coasters|blanket|lip liner|lip serum|hair colou?r|monster truck|die-cast|diecast|vehicles?|furniture|chairs?|side table|accent table|petroleum jelly|healing jelly|vaseline|bird|birds|birdseed|spray millet|parakeet|budgie|yarn|acrylic|fabric|gerbera|daisy|daisies|flowers?|bouquet|plants?|seedlings?|planter|tape|toy|toys|plush|figure|funko|pants?|shirts?|socks|dog|dogs|cat|cats|pet|pets|puppy|kitten|treats?|shampoo|conditioner|soap|lotion|body wash|hand cream|candles?|detergent|cosmetics?|lipstick|bronzer|baby girls'?|baby boys'?|toddler|costume|ornament|mug|tumbler|book|vinyl|lego|crayons?|markers?|vitamins?|supplements?|capsules|gummies)\b/i;
 
 export function buildBaseline(data, history, shelf = null) {
@@ -269,7 +277,8 @@ export function buildBaseline(data, history, shelf = null) {
     const packaged = /sech|dried|conserve|canned|puree/.test(def.members.find((m) => `${def.id}~${m.key}` === h.pk)?.syn.join(' ') || '');
     const up = unitPrice({ price: p.price, name: p.name, post: '' }, def);
     if (up && up.basis !== 'each' && !(def.fb && h.pk === def.id)) (shelfAny[h.pk] ||= []).push(up.perG);
-    if (def.cat === 'meat' || (def.cat === 'produce' && def.id !== 'ginger' && !BUNCH.has(def.id) && !packaged) || (def.fb && h.pk === def.id)) continue;
+    // Bagged coleslaw is a packaged product with a printed weight, like any grocery item.
+    if (def.cat === 'meat' || (def.cat === 'produce' && !PACKAGED_PRODUCE.has(def.id) && !BUNCH.has(def.id) && !packaged) || (def.fb && h.pk === def.id)) continue;
     // Only a stated package size: a price per piece cannot tell one avocado from a bag.
     if (!up || (up.basis === 'each' && !BUNCH.has(def.id))) continue; // a bunch is a bunch
     (shelfObs[h.pk] ||= []).push(up.perG);
@@ -316,8 +325,18 @@ async function main() {
   // somewhere today therefore always has a reference price, even if the history file is stale.
   const flyerData = await loadFlyers('data/flyers.json');
   const baseline = buildBaseline(await readJson('data/baseline.json', null), mergeHistory(await readJson('data/price-history.json', null), flyerData), await readJson('data/shelf.json', null));
-  await writeJson('public/data/recipes.json', recipes);
+  // The app's copy leaves out what it never reads (scrape dates, raw categories, the audit's
+  // calculated-calorie check); scripts read the same file.
+  const lean = recipes.map(({ fetchedAt, published, category, cuisine, prepMin, cookMin, totalMin, calcCheck, ...r }) => r);
+  await writeJson('public/data/recipes.json', lean);
   await writeJson('public/data/flyers.json', flyers);
+  // A visitor sees one region: the app loads a small index and that region's items only.
+  const { items, ...index } = flyers;
+  await writeJson('public/data/flyers-index.json', index);
+  for (const [id, reg] of Object.entries(flyers.regions)) {
+    const ids = new Set(reg.flyers);
+    await writeJson(`public/data/flyers-${id}.json`, { items: items.filter((i) => i.flyers.some((f) => ids.has(f))) });
+  }
   await writeJson('public/data/meta.json', {
     builtAt: new Date().toISOString(),
     baseline,
