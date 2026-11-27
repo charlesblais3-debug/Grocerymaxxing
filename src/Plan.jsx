@@ -1,9 +1,10 @@
 import React, { useMemo, useState } from 'react';
-import { useApp } from './store.jsx';
+import { useApp, useRoute } from './store.jsx';
+import { costRecipe, complete } from '../shared/cost.js';
 import { Img, Store, Icon, IngredientPicker, offerText, nice, mealScale, offerName } from './ui.jsx';
 import { AISLES, ING_BY_ID, memberLabel } from '../shared/ingredients.js';
 import { BUNCH } from '../shared/price.js';
-import { suggestPlan, batchesFor } from '../shared/planner.js';
+import { suggestPlan, batchesFor, encodePlan, decodePlan } from '../shared/planner.js';
 import { DIETS } from '../shared/taxonomy.js';
 import { localDate } from '../shared/text.js';
 
@@ -18,11 +19,18 @@ function download(name, text, type) {
 // Liquids are bought by volume: their list quantity is shown in ml or litres.
 const LIQUID = new Set(['milk', 'cream_35', 'cream_10', 'soy_milk', 'coconut_milk', 'orange_juice', 'juice', 'tomato_sauce', 'broth_chicken', 'broth_beef', 'broth_veg', 'broth_fish', 'olive_oil', 'veg_oil', 'sesame_oil', 'vinegar', 'soy_sauce', 'fish_sauce', 'hot_sauce', 'wine', 'maple_syrup', 'honey', 'buttermilk', 'water']);
 
+// Staples most kitchens already have: one tap adds them to the pantry.
+export const ESSENTIALS = ['olive_oil', 'veg_oil', 'salt', 'pepper', 'flour', 'sugar', 'garlic', 'onion', 'butter'];
+
+
 const DAYS = [['Lundi', 'Monday'], ['Mardi', 'Tuesday'], ['Mercredi', 'Wednesday'], ['Jeudi', 'Thursday'], ['Vendredi', 'Friday'], ['Samedi', 'Saturday'], ['Dimanche', 'Sunday']];
 
 export default function Plan() {
   const app = useApp();
-  const { plan, setBatches, byId, costs, recipes, t, lang, fmt, storeName, days, setDay, people, setPeople, budget, setBudget, checks, toggleCheck, clearChecks, pantry, togglePantry, setPlanAll, left, setLeftDay, recent, remember, replaceInPlan, targets, setTargets, extras, toggleExtra, clearExtras } = app;
+  const { plan, setBatches, byId, costs, recipes, t, lang, fmt, storeName, days, setDay, people, setPeople, budget, setBudget, checks, toggleCheck, clearChecks, pantry, togglePantry, setPantryAll, setPlanAll, left, setLeftDay, recent, remember, replaceInPlan, targets, setTargets, extras, toggleExtra, clearExtras, storeOffers, baseline, have, selected, pickStore } = app;
+  const { query } = useRoute();
+  const shared = decodePlan(query.get('p')).filter((x) => byId.has(x.id));
+  const [linkCopied, setLinkCopied] = useState(false);
   const [mode, setMode] = useState('aisle');
   const [copied, setCopied] = useState(false);
   const li = lang === 'en' ? 1 : 0;
@@ -137,6 +145,40 @@ export default function Plan() {
   const byDay = [...DAYS.map((d, i) => ({ label: d[li], items: [...rows.filter((x) => days[x.r.id] === i), ...rows.filter((x) => left[x.r.id] === i && days[x.r.id] !== i).map((x) => ({ ...x, isLeft: true }))] })), { label: t('unassigned'), items: rows.filter((x) => !(days[x.r.id] >= 0 && days[x.r.id] <= 6)) }];
   const over = budget && total > budget;
 
+  // The same plan at each store on its own: worth switching when one is clearly cheaper.
+  const byStore = useMemo(() => {
+    if (!rows.length) return [];
+    const out = [];
+    for (const [id, offers] of storeOffers) {
+      let sum = 0; let ok = true;
+      for (const { r, n } of rows) { const c = costRecipe(r, offers, baseline, have); if (!complete(c)) { ok = false; break; } sum += c.total * n; }
+      if (ok) out.push({ id, total: sum });
+    }
+    return out.sort((a, b) => a.total - b.total);
+  }, [rows.map((x) => x.r.id + x.n).join(), storeOffers, baseline, have]); // eslint-disable-line react-hooks/exhaustive-deps
+  const cheapest = byStore[0];
+  const here = selected.size === 1 ? byStore.find((x) => selected.has(x.id)) : null;
+  const switchTip = cheapest && here && cheapest.id !== here.id && here.total - cheapest.total >= 1 ? { to: cheapest, from: here } : null;
+
+  // At the checkout: a flyer product sold by the package is bought whole ("1 kg bag" for 300 g),
+  // the rest as needed. An estimate; the plan total stays prorated so recipes compare fairly.
+  const checkout = useMemo(() => list.reduce((sum, a) => {
+    const o = a.offer;
+    if (o && o.basis === 'size' && o.perG > 0 && a.g > 0) { const pack = o.price / o.perG; return sum + Math.ceil(a.g / pack - 0.05) * o.price; }
+    return sum + a.cost;
+  }, 0), [list]);
+
+  const shareLink = async () => {
+    const url = `${window.location.origin}${window.location.pathname}#/plan?p=${encodePlan(plan, days)}`;
+    try { if (navigator.share) await navigator.share({ title: t('plan'), url }); else { await navigator.clipboard.writeText(url); setLinkCopied(true); setTimeout(() => setLinkCopied(false), 1500); } } catch { /* cancelled */ }
+  };
+  const importShared = () => {
+    if (rows.length && !window.confirm(t('replacePlan'))) return;
+    setPlanAll(shared.map((x, i) => ({ ...x, day: x.day ?? i })));
+    window.history.replaceState(null, '', '#/plan');
+    window.dispatchEvent(new HashChangeEvent('hashchange'));
+  };
+
   return (
     <div className="wrap plan">
       <section className="plan-setup noprint">
@@ -158,14 +200,27 @@ export default function Plan() {
         <button type="button" className="btn primary" onClick={propose}><Icon name="spark" /> {t('proposePlan')}</button>
       </section>
 
+      {shared.length > 0 && (
+        <div className="shared-plan noprint" role="status">
+          <span>{t('sharedPlan')} : <b>{shared.length}</b> {t('dinners')} ({shared.slice(0, 3).map((x) => byId.get(x.id).name).join(', ')}{shared.length > 3 ? '…' : ''})</span>
+          <span><button type="button" className="btn primary" onClick={importShared}>{t('importPlan')}</button> <a className="link" href="#/plan">{t('ignore')}</a></span>
+        </div>
+      )}
       {extras.length > 0 && <AddedDeals />}
       {!rows.length ? <div className="state">{t('planEmpty')} <a className="link" href="#/">{t('recipes')} →</a></div> : (
         <>
+          {switchTip && (
+            <div className="switch-tip noprint">
+              <span>{t('planCosts')} <b>{fmt(switchTip.to.total)}</b> {t('at')} {storeName[switchTip.to.id]}, {fmt(switchTip.from.total)} {t('at')} {storeName[switchTip.from.id]} — {t('save')} <b>{fmt(switchTip.from.total - switchTip.to.total)}</b></span>
+              <button type="button" className="btn" onClick={() => pickStore(switchTip.to.id, true)}>{t('shopAt')} {storeName[switchTip.to.id]}</button>
+            </div>
+          )}
           <div className="plan-top">
             <div className={`stat ${over ? 'over' : ''}`}>
               <small>{t('planTotal')}{budget ? ` / ${fmt(budget)}` : ''}</small><b>≈ {fmt(total)}</b>
               {budget ? <div className="budget-bar"><span style={{ width: `${Math.min(100, (total / budget) * 100)}%` }} /></div> : null}
               {budget ? <small>{over ? `${t('overBudget')} ${fmt(total - budget)}` : `${t('leftBudget')} ${fmt(budget - total)}`}</small> : null}
+              {checkout - total >= 0.5 ? <small title={t('atCheckoutTitle')}>{t('atCheckout')} ≈ {fmt(checkout)}</small> : null}
             </div>
             <div className="stat"><small>{t('planned')}</small><b>{meals ? num(meals) : '—'}</b><small>{meals ? `≈ ${fmt(total / meals)} ${t('perMeal')} · ${num((meals / people).toFixed(1))} ${t('perPerson')}` : ''}</small></div>
             <div className="stat saved"><small>{t('savedWeek')}</small><b>{saved > 0.05 ? fmt(saved) : '—'}</b><small>{saved > 0.05 ? `${Math.round((saved / (total + saved)) * 100)} % ${t('vsRegular')}` : ''}</small></div>
@@ -223,6 +278,7 @@ export default function Plan() {
               <button type="button" className="btn" onClick={share}>{copied ? t('copied') : t('share')}</button>{' '}
               <button type="button" className="btn" onClick={() => window.print()}>{t('print')}</button>{' '}
               <button type="button" className="btn" onClick={ics}>{t('calendar')}</button>{' '}
+              <button type="button" className="btn" onClick={shareLink}>{linkCopied ? t('copied') : t('planLink')}</button>{' '}
               {Object.keys(checks).length ? <button type="button" className="link" onClick={clearChecks}>{t('uncheckAll')}</button> : null}
             </span>
           </div>
@@ -270,6 +326,7 @@ export default function Plan() {
         <h2>{t('pantryTitle')}</h2>
         <p className="note">{t('pantryIntro')}</p>
         <IngredientPicker exclude={pantry} onPick={togglePantry} placeholder={t('addIngredient')} />
+        {ESSENTIALS.some((id) => !pantry.includes(id)) && <button type="button" className="link" onClick={() => setPantryAll(ESSENTIALS)}>+ {t('essentials')}</button>}
         <div className="pills">{pantry.map((id) => ING_BY_ID[id] && <button type="button" key={id} className="pill" onClick={() => togglePantry(id)}>{ING_BY_ID[id][lk]} ×</button>)}</div>
       </section>
     </div>

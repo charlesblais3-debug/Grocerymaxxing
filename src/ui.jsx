@@ -77,6 +77,31 @@ export function unitText(perG, fmt, ing, basis) {
   return `${basis === 'each' ? '≈ ' : ''}${fmt(perG * 1000)}/kg${lb}`;
 }
 
+/**
+ * The lowest flyer price per week for this product over the weeks on record, as a tiny line:
+ * makes "lowest in N weeks" visible at a glance. The last point is this week.
+ */
+export function Sparkline({ pk, now }) {
+  const { hist, t, fmt } = useApp();
+  const weeks = hist?.[pk];
+  if (!weeks) return null;
+  const pts = Object.keys(weeks).sort().map((w) => Math.min(...Object.values(weeks[w])));
+  if (now != null) pts.push(now);
+  if (pts.length < 3) return null;
+  const lo = Math.min(...pts); const hi = Math.max(...pts);
+  const W = 64; const H = 18; const span = hi - lo || 1;
+  const xy = pts.map((v, i) => [(i / (pts.length - 1)) * (W - 4) + 2, H - 2 - ((v - lo) / span) * (H - 4)]);
+  const last = xy[xy.length - 1];
+  const label = `${t('priceTrend')} : ${fmt(lo * 1000)}–${fmt(hi * 1000)}/kg`;
+  return (
+    <svg className="spark" width={W} height={H} viewBox={`0 0 ${W} ${H}`} role="img" aria-label={label}>
+      <title>{label}</title>
+      <polyline points={xy.map((p) => p.map((n) => n.toFixed(1)).join(',')).join(' ')} fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
+      <circle cx={last[0]} cy={last[1]} r="2.4" fill="var(--save)" />
+    </svg>
+  );
+}
+
 /** A loyalty-card or app-only price ("prix membre", "Scène+"). */
 export function MemberBadge({ item }) {
   const { t } = useApp();

@@ -62,3 +62,9 @@ export function suggestPlan(recipes, costs, { budget = null, people = 2, dinners
   }
   return picked.map((c, day) => ({ id: c.r.id, batches: c.batches, day, cost: c.cost }));
 }
+
+// A plan in a link: "#/plan?p=<recipe>_<batches>_<day>~…" (no account, no server). Batches can
+// be halves ("0.5"), so fields are separated by "_", not ".".
+export const encodePlan = (plan, days = {}) => Object.entries(plan).map(([id, n]) => `${id}_${n}${days[id] >= 0 && days[id] <= 6 ? `_${days[id]}` : ''}`).join('~');
+export const decodePlan = (s) => (s || '').split('~').map((x) => x.split('_')).filter(([id, n]) => /^[0-9a-f]{6,16}$/.test(id) && +n > 0)
+  .map(([id, n, d]) => ({ id, batches: Math.min(10, Math.round(+n * 2) / 2), day: d !== undefined && d !== '' && +d >= 0 && +d <= 6 ? +d : null }));

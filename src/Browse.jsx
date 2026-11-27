@@ -7,6 +7,9 @@ import { deaccent } from '../shared/text.js';
 import { reliable as isReliable, complete as isComplete, bestFor } from '../shared/cost.js';
 import { L } from './i18n.js';
 
+// Staples most kitchens already have (same list as the plan page).
+const ESSENTIALS = ['olive_oil', 'veg_oil', 'salt', 'pepper', 'flour', 'sugar', 'garlic', 'onion', 'butter'];
+
 const PAGE = 48;
 const MEAL_ICON = { main: '🍲', soup: '🥣', salad: '🥗', sandwich: '🥪', pasta: '🍝', side: '🥔', breakfast: '🍳', appetizer: '🧆', preserve: '🫙', sauce: '🥫', bread: '🍞', dessert: '🍰', drink: '🥤' };
 
@@ -177,6 +180,7 @@ export default function Browse({ query }) {
             <div className="mine">
               <label className="check"><input type="checkbox" checked={f.mine} onChange={(e) => set({ mine: e.target.checked ? '1' : null })} /> {t('useMine')}</label>
               <IngredientPicker exclude={app.pantry} onPick={app.togglePantry} placeholder={t('addIngredient')} />
+              {ESSENTIALS.some((id) => !app.pantry.includes(id)) && <button type="button" className="link" onClick={() => app.setPantryAll(ESSENTIALS)}>+ {t('essentials')}</button>}
               <div className="pills">{app.pantry.map((id) => ING_BY_ID[id] && <button type="button" key={id} className="pill" onClick={() => app.togglePantry(id)}>{ING_BY_ID[id][lang === 'en' ? 'en' : 'fr']} ×</button>)}</div>
             </div>
             </details>

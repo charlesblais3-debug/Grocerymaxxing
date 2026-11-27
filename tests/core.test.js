@@ -818,3 +818,12 @@ describe('review: flyer reading and leaks', () => {
     expect(parseIngredientLine('2 tbsp coconut aminos', 'en').ing).toBe('soy_sauce');
   });
 });
+
+describe('shareable plan link', () => {
+  it('round-trips recipes, half batches and days, and ignores junk', async () => {
+    const { encodePlan, decodePlan } = await import('../shared/planner.js');
+    const s = encodePlan({ '17451fedfe3d': 1, '3aee2f26e064': 0.5, '07b2841e05ee': 1.5 }, { '17451fedfe3d': 0, '3aee2f26e064': 4 });
+    expect(decodePlan(s)).toEqual([{ id: '17451fedfe3d', batches: 1, day: 0 }, { id: '3aee2f26e064', batches: 0.5, day: 4 }, { id: '07b2841e05ee', batches: 1.5, day: null }]);
+    expect(decodePlan('<script>_1~zz_2~abcdef123456_-1')).toEqual([]);
+  });
+});

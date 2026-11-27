@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { useApp } from './store.jsx';
-import { Img, Chip, Store, IngredientPicker, DealBadge, Score, offerText, nice, unitText, MemberBadge } from './ui.jsx';
+import { Img, Chip, Store, IngredientPicker, DealBadge, Score, offerText, nice, unitText, MemberBadge, Sparkline } from './ui.jsx';
 import { AISLES, ING_BY_ID } from '../shared/ingredients.js';
 import { deaccent } from '../shared/text.js';
 import { bestFor } from '../shared/cost.js';
@@ -114,6 +114,7 @@ export default function Flyers() {
               <div className="card-foot">
                 <span className="cost">{offerText(i, fmt)}</span>
                 {i.perG ? <span className="macro">{unitText(i.perG, fmt, i.ing, i.basis)}</span> : null}
+                {i.pk && i.perG ? <Sparkline pk={i.pk} now={i.perG} /> : null}
                 {i.pg ? <Score offer={i} /> : null}
               </div>
               {i.story ? <div className="meta">{i.story}</div> : null}
@@ -164,7 +165,7 @@ function TopDeals({ items, stores, baseline, uses }) {
               <div className="card-body">
                 <div className="meta"><Store id={i.store} />{i.to ? ` · ${t('until')} ${date(i.to)}` : ''} <MemberBadge item={i} /></div>
                 <h3>{nice(i.name, lang)}</h3>
-                <div className="card-foot"><span className="cost">{offerText(i, fmt)}</span></div>
+                <div className="card-foot"><span className="cost">{offerText(i, fmt)}</span><Sparkline pk={pk} now={perG} /></div>
                 <div className="meta">{unitText(perG, fmt, ing, i.basis)} · {t('usually')} {fmt(ref * 1000)}/kg ({pkLabel(pk, lang).toLowerCase()})</div>
                 {uses[ing] ? <a className="link" href={`#/?ing=${ing}&sale=1`}>{uses[ing]} {t('recipesWith')} {ING_BY_ID[ing][lang === 'en' ? 'en' : 'fr'].toLowerCase()} →</a> : null}
                 <button type="button" className={`btn addlist ${extras.some((e) => e.id === i.id) ? 'on' : ''}`} onClick={() => toggleExtra(i)}>{extras.some((e) => e.id === i.id) ? `✓ ${t('inList')}` : `+ ${t('addToList')}`}</button>

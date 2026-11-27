@@ -414,3 +414,8 @@ details.plan-ctl > div { display: flex; gap: 8px 10px; align-items: center; flex
 .glist .pantry-check summary { font-weight: 700; }
 .glist .pantry-check li { font-size: .88rem; }
 .memberbadge { display: inline-block; font-size: .66rem; font-weight: 700; border-radius: 5px; padding: 0 6px; border: 1px solid var(--muted); color: var(--muted); white-space: nowrap; vertical-align: middle; }
+
+/* Plan: a plan opened from a shared link, and the cheaper-store tip. */
+.shared-plan, .switch-tip { display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; justify-content: space-between; background: var(--soft); border: 1px solid var(--line); border-radius: var(--radius); padding: 10px 14px; margin: 0 0 14px; font-size: .92rem; }
+.switch-tip { border-color: var(--brand); }
+.spark { color: var(--muted); vertical-align: middle; flex: none; }
