@@ -12,8 +12,8 @@ const TABS = ['guide', 'deals', 'all'];
 export default function Flyers() {
   const { regionItems, recipes, t, lang, flyers } = useApp();
   const { query } = useRoute();
-  // ?tab=guide|deals|all; "which store this week?" opens the store match.
-  const tab = TABS.includes(query.get('tab')) ? query.get('tab') : 'deals';
+  // ?tab=guide|deals|all; the store match comes first.
+  const tab = TABS.includes(query.get('tab')) ? query.get('tab') : 'guide';
   const setTab = (id) => { window.history.replaceState(null, '', `#/circulaires?tab=${id}`); window.dispatchEvent(new HashChangeEvent('hashchange')); };
 
   const uses = useMemo(() => {

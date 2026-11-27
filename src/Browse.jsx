@@ -212,7 +212,17 @@ export default function Browse({ query }) {
 function Bento({ list }) {
   const { costs, ideas, t, lang, fmt, plan, storeName, setBatches, people } = useApp();
   const lk = lang === 'en' ? 'en' : 'fr';
-  const spot = list.find((r) => { const c = costs.get(r.id); return r.image && isComplete(c) && isMealDish(r.tax) && c.deals >= 2; }) || list[0];
+  // The spotlight is a main dish that readers rate well (4.5★ or more, from at least 10 votes),
+  // fully priced, with a photo, and as cheap thanks to this week's deals as possible (the list is
+  // already ranked by deals). Each condition is relaxed in turn only if nothing qualifies.
+  const wellRated = (r) => r.rating?.value >= 4.5 && (r.rating.count || 0) >= 10;
+  const main = (r) => r.tax.meals.includes('main');
+  const ok = (r) => r.image && isComplete(costs.get(r.id));
+  const spot = list.find((r) => ok(r) && main(r) && wellRated(r) && costs.get(r.id).deals >= 2)
+    || list.find((r) => ok(r) && main(r) && wellRated(r) && costs.get(r.id).deals >= 1)
+    || list.find((r) => ok(r) && main(r) && wellRated(r))
+    || list.find((r) => ok(r) && isMealDish(r.tax) && costs.get(r.id).deals >= 2)
+    || list[0];
   if (!spot) return null;
   const c = costs.get(spot.id);
   const sale = c.lines.filter((l) => l.src === 'flyer');
@@ -234,7 +244,10 @@ function Bento({ list }) {
         </div>
         <div className="spot-body">
           <h2>{spot.name}</h2>
-          {names.length ? <div className="spot-ings">{t('onSaleThisWeek')} : {names.join(' · ')}</div> : null}
+          <div className="spot-ings">
+            {spot.rating ? <span><Icon name="star" size={13} /> {spot.rating.value.toFixed(1).replace('.', lang === 'en' ? '.' : ',')}{spot.rating.count ? ` (${spot.rating.count})` : ''}{names.length ? ' · ' : ''}</span> : null}
+            {names.length ? `${t('onSaleThisWeek')} : ${names.join(' · ')}` : null}
+          </div>
           <div className="spot-row">
             <span className="spot-price"><CostTag cost={c} /></span>
             <button type="button" className={`btn primary ${plan[spot.id] ? 'in' : ''}`} aria-pressed={!!plan[spot.id]} onClick={() => setBatches(spot.id, plan[spot.id] ? 0 : batchesFor(spot, people))}>{plan[spot.id] ? `✓ ${t('inMyPlan')}` : `+ ${t('quickPlanAdd')}`}</button>
