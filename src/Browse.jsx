@@ -1,7 +1,8 @@
 import React, { useMemo, useState, useEffect } from 'react';
 import { useApp } from './store.jsx';
-import { RecipeCard, Img, Store, Icon, IngredientPicker, DealBadge, offerName, mealScale, unitText } from './ui.jsx';
-import { MEAL_TYPES, CUISINES, PROTEINS, DIETS } from '../shared/taxonomy.js';
+import { RecipeCard, Img, Store, Icon, IngredientPicker, DealBadge, Sparkline, CostTag, mealScale, unitText, savingPct } from './ui.jsx';
+import { batchesFor } from '../shared/planner.js';
+import { MEAL_TYPES, CUISINES, PROTEINS, DIETS, isMealDish } from '../shared/taxonomy.js';
 import { ING_BY_ID } from '../shared/ingredients.js';
 import { deaccent } from '../shared/text.js';
 import { reliable as isReliable, complete as isComplete, bestFor } from '../shared/cost.js';
@@ -9,9 +10,8 @@ import { L } from './i18n.js';
 
 // Staples most kitchens already have (same list as the plan page).
 const ESSENTIALS = ['olive_oil', 'veg_oil', 'salt', 'pepper', 'flour', 'sugar', 'garlic', 'onion', 'butter'];
-
 const PAGE = 48;
-const MEAL_ICON = { main: '🍲', soup: '🥣', salad: '🥗', sandwich: '🥪', pasta: '🍝', side: '🥔', breakfast: '🍳', appetizer: '🧆', preserve: '🫙', sauce: '🥫', bread: '🍞', dessert: '🍰', drink: '🥤' };
+const FILTER_KEYS = ['cuisine', 'protein', 'diet', 'source', 'time', 'cost', 'macros', 'sale', 'ing', 'q', 'prep', 'mine', 'minp', 'maxk', 'lang'];
 
 // Filters live in the URL. Typing in the search box replaces the current history entry
 // instead of adding one per pause, so "Back" leaves the page instead of undoing letters.
@@ -27,7 +27,8 @@ function setQuery(query, patch, replace = false) {
 
 export default function Browse({ query }) {
   const app = useApp();
-  const { recipes, costs, t, lang, sourceName } = app;
+  const { recipes, costs, t, lang, sourceName, fmt } = app;
+  const lk = lang === 'en' ? 'en' : 'fr';
   const [shown, setShown] = useState(PAGE);
   const [open, setOpen] = useState(false);
   const f = {
@@ -42,19 +43,19 @@ export default function Browse({ query }) {
   // Re-armed when the URL changes too, so a filter clicked while typing is never overwritten
   // by a stale copy of the query.
   useEffect(() => { const id = setTimeout(() => { if (text !== f.q) setQuery(query, { q: text }, true); }, 250); return () => clearTimeout(id); }, [text, query.toString()]); // eslint-disable-line react-hooks/exhaustive-deps
-  // The mobile filter sheet is a modal dialog: Escape closes it and the page behind does not scroll.
+  // The filter drawer is a modal dialog: Escape closes it and the page behind does not scroll.
   useEffect(() => {
     if (!open) return undefined;
     const onKey = (e) => { if (e.key === 'Escape') setOpen(false); };
     document.addEventListener('keydown', onKey);
     const prev = document.body.style.overflow;
-    if (window.matchMedia('(max-width: 860px)').matches) document.body.style.overflow = 'hidden';
+    document.body.style.overflow = 'hidden';
     return () => { document.removeEventListener('keydown', onKey); document.body.style.overflow = prev; };
   }, [open]);
   useEffect(() => { setShown(PAGE); }, [query.toString()]);
   const set = (patch) => setQuery(query, patch);
 
-  // Everything except the dish-type filter, so the chips can show live counts.
+  // Everything except the dish-type filter, so the category rail can show live counts.
   const base = useMemo(() => {
     const words = deaccent(f.q).split(/\s+/).filter(Boolean);
     return recipes.filter((r) => {
@@ -79,7 +80,7 @@ export default function Browse({ query }) {
       }
       return true;
     });
-  }, [recipes, costs, query.toString(), app.have]);
+  }, [recipes, costs, query.toString(), app.have]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const mealCounts = useMemo(() => {
     const m = {};
@@ -92,6 +93,7 @@ export default function Browse({ query }) {
     const c = (r) => costs.get(r.id);
     // Cost ranking only trusts recipes that are almost fully priced and whose yield is real servings.
     const reliable = (r) => (isReliable(c(r)) ? c(r).per : Infinity);
+    const pantryHits = (r) => new Set(r.ings.map((l) => l.ing).filter((g) => app.have.has(g))).size;
     const sorters = {
       deals: (a, b) => dealScore(c(b)) - dealScore(c(a)) || c(b).savings - c(a).savings || reliable(a) - reliable(b),
       cost: (a, b) => reliable(a) - reliable(b),
@@ -101,107 +103,164 @@ export default function Browse({ query }) {
       // Most pantry ingredients first ("cook with what I have").
       pantry: (a, b) => pantryHits(b) - pantryHits(a) || reliable(a) - reliable(b),
     };
-    const pantryHits = (r) => new Set(r.ings.map((l) => l.ing).filter((g) => app.have.has(g))).size;
     // Fully priced recipes always come first, whatever the sort: a partial price is never on top.
     const done = (r) => (isComplete(c(r)) ? 0 : 1);
     const pick = sorters[f.sort] || sorters.deals;
     return rows.sort((a, b) => done(a) - done(b) || pick(a, b));
-  }, [base, f.meal, f.sort, costs, app.have]);
+  }, [base, f.meal, f.sort, costs, app.have]); // eslint-disable-line react-hooks/exhaustive-deps
 
   if (!recipes.length) return <div className="state">{t('noData')}</div>;
   const sources = [...new Set(recipes.map((r) => r.source))];
-  const nActive = ['cuisine', 'protein', 'diet', 'source', 'time', 'cost', 'macros', 'sale', 'ing', 'q', 'prep', 'mine', 'minp', 'maxk', 'lang'].filter((k) => query.get(k)).length;
+  const nActive = FILTER_KEYS.filter((k) => k !== 'q' && query.get(k)).length;
+  const active = ['meal', ...FILTER_KEYS].some((k) => query.get(k));
   const favDeals = app.favs.map((id) => bestFor(app.offers, id)).filter(Boolean);
-  const active = ['prep', 'mine', 'minp', 'maxk', 'meal', 'cuisine', 'protein', 'diet', 'source', 'time', 'cost', 'macros', 'sale', 'ing', 'q', 'lang'].some((k) => query.get(k));
+  const nf = new Intl.NumberFormat(lang === 'en' ? 'en-CA' : 'fr-CA');
+  const quick = [
+    [t('quickCost2'), f.cost === 2, { cost: f.cost === 2 ? null : 2 }],
+    [t('quickCost3'), f.cost === 3, { cost: f.cost === 3 ? null : 3 }],
+    [t('quickTime30'), f.time === 30, { time: f.time === 30 ? null : 30 }],
+    [t('quickFrench'), f.lang === 'fr', { lang: f.lang === 'fr' ? null : 'fr' }],
+    [t('quickVeg'), f.diet === 'vegetarian', { diet: f.diet === 'vegetarian' ? null : 'vegetarian' }],
+    [t('quickSale'), f.sale, { sale: f.sale ? null : '1' }],
+  ];
 
   return (
     <div className="wrap browse">
-      {!active && app.ideas.bundles.length > 0 && (
-        <section className="hero-deals" aria-label={t('heroTitle')}>
-          <div className="hero-head">
-            <div><h1>{t('heroTitle')}</h1><p className="note">{t('heroSub')}</p></div>
-            <a className="btn" href="#/idees">{t('ideas')} →</a>
-          </div>
-          <div className="hero-row">
-            {app.ideas.bundles.slice(0, 5).map((b) => (
-              <a key={b.anchor.id} className="hero-tile" href={`#/idees?a=${b.anchor.id}`}>
-                <div className="hero-photo">
-                  <Img src={b.anchor.offer.img} alt="" />
-                  <Store id={b.anchor.offer.store} />
-                  <span className="hero-price">{app.fmt(b.anchor.offer.perG * 1000)}/kg{b.anchor.off ? <em>−{Math.round(b.anchor.off * 100)} %</em> : null}</span>
-                </div>
-                <div className="hero-info">
-                  <b>{ING_BY_ID[b.anchor.id][lang === 'en' ? 'en' : 'fr']}</b>
-                  <small>{offerName(b.anchor.offer, lang)}</small>
-                  <DealBadge offer={b.anchor.offer} />
-                  <span className="go">{b.recipes.length} {t('differentMeals')} →</span>
-                </div>
-              </a>
-            ))}
-          </div>
-        </section>
-      )}
+      <h1 className="sr">{t('tagline')}</h1>
+      {!active && <Bento list={list} />}
       {!active && favDeals.length > 0 && (
-        <p className="favline">★ {t('favsOnSale')} : {favDeals.map((o) => <a key={o.ing} href={`#/?ing=${o.ing}&sale=1`}><b>{ING_BY_ID[o.ing][lang === 'en' ? 'en' : 'fr']}</b> {unitText(o.perG, app.fmt, o.ing, o.basis)} <Store id={o.store} /> <DealBadge offer={o} /></a>)}</p>
+        <div className="favstrip"><span>★ {t('favsOnSale')}</span>
+          {favDeals.map((o) => <a key={o.ing} href={`#/?ing=${o.ing}&sale=1`}><Store id={o.store} /> <b>{ING_BY_ID[o.ing][lk]}</b> {unitText(o.perG, fmt, o.ing, o.basis)}</a>)}
+        </div>
       )}
-      <div className="tiles" role="group" aria-label={t('mealType')}>
-        <button type="button" className={`tile ${!f.meal ? 'on' : ''}`} aria-pressed={!f.meal} onClick={() => set({ meal: null })}><span className="em" aria-hidden="true">🍽️</span><span>{t('all')}</span><b>{base.length}</b></button>
+
+      <div className="rail" role="group" aria-label={t('mealType')}>
+        <button type="button" className={`railpill ${!f.meal ? 'on' : ''}`} aria-pressed={!f.meal} onClick={() => set({ meal: null })}><Icon name="all" size={15} />{t('all')}<b>{nf.format(base.length)}</b></button>
         {MEAL_TYPES.filter((m) => mealCounts[m[0]] || f.meal === m[0]).map((m) => (
-          <button type="button" key={m[0]} className={`tile ${f.meal === m[0] ? 'on' : ''}`} aria-pressed={f.meal === m[0]} onClick={() => set({ meal: f.meal === m[0] ? null : m[0] })}>
-            <span className="em" aria-hidden="true">{MEAL_ICON[m[0]]}</span><span>{L(lang, m).split(/,| et | & /)[0]}</span><b>{mealCounts[m[0]] || 0}</b>
+          <button type="button" key={m[0]} className={`railpill ${f.meal === m[0] ? 'on' : ''}`} aria-pressed={f.meal === m[0]} onClick={() => set({ meal: f.meal === m[0] ? null : m[0] })}>
+            <Icon name={m[0]} size={15} />{L(lang, m).split(/,| et | & /)[0]}<b>{nf.format(mealCounts[m[0]] || 0)}</b>
           </button>
         ))}
       </div>
-      <div className="cols">
-        <aside className={`filters ${open ? 'open' : ''}`}>
-          <button type="button" className="filters-toggle" onClick={() => setOpen(true)} aria-expanded={open}><Icon name="sliders" /> {t('filters')}{nActive ? ` (${nActive})` : ''}</button>
-          {open && <div className="sheet-backdrop" onClick={() => setOpen(false)} />}
-          <div className="filters-body" role={open ? 'dialog' : undefined} aria-modal={open ? 'true' : undefined} aria-label={t('filters')}>
-            <div className="sheet-head"><b>{t('filters')}</b><button type="button" className="btn primary" onClick={() => setOpen(false)}>{t('showResults')} ({list.length})</button></div>
-            <input type="search" value={text} onChange={(e) => setText(e.target.value)} placeholder={t('search')} aria-label={t('search')} />
-            {f.ing && ING_BY_ID[f.ing] && <div className="ingpill">{t('ingredientFilter')} : <b>{ING_BY_ID[f.ing][lang === 'en' ? 'en' : 'fr']}</b> <button type="button" onClick={() => set({ ing: null })} aria-label={t('remove')}>×</button></div>}
-            <label className="check"><input type="checkbox" checked={f.sale} onChange={(e) => set({ sale: e.target.checked ? '1' : null })} /> {t('onSale')}</label>
-            <label className="check"><input type="checkbox" checked={f.prep} onChange={(e) => set({ prep: e.target.checked ? '1' : null })} /> {t('prepFilter')}</label>
-            <Select label={t('recipeLang')} value={f.lang} onChange={(v) => set({ lang: v })} any={t('bothLangs')} options={[['fr', 'Français'], ['en', 'English']]} />
-            <Select label={t('cuisine')} value={f.cuisine} onChange={(v) => set({ cuisine: v })} any={t('any')} options={CUISINES.map((c) => [c[0], L(lang, c)])} />
-            <Select label={t('protein')} value={f.protein} onChange={(v) => set({ protein: v })} any={t('any')} options={PROTEINS.map((c) => [c[0], L(lang, c)])} />
-            <Select label={t('maxCost')} value={f.cost || ''} onChange={(v) => set({ cost: v })} any={t('any')} options={[2, 3, 4, 5, 7, 10].map((n) => [n, `≤ ${app.fmt(n)}`])} />
-            <Select label={t('maxTime')} value={f.time || ''} onChange={(v) => set({ time: v })} any={t('any')} options={[15, 30, 45, 60, 120].map((n) => [n, `≤ ${n} ${t('min')}`])} />
-            <details className="more" open={!!(f.diet || f.minp || f.maxk || f.source || f.macros)}>
-              <summary>{t('moreFilters')}</summary>
-            <Select label={t('diet')} value={f.diet} onChange={(v) => set({ diet: v })} any={t('any')} options={DIETS.map((c) => [c[0], L(lang, c)])} />
-            <Select label={t('minProtein')} value={f.minp || ''} onChange={(v) => set({ minp: v })} any={t('any')} options={[20, 30, 40, 50].map((n) => [n, `≥ ${n} g`])} />
-            <Select label={t('maxKcal')} value={f.maxk || ''} onChange={(v) => set({ maxk: v })} any={t('any')} options={[400, 500, 600, 800].map((n) => [n, `≤ ${n} kcal`])} />
-            <Select label={t('source')} value={f.source} onChange={(v) => set({ source: v })} any={t('any')} options={sources.map((s) => [s, sourceName[s] || s])} />
+
+      <div className="cmdbar">
+        <div className="searchbox">
+          <Icon name="search" size={17} />
+          <input type="search" value={text} onChange={(e) => setText(e.target.value)} placeholder={t('search')} aria-label={t('search')} />
+          {text ? <button type="button" className="clear" onClick={() => setText('')} aria-label={t('clearSearch')}><Icon name="x" size={15} /></button> : null}
+        </div>
+        <div className="quick" role="group" aria-label={t('quickFilters')}>
+          {quick.map(([label, on, patch]) => <button key={label} type="button" className={`chip ${on ? 'on' : ''}`} aria-pressed={on} onClick={() => set(patch)}>{label}</button>)}
+        </div>
+        <button type="button" className="btn sm filterbtn" onClick={() => setOpen(true)} aria-expanded={open} aria-haspopup="dialog"><Icon name="sliders" size={15} /> {t('filters')}{nActive ? <span className="count">{nActive}</span> : null}</button>
+        <div className="cmd-right">
+          <span><b>{nf.format(list.length)}</b> {t('results')}</span>
+          <label><span className="sr">{t('sort')} </span><select value={f.sort} aria-label={t('sort')} onChange={(e) => set({ sort: e.target.value === (f.mine ? 'pantry' : 'deals') ? null : e.target.value })}>
+            {[['deals', 'sortDeals'], ['cost', 'sortCost'], ['protein', 'sortProtein'], ['time', 'sortTime'], ['rating', 'sortRating'], ...(f.mine ? [['pantry', 'sortPantry']] : [])].map(([v, k]) => <option key={v} value={v}>{t(k)}</option>)}
+          </select></label>
+        </div>
+      </div>
+      {f.ing && ING_BY_ID[f.ing] && <div className="ingpill">{t('ingredientFilter')} : <b>{ING_BY_ID[f.ing][lk]}</b> <button type="button" onClick={() => set({ ing: null })} aria-label={t('remove')}><Icon name="x" size={14} /></button></div>}
+
+      <div className="grid">{list.slice(0, shown).map((r) => <RecipeCard key={r.id} r={r} />)}</div>
+      {!list.length && <div className="state">{t('noResults')} {active ? <button type="button" className="link" onClick={() => { window.location.hash = '#/'; }}>{t('clear')}</button> : null}</div>}
+      {shown < list.length && <div className="morewrap"><button type="button" className="btn" onClick={() => setShown(shown + PAGE)}>{t('more')}</button></div>}
+
+      <div className={`drawer-backdrop ${open ? 'open' : ''}`} onClick={() => setOpen(false)} />
+      <aside className={`drawer ${open ? 'open' : ''}`} role="dialog" aria-modal="true" aria-label={t('filters')} aria-hidden={!open}>
+        <div className="drawer-head"><h2>{t('filters')}</h2><button type="button" className="btn primary" onClick={() => setOpen(false)}>{t('showResults')} ({nf.format(list.length)})</button></div>
+        {open && (
+          <div className="drawer-body">
+            <section className="fgroup">
+              <h3>{t('groupRecipe')}</h3>
+              <div className="fgrid">
+                <Select label={t('recipeLang')} value={f.lang} onChange={(v) => set({ lang: v })} any={t('bothLangs')} options={[['fr', 'Français'], ['en', 'English']]} />
+                <Select label={t('cuisine')} value={f.cuisine} onChange={(v) => set({ cuisine: v })} any={t('any')} options={CUISINES.map((c) => [c[0], L(lang, c)])} />
+                <Select label={t('protein')} value={f.protein} onChange={(v) => set({ protein: v })} any={t('any')} options={PROTEINS.map((c) => [c[0], L(lang, c)])} />
+                <Select label={t('maxTime')} value={f.time || ''} onChange={(v) => set({ time: v })} any={t('any')} options={[15, 30, 45, 60, 120].map((n) => [n, `≤ ${n} ${t('min')}`])} />
+                <Select label={t('maxCost')} value={f.cost || ''} onChange={(v) => set({ cost: v })} any={t('any')} options={[2, 3, 4, 5, 7, 10].map((n) => [n, `≤ ${fmt(n)}`])} />
+              </div>
+              <label className="check"><input type="checkbox" checked={f.sale} onChange={(e) => set({ sale: e.target.checked ? '1' : null })} /> {t('onSale')}</label>
+              <label className="check"><input type="checkbox" checked={f.prep} onChange={(e) => set({ prep: e.target.checked ? '1' : null })} /> {t('prepFilter')}</label>
+            </section>
+            <section className="fgroup">
+              <h3>{t('groupNutrition')}</h3>
+              <div className="fgrid">
+                <Select label={t('diet')} value={f.diet} onChange={(v) => set({ diet: v })} any={t('any')} options={DIETS.map((c) => [c[0], L(lang, c)])} />
+                <Select label={t('minProtein')} value={f.minp || ''} onChange={(v) => set({ minp: v })} any={t('any')} options={[20, 30, 40, 50].map((n) => [n, `≥ ${n} g`])} />
+                <Select label={t('maxKcal')} value={f.maxk || ''} onChange={(v) => set({ maxk: v })} any={t('any')} options={[400, 500, 600, 800].map((n) => [n, `≤ ${n} kcal`])} />
+                <Select label={t('source')} value={f.source} onChange={(v) => set({ source: v })} any={t('any')} options={sources.map((s) => [s, sourceName[s] || s])} />
+              </div>
               <label className="check"><input type="checkbox" checked={f.macros} onChange={(e) => set({ macros: e.target.checked ? '1' : null })} /> {t('withMacros')}</label>
-            </details>
-            <details className="more" open={f.mine}>
-              <summary>{t('pantryTitle')}{app.pantry.length ? ` (${app.pantry.length})` : ''}</summary>
-            <div className="mine">
+            </section>
+            <section className="fgroup">
+              <h3>{t('pantryTitle')}{app.pantry.length ? ` (${app.pantry.length})` : ''}</h3>
               <label className="check"><input type="checkbox" checked={f.mine} onChange={(e) => set({ mine: e.target.checked ? '1' : null })} /> {t('useMine')}</label>
               <IngredientPicker exclude={app.pantry} onPick={app.togglePantry} placeholder={t('addIngredient')} />
-              {ESSENTIALS.some((id) => !app.pantry.includes(id)) && <button type="button" className="link" onClick={() => app.setPantryAll(ESSENTIALS)}>+ {t('essentials')}</button>}
-              <div className="pills">{app.pantry.map((id) => ING_BY_ID[id] && <button type="button" key={id} className="pill" onClick={() => app.togglePantry(id)}>{ING_BY_ID[id][lang === 'en' ? 'en' : 'fr']} ×</button>)}</div>
-            </div>
-            </details>
-            {active && <button type="button" className="link" onClick={() => { window.location.hash = '#/'; }}>{t('clear')}</button>}
+              {ESSENTIALS.some((id) => !app.pantry.includes(id)) && <button type="button" className="btn sm soft" onClick={() => app.setPantryAll(ESSENTIALS)}><Icon name="plus" size={14} /> {t('essentialsShort')}</button>}
+              <div className="pills">{app.pantry.map((id) => ING_BY_ID[id] && <button type="button" key={id} className="pill" onClick={() => app.togglePantry(id)}>{ING_BY_ID[id][lk]} ×</button>)}</div>
+            </section>
+            {active && <button type="button" className="btn" onClick={() => { window.location.hash = '#/'; }}>{t('resetFilters')}</button>}
           </div>
-        </aside>
-        <section>
-          <div className="listhead">
-            <span><b>{list.length}</b> {t('results')}</span>
-            <span className="pricechips" role="group" aria-label={t('maxCost')}>
-              {[2, 3, 5].map((n) => <button type="button" key={n} className={`chip ${f.cost === n ? 'on' : ''}`} aria-pressed={f.cost === n} onClick={() => set({ cost: f.cost === n ? null : n })}>≤ {app.fmt(n).replace(/[,.]00/, '')} {t('perMeal')}</button>)}
-            </span>
-            <label>{t('sort')} <select value={f.sort} onChange={(e) => set({ sort: e.target.value === (f.mine ? 'pantry' : 'deals') ? null : e.target.value })}>
-              {[['deals', 'sortDeals'], ['cost', 'sortCost'], ['protein', 'sortProtein'], ['time', 'sortTime'], ['rating', 'sortRating'], ...(f.mine ? [['pantry', 'sortPantry']] : [])].map(([v, k]) => <option key={v} value={v}>{t(k)}</option>)}
-            </select></label>
-          </div>
-          <div className="grid">{list.slice(0, shown).map((r) => <RecipeCard key={r.id} r={r} />)}</div>
-          {shown < list.length && <div className="morewrap"><button type="button" className="btn" onClick={() => setShown(shown + PAGE)}>{t('more')}</button></div>}
-        </section>
-      </div>
+        )}
+      </aside>
     </div>
+  );
+}
+
+/** Home page hero: this week's standout meal, and the deals that feed several recipes. */
+function Bento({ list }) {
+  const { costs, ideas, t, lang, fmt, plan, storeName, setBatches, people } = useApp();
+  const lk = lang === 'en' ? 'en' : 'fr';
+  const spot = list.find((r) => { const c = costs.get(r.id); return r.image && isComplete(c) && isMealDish(r.tax) && c.deals >= 2; }) || list[0];
+  if (!spot) return null;
+  const c = costs.get(spot.id);
+  const sale = c.lines.filter((l) => l.src === 'flyer');
+  // The store that puts this meal on sale (most of its flyer lines).
+  const tally = {};
+  for (const l of sale) tally[l.offer.store] = (tally[l.offer.store] || 0) + 1;
+  const store = Object.keys(tally).sort((a, b) => tally[b] - tally[a])[0];
+  const names = [...new Set(sale.map((l) => ING_BY_ID[l.via || l.ing]?.[lk]).filter(Boolean))].slice(0, 4);
+  const pct = savingPct(c);
+  const bundles = ideas.bundles.slice(0, 4);
+  return (
+    <section className="bento" aria-label={t('heroTitle')}>
+      <article className="spot">
+        <Img src={spot.image} alt="" />
+        <div className="spot-scrim" />
+        <div className="spot-kick">
+          <span className="kick"><Icon name="star" size={13} /> {t('spotlight')}{store ? ` · ${storeName[store]}` : ''}</span>
+          {pct ? <span className="kick dark">−{pct} % {t('vsRegular')}</span> : null}
+        </div>
+        <div className="spot-body">
+          <h2>{spot.name}</h2>
+          {names.length ? <div className="spot-ings">{t('onSaleThisWeek')} : {names.join(' · ')}</div> : null}
+          <div className="spot-row">
+            <span className="spot-price"><CostTag cost={c} /></span>
+            <button type="button" className={`btn primary ${plan[spot.id] ? 'in' : ''}`} aria-pressed={!!plan[spot.id]} onClick={() => setBatches(spot.id, plan[spot.id] ? 0 : batchesFor(spot, people))}>{plan[spot.id] ? `✓ ${t('inMyPlan')}` : `+ ${t('quickPlanAdd')}`}</button>
+            <a className="btn ghost" href={`#/r/${spot.id}`}>{t('seeRecipe')} <Icon name="arrow" size={15} /></a>
+          </div>
+        </div>
+      </article>
+      {bundles.length > 0 && (
+        <aside className="reuse">
+          <div className="reuse-head"><h2>{t('reusableDealsA')} <em>{t('reusableDealsB')}</em></h2><a className="link" href="#/idees">{t('ideasShort')} →</a></div>
+          {bundles.map((b) => (
+            <a key={b.anchor.id} className="reuse-row" href={`#/idees?a=${b.anchor.id}`}>
+              <span>
+                <b>{ING_BY_ID[b.anchor.id][lk]}</b>
+                <span className="u"><Store id={b.anchor.offer.store} /> {unitText(b.anchor.offer.perG, fmt, b.anchor.offer.ing, b.anchor.offer.basis)} <Sparkline pk={b.anchor.offer.pk} now={b.anchor.offer.perG} /> <DealBadge offer={b.anchor.offer} /></span>
+              </span>
+              <span className="r">
+                {b.anchor.off ? <span className="offpill">−{Math.round(b.anchor.off * 100)} %</span> : null}
+                <span className="go">{b.recipes.length} {t('recipesShort')} →</span>
+              </span>
+            </a>
+          ))}
+          <a className="btn soft" href="#/idees">{t('exploreCombos')} <Icon name="arrow" size={15} /></a>
+        </aside>
+      )}
+    </section>
   );
 }
 

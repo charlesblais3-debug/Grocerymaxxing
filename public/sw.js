@@ -3,7 +3,7 @@
 //   the last copy is used offline.
 // - Pages: network first, falling back to the cached app shell.
 // - Built assets (file names carry a content hash): cache first.
-const CACHE = 'gm-v1';
+const CACHE = 'gm-v2';
 const SHELL = ['./', './index.html', './manifest.webmanifest', './icons/icon-192.png', './icons/icon.svg'];
 
 self.addEventListener('install', (e) => {
@@ -14,14 +14,27 @@ self.addEventListener('activate', (e) => {
   e.waitUntil(caches.keys().then((keys) => Promise.all(keys.filter((k) => k !== CACHE).map((k) => caches.delete(k)))).then(() => self.clients.claim()));
 });
 
+// Weak in-store signal ("lie-fi") can hang a request for 20 s: give the network 2.5 s, then
+// fall back to the copy already on the phone.
+const fetchTimed = (req, ms = 2500) => {
+  const ac = new AbortController();
+  const id = setTimeout(() => ac.abort(), ms);
+  return fetch(req, { signal: ac.signal }).finally(() => clearTimeout(id));
+};
+
 const networkFirst = async (req, fallback) => {
   const cache = await caches.open(CACHE);
+  const fresh = () => fetch(req).then((res) => { if (res.ok) cache.put(req, res.clone()); return res; });
   try {
-    const res = await fetch(req);
+    const res = await fetchTimed(req);
     if (res.ok) cache.put(req, res.clone());
     return res;
   } catch {
-    return (await cache.match(req)) || (fallback && (await cache.match(fallback))) || Response.error();
+    const hit = (await cache.match(req)) || (fallback && (await cache.match(fallback)));
+    // Served from the phone: refresh the copy in the background for next time.
+    if (hit) { fresh().catch(() => {}); return hit; }
+    // Nothing saved yet (first visit on a slow line): keep waiting for the network.
+    try { return await fresh(); } catch { return Response.error(); }
   }
 };
 

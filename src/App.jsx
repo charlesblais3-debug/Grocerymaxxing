@@ -1,6 +1,6 @@
 import React, { Suspense, lazy, useEffect } from 'react';
 import { AppProvider, useApp, useRoute } from './store.jsx';
-import { StoreBar, Logo, Icon } from './ui.jsx';
+import { StoreMenu, Logo, Icon } from './ui.jsx';
 import Browse from './Browse.jsx';
 
 // The home page ships with the app; the other pages load when first opened.
@@ -38,7 +38,8 @@ function Shell() {
     document.title = name ? `${name} — Grocerymaxxing` : `Grocerymaxxing — ${t('tagline')}`;
   }, [path, lang, byId]); // eslint-disable-line react-hooks/exhaustive-deps
   const n = Object.keys(plan).length;
-  const tab = (href, label, on) => <a href={href} className={on ? 'on' : ''} aria-current={on ? 'page' : undefined}>{label}</a>;
+
+  const tabs = [['#/', 'book', t('recipes'), path === '/' || path.startsWith('/r/')], ['#/idees', 'spark', t('ideasShort'), path === '/idees'], ['#/circulaires', 'tag', t('flyers'), path === '/circulaires'], ['#/plan', 'list', t('plan'), path === '/plan', n]];
   let page;
   if (path.startsWith('/r/')) page = <Recipe id={path.slice(3)} />;
   else if (path === '/circulaires') page = <Flyers />;
@@ -50,28 +51,24 @@ function Shell() {
     <>
       <header className="top">
         <div className="wrap">
-          <a className="brand" href="#/"><Logo /> <span>Grocery<b>maxxing</b></span></a>
-          <nav aria-label={t('mainNav')}>
-            {tab('#/', t('recipes'), path === '/' || path.startsWith('/r/'))}
-            {tab('#/idees', t('ideas'), path === '/idees')}
-            {tab('#/circulaires', t('flyers'), path === '/circulaires')}
-            {tab('#/plan', <>{t('plan')}{n ? <span className="badge">{n}</span> : null}</>, path === '/plan')}
-            {tab('#/a-propos', t('about'), path === '/a-propos')}
+          <a className="brand" href="#/" aria-label="Grocerymaxxing"><Logo /> <span>Grocery<em>maxxing</em></span></a>
+          <nav className="navlinks" aria-label={t('mainNav')}>
+            {tabs.map(([href, , label, on, count]) => <a key={href} href={href} className={on ? 'on' : ''} aria-current={on ? 'page' : undefined}>{label}{count ? <span className="count">{count}</span> : null}</a>)}
           </nav>
           <div className="head-tools">
-            <button type="button" className="lang" onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')} aria-label={theme === 'dark' ? t('lightMode') : t('darkMode')} title={theme === 'dark' ? t('lightMode') : t('darkMode')}><Icon name={theme === 'dark' ? 'sun' : 'moon'} size={18} /></button>
-            <button type="button" className="lang" onClick={() => setLang(lang === 'en' ? 'fr' : 'en')} aria-label="Language">{lang === 'en' ? 'FR' : 'EN'}</button>
+            <StoreMenu />
+            <button type="button" className="iconbtn" onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')} aria-label={theme === 'dark' ? t('lightMode') : t('darkMode')} title={theme === 'dark' ? t('lightMode') : t('darkMode')}><Icon name={theme === 'dark' ? 'sun' : 'moon'} size={17} /></button>
+            <button type="button" className="iconbtn" onClick={() => setLang(lang === 'en' ? 'fr' : 'en')} aria-label={lang === 'en' ? 'Français' : 'English'}>{lang === 'en' ? 'FR' : 'EN'}</button>
           </div>
         </div>
       </header>
-      <StoreBar />
       <main><ErrorBoundary key={path}><Suspense fallback={<div className="wrap" aria-busy="true"><div className="skel skel-title" /></div>}>{page}</Suspense></ErrorBoundary></main>
       <nav className="tabbar" aria-label={t('mobileNav')}>
-        {[['#/', 'book', t('recipes'), path === '/' || path.startsWith('/r/')], ['#/idees', 'spark', t('ideasShort'), path === '/idees'], ['#/circulaires', 'tag', t('flyers'), path === '/circulaires'], ['#/plan', 'list', t('plan'), path === '/plan']].map(([href, icon, label, on]) => (
-          <a key={href} href={href} className={on ? 'on' : ''} aria-current={on ? 'page' : undefined}><Icon name={icon} size={22} /><span>{label}{href === '#/plan' && n ? ` (${n})` : ''}</span></a>
+        {tabs.map(([href, icon, label, on, count]) => (
+          <a key={href} href={href} className={on ? 'on' : ''} aria-current={on ? 'page' : undefined}><span className="ic"><Icon name={icon} size={21} /></span><span>{label}</span>{count ? <span className="count">{count}</span> : null}</a>
         ))}
       </nav>
-      <footer className="foot"><div className="wrap">{t('tagline')} · <a href="#/a-propos">{t('about')}</a></div></footer>
+      <footer className="foot"><div className="wrap"><span>{t('tagline')}</span><a href="#/a-propos">{t('about')}</a></div></footer>
     </>
   );
 }

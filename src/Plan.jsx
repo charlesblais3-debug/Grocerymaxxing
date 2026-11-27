@@ -179,8 +179,77 @@ export default function Plan() {
     window.dispatchEvent(new HashChangeEvent('hashchange'));
   };
 
+  // Shopping progress: every item to buy (not the pantry check) and every deal added by hand.
+  const toBuy = [...list.filter((a) => !a.pantryOnly).map((a) => a.key), ...extras.map((e) => 'x:' + e.id)];
+  const inCart = toBuy.filter((k) => checks[k]).length;
+  const progress = toBuy.length ? Math.round((inCart / toBuy.length) * 100) : 0;
+  const planned = byDay.slice(0, 7).map((d, i) => ({ ...d, i })).filter((d) => d.items.length);
+  const freeDays = byDay.slice(0, 7).filter((d) => !d.items.length).map((d) => d.label);
+  const unassigned = byDay[7];
+
+  const dayCard = (d, key) => {
+    const m = d.items.reduce((acc, { r }) => { if (r.macros) { const k = mealScale(r); acc.kcal += r.macros.kcal * k; acc.p += (r.macros.protein || 0) * k; acc.n++; } return acc; }, { kcal: 0, p: 0, n: 0 });
+    return (
+      <section key={key} className="day">
+        <header><b>{d.label}</b>{m.n ? <small>{Math.round(m.kcal)} kcal · {Math.round(m.p)} g P {t('perPersonShort')}</small> : null}</header>
+        {d.items.map(({ r, n, isLeft }) => {
+          const c = costs.get(r.id);
+          if (isLeft) return <div className="plan-item leftover" key={r.id + 'l'}><Img src={r.image} alt="" /><div className="grow"><a href={`#/r/${r.id}`}>{t('leftovers')} — {r.name}</a><div className="meta">{t('noExtraCost')}</div></div></div>;
+          const enough = (r.meals || r.servings || 0) * n >= people * 2;
+          return (
+            <div className="plan-item" key={r.id}>
+              <Img src={r.image} alt="" />
+              <div className="grow">
+                <a href={`#/r/${r.id}`}>{r.name}</a>
+                <div className="meta tnum">{c.total != null ? `≈ ${fmt(c.total * n)}` : t('noPrice')}{r.meals || r.servings ? ` · ${num((r.meals || r.servings) * n)} ${r.meals ? t('mealsWord') : t('servings')}` : ''}{c.missing.length ? ` · ${t('partial')}` : ''}</div>
+                <div className="plan-acts noprint">
+                  <button type="button" className="minibtn" onClick={() => swap(r, n)} title={t('swap')}><Icon name="swap" size={13} /> {t('swapShort')}</button>
+                  <button type="button" className="minibtn" onClick={() => setBatches(r.id, 0)} aria-label={`${t('remove')} — ${r.name}`} title={t('remove')}><Icon name="x" size={13} /></button>
+                  <details className="plan-ctl">
+                    <summary className="minibtn">{t('edit')}</summary>
+                    <div>
+                      <select value={days[r.id] >= 0 ? days[r.id] : ''} onChange={(e) => setDay(r.id, e.target.value === '' ? null : +e.target.value)} aria-label={t('day')}>
+                        <option value="">{t('unassigned')}</option>
+                        {DAYS.map((x, j) => <option key={j} value={j}>{x[li]}</option>)}
+                      </select>
+                      <span className="stepper" aria-label={t('batches')}>
+                        <button type="button" onClick={() => setBatches(r.id, n - 0.5)} aria-label="−">−</button><span>{num(n)}×</span><button type="button" onClick={() => setBatches(r.id, n + 0.5)} aria-label="+">+</button>
+                      </span>
+                      {batchesFor(r, people) !== n ? <button type="button" className="link" onClick={() => setBatches(r.id, batchesFor(r, people))}>{t('fitHousehold')} ({num(batchesFor(r, people))}×)</button> : null}
+                      {enough ? (
+                        <select value={left[r.id] >= 0 ? left[r.id] : ''} onChange={(e) => setLeftDay(r.id, e.target.value === '' ? null : +e.target.value)} aria-label={t('leftovers')}>
+                          <option value="">{t('leftoversOn')}</option>
+                          {DAYS.map((x, j) => <option key={j} value={j}>{t('leftovers')} : {x[li]}</option>)}
+                        </select>
+                      ) : null}
+                    </div>
+                  </details>
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </section>
+    );
+  };
+
+  const item = (a) => (
+    <li key={a.key} className={checks[a.key] ? 'done' : ''}>
+      <label className="gline"><input type="checkbox" checked={!!checks[a.key]} onChange={() => toggleCheck(a.key)} /><b>{a.name}</b>{qty(a) ? <span className="q">≈ {qty(a)}</span> : null}</label>
+      {a.offer ? <div className="offer"><Store id={a.offer.store} /> {offerName(a.offer, lang)} — <b>{offerText(a.offer, fmt)}</b></div> : null}
+      <div className="gsub">
+        <details className="src-lines">
+          <summary>{a.lines.length === 1 ? a.lines[0].recipe : `${a.lines.length} ${t('recipeLines')}`}</summary>
+          <ul>{a.lines.map((x, i) => <li key={i}>{x.raw}{x.n !== 1 ? ` (×${num(x.n)})` : ''} — <i>{x.recipe}</i></li>)}</ul>
+        </details>
+        <span className="row-tools noprint"><button type="button" className="link" onClick={() => togglePantry(a.ing)}>{t('haveIt')}</button></span>
+      </div>
+    </li>
+  );
+
   return (
     <div className="wrap plan">
+      <h1 className="sr">{t('plan')}</h1>
       <section className="plan-setup noprint">
         <label><span>{t('household')}</span>
           <span className="stepper"><button type="button" onClick={() => setPeople(Math.max(1, people - 1))} aria-label="−">−</button><b>{people}</b><button type="button" onClick={() => setPeople(Math.min(10, people + 1))} aria-label="+">+</button></span>
@@ -189,8 +258,8 @@ export default function Plan() {
           <input type="number" min="0" step="5" inputMode="decimal" value={budget ?? ''} placeholder="—" onChange={(e) => setBudget(e.target.value ? Math.max(0, +e.target.value) : null)} /> $
         </label>
         <label><span>{t('dinnersCount')}</span><select value={dinners} onChange={(e) => setTargets({ ...targets, n: +e.target.value })}>{[3, 4, 5, 6, 7].map((n) => <option key={n} value={n}>{n}</option>)}</select></label>
-        <details className="goals">
-          <summary>{t('goals')}{targets.minp || targets.maxk || targets.diet || targets.lang || targets.maxt ? ' ✓' : ''}</summary>
+        <details className="prefs">
+          <summary>{t('preferences')}{targets.minp || targets.maxk || targets.diet || targets.lang || targets.maxt ? ' ✓' : ''}</summary>
           <label><span>{t('dietPref')}</span><select value={targets.diet || ''} onChange={(e) => setTargets({ ...targets, diet: e.target.value || null })}><option value="">—</option>{DIETS.map(([id, fr, en]) => <option key={id} value={id}>{(lang === 'en' ? en : fr).replace(/ \(.*\)$/, '')}</option>)}</select></label>
           <label><span>{t('recipeLang')}</span><select value={targets.lang || ''} onChange={(e) => setTargets({ ...targets, lang: e.target.value || null })}><option value="">{t('bothLangs')}</option><option value="fr">Français</option><option value="en">English</option></select></label>
           <label><span>{t('maxTime')}</span><select value={targets.maxt || ''} onChange={(e) => setTargets({ ...targets, maxt: +e.target.value || 0 })}><option value="">—</option>{[20, 30, 45, 60].map((n) => <option key={n} value={n}>≤ {n} min</option>)}</select></label>
@@ -201,102 +270,65 @@ export default function Plan() {
       </section>
 
       {shared.length > 0 && (
-        <div className="shared-plan noprint" role="status">
+        <div className="callout noprint" role="status">
           <span>{t('sharedPlan')} : <b>{shared.length}</b> {t('dinners')} ({shared.slice(0, 3).map((x) => byId.get(x.id).name).join(', ')}{shared.length > 3 ? '…' : ''})</span>
-          <span><button type="button" className="btn primary" onClick={importShared}>{t('importPlan')}</button> <a className="link" href="#/plan">{t('ignore')}</a></span>
+          <span><button type="button" className="btn primary sm" onClick={importShared}>{t('importPlan')}</button> <a className="link" href="#/plan">{t('ignore')}</a></span>
         </div>
       )}
       {extras.length > 0 && <AddedDeals />}
       {!rows.length ? <div className="state">{t('planEmpty')} <a className="link" href="#/">{t('recipes')} →</a></div> : (
         <>
           {switchTip && (
-            <div className="switch-tip noprint">
-              <span>{t('planCosts')} <b>{fmt(switchTip.to.total)}</b> {t('at')} {storeName[switchTip.to.id]}, {fmt(switchTip.from.total)} {t('at')} {storeName[switchTip.from.id]} — {t('save')} <b>{fmt(switchTip.from.total - switchTip.to.total)}</b></span>
-              <button type="button" className="btn" onClick={() => pickStore(switchTip.to.id, true)}>{t('shopAt')} {storeName[switchTip.to.id]}</button>
+            <div className="callout noprint">
+              <span>{t('planCosts')} <b className="tnum">{fmt(switchTip.to.total)}</b> {t('at')} {storeName[switchTip.to.id]}, {fmt(switchTip.from.total)} {t('at')} {storeName[switchTip.from.id]} — {t('save')} <b className="tnum">{fmt(switchTip.from.total - switchTip.to.total)}</b></span>
+              <button type="button" className="btn primary sm" onClick={() => pickStore(switchTip.to.id, true)}>{t('shopAt')} {storeName[switchTip.to.id]}</button>
             </div>
           )}
           <div className="plan-top">
             <div className={`stat ${over ? 'over' : ''}`}>
-              <small>{t('planTotal')}{budget ? ` / ${fmt(budget)}` : ''}</small><b>≈ {fmt(total)}</b>
-              {budget ? <div className="budget-bar"><span style={{ width: `${Math.min(100, (total / budget) * 100)}%` }} /></div> : null}
-              {budget ? <small>{over ? `${t('overBudget')} ${fmt(total - budget)}` : `${t('leftBudget')} ${fmt(budget - total)}`}</small> : null}
-              {checkout - total >= 0.5 ? <small title={t('atCheckoutTitle')}>{t('atCheckout')} ≈ {fmt(checkout)}</small> : null}
+              {budget ? <BudgetRing total={total} budget={budget} /> : null}
+              <div>
+                <small>{t('planTotal')}{budget ? ` / ${fmt(budget)}` : ''}</small><b>≈ {fmt(total)}</b>
+                {budget ? <small>{over ? `${t('overBudget')} ${fmt(total - budget)}` : `${t('leftBudget')} ${fmt(budget - total)}`}</small> : null}
+                {checkout - total >= 0.5 ? <small title={t('atCheckoutTitle')}>{t('atCheckout')} ≈ {fmt(checkout)}</small> : null}
+              </div>
             </div>
-            <div className="stat"><small>{t('planned')}</small><b>{meals ? num(meals) : '—'}</b><small>{meals ? `≈ ${fmt(total / meals)} ${t('perMeal')} · ${num((meals / people).toFixed(1))} ${t('perPerson')}` : ''}</small></div>
-            <div className="stat saved"><small>{t('savedWeek')}</small><b>{saved > 0.05 ? fmt(saved) : '—'}</b><small>{saved > 0.05 ? `${Math.round((saved / (total + saved)) * 100)} % ${t('vsRegular')}` : ''}</small></div>
+            <div className="stat"><div><small>{t('planned')}</small><b>{meals ? num(meals) : '—'}</b><small>{meals ? `≈ ${fmt(total / meals)} ${t('perMeal')} · ${num((meals / people).toFixed(1))} ${t('perPerson')}` : ''}</small></div></div>
+            <div className="stat saved"><div><small>{t('savedWeek')}</small><b>{saved > 0.05 ? fmt(saved) : '—'}</b><small>{saved > 0.05 ? `${Math.round((saved / (total + saved)) * 100)} % ${t('vsRegular')}` : ''}</small></div></div>
           </div>
 
           <h2>{t('week')}</h2>
           <div className="week">
-            {byDay.filter((d, i) => d.items.length || i < 7).map((d, i) => {
-              const m = d.items.reduce((acc, { r }) => { if (r.macros) { const k = mealScale(r); acc.kcal += r.macros.kcal * k; acc.p += (r.macros.protein || 0) * k; acc.n++; } return acc; }, { kcal: 0, p: 0, n: 0 });
-              return (
-                <section key={i} className={`day ${d.items.length ? '' : 'empty'}`}>
-                  <header><b>{d.label}</b>{m.n ? <small>{Math.round(m.kcal)} kcal · {Math.round(m.p)} g P {t('perPersonShort')}</small> : null}</header>
-                  {d.items.map(({ r, n, isLeft }) => {
-                    const c = costs.get(r.id);
-                    if (isLeft) return <div className="plan-item leftover" key={r.id + 'l'}><Img src={r.image} alt="" /><div className="grow"><a href={`#/r/${r.id}`}>{t('leftovers')} — {r.name}</a><div className="meta">{t('noExtraCost')}</div></div></div>;
-                    const enough = (r.meals || r.servings || 0) * n >= people * 2;
-                    return (
-                      <div className="plan-item" key={r.id}>
-                        <Img src={r.image} alt="" />
-                        <div className="grow">
-                          <a href={`#/r/${r.id}`}>{r.name}</a>
-                          <div className="meta">{c.total != null ? `≈ ${fmt(c.total * n)}` : t('noPrice')}{r.meals || r.servings ? ` · ${num((r.meals || r.servings) * n)} ${r.meals ? t('mealsWord') : t('servings')}` : ''}{c.missing.length ? ` · ${t('partial')}` : ''}</div>
-                          <details className="plan-ctl noprint"><summary>{t('edit')}</summary><div>
-                            <select value={days[r.id] >= 0 ? days[r.id] : ''} onChange={(e) => setDay(r.id, e.target.value === '' ? null : +e.target.value)} aria-label={t('day')}>
-                              <option value="">{t('unassigned')}</option>
-                              {DAYS.map((x, j) => <option key={j} value={j}>{x[li]}</option>)}
-                            </select>
-                            <span className="stepper" aria-label={t('batches')}>
-                              <button type="button" onClick={() => setBatches(r.id, n - 0.5)} aria-label="−">−</button><span>{num(n)}×</span><button type="button" onClick={() => setBatches(r.id, n + 0.5)} aria-label="+">+</button>
-                            </span>
-                            {batchesFor(r, people) !== n ? <button type="button" className="link" onClick={() => setBatches(r.id, batchesFor(r, people))}>{t('fitHousehold')} ({num(batchesFor(r, people))}×)</button> : null}
-                            {enough ? (
-                              <select value={left[r.id] >= 0 ? left[r.id] : ''} onChange={(e) => setLeftDay(r.id, e.target.value === '' ? null : +e.target.value)} aria-label={t('leftovers')}>
-                                <option value="">{t('leftoversOn')}</option>
-                                {DAYS.map((x, j) => <option key={j} value={j}>{t('leftovers')} : {x[li]}</option>)}
-                              </select>
-                            ) : null}
-                            <button type="button" className="link" onClick={() => swap(r, n)}>↻ {t('swap')}</button>
-                            <button type="button" className="link" onClick={() => setBatches(r.id, 0)}>{t('remove')}</button>
-                          </div></details>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </section>
-              );
-            })}
+            {planned.map((d) => dayCard(d, d.i))}
+            {unassigned.items.length ? dayCard(unassigned, 'u') : null}
           </div>
+          {freeDays.length > 0 && <div className="freedays"><span>{t('freeDays')} :</span>{freeDays.map((d) => <i key={d}>{d}</i>)}</div>}
 
           <div className="listhead">
             <h2>{t('groceryList')}</h2>
-            <span className="noprint">
-              <button type="button" className={`chip ${mode === 'aisle' ? 'on' : ''}`} onClick={() => setMode('aisle')}>{t('byAisle')}</button>{' '}
-              <button type="button" className={`chip ${mode === 'store' ? 'on' : ''}`} onClick={() => setMode('store')}>{t('byStore')}</button>{' '}
-              <button type="button" className="btn" onClick={share}>{copied ? t('copied') : t('share')}</button>{' '}
-              <button type="button" className="btn" onClick={() => window.print()}>{t('print')}</button>{' '}
-              <button type="button" className="btn" onClick={ics}>{t('calendar')}</button>{' '}
-              <button type="button" className="btn" onClick={shareLink}>{linkCopied ? t('copied') : t('planLink')}</button>{' '}
+            <span className="listtools noprint">
+              <span className="seg" role="group" aria-label={t('groceryList')}>
+                <button type="button" className={mode === 'aisle' ? 'on' : ''} aria-pressed={mode === 'aisle'} onClick={() => setMode('aisle')}>{t('byAisle')}</button>
+                <button type="button" className={mode === 'store' ? 'on' : ''} aria-pressed={mode === 'store'} onClick={() => setMode('store')}>{t('byStore')}</button>
+              </span>
+              <button type="button" className="btn sm" onClick={share}><Icon name="share" size={14} /> {copied ? t('copied') : t('share')}</button>
+              <button type="button" className="btn sm" onClick={() => window.print()}><Icon name="printer" size={14} /> {t('print')}</button>
+              <button type="button" className="btn sm" onClick={ics}><Icon name="calendar" size={14} /> {t('calendar')}</button>
+              <button type="button" className="btn sm" onClick={shareLink}><Icon name="link" size={14} /> {linkCopied ? t('copied') : t('planLink')}</button>
               {Object.keys(checks).length ? <button type="button" className="link" onClick={clearChecks}>{t('uncheckAll')}</button> : null}
             </span>
           </div>
+          {toBuy.length > 0 && (
+            <div className="progress" role="status">
+              <span><b>{inCart} / {toBuy.length}</b> {t('itemsWord')} {t('inBasket')} ({progress} %)</span>
+              <div className="bar" aria-hidden="true"><span style={{ width: `${progress}%` }} /></div>
+            </div>
+          )}
           <div className="glist">
             {order.filter((k) => groups[k]).map((k) => (
               <section key={k || 'none'}>
-                <h3>{title(k)}</h3>
-                <ul>{sorted(k).map((a) => (
-                  <li key={a.key} className={checks[a.key] ? 'done' : ''}>
-                    <label><input type="checkbox" checked={!!checks[a.key]} onChange={() => toggleCheck(a.key)} /> <b>{a.name}</b>{qty(a) ? <span className="meta"> ≈ {qty(a)}</span> : null}</label>
-                    {a.offer ? <div className="offer"><Store id={a.offer.store} /> {offerName(a.offer, lang)} — <b>{offerText(a.offer, fmt)}</b></div> : null}
-                    <details className="src-lines">
-                      <summary>{a.lines.length === 1 ? a.lines[0].recipe : `${a.lines.length} ${t('recipeLines')}`}</summary>
-                      <ul>{a.lines.map((x, i) => <li key={i}>{x.raw}{x.n !== 1 ? ` (×${num(x.n)})` : ''} — <i>{x.recipe}</i></li>)}</ul>
-                    </details>
-                    <div className="row-tools noprint"><button type="button" className="link" onClick={() => togglePantry(a.ing)}>{t('haveIt')}</button></div>
-                  </li>
-                ))}</ul>
+                <h3>{mode === 'store' && k ? <Store id={k} /> : title(k)}</h3>
+                <ul>{sorted(k).map(item)}</ul>
               </section>
             ))}
             {others.length > 0 && <section><h3>{t('others')}</h3><ul>{others.map((o, i) => <li key={i}>{o}</li>)}</ul></section>}
@@ -305,8 +337,8 @@ export default function Plan() {
                 <summary>{t('checkPantry')} ({pantryCheck.length})</summary>
                 <ul>{pantryCheck.map((a) => (
                   <li key={a.key} className={checks[a.key] ? 'done' : ''}>
-                    <label><input type="checkbox" checked={!!checks[a.key]} onChange={() => toggleCheck(a.key)} /> {a.name}</label>
-                    <span className="meta"> — {[...new Set(a.lines.map((x) => x.recipe))].join(', ')}</span>
+                    <label className="gline"><input type="checkbox" checked={!!checks[a.key]} onChange={() => toggleCheck(a.key)} /><b>{a.name}</b></label>
+                    <div className="meta">{[...new Set(a.lines.map((x) => x.recipe))].join(', ')}</div>
                   </li>
                 ))}</ul>
               </details>
@@ -326,10 +358,24 @@ export default function Plan() {
         <h2>{t('pantryTitle')}</h2>
         <p className="note">{t('pantryIntro')}</p>
         <IngredientPicker exclude={pantry} onPick={togglePantry} placeholder={t('addIngredient')} />
-        {ESSENTIALS.some((id) => !pantry.includes(id)) && <button type="button" className="link" onClick={() => setPantryAll(ESSENTIALS)}>+ {t('essentials')}</button>}
+        {ESSENTIALS.some((id) => !pantry.includes(id)) && <button type="button" className="btn sm soft" style={{ marginTop: 10 }} onClick={() => setPantryAll(ESSENTIALS)}><Icon name="plus" size={14} /> {t('essentials')}</button>}
         <div className="pills">{pantry.map((id) => ING_BY_ID[id] && <button type="button" key={id} className="pill" onClick={() => togglePantry(id)}>{ING_BY_ID[id][lk]} ×</button>)}</div>
       </section>
     </div>
+  );
+}
+
+/** How much of the weekly budget the plan uses, as a ring (red once over). */
+function BudgetRing({ total, budget }) {
+  const r = 23; const C = 2 * Math.PI * r;
+  const share = Math.min(1, total / budget);
+  const over = total > budget;
+  return (
+    <svg className="bring" width="58" height="58" viewBox="0 0 58 58" aria-hidden="true">
+      <circle cx="29" cy="29" r={r} fill="none" stroke="var(--surface)" strokeWidth="7" />
+      <circle cx="29" cy="29" r={r} fill="none" stroke={over ? 'var(--save)' : 'var(--brand)'} strokeWidth="7" strokeLinecap="round" strokeDasharray={`${share * C} ${C}`} transform="rotate(-90 29 29)" style={{ transition: 'stroke-dasharray .5s cubic-bezier(.2,.8,.2,1)' }} />
+      <text x="29" y="33.5" textAnchor="middle" className="t">{Math.round((total / budget) * 100)}%</text>
+    </svg>
   );
 }
 
@@ -342,7 +388,7 @@ function AddedDeals() {
     <section className="added-deals">
       <div className="listhead">
         <h2>{t('addedDeals')}</h2>
-        <span className="noprint"><a className="link" href="#/circulaires">{t('moreDeals')} →</a> <button type="button" className="link" onClick={() => window.confirm(t('clearAddedConfirm')) && clearExtras()}>{t('clearAdded')}</button></span>
+        <span className="listtools noprint"><a className="link" href="#/circulaires">{t('moreDeals')} →</a> <button type="button" className="link" onClick={() => window.confirm(t('clearAddedConfirm')) && clearExtras()}>{t('clearAdded')}</button></span>
       </div>
       <div className="glist">
         {Object.entries(groups).map(([store, list]) => (
@@ -350,9 +396,11 @@ function AddedDeals() {
             <h3><Store id={store} /></h3>
             <ul>{list.map((e) => (
               <li key={e.id} className={checks['x:' + e.id] ? 'done' : ''}>
-                <label><input type="checkbox" checked={!!checks['x:' + e.id]} onChange={() => toggleCheck('x:' + e.id)} /> <b>{nice(e.name, lang)}</b> — {offerText(e, fmt)}</label>
-                {e.to && e.to.slice(0, 10) < today ? <div className="meta">{t('dealExpired')}</div> : null}
-                <div className="row-tools noprint"><button type="button" className="link" onClick={() => toggleExtra(e)}>{t('remove')}</button></div>
+                <label className="gline"><input type="checkbox" checked={!!checks['x:' + e.id]} onChange={() => toggleCheck('x:' + e.id)} /><b>{nice(e.name, lang)}</b><span className="q">{offerText(e, fmt)}</span></label>
+                <div className="gsub">
+                  {e.to && e.to.slice(0, 10) < today ? <span className="meta">{t('dealExpired')}</span> : <span />}
+                  <span className="row-tools noprint"><button type="button" className="link" onClick={() => toggleExtra(e)}>{t('remove')}</button></span>
+                </div>
               </li>
             ))}</ul>
           </section>
